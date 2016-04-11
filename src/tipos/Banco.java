@@ -1,6 +1,6 @@
 package tipos;
 
-import principal.Horario;
+
 import principal.POI;
 
 public class Banco extends POI{
@@ -8,11 +8,8 @@ public class Banco extends POI{
 	}
 	public void setHorarios(){
 		for (int dia=2;dia<=6;dia++){
-			Horario horarioNuevo=new Horario();
-			horarioNuevo.setDia(dia);
-			horarioNuevo.setInicio("10:00");
-			horarioNuevo.setFin("15:00");
-			super.agregarHorario(horarioNuevo);}
+			super.horarioNuevo(dia,"10:00","15:00");
+			}
 	}
 		/*Horario horarioNuevo=new Horario();
 		DateFormat formatoHora = new SimpleDateFormat("HH:mm");

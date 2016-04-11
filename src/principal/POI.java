@@ -19,6 +19,14 @@ public class POI {
 	public void agregarHorario(Horario horarioNuevo) {	//Agrega un HORARIO a la lista de horarios
 		this.horariosAtencion.add(horarioNuevo);
 	}
+	
+	public void horarioNuevo(int dia, String horaInicio, String horaFin){
+		Horario horarioNuevo=new Horario();
+		horarioNuevo.setDia(dia);
+		horarioNuevo.setInicio(horaInicio);
+		horarioNuevo.setFin(horaFin);
+		agregarHorario(horarioNuevo);
+	}
 
 	// -------------------GETTERS,SETTERS-----------------
 	public String getNombre() {

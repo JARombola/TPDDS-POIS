@@ -1,5 +1,8 @@
 package tipos;
 
-public class Local {
+import principal.POI;
 
+public class Local extends POI{
+	public Local(){
+	}
 }
