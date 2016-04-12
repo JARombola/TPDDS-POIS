@@ -8,6 +8,7 @@ import org.junit.Test;
 import tipos.Banco;
 import tipos.Local;
 import tipos.ParadaColectivo;
+import tipos.Servicio;
 
 public class testHorarios {
 	Banco banco;
@@ -17,6 +18,15 @@ public class testHorarios {
 	@Before
 	public void initialize() {
 		banco = new Banco();
+		Servicio rentas=new Servicio("Rentas");
+		Horario horarioRentas=rentas.horarioNuevo(1, "10:00", "22:00");
+		rentas.agregarHorario(horarioRentas);
+		Servicio jubilacion=new Servicio("jubilacion");
+		Horario horarioJubilacion=jubilacion.horarioNuevo(2,"05:00", "09:00");
+		jubilacion.agregarHorario(horarioJubilacion);
+		banco.agregarServicio(rentas);
+		banco.agregarServicio(jubilacion);
+		
 		parada = new ParadaColectivo();
 		carrousel = new Local();
 		for (int dia = 2; dia <= 7; dia++) {		//Horarios Carrousel 
@@ -30,7 +40,6 @@ public class testHorarios {
 
 	@Test
 	public void testHorariosBanco() {
-		System.out.println("1");
 		boolean domingo = banco.estaDisponible(1, "12:00"); // Banco un domingo? Ja
 		assertEquals(false, domingo);
 		boolean lunes = banco.estaDisponible(2, "14:00");
@@ -38,7 +47,16 @@ public class testHorarios {
 		boolean viernesTarde = banco.estaDisponible(5, "16:00");
 		assertEquals(false, viernesTarde);
 	}
-
+	@Test
+	public void testServiciosBanco(){
+		boolean abierto=banco.estaDisponible(1, "12:00", "Rentas");
+		assertEquals(true, abierto);
+		boolean abiertoRentas=banco.estaDisponible(1, "09:00","rentas");
+		assertEquals(false, abiertoRentas);
+		boolean abiertoJubilacion=banco.estaDisponible(2, "08:00", "jUBiLaciOn");
+		assertEquals(true,abiertoJubilacion);
+	}
+	
 	@Test
 	public void testHorarioParadas() {
 		boolean disponible = parada.estaDisponible();
@@ -47,7 +65,6 @@ public class testHorarios {
 
 	@Test
 	public void testHorarioLocal() {
-		System.out.println("2");
 		boolean abierto=carrousel.estaDisponible(3, "19:00");
 		assertEquals(true,abierto);
 		boolean domingo=carrousel.estaDisponible(1, "11:00");

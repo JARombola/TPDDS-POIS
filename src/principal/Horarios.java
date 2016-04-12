@@ -17,11 +17,14 @@ public interface Horarios {
 	public default boolean estaDisponible(List<Horario> horariosAtencion){
 		Calendar diaActual=new GregorianCalendar();		//HOY
 		int hoy=diaActual.get(Calendar.DAY_OF_WEEK);
-		String hora = Integer.toString(diaActual.get(Calendar.HOUR_OF_DAY));
+		int horaActual = diaActual.get(Calendar.HOUR_OF_DAY);
+		String hora;
+		if (horaActual<10) {hora="0"+horaActual;}
+			else {hora=Integer.toString(horaActual);};
 		int minutos=(diaActual.get(Calendar.MINUTE));
 		if (minutos<10) {hora+=":0"+minutos;}
 		else {hora+=":"+minutos;};				
-		//TODO ESO PARA CONSEGUIR EL DIA Y LA HORA DEL SIST-.-
+		//TODO ESO PARA CONSEGUIR EL DIA Y LA HORA DEL SIST -.-
 		return(estaDisponible(horariosAtencion,hoy,hora));
 	}
 	
