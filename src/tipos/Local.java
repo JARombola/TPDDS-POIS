@@ -4,10 +4,8 @@ import principal.POI;
 
 public class Local extends POI{
 	private Rubro rubro;
-	private double radioCercania;
 	
 	public Local(){
-		this.radioCercania = rubro.getRadioCercania();
 	}
 	
 	public Rubro getRubro() {
@@ -19,12 +17,9 @@ public class Local extends POI{
 	}
 
 	public double getRadioCercania() {
-		return radioCercania;
+		return rubro.getRadioCercania();
 	}
 
-	public void setRadioCercania(double radioCercania) {
-		this.radioCercania = radioCercania;
-	}
 
 	
 	

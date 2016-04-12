@@ -39,7 +39,7 @@ public class testCercania {
 	@Test
 	public void testCercaniaBancos() {
 		boolean cerca = banco.estaCerca(maquina);
-		assertEquals(true,cerca);
+		assertEquals(false,cerca);				//ESTA EN OTRO PLANETA CASI
 	}
 	
 	@Test

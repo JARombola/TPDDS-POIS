@@ -1,11 +1,9 @@
 package principal;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
-public class POI {
+public class POI implements Horarios{
 	private String nombre;
 	private Direccion direccion; 
 	private double longitud;
@@ -21,13 +19,13 @@ public class POI {
 		this.horariosAtencion.add(horarioNuevo);
 	}
 	
-	public void horarioNuevo(int dia, String horaInicio, String horaFin){
+	/*public void horarioNuevo(int dia, String horaInicio, String horaFin){
 		Horario horarioNuevo=new Horario();
 		horarioNuevo.setDia(dia);
 		horarioNuevo.setInicio(horaInicio);
 		horarioNuevo.setFin(horaFin);
 		agregarHorario(horarioNuevo);
-	}
+	}*/
 
 	// -------------------GETTERS,SETTERS-----------------
 	public String getNombre() {
@@ -67,10 +65,18 @@ public class POI {
 		horariosAtencion=new ArrayList<Horario>(); 
 	}
 	
+	//----------------------CALCULO DISPONIBILIDAD (HORARIO)------------------
+	public boolean estaDisponible(){
+		return(estaDisponible(this.getHorariosAtencion()));	//Usa el metodo de POI (interfaz Horario), fecha=HOY
+	}
+	public boolean estaDisponible(int dia, String hora){
+		return(estaDisponible(this.getHorariosAtencion(), dia, hora));	//Usa el metodo de POI, pero con la fecha y hora determinadas
+	}
+	/*
 	public boolean estaDisponible(int dia, String hora){	//Fecha minima y maxima (Intervalo en que esta disponible el lugar).					// Si uso "hora" el lambda tira error (?) -.-
 		boolean abierto=(horariosAtencion.stream()
-						.filter(horario->(horario.getDia()==dia))
-						.anyMatch(horario->horario.estaAbierto(hora)));
+						.filter(horario->(horario.getDia()==dia))		//Filtra los dias que coinciden con la fecha
+						.anyMatch(horario->horario.estaAbierto(hora)));			//se fija si el horario coincide con los registrados
 		return abierto;
 	}
 	
@@ -80,10 +86,12 @@ public class POI {
 		String hora = Integer.toString(diaActual.get(Calendar.HOUR_OF_DAY));
 		int minutos=(diaActual.get(Calendar.MINUTE));
 		if (minutos<10) {hora+=":0"+minutos;}
-		else {hora+=":"+minutos;};
+		else {hora+=":"+minutos;};				
+		//TODO ESO PARA CONSEGUIR EL DIA Y LA HORA -.-
 		return(estaDisponible(hoy,hora));
-	}
-	
+	}*/
+
+	//-----------------CALCULO DISTANCIA---------------------------------------------------
 
 	public double distanciaAOtroPunto(double latitudOtro, double longitudOtro){ //Sirve para la distancia entre POIs o distancia con la maquina que se esta usando
 		double distanciaHorizontal;
@@ -102,6 +110,7 @@ public class POI {
 		double latitud = puntoActual.getLongitud();
 		double longitud = puntoActual.getLatitud();
 		double distancia = distanciaAOtroPunto(latitud,longitud);
+		System.out.println("Distancia: "+distancia+ "  |  Radio: "+radioCercania);
 		
 		return (distancia <= radioCercania); 
 		

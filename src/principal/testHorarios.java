@@ -17,20 +17,21 @@ public class testHorarios {
 	@Before
 	public void initialize() {
 		banco = new Banco();
-		banco.setHorarios();
 		parada = new ParadaColectivo();
 		carrousel = new Local();
 		for (int dia = 2; dia <= 7; dia++) {		//Horarios Carrousel 
-			carrousel.horarioNuevo(dia, "10:00", "13:00");
-			carrousel.horarioNuevo(dia, "17:00", "20:30");
+			Horario horario1=carrousel.horarioNuevo(dia, "10:00", "13:00");
+			carrousel.agregarHorario(horario1);
+			Horario horario2=carrousel.horarioNuevo(dia, "17:00", "20:30");
+			carrousel.agregarHorario(horario2);
 		}
 
 	}
 
 	@Test
 	public void testHorariosBanco() {
-		boolean domingo = banco.estaDisponible(1, "12:00"); // Banco un domingo?
-															// Ja
+		System.out.println("1");
+		boolean domingo = banco.estaDisponible(1, "12:00"); // Banco un domingo? Ja
 		assertEquals(false, domingo);
 		boolean lunes = banco.estaDisponible(2, "14:00");
 		assertEquals(true, lunes);
@@ -46,11 +47,12 @@ public class testHorarios {
 
 	@Test
 	public void testHorarioLocal() {
+		System.out.println("2");
 		boolean abierto=carrousel.estaDisponible(3, "19:00");
 		assertEquals(true,abierto);
 		boolean domingo=carrousel.estaDisponible(1, "11:00");
 		assertEquals(false,domingo);
-		boolean cerrado=carrousel.estaDisponible(5,"15:00");
-		assertEquals(false,cerrado);
+		boolean abierto2=carrousel.estaDisponible(5,"15:00");
+		assertEquals(false,abierto2);
 	}
 }

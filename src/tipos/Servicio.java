@@ -1,6 +1,9 @@
 package tipos;
 
-public class Servicio{
+import principal.POI;
+
+public class Servicio extends POI{
 	public String descripcion;
+	
 	
 }
