@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tipos.Banco;
+import tipos.CGP;
 import tipos.Local;
 import tipos.ParadaColectivo;
 import tipos.Servicio;
@@ -14,6 +15,7 @@ public class testHorarios {
 	Banco banco;
 	ParadaColectivo parada;
 	Local carrousel;
+	CGP unCGP;
 
 	@Before
 	public void initialize() {
@@ -26,6 +28,10 @@ public class testHorarios {
 		jubilacion.agregarHorario(horarioJubilacion);
 		banco.agregarServicio(rentas);
 		banco.agregarServicio(jubilacion);
+		
+		unCGP = new CGP();
+		unCGP.agregarServicio(rentas);
+		unCGP.agregarServicio(jubilacion);
 		
 		parada = new ParadaColectivo();
 		carrousel = new Local();
@@ -44,7 +50,7 @@ public class testHorarios {
 		assertEquals(false, domingo);
 		boolean lunes = banco.estaDisponible(2, "14:00");
 		assertEquals(true, lunes);
-		boolean viernesTarde = banco.estaDisponible(5, "16:00");
+		boolean viernesTarde = banco.estaDisponible(5, "16:00");	//demasiado temprano...
 		assertEquals(false, viernesTarde);
 	}
 	@Test
@@ -55,6 +61,15 @@ public class testHorarios {
 		assertEquals(false, abiertoRentas);
 		boolean abiertoJubilacion=banco.estaDisponible(2, "08:00", "jUBiLaciOn");
 		assertEquals(true,abiertoJubilacion);
+	}
+	@Test
+	public void testHorarioCGP(){
+		boolean abierto=unCGP.estaDisponible(1, "12:00", "Rentas");		
+		assertEquals(true,abierto);
+		abierto=unCGP.estaDisponible(4,"06:00");		
+		assertEquals(false,abierto);
+		abierto=unCGP.estaDisponible(2, "06:00");	//hay jubilacion
+		assertEquals(true,abierto);
 	}
 	
 	@Test
