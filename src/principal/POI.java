@@ -59,6 +59,11 @@ public class POI implements Horarios{
 	public void setLatitud(double latitud) {
 		this.latitud = latitud;
 	}
+	
+	
+	public double getRadioCercania() {
+		return radioCercania;
+	}
 
 	// -----------------------METODOS----------------------------------
 	public POI() {
@@ -107,12 +112,12 @@ public class POI implements Horarios{
 	}
 	
 	public boolean estaCerca(Maquina puntoActual){
-		double latitud = puntoActual.getLongitud();
-		double longitud = puntoActual.getLatitud();
+		double latitud = puntoActual.getLatitud();
+		double longitud = puntoActual.getLongitud();
 		double distancia = distanciaAOtroPunto(latitud,longitud);
-		System.out.println("Distancia: "+distancia+ "  |  Radio: "+radioCercania);
+		System.out.println("Distancia: "+distancia+ "  |  Radio: "+this.getRadioCercania());
 		
-		return (distancia <= radioCercania); 
+		return (distancia <= this.getRadioCercania()); 
 		
 	}
 }

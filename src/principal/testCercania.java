@@ -7,14 +7,14 @@ import org.junit.Test;
 
 import tipos.Banco;
 import tipos.CGP;
-//import tipos.Local;
+import tipos.Local;
 import tipos.ParadaColectivo;
 import tipos.Rubro;
 
 public class testCercania {
 	Banco banco;
 	ParadaColectivo parada;
-	//Local librosSA;
+	Local librosSA;
 	CGP cgp;
 	Rubro libreria;
 	Maquina maquina;
@@ -25,21 +25,31 @@ public class testCercania {
 			banco.setLatitud(47.6798206);
 			banco.setLongitud(-122.3271205);
 		parada = new ParadaColectivo();
-		//librosSA = new Local();
-		//	libreria = new Rubro();
-		//	libreria.setRadioCercania(0.3);
-		//	librosSA.setRubro(libreria);
+			parada.setLatitud(47.6757206);
+			parada.setLongitud(-122.3271205);
+		librosSA = new Local();
+			librosSA.setLatitud(47.6777206);
+			librosSA.setLongitud(-122.3271205);
+			libreria = new Rubro();
+			libreria.setRadioCercania(0.3);
+			librosSA.setRubro(libreria);
 		cgp = new CGP();
 			cgp.setComuna(4);
-		maquina = new Maquina(47.6788206, -122.3271205);
+		maquina = new Maquina(47.6757206, -122.3271205);
 			maquina.setComuna(4);
 		
 		}
-
+	
 	@Test
 	public void testCercaniaBancos() {
 		boolean cerca = banco.estaCerca(maquina);
-		assertEquals(false,cerca);				//ESTA EN OTRO PLANETA CASI
+		assertEquals(true,cerca);				
+	}
+	
+	@Test
+	public void testCercaniaLocal() {
+		boolean cerca = librosSA.estaCerca(maquina);
+		assertEquals(true,cerca);				
 	}
 	
 	@Test
@@ -47,6 +57,13 @@ public class testCercania {
 		boolean cerca = cgp.estaCerca(maquina);
 		assertEquals(true,cerca);
 	}
+	
+	@Test
+	public void testCercaniaParada() {
+		boolean cerca = parada.estaCerca(maquina);
+		assertEquals(true,cerca);
+	}
+	
 	
 
 
