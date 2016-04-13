@@ -11,11 +11,9 @@ public class Local extends POI{
 	public Rubro getRubro() {
 		return rubro;
 	}
-
 	public void setRubro(Rubro rubro) {
 		this.rubro = rubro;
 	}
-
 	public double getRadioCercania() {
 		return rubro.getRadioCercania();
 	}

@@ -9,12 +9,45 @@ public class POI implements Horarios{
 	private double longitud;
 	private double latitud;
 	List<Horario> horariosAtencion;
-	private double radioCercania = 0.5; //Una cuadra = 0.1 Kms
+	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
+	
+	public POI() {
+		horariosAtencion=new ArrayList<Horario>(); 
+	}
 
+	// -------------------GETTERS,SETTERS-----------------
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public Direccion getDireccion() {
+		return direccion;
+	}
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
+	}
+	public double getLongitud() {
+		return longitud;
+	}
+	public void setLongitud(double longitud) {
+		this.longitud = longitud;
+	}
+	public double getLatitud() {
+		return latitud;
+	}
+	public void setLatitud(double latitud) {
+		this.latitud = latitud;
+	}
+	public double getRadioCercania() {
+		return radioCercania;
+	}
+
+	// -----------------------METODOS----------------------------------
 	public List<Horario> getHorariosAtencion() {
 		return horariosAtencion;
 	}
-
 	public void agregarHorario(Horario horarioNuevo) {	//Agrega un HORARIO a la lista de horarios
 		this.horariosAtencion.add(horarioNuevo);
 	}
@@ -26,49 +59,6 @@ public class POI implements Horarios{
 		horarioNuevo.setFin(horaFin);
 		agregarHorario(horarioNuevo);
 	}*/
-
-	// -------------------GETTERS,SETTERS-----------------
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public Direccion getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
-
-	public double getLongitud() {
-		return longitud;
-	}
-
-	public void setLongitud(double longitud) {
-		this.longitud = longitud;
-	}
-
-	public double getLatitud() {
-		return latitud;
-	}
-
-	public void setLatitud(double latitud) {
-		this.latitud = latitud;
-	}
-	
-	
-	public double getRadioCercania() {
-		return radioCercania;
-	}
-
-	// -----------------------METODOS----------------------------------
-	public POI() {
-		horariosAtencion=new ArrayList<Horario>(); 
-	}
 	
 	//----------------------CALCULO DISPONIBILIDAD (HORARIO)------------------
 	public boolean estaDisponible(){
@@ -108,7 +98,6 @@ public class POI implements Horarios{
 		distanciaVertical = Haversine.distance(latitudOtro, longitudOtro, LatPuntoAnguloRecto, LongPuntoAnguloRecto);
 		
 		return(distanciaHorizontal + distanciaVertical); //Lo devuelve en Kms
-		
 	}
 	
 	public boolean estaCerca(Maquina puntoActual){
@@ -118,6 +107,5 @@ public class POI implements Horarios{
 		System.out.println("Distancia: "+distancia+ "  |  Radio: "+this.getRadioCercania());
 		
 		return (distancia <= this.getRadioCercania()); 
-		
 	}
 }

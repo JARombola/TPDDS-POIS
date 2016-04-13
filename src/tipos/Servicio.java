@@ -11,6 +11,11 @@ public class Servicio implements Horarios {
 	public String descripcion;
 	List<Horario> horariosAtencion;
 
+	public Servicio(String nombre) {
+		setNombre(nombre);
+		horariosAtencion = new ArrayList<Horario>();
+	}
+	
 	public List<Horario> getHorariosAtencion() {
 		return horariosAtencion;
 	}
@@ -23,23 +28,17 @@ public class Servicio implements Horarios {
 		horariosAtencion.add(horarioNuevo);
 	}
 
-	public Servicio(String nombre) {
-		setNombre(nombre);
-		horariosAtencion = new ArrayList<Horario>();
-	}
+
 
 	public String getNombre() {
 		return nombre;
 	}
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
 	public String getDescripcion() {
 		return descripcion;
 	}
-
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}		

@@ -20,7 +20,6 @@ public class Banco extends POI {
 	public void setServicios(Servicio servicio) {
 		this.servicios.add(servicio);
 	}
-	
 	public void agregarServicio(Servicio unServicio){
 		this.servicios.add(unServicio);
 	}
@@ -50,5 +49,4 @@ public class Banco extends POI {
 		}
 		return false;
 	}*/
-	}
-
+}

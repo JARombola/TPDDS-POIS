@@ -48,11 +48,7 @@ public class CGP extends POI{
 	public int getComuna() {
 		return comuna;
 	}
-
 	public void setComuna(int comuna) {
 		this.comuna = comuna;
-
-	}
-	//-------------------HORARIOS-----------------------
-	
+	}	
 }
