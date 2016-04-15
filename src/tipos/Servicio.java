@@ -1,10 +1,7 @@
 package tipos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import principal.EntesConHorarios;
-import principal.Horario;
+
 
 public class Servicio extends EntesConHorarios {
 	public String nombre;

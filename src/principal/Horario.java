@@ -1,23 +1,25 @@
 package principal;
 
+import org.joda.time.LocalTime;
+
 public class Horario {
 	private int dia; // Domingo=1, Lunes=2.....Sabado=7
-	private String inicio; // Hora que abré
-	private String fin; // Hora que cierra
+	private LocalTime inicio; // Hora que abré
+	private LocalTime fin; // Hora que cierra
 
-	public String getInicio() {
+	public LocalTime getInicio() {
 		return inicio;
 	}
 
-	public void setInicio(String inicio) {
+	public void setInicio(LocalTime inicio) {
 		this.inicio = inicio;
 	}
 
-	public String getFin() {
+	public LocalTime getFin() {
 		return fin;
 	}
 
-	public void setFin(String fin) {
+	public void setFin(LocalTime fin) {
 		this.fin = fin;
 	}
 
@@ -33,18 +35,7 @@ public class Horario {
 		System.out.println(getInicio() + " " + getFin());
 	}
 
-	public boolean estaAbierto(String hora) {
-		int resultado = hora.compareTo(inicio); // cuanto hace que esta abierto
-												// (si es negativo es xq esta
-												// cerrado :P)
-		if (resultado >= 0) { // la cuenta es: momento-min
-			resultado = hora.compareTo(fin); // cuanto hace que cerró (si es
-												// negativo es xq todavia está
-												// abierto :P)
-			if (resultado <= 0) { // momento-max
-				return true;
-			}
-		}
-		return false;
+	public boolean estaAbierto(LocalTime hora) {
+		return (hora.isAfter(this.getInicio()) && hora.isBefore(this.getFin()));
 	}
 }

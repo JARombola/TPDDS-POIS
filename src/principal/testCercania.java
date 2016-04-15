@@ -1,7 +1,8 @@
 package principal;
 
-import static org.junit.Assert.*;
 
+
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,28 +46,24 @@ public class testCercania {
 	@Test
 	public void testCercaniaBancos() {
 		boolean cerca = banco.estaCerca(maquina);
-		assertEquals(true,cerca);				
+		Assert.assertEquals(true, cerca);
 	}
 	
 	@Test
 	public void testCercaniaLocal() {
 		boolean cerca = librosSA.estaCerca(maquina);
-		assertEquals(true,cerca);				
+		Assert.assertEquals(true,cerca);				
 	}
 	
 	@Test
 	public void testCercaniaCGPs() {
 		boolean cerca = cgp.estaCerca(maquina);
-		assertEquals(true,cerca);
+		Assert.assertEquals(true,cerca);
 	}
 	
 	@Test
 	public void testCercaniaParada() {
 		boolean cerca = parada.estaCerca(maquina);
-		assertEquals(true,cerca);
+		Assert.assertEquals(true,cerca);
 	}
-	
-	
-
-
 }

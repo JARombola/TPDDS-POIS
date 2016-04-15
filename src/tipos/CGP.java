@@ -3,6 +3,8 @@ package tipos;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalTime;
+
 import principal.Maquina;
 import principal.POI;
 
@@ -25,14 +27,14 @@ public class CGP extends POI{
 		this.servicios.add(unServicio);
 	}
 	
-	public boolean estaDisponible(int dia, String hora,String servicioBuscado){
+	public boolean estaDisponible(int dia, LocalTime hora,String servicioBuscado){
 		boolean abierto=(servicios.stream()
 				.filter(unServicio->(servicioBuscado.equalsIgnoreCase(servicioBuscado)))		//Filtra los dias que coinciden con la fecha
 				.anyMatch(unServicio->estaDisponibleSegunLista(unServicio.getHorariosAtencion(),dia,hora)));			//se fija si el horario coincide con los registrados
 		return abierto;
 	}
 	
-	public boolean estaDisponible(int dia, String hora){
+	public boolean estaDisponible(int dia, LocalTime hora){
 		boolean abierto=(servicios.stream()
 				.anyMatch(unServicio->estaDisponibleSegunLista(unServicio.getHorariosAtencion(),dia,hora)));			//Algun servicio disponible en ese horario
 		return abierto;
