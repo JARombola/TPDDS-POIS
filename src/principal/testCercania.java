@@ -35,7 +35,9 @@ public class testCercania {
 			librosSA.setRubro(libreria);
 		cgp = new CGP();
 			cgp.setComuna(4);
-		maquina = new Maquina(47.6757206, -122.3271205);
+		maquina = new Maquina();
+			maquina.setLatitud(47.6757206);
+			maquina.setLongitud(-122.3271205);
 			maquina.setComuna(4);
 		
 		}

@@ -6,10 +6,11 @@ import java.util.List;
 public class POI extends EntesConHorarios{
 	private String nombre;
 	private Direccion direccion; 
-	private double longitud;
-	private double latitud;
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 	
+	public POI (){
+		this.direccion = new Direccion();
+	}
 	
 
 	// -------------------GETTERS,SETTERS-----------------
@@ -25,17 +26,13 @@ public class POI extends EntesConHorarios{
 	public void setDireccion(Direccion direccion) {
 		this.direccion = direccion;
 	}
-	public double getLongitud() {
-		return longitud;
-	}
+
 	public void setLongitud(double longitud) {
-		this.longitud = longitud;
+		direccion.setLongitud(longitud);
 	}
-	public double getLatitud() {
-		return latitud;
-	}
+
 	public void setLatitud(double latitud) {
-		this.latitud = latitud;
+		direccion.setLatitud(latitud);
 	}
 	public double getRadioCercania() {
 		return radioCercania;
@@ -79,9 +76,9 @@ public class POI extends EntesConHorarios{
 		double distanciaHorizontal;
 		double distanciaVertical;
 		double LatPuntoAnguloRecto = latitudOtro;
-		double LongPuntoAnguloRecto = longitud;
+		double LongPuntoAnguloRecto = direccion.getLongitud();
 		
-		distanciaHorizontal = Haversine.distance(latitud, longitud, LatPuntoAnguloRecto, LongPuntoAnguloRecto);
+		distanciaHorizontal = Haversine.distance(direccion.getLatitud(), direccion.getLongitud(), LatPuntoAnguloRecto, LongPuntoAnguloRecto);
 		distanciaVertical = Haversine.distance(latitudOtro, longitudOtro, LatPuntoAnguloRecto, LongPuntoAnguloRecto);
 		
 		return(distanciaHorizontal + distanciaVertical); //Lo devuelve en Kms

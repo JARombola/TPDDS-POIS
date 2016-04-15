@@ -13,8 +13,6 @@ public class Servicio extends EntesConHorarios {
 	public Servicio(String nombre) {
 		setNombre(nombre);
 	}
-	
-
 
 	// -------------------GETTERS,SETTERS-----------------
 	public String getNombre() {
@@ -28,6 +26,6 @@ public class Servicio extends EntesConHorarios {
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}		
+	}
 
 }
