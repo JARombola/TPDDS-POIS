@@ -3,33 +3,20 @@ package tipos;
 import java.util.ArrayList;
 import java.util.List;
 
+import principal.EntesConHorarios;
 import principal.Horario;
-import principal.Horarios;
 
-public class Servicio implements Horarios {
+public class Servicio extends EntesConHorarios {
 	public String nombre;
 	public String descripcion;
-	List<Horario> horariosAtencion;
 
 	public Servicio(String nombre) {
 		setNombre(nombre);
-		horariosAtencion = new ArrayList<Horario>();
 	}
 	
-	public List<Horario> getHorariosAtencion() {
-		return horariosAtencion;
-	}
-
-	public void setHorariosAtencion(Horario horario) {
-		this.horariosAtencion.add(horario);
-	}
-
-	public void agregarHorario(Horario horarioNuevo) {
-		horariosAtencion.add(horarioNuevo);
-	}
 
 
-
+	// -------------------GETTERS,SETTERS-----------------
 	public String getNombre() {
 		return nombre;
 	}

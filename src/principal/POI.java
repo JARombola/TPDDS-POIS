@@ -3,17 +3,14 @@ package principal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class POI implements Horarios{
+public class POI extends EntesConHorarios{
 	private String nombre;
 	private Direccion direccion; 
 	private double longitud;
 	private double latitud;
-	List<Horario> horariosAtencion;
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 	
-	public POI() {
-		horariosAtencion=new ArrayList<Horario>(); 
-	}
+	
 
 	// -------------------GETTERS,SETTERS-----------------
 	public String getNombre() {
@@ -45,12 +42,7 @@ public class POI implements Horarios{
 	}
 
 	// -----------------------METODOS----------------------------------
-	public List<Horario> getHorariosAtencion() {
-		return horariosAtencion;
-	}
-	public void agregarHorario(Horario horarioNuevo) {	//Agrega un HORARIO a la lista de horarios
-		this.horariosAtencion.add(horarioNuevo);
-	}
+	
 	
 	/*public void horarioNuevo(int dia, String horaInicio, String horaFin){
 		Horario horarioNuevo=new Horario();
@@ -61,12 +53,7 @@ public class POI implements Horarios{
 	}*/
 	
 	//----------------------CALCULO DISPONIBILIDAD (HORARIO)------------------
-	public boolean estaDisponible(){
-		return(estaDisponible(this.getHorariosAtencion()));	//Usa el metodo de POI (interfaz Horario), fecha=HOY
-	}
-	public boolean estaDisponible(int dia, String hora){
-		return(estaDisponible(this.getHorariosAtencion(), dia, hora));	//Usa el metodo de POI, pero con la fecha y hora determinadas
-	}
+	
 	/*
 	public boolean estaDisponible(int dia, String hora){	//Fecha minima y maxima (Intervalo en que esta disponible el lugar).					// Si uso "hora" el lambda tira error (?) -.-
 		boolean abierto=(horariosAtencion.stream()
