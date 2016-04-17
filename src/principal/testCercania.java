@@ -19,9 +19,21 @@ public class testCercania {
 	CGP cgp;
 	Rubro libreria;
 	Maquina maquina;
-
+	Comuna comuna;
+	Coordenadas coordenada;
 	@Before
 	public void initialize() {
+		comuna=new Comuna();
+		coordenada=new Coordenadas();
+			coordenada.setLatitud(47);
+			coordenada.setLongitud(-120);
+			comuna.addPunto(coordenada);
+			coordenada.setLatitud(45);
+			coordenada.setLongitud(-130);
+			comuna.addPunto(coordenada);
+			coordenada.setLatitud(50);
+			coordenada.setLongitud(-130);
+			comuna.addPunto(coordenada);
 		banco = new Banco();
 			banco.setLatitud(47.6798206);
 			banco.setLongitud(-122.3271205);
@@ -35,11 +47,10 @@ public class testCercania {
 			libreria.setRadioCercania(0.3);
 			librosSA.setRubro(libreria);
 		cgp = new CGP();
-			cgp.setComuna(4);
-		maquina = new Maquina();
-			maquina.setLatitud(47.6757206);
-			maquina.setLongitud(-122.3271205);
-			maquina.setComuna(4);
+			cgp.setComuna(comuna);
+		maquina = new Maquina(47.6757206,-122.3271205);
+
+			maquina.setComuna(comuna);
 		
 		}
 	

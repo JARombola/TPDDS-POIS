@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalTime;
+import org.uqbar.geodds.Point;
 
+import principal.Comuna;
+import principal.Coordenadas;
 import principal.Maquina;
 import principal.POI;
 
 public class CGP extends POI{
-	private int comuna;
+	private Comuna comuna;
 	List<Servicio> servicios;
 
 	public CGP() {
@@ -43,14 +46,14 @@ public class CGP extends POI{
 	//---------------CERCANIA-----------------------------------
 
 	public boolean estaCerca(Maquina puntoActual) {
-		return (comuna == puntoActual.getComuna());
+		return (puntoActual.getComuna().dentroDeLaZona(puntoActual.getCoordenadas()));
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
-	public int getComuna() {
+	public Comuna getComuna() {
 		return comuna;
 	}
-	public void setComuna(int comuna) {
+	public void setComuna(Comuna comuna) {
 		this.comuna = comuna;
 	}	
 }

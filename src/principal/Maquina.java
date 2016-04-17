@@ -2,35 +2,27 @@ package principal;
 
 public class Maquina {
 	private Coordenadas coordenadas;
-	private int comuna;
+	private Comuna comuna;
 
-	public Maquina() {
+	
+	public Maquina(double latitud, double longitud) {
 		coordenadas = new Coordenadas();
-	}
-
-	// -------------------GETTERS,SETTERS-----------------
-	public double getLongitud() {
-		return coordenadas.getLongitud();
-	}
-
-	public double getLatitud() {
-		return coordenadas.getLatitud();
-	}
-
-	public void setLatitud(double latitud) {
 		coordenadas.setLatitud(latitud);
-	}
-
-	public void setLongitud(double longitud) {
 		coordenadas.setLongitud(longitud);
 	}
 
-	public int getComuna() {
+	// -------------------GETTERS,SETTERS-----------------
+	public Coordenadas getCoordenadas() {
+		return coordenadas;
+	}
+
+	public Comuna getComuna() {
 		return comuna;
 	}
 
-	public void setComuna(int comuna) {
+	public void setComuna(Comuna comuna) {
 		this.comuna = comuna;
 	}
+
 
 }

@@ -1,5 +1,9 @@
 package principal;
 
+
+import org.uqbar.geodds.Polygon;
+
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,24 +76,22 @@ public class POI extends EntesConHorarios{
 
 	//-----------------CALCULO DISTANCIA---------------------------------------------------
 
-	public double distanciaAOtroPunto(double latitudOtro, double longitudOtro){ //Sirve para la distancia entre POIs o distancia con la maquina que se esta usando
+	public double distanciaAOtroPunto(Coordenadas coordenadas){ //Sirve para la distancia entre POIs o distancia con la maquina que se esta usando
 		double distanciaHorizontal;
 		double distanciaVertical;
-		double LatPuntoAnguloRecto = latitudOtro;
+		double LatPuntoAnguloRecto = direccion.getLatitud();
 		double LongPuntoAnguloRecto = direccion.getLongitud();
 		
 		distanciaHorizontal = Haversine.distance(direccion.getLatitud(), direccion.getLongitud(), LatPuntoAnguloRecto, LongPuntoAnguloRecto);
-		distanciaVertical = Haversine.distance(latitudOtro, longitudOtro, LatPuntoAnguloRecto, LongPuntoAnguloRecto);
+		distanciaVertical = Haversine.distance( coordenadas.getLatitud(), coordenadas.getLongitud(), LatPuntoAnguloRecto, LongPuntoAnguloRecto);
 		
 		return(distanciaHorizontal + distanciaVertical); //Lo devuelve en Kms
 	}
 	
 	public boolean estaCerca(Maquina puntoActual){
-		double latitud = puntoActual.getLatitud();
-		double longitud = puntoActual.getLongitud();
-		double distancia = distanciaAOtroPunto(latitud,longitud);
+	
+		double distancia = distanciaAOtroPunto(puntoActual.getCoordenadas());
 		System.out.println("Distancia: "+distancia+ "  |  Radio: "+this.getRadioCercania());
-		
 		return (distancia <= this.getRadioCercania()); 
 	}
 }
