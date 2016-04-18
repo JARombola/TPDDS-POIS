@@ -1,6 +1,8 @@
 package principal;
 
 import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class Horario {
 	private int dia; // Domingo=1, Lunes=2.....Sabado=7
@@ -35,7 +37,9 @@ public class Horario {
 		System.out.println(getInicio() + " " + getFin());
 	}
 
-	public boolean estaAbierto(LocalTime hora) {
+	public boolean estaAbierto(String Hora) {
+		DateTimeFormatter formato= DateTimeFormat.forPattern("HH:mm");
+		LocalTime hora=LocalTime.parse(Hora,formato);
 		return (hora.isAfter(this.getInicio()) && hora.isBefore(this.getFin()));
 	}
 }

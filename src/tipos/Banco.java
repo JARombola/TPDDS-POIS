@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import principal.POI;
 
@@ -27,8 +29,10 @@ public class Banco extends POI {
 		this.servicios.add(unServicio);
 	}
 	
-	public boolean estaDisponible(int dia, LocalTime hora){
-		return ((dia>=LUNES) && (dia<=VIERNES) && (hora.isAfter(INICIO))&& (hora.isBefore(FIN)));
+	public boolean estaDisponible(int dia, String hora){
+		DateTimeFormatter formato= DateTimeFormat.forPattern("HH:mm");
+		LocalTime horaP=LocalTime.parse(hora,formato);
+		return ((dia>=LUNES) && (dia<=VIERNES) && (horaP.isAfter(INICIO))&& (horaP.isBefore(FIN)));
 	}
 	
 	public void tienePalabra(String texto){
@@ -45,7 +49,7 @@ for (int dia=2;dia<=6;dia++){			//Lunes a viernes, 10 a 15 hs
 	agregarHorario(horarioNuevo);		//Metodo del padre (POI)
 	}
 */
-		public boolean estaDisponible(int dia, LocalTime hora,String servicioBuscado){
+		public boolean estaDisponible(int dia, String hora,String servicioBuscado){
 		boolean abierto=(servicios.stream()
 				.filter(unServicio->(servicioBuscado.equalsIgnoreCase(servicioBuscado)))		//Filtra los dias que coinciden con la fecha
 				.anyMatch(unServicio->unServicio.getHorarios().estaDisponibleSegunLista(dia,hora)));			//se fija si el horario coincide con los registrados
