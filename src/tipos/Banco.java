@@ -48,7 +48,7 @@ for (int dia=2;dia<=6;dia++){			//Lunes a viernes, 10 a 15 hs
 		public boolean estaDisponible(int dia, LocalTime hora,String servicioBuscado){
 		boolean abierto=(servicios.stream()
 				.filter(unServicio->(servicioBuscado.equalsIgnoreCase(servicioBuscado)))		//Filtra los dias que coinciden con la fecha
-				.anyMatch(unServicio->estaDisponibleSegunLista(unServicio.getHorariosAtencion(),dia,hora)));			//se fija si el horario coincide con los registrados
+				.anyMatch(unServicio->unServicio.getHorarios().estaDisponibleSegunLista(dia,hora)));			//se fija si el horario coincide con los registrados
 		return abierto;
 	}
 }

@@ -25,12 +25,11 @@ public class testHorarios {
 		Servicio rentas=new Servicio("Rentas");
 		horaInicio=new LocalTime(10,00);
 		horaCierre=new LocalTime(22,00);
-		rentas.horarioNuevo(1, horaInicio, horaCierre);
-
+		rentas.getHorarios().horarioNuevo(1, horaInicio, horaCierre);
 		Servicio jubilacion=new Servicio("jubilacion");
 		horaInicio=new LocalTime(5,00);
 		horaCierre=new LocalTime(9,00);
-		jubilacion.horarioNuevo(2, horaInicio, horaCierre);
+		jubilacion.getHorarios().horarioNuevo(2, horaInicio, horaCierre);
 
 		banco.agregarServicio(rentas);
 		banco.agregarServicio(jubilacion);
@@ -44,10 +43,10 @@ public class testHorarios {
 		for (int dia = 2; dia <= 7; dia++) {		//Horarios Carrousel 
 			horaInicio=new LocalTime(10,00);
 			horaCierre=new LocalTime(13,00);
-			carrousel.horarioNuevo(dia, horaInicio, horaCierre);
+			carrousel.getHorarios().horarioNuevo(dia, horaInicio, horaCierre);
 			horaInicio=new LocalTime(17,00);
 			horaCierre=new LocalTime(20,30);
-			carrousel.horarioNuevo(dia, horaInicio, horaCierre);
+			carrousel.getHorarios().horarioNuevo(dia, horaInicio, horaCierre);
 		}
 
 	}
@@ -98,13 +97,13 @@ public class testHorarios {
 	@Test
 	public void testHorarioLocal() {
 		horaX=new LocalTime(19,00);
-		boolean abierto=carrousel.estaDisponible(3, horaX);
+		boolean abierto=carrousel.getHorarios().estaDisponible(3, horaX);
 		assertEquals(true,abierto);
 		horaX=new LocalTime(11,00);
-		boolean domingo=carrousel.estaDisponible(1, horaX);
+		boolean domingo=carrousel.getHorarios().estaDisponible(1, horaX);
 		assertEquals(false,domingo);
 		horaX=new LocalTime(15,00);
-		boolean abierto2=carrousel.estaDisponible(5,horaX);
+		boolean abierto2=carrousel.getHorarios().estaDisponible(5,horaX);
 		assertEquals(false,abierto2);
 	}
 }

@@ -3,11 +3,13 @@ package tipos;
 import principal.EntesConHorarios;
 
 
-public class Servicio extends EntesConHorarios {
-	public String nombre;
-	public String descripcion;
+public class Servicio{
+	private EntesConHorarios horarios;
+	private String nombre;
+	private String descripcion;
 
 	public Servicio(String nombre) {
+		horarios = new EntesConHorarios();
 		setNombre(nombre);
 	}
 
@@ -23,6 +25,9 @@ public class Servicio extends EntesConHorarios {
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+	public EntesConHorarios getHorarios() {
+		return horarios;
 	}
 
 }

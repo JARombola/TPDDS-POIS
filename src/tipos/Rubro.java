@@ -1,7 +1,7 @@
 package tipos;
 
-public class Rubro extends Local {
-
+public class Rubro {
+	private double radioCercania;
 	public Rubro() {
 
 	}

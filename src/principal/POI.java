@@ -7,13 +7,15 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-public class POI extends EntesConHorarios{
+public class POI{
+	private EntesConHorarios horarios;
 	private String nombre;
 	private Direccion direccion; 
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 	
 	public POI (){
 		this.direccion = new Direccion();
+		this.horarios= new EntesConHorarios();
 	}
 	
 
@@ -40,6 +42,9 @@ public class POI extends EntesConHorarios{
 	}
 	public double getRadioCercania() {
 		return radioCercania;
+	}
+	public EntesConHorarios getHorarios() {
+		return horarios;
 	}
 
 	public void mostrarDatos(){
