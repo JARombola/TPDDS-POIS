@@ -65,4 +65,16 @@ public class testBusqueda {
 	public void busquedaParadas114(){
 		mapa.Buscar("114");
 	}
+	@Test	
+	public void busquedaAsesoramiento(){
+		mapa.Buscar("asesoramiento");
+	}
+	@Test	
+	public void busquedaJubilacion(){
+		mapa.Buscar("jubilacion");
+	}
+	@Test	
+	public void busquedaSociedad(){
+		mapa.Buscar("sociedad");
+	}
 }

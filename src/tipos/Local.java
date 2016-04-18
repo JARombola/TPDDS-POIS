@@ -19,5 +19,13 @@ public class Local extends POI {
 	public double getRadioCercania() {
 		return rubro.getRadioCercania();
 	}
+	public void tienePalabra(String texto){
+		 if (getRubro().getClass().toString().contains(texto)){
+			 System.out.println(getRubro().getClass().toString());
+		 };
+		 if (getNombre().contains(texto)){
+			 System.out.println("Local: "+getNombre());
+		 }
+	}
 
 }

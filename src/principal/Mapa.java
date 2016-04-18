@@ -28,12 +28,14 @@ public class Mapa {
 		this.pois.add(unPOI);
 	}
 
-	public 	List<String> Buscar(String texto) {
-		List<String> namesList = pois.stream().map(POI::getNombre).collect(Collectors.toList());
-		namesList.removeIf(s ->s.toLowerCase().contains(texto.toLowerCase()));
+	public void Buscar(String texto) {
+		/*List<String> namesList = pois.stream().map(POI::getNombre).collect(Collectors.toList());
+		namesList.removeIf((s ->!s.toLowerCase().contains(texto.toLowerCase())));
 		System.out.println(Arrays.toString(namesList.toArray()));
 
 		return namesList;
-	
+	*/
+		getPOI().stream()
+		.forEach(poi->poi.tienePalabra(texto));
 	}
 }

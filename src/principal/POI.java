@@ -42,37 +42,12 @@ public class POI extends EntesConHorarios{
 		return radioCercania;
 	}
 
-	// -----------------------METODOS----------------------------------
-	
-	
-	/*public void horarioNuevo(int dia, String horaInicio, String horaFin){
-		Horario horarioNuevo=new Horario();
-		horarioNuevo.setDia(dia);
-		horarioNuevo.setInicio(horaInicio);
-		horarioNuevo.setFin(horaFin);
-		agregarHorario(horarioNuevo);
-	}*/
-	
-	//----------------------CALCULO DISPONIBILIDAD (HORARIO)------------------
-	
-	/*
-	public boolean estaDisponible(int dia, String hora){	//Fecha minima y maxima (Intervalo en que esta disponible el lugar).					// Si uso "hora" el lambda tira error (?) -.-
-		boolean abierto=(horariosAtencion.stream()
-						.filter(horario->(horario.getDia()==dia))		//Filtra los dias que coinciden con la fecha
-						.anyMatch(horario->horario.estaAbierto(hora)));			//se fija si el horario coincide con los registrados
-		return abierto;
+	public void mostrarDatos(){
+		System.out.println("POI: "+this.getNombre()+"\n Direccion: "+this.getDireccion().getCalle());
 	}
-	
-	public boolean estaDisponible(){
-		Calendar diaActual=new GregorianCalendar();		//HOY
-		int hoy=diaActual.get(Calendar.DAY_OF_WEEK);
-		String hora = Integer.toString(diaActual.get(Calendar.HOUR_OF_DAY));
-		int minutos=(diaActual.get(Calendar.MINUTE));
-		if (minutos<10) {hora+=":0"+minutos;}
-		else {hora+=":"+minutos;};				
-		//TODO ESO PARA CONSEGUIR EL DIA Y LA HORA -.-
-		return(estaDisponible(hoy,hora));
-	}*/
+	public void tienePalabra(String texto){
+		if (this.getNombre().contains(texto)) {mostrarDatos();};
+	}
 
 	//-----------------CALCULO DISTANCIA---------------------------------------------------
 

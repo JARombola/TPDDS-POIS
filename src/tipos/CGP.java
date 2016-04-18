@@ -56,4 +56,9 @@ public class CGP extends POI{
 	public void setComuna(Comuna comuna) {
 		this.comuna = comuna;
 	}	
+	public void tienePalabra(String texto){
+		 getServicios().stream()
+				.filter(servicio->(servicio.getNombre()).contains(texto))
+				.forEach(s->System.out.println(s.getNombre()));
+	}
 }

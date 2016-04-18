@@ -30,6 +30,12 @@ public class Banco extends POI {
 	public boolean estaDisponible(int dia, LocalTime hora){
 		return ((dia>=LUNES) && (dia<=VIERNES) && (hora.isAfter(INICIO))&& (hora.isBefore(FIN)));
 	}
+	
+	public void tienePalabra(String texto){
+		 getServicios().stream()
+				.filter(servicio->(servicio.getNombre()).contains(texto))
+				.forEach(s->System.out.println(s.getNombre()));
+	}
 
 
 /*public void setHorarios(){
