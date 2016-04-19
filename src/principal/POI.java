@@ -19,6 +19,37 @@ public class POI{
 	}
 	
 
+
+	//---------------BUSQUEDA-----------------------------------
+	public boolean tienePalabra(String texto){
+		return this.tienePalabraEnNombre(texto);
+	}
+	
+	public boolean tienePalabraEnNombre(String texto){
+		return this.getNombre().contains(texto);
+	}
+
+	//-----------------CERCANIA---------------------------------------------------
+
+	public double distanciaAOtroPunto(Coordenadas coordenadas){ //Sirve para la distancia entre POIs o distancia con la maquina que se esta usando
+		double distanciaHorizontal;
+		double distanciaVertical;
+		double LatPuntoAnguloRecto = direccion.getLatitud();
+		double LongPuntoAnguloRecto = direccion.getLongitud();
+		
+		distanciaHorizontal = Haversine.distance(direccion.getLatitud(), direccion.getLongitud(), LatPuntoAnguloRecto, LongPuntoAnguloRecto);
+		distanciaVertical = Haversine.distance( coordenadas.getLatitud(), coordenadas.getLongitud(), LatPuntoAnguloRecto, LongPuntoAnguloRecto);
+		
+		return(distanciaHorizontal + distanciaVertical); //Lo devuelve en Kms
+	}
+	
+	public boolean estaCerca(Maquina puntoActual){
+	
+		double distancia = distanciaAOtroPunto(puntoActual.getCoordenadas());
+		System.out.println("Distancia: "+distancia+ "  |  Radio: "+this.getRadioCercania());
+		return (distancia <= this.getRadioCercania()); 
+	}
+
 	// -------------------GETTERS,SETTERS-----------------
 	public String getNombre() {
 		return nombre;
@@ -50,28 +81,7 @@ public class POI{
 	public void mostrarDatos(){
 		System.out.println("POI: "+this.getNombre()+"\n Direccion: "+this.getDireccion().getCalle());
 	}
-	public void tienePalabra(String texto){
-		if (this.getNombre().contains(texto)) {mostrarDatos();};
-	}
-
-	//-----------------CALCULO DISTANCIA---------------------------------------------------
-
-	public double distanciaAOtroPunto(Coordenadas coordenadas){ //Sirve para la distancia entre POIs o distancia con la maquina que se esta usando
-		double distanciaHorizontal;
-		double distanciaVertical;
-		double LatPuntoAnguloRecto = direccion.getLatitud();
-		double LongPuntoAnguloRecto = direccion.getLongitud();
-		
-		distanciaHorizontal = Haversine.distance(direccion.getLatitud(), direccion.getLongitud(), LatPuntoAnguloRecto, LongPuntoAnguloRecto);
-		distanciaVertical = Haversine.distance( coordenadas.getLatitud(), coordenadas.getLongitud(), LatPuntoAnguloRecto, LongPuntoAnguloRecto);
-		
-		return(distanciaHorizontal + distanciaVertical); //Lo devuelve en Kms
-	}
 	
-	public boolean estaCerca(Maquina puntoActual){
-	
-		double distancia = distanciaAOtroPunto(puntoActual.getCoordenadas());
-		System.out.println("Distancia: "+distancia+ "  |  Radio: "+this.getRadioCercania());
-		return (distancia <= this.getRadioCercania()); 
-	}
+
+
 }

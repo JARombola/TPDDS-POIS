@@ -8,6 +8,16 @@ public class Local extends POI {
 	public Local() {
 	}
 
+	//---------------BUSQUEDA-----------------------------------
+	public boolean tienePalabra(String texto){
+		 return (this.tienePalabraEnNombre(texto) || this.tienePalabraEnRubro(texto));
+	}
+		 
+	public boolean tienePalabraEnRubro(String texto){
+		return this.getRubro().getNombre().contains(texto);
+	}
+	
+	// -------------------GETTERS,SETTERS-----------------
 	public Rubro getRubro() {
 		return rubro;
 	}
@@ -19,13 +29,4 @@ public class Local extends POI {
 	public double getRadioCercania() {
 		return rubro.getRadioCercania();
 	}
-	public void tienePalabra(String texto){
-		 if (getRubro().getClass().toString().contains(texto)){
-			 System.out.println(getRubro().getClass().toString());
-		 };
-		 if (getNombre().contains(texto)){
-			 System.out.println("Local: "+getNombre());
-		 }
-	}
-
 }

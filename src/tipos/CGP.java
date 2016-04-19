@@ -18,13 +18,7 @@ public class CGP extends POI{
 	public CGP() {
 		servicios=new ArrayList<Servicio>();
 	}
-	//------------------------HORARIOS------------------
-	public List<Servicio> getServicios() {
-		return servicios;
-	}
-	public void setServicios(Servicio servicio) {
-		this.servicios.add(servicio);
-	}
+	//------------------------DISPONIBILIDAD------------------
 	
 	public void agregarServicio(Servicio unServicio){
 		this.servicios.add(unServicio);
@@ -47,6 +41,18 @@ public class CGP extends POI{
 
 	public boolean estaCerca(Maquina puntoActual) {
 		return (puntoActual.getComuna().dentroDeLaZona(puntoActual.getCoordenadas()));
+		
+	}
+	
+	//---------------BUSQUEDA-----------------------------------
+	
+	public boolean tienePalabra(String texto){
+		return (this.tienePalabraEnNombre(texto) || this.tienePalabraEnServicio(texto));
+		
+	}
+	
+	public boolean tienePalabraEnServicio(String texto){
+		return this.getServicios().stream().anyMatch(servicio->(servicio.getNombre().contains(texto)));
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
@@ -56,9 +62,13 @@ public class CGP extends POI{
 	public void setComuna(Comuna comuna) {
 		this.comuna = comuna;
 	}	
-	public void tienePalabra(String texto){
-		 getServicios().stream()
-				.filter(servicio->(servicio.getNombre()).contains(texto))
-				.forEach(s->System.out.println(s.getNombre()));
+	
+	public List<Servicio> getServicios() {
+		return servicios;
 	}
+	public void setServicios(Servicio servicio) {
+		this.servicios.add(servicio);
+	}
+	
+	
 }

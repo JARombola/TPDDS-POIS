@@ -2,10 +2,14 @@ package tipos;
 
 public class Rubro {
 	private double radioCercania;
+	public String nombre;
+
 	public Rubro() {
 
 	}
 
+	
+	// -------------------GETTERS,SETTERS-----------------
 	public void setRadioCercania(double radioCercania) {
 		this.radioCercania = radioCercania;
 	}
@@ -13,5 +17,12 @@ public class Rubro {
 	public double getRadioCercania() {
 		return radioCercania;
 	}
+	
+	public String getNombre() {
+		return nombre;
+	}
 
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 }

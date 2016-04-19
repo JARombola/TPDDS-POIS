@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-
-
 public class Mapa {
 
 	List<POI> pois;
@@ -15,7 +13,23 @@ public class Mapa {
 	public Mapa() {
 		pois = new ArrayList<POI>();
 	}
+	
+	public void agregarPOI(POI unPOI) {
+		this.pois.add(unPOI);
+	}
 
+	//---------------BUSQUEDA-----------------------------------
+	public List<POI> Buscar(String texto) {
+	
+		List<POI> resultadosBusqueda;
+		resultadosBusqueda = new ArrayList<POI>();
+		resultadosBusqueda = getPOI().stream().filter(poi->(poi.tienePalabra(texto))).collect(Collectors.toList());
+		
+		return resultadosBusqueda;
+	}
+
+	// -------------------GETTERS,SETTERS-----------------
+	
 	public List<POI> getPOI() {
 		return pois;
 	}
@@ -24,18 +38,4 @@ public class Mapa {
 		this.pois.add(poi);
 	}
 
-	public void agregarPOI(POI unPOI) {
-		this.pois.add(unPOI);
-	}
-
-	public void Buscar(String texto) {
-		/*List<String> namesList = pois.stream().map(POI::getNombre).collect(Collectors.toList());
-		namesList.removeIf((s ->!s.toLowerCase().contains(texto.toLowerCase())));
-		System.out.println(Arrays.toString(namesList.toArray()));
-
-		return namesList;
-	*/
-		getPOI().stream()
-		.forEach(poi->poi.tienePalabra(texto));
-	}
 }
