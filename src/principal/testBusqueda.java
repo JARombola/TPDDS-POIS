@@ -61,6 +61,7 @@ public class testBusqueda {
 			mapa.agregarPOI(banco);
 			
 	}
+
 	@Test		
 	public void busquedaParadas114(){
 		mapa.Buscar("114");

@@ -16,8 +16,10 @@ public class testCercania {
 	Banco banco;
 	ParadaColectivo parada;
 	Local librosSA;
+	Local kioskoPepe;
 	CGP cgp;
 	Rubro libreria;
+	Rubro kioskoDeDiarios;
 	Maquina maquina;
 	Comuna comuna;
 	Coordenadas coordenada;
@@ -46,8 +48,16 @@ public class testCercania {
 			libreria = new Rubro();
 			libreria.setRadioCercania(0.3);
 			librosSA.setRubro(libreria);
+		kioskoPepe = new Local ();
+			kioskoPepe.setLatitud(47.678080);
+			kioskoPepe.setLongitud(-122.326835);
+			kioskoDeDiarios = new Rubro();
+			kioskoDeDiarios.setRadioCercania(0.2);
+			kioskoPepe.setRubro(kioskoDeDiarios);
 		cgp = new CGP();
 			cgp.setComuna(comuna);
+		
+			
 		maquina = new Maquina(47.6757206,-122.3271205);
 
 			maquina.setComuna(comuna);
@@ -56,25 +66,26 @@ public class testCercania {
 	
 	@Test
 	public void testCercaniaBancos() {
-		boolean cerca = banco.estaCerca(maquina);
-		Assert.assertEquals(true, cerca);
+		Assert.assertTrue(banco.estaCerca(maquina));
 	}
 	
 	@Test
 	public void testCercaniaLocal() {
-		boolean cerca = librosSA.estaCerca(maquina);
-		Assert.assertEquals(true,cerca);				
+		Assert.assertTrue(librosSA.estaCerca(maquina));				
+	}
+	
+	@Test
+	public void testCercaniaLocalKiosko () {
+		Assert.assertFalse(kioskoPepe.estaCerca(maquina));
 	}
 	
 	@Test
 	public void testCercaniaCGPs() {
-		boolean cerca = cgp.estaCerca(maquina);
-		Assert.assertEquals(true,cerca);
+		Assert.assertTrue(cgp.estaCerca(maquina));
 	}
 	
 	@Test
 	public void testCercaniaParada() {
-		boolean cerca = parada.estaCerca(maquina);
-		Assert.assertEquals(true,cerca);
+		Assert.assertTrue(parada.estaCerca(maquina));
 	}
 }
