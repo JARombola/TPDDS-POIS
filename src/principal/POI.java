@@ -1,32 +1,35 @@
 package principal;
 
-
-import org.uqbar.geodds.Polygon;
-
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
 public class POI{
 	private EntesConHorarios horarios;
 	private String nombre;
+	private List<String> tags;
+	
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void agregarTag(String tag) {
+		this.tags.add(tag);
+	}
+
 	private Direccion direccion; 
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 	
 	public POI (){
 		this.direccion = new Direccion();
 		this.horarios= new EntesConHorarios();
+		this.tags=new ArrayList<String>();
 	}
 	
 
 
 	//---------------BUSQUEDA-----------------------------------
 	public boolean tienePalabra(String texto){
-		return this.tienePalabraEnNombre(texto);
-	}
-	
-	public boolean tienePalabraEnNombre(String texto){
-		return this.getNombre().contains(texto);
+		return (getNombre().contains(texto) || getTags().contains(texto));
 	}
 
 	//-----------------CERCANIA---------------------------------------------------
@@ -46,7 +49,6 @@ public class POI{
 	public boolean estaCerca(Maquina puntoActual){
 	
 		double distancia = distanciaAOtroPunto(puntoActual.getCoordenadas());
-		System.out.println("Distancia: "+distancia+ "  |  Radio: "+this.getRadioCercania());
 		return (distancia <= this.getRadioCercania()); 
 	}
 
@@ -79,9 +81,6 @@ public class POI{
 	}
 
 	public void mostrarDatos(){
-		System.out.println("POI: "+this.getNombre()+"\n Direccion: "+this.getDireccion().getCalle());
+		System.out.println("POI: "+this.getNombre());
 	}
-	
-
-
 }

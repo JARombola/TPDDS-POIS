@@ -11,7 +11,6 @@ import principal.POI;
 
 public class Banco extends POI {
 	int LUNES=1,VIERNES=5;
-	private String nombre;
 	
 	//------------------------DISPONIBILIDAD------------------
 	List<Servicio> servicios;
@@ -44,12 +43,12 @@ public class Banco extends POI {
 	//---------------BUSQUEDA-----------------------------------
 	
 	public boolean tienePalabra(String texto){
-		return (this.tienePalabraEnNombre(texto) || this.tienePalabraEnServicio(texto));
+		return (super.tienePalabra(texto) || tienePalabraEnServicio(texto));
 		
 	}
 	
 	public boolean tienePalabraEnServicio(String texto){
-		return this.getServicios().stream().anyMatch(servicio->(servicio.getNombre().contains(texto)));
+		return (getServicios().stream().anyMatch(servicio->(servicio.tienePalabra(texto))));
 	}
 	
 		
@@ -59,13 +58,5 @@ public class Banco extends POI {
 	}
 	public void setServicios(Servicio servicio) {
 		this.servicios.add(servicio);
-	}
-	
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 }

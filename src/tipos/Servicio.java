@@ -10,7 +10,7 @@ public class Servicio{
 
 	public Servicio(String nombre) {
 		horarios = new EntesConHorarios();
-		setNombre(nombre);
+		this.setNombre(nombre);
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
@@ -28,6 +28,9 @@ public class Servicio{
 	}
 	public EntesConHorarios getHorarios() {
 		return horarios;
+	}
+	public boolean tienePalabra(String palabra){
+		return (getNombre().contains(palabra));
 	}
 
 }

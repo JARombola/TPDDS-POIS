@@ -45,13 +45,13 @@ public class testCercania {
 		librosSA = new Local();
 			librosSA.setLatitud(47.6777206);
 			librosSA.setLongitud(-122.3271205);
-			libreria = new Rubro();
+			libreria = new Rubro("libros");
 			libreria.setRadioCercania(0.3);
 			librosSA.setRubro(libreria);
 		kioskoPepe = new Local ();
 			kioskoPepe.setLatitud(47.678080);
 			kioskoPepe.setLongitud(-122.326835);
-			kioskoDeDiarios = new Rubro();
+			kioskoDeDiarios = new Rubro("kiosquito");
 			kioskoDeDiarios.setRadioCercania(0.2);
 			kioskoPepe.setRubro(kioskoDeDiarios);
 		cgp = new CGP();

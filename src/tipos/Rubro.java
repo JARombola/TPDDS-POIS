@@ -4,8 +4,8 @@ public class Rubro {
 	private double radioCercania;
 	public String nombre;
 
-	public Rubro() {
-
+	public Rubro(String rubroNombre){
+		this.nombre=rubroNombre;
 	}
 
 	
@@ -24,5 +24,8 @@ public class Rubro {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	public boolean tienePalabra(String palabra){
+		return (getNombre().contains(palabra));
 	}
 }

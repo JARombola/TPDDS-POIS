@@ -3,11 +3,8 @@ package tipos;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.LocalTime;
-import org.uqbar.geodds.Point;
 
 import principal.Comuna;
-import principal.Coordenadas;
 import principal.Maquina;
 import principal.POI;
 
@@ -47,12 +44,12 @@ public class CGP extends POI{
 	//---------------BUSQUEDA-----------------------------------
 	
 	public boolean tienePalabra(String texto){
-		return (this.tienePalabraEnNombre(texto) || this.tienePalabraEnServicio(texto));
+		return (super.tienePalabra(texto) || tienePalabraEnServicio(texto));
 		
 	}
 	
 	public boolean tienePalabraEnServicio(String texto){
-		return this.getServicios().stream().anyMatch(servicio->(servicio.getNombre().contains(texto)));
+		return getServicios().stream().anyMatch(servicio->(servicio.tienePalabra(texto)));
 	}
 
 	// -------------------GETTERS,SETTERS-----------------

@@ -10,11 +10,11 @@ public class Local extends POI {
 
 	//---------------BUSQUEDA-----------------------------------
 	public boolean tienePalabra(String texto){
-		 return (this.tienePalabraEnNombre(texto) || this.tienePalabraEnRubro(texto));
+		 return (super.tienePalabra(texto) || tienePalabraEnRubro(texto));
 	}
 		 
 	public boolean tienePalabraEnRubro(String texto){
-		return this.getRubro().getNombre().contains(texto);
+		return getRubro().tienePalabra(texto);
 	}
 	
 	// -------------------GETTERS,SETTERS-----------------

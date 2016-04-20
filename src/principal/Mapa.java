@@ -1,7 +1,6 @@
 package principal;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,17 +19,17 @@ public class Mapa {
 
 	//---------------BUSQUEDA-----------------------------------
 	public List<POI> Buscar(String texto) {
-	
+		System.out.println("\n----BUSCÓ: "+texto);
 		List<POI> resultadosBusqueda;
 		resultadosBusqueda = new ArrayList<POI>();
-		resultadosBusqueda = getPOI().stream().filter(poi->(poi.tienePalabra(texto))).collect(Collectors.toList());
-		
+		resultadosBusqueda = getListaPOIS().stream().filter(poi->(poi.tienePalabra(texto))).collect(Collectors.toList());
+		resultadosBusqueda.forEach(asd->asd.mostrarDatos());
 		return resultadosBusqueda;
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
 	
-	public List<POI> getPOI() {
+	public List<POI> getListaPOIS() {
 		return pois;
 	}
 

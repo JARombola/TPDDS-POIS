@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import junit.framework.Assert;
 import tipos.Banco;
 import tipos.CGP;
 import tipos.Local;
@@ -14,7 +15,7 @@ import tipos.Servicio;
 
 
 public class testBusqueda {
-	
+	int encontrados;
 	ParadaColectivo parada1;
 	ParadaColectivo parada2;
 	ParadaColectivo parada3;
@@ -35,7 +36,10 @@ public class testBusqueda {
 			parada1.setNombre("primer parada de la linea 114");
 			parada2.setNombre("segunda parada de la linea 114");
 			parada3.setNombre("tercera parada de la linea 114");
-		muebleria = new Rubro();
+			parada3.agregarTag("Lento");
+			parada3.agregarTag("Llegas tarde");
+			parada3.agregarTag("Feo");
+		muebleria = new Rubro("muebleria");
 			mueblesSA = new Local();
 			mueblesParaTodos = new Local();
 				mueblesSA.setRubro(muebleria);
@@ -50,7 +54,7 @@ public class testBusqueda {
 				cgp.setNombre("CGP nro 1");
 				banco.agregarServicio(asesoramiento);
 				banco.agregarServicio(jubilacion);
-				banco.setNombre("Nacion");
+				banco.setNombre("Banco Nacion");
 		mapa = new Mapa();
 			mapa.agregarPOI(parada1);
 			mapa.agregarPOI(parada2);
@@ -64,18 +68,28 @@ public class testBusqueda {
 
 	@Test		
 	public void busquedaParadas114(){
-		mapa.Buscar("114");
+		encontrados=mapa.Buscar("114").size();		//3 paradas
+		assertEquals(encontrados, 3);
 	}
 	@Test	
 	public void busquedaAsesoramiento(){
-		mapa.Buscar("asesoramiento");
+		encontrados=mapa.Buscar("asesoramiento").size();
+		assertEquals(encontrados,2);					//banco y CGP
+		
 	}
 	@Test	
 	public void busquedaJubilacion(){
-		mapa.Buscar("jubilacion");
+		encontrados=mapa.Buscar("jubilacion").size();		//banco
+		assertEquals(encontrados,1);
 	}
 	@Test	
 	public void busquedaSociedad(){
-		mapa.Buscar("sociedad");
+		encontrados=mapa.Buscar("sociedad").size();		//muebles sociedad anonima=1	
+		assertEquals(encontrados,1);
+	}
+	@Test
+	public void busquedaTagsParada(){
+		encontrados=mapa.Buscar("Feo").size();
+		assertEquals(encontrados,1);
 	}
 }
