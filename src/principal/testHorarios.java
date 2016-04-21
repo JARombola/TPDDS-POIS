@@ -82,7 +82,6 @@ public class testHorarios {
 		boolean disponible = parada.estaDisponible();
 		assertEquals(true, disponible);
 	}
-
 	@Test
 	public void testHorarioLocal() {
 		boolean abierto=carrousel.estaDisponible(3, "19:00");
@@ -92,4 +91,15 @@ public class testHorarios {
 		boolean abierto2=carrousel.estaDisponible(5,"15:00");
 		assertEquals(false,abierto2);
 	}
+/*
+	@Test
+	public void testHorarioLocal() {
+		boolean abierto=carrousel.estaDisponible(3, "19:00");
+		assertEquals(true,abierto);
+		boolean domingo=carrousel.estaDisponible(1, "11:00");
+		assertEquals(false,domingo);
+		boolean abierto2=carrousel.estaDisponible(5,"15:00");
+		assertEquals(false,abierto2);
+	}
+	*/
 }
