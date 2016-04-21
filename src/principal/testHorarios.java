@@ -3,6 +3,7 @@ package principal;
 import static org.junit.Assert.*;
 
 import org.joda.time.LocalTime;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,14 +45,20 @@ public class testHorarios {
 	}
 
 	@Test
-	public void testHorariosBanco() {
-		boolean domingo = banco.estaDisponible(7, "12:00"); // Banco un domingo? Ja
-		assertEquals(false, domingo);
-		boolean lunes = banco.estaDisponible(2, "14:00");
-		assertEquals(true, lunes);
-		boolean viernesTarde = banco.estaDisponible(5, "16:00");	//demasiado temprano...
-		assertEquals(false, viernesTarde);
+	public void testBancoNoEstaDisponibleLosDomingos() {
+		Assert.assertFalse(banco.estaDisponible(7, "12:00"));
 	}
+		
+	@Test
+	public void testBancoEstaDisponibleMartes14hs() {
+		Assert.assertTrue(banco.estaDisponible(2, "14:00"));
+	}
+	
+	@Test
+	public void testBancoNoEstaDisponibleViernesTarde() {
+	Assert.assertFalse(banco.estaDisponible(5, "16:00"));	//demasiado temprano...
+		}
+	
 	@Test
 	public void testServiciosBanco(){
 		boolean abierto=banco.estaDisponible(1, "12:00", "Rentas");
