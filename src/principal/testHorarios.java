@@ -43,7 +43,7 @@ public class testHorarios {
 		}
 
 	}
-
+//tests disponibilidad bancos
 	@Test
 	public void testBancoNoEstaDisponibleLosDomingos() {
 		Assert.assertFalse(banco.estaDisponible(7, "12:00")); //banco un domingo? Ja
@@ -58,7 +58,8 @@ public class testHorarios {
 	public void testBancoNoEstaDisponibleViernesTarde() {
 	Assert.assertFalse(banco.estaDisponible(5, "16:00"));	//demasiado temprano...
 		}
-	
+
+//tests disponibilidad servicios de bancos
 	@Test
 	public void testRentasEstaDisponibleLunesMediodia(){
 		Assert.assertTrue(banco.estaDisponible(1, "12:00", "Rentas"));
@@ -74,22 +75,30 @@ public class testHorarios {
 		Assert.assertTrue(banco.estaDisponible(2, "08:00", "jUBiLaciOn"));
 	}
 	
-	
+//tests horarios CGP
 	@Test
-	public void testHorarioCGP(){
-		boolean abierto=unCGP.estaDisponible(1, "12:00", "Rentas");		
-		assertEquals(true,abierto);
-		abierto=unCGP.estaDisponible(4, "06:00");		
-		assertEquals(false,abierto);
-		abierto=unCGP.estaDisponible(2,"06:00");	//hay jubilacion
-		assertEquals(true,abierto);
+	public void testRentasDisponibleLunes12am(){
+		Assert.assertTrue(unCGP.estaDisponible(1, "12:00", "Rentas"));
+	}
+		
+		
+	@Test
+	public void testCGPNOEstaDisponibleJueves6am(){
+		Assert.assertFalse(unCGP.estaDisponible(4, "06:00"));		
+	}
+		
+	@Test
+	public void testHayUnCGPAbiertoMartes6am(){
+		Assert.assertTrue(unCGP.estaDisponible(2,"06:00"));	//hay jubilacion
 	}
 	
+	//tests horarios paradas colectivos
 	@Test
-	public void testHorarioParadas() {
-		boolean disponible = parada.estaDisponible();
-		assertEquals(true, disponible);
+	public void testParadasSiempreDisponibles() {
+		Assert.assertTrue(parada.estaDisponible());
 	}
+	
+	//tests horarios local
 	@Test
 	public void testHorarioLocal() {
 		boolean abierto=carrousel.estaDisponible(3, "19:00");
