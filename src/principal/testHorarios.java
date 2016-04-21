@@ -46,7 +46,7 @@ public class testHorarios {
 
 	@Test
 	public void testBancoNoEstaDisponibleLosDomingos() {
-		Assert.assertFalse(banco.estaDisponible(7, "12:00"));
+		Assert.assertFalse(banco.estaDisponible(7, "12:00")); //banco un domingo? Ja
 	}
 		
 	@Test
@@ -60,14 +60,21 @@ public class testHorarios {
 		}
 	
 	@Test
-	public void testServiciosBanco(){
-		boolean abierto=banco.estaDisponible(1, "12:00", "Rentas");
-		assertEquals(true, abierto);
-		boolean abiertoRentas=banco.estaDisponible(1,"09:00","rentas");
-		assertEquals(false, abiertoRentas);
-		boolean abiertoJubilacion=banco.estaDisponible(2, "08:00", "jUBiLaciOn");
-		assertEquals(true,abiertoJubilacion);
+	public void testRentasEstaDisponibleLunesMediodia(){
+		Assert.assertTrue(banco.estaDisponible(1, "12:00", "Rentas"));
+	}		
+		
+	@Test
+	public void testRentasNOEstaDisponibleLunes9am(){	
+		Assert.assertFalse(banco.estaDisponible(1,"09:00","rentas"));
 	}
+		
+	@Test
+	public void testJubilacionEstaDisponibleMartes8am(){
+		Assert.assertTrue(banco.estaDisponible(2, "08:00", "jUBiLaciOn"));
+	}
+	
+	
 	@Test
 	public void testHorarioCGP(){
 		boolean abierto=unCGP.estaDisponible(1, "12:00", "Rentas");		
