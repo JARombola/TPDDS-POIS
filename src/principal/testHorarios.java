@@ -92,6 +92,22 @@ public class testHorarios {
 		Assert.assertTrue(unCGP.estaDisponible(2,"06:00"));	//hay jubilacion
 	}
 	
+	@Test
+	public void testHorarioCGP(){
+		boolean abierto=unCGP.estaDisponible(1, "12:00", "Rentas");		
+		assertEquals(true,abierto);
+		abierto=unCGP.estaDisponible(1, "12:00");
+		assertEquals(true,abierto);
+		abierto=unCGP.estaDisponible(4, "06:00");		
+		assertEquals(false,abierto);
+		abierto=unCGP.estaDisponible(2,"06:00");	//hay jubilacion
+		assertEquals(true,abierto);
+		abierto=unCGP.estaDisponible(3,"04:23");
+		assertEquals(false,abierto);
+		abierto=unCGP.estaDisponible(3,"04:23","Ropa");
+		assertEquals(false,abierto);
+	}
+	
 	//tests horarios paradas colectivos
 	@Test
 	public void testParadasSiempreDisponibles() {
@@ -100,22 +116,28 @@ public class testHorarios {
 	
 	//tests horarios local
 	@Test
+	public void testCarrouselAbiertoMiercoles19hs() {
+		Assert.assertTrue(carrousel.estaDisponible(3, "19:00"));
+	}
+	
+	@Test
+	public void testCarrouselCerradoLunes11am() {
+		Assert.assertFalse(carrousel.estaDisponible(1, "11:00"));
+	}
+	
+	@Test
+	public void testCarrouselCerradoViernes15hs() {
+		Assert.assertFalse(carrousel.estaDisponible(5,"15:00"));
+	}
+
+/*
+	@Test
 	public void testHorarioLocal() {
 		boolean abierto=carrousel.estaDisponible(3, "19:00");
 		assertEquals(true,abierto);
 		boolean domingo=carrousel.estaDisponible(1, "11:00");
 		assertEquals(false,domingo);
 		boolean abierto2=carrousel.estaDisponible(5,"15:00");
-		assertEquals(false,abierto2);
-	}
-/*
-	@Test
-	public void testHorarioLocal() {
-		boolean abierto=carrousel.getHorarios().estaDisponible(3, "19:00");
-		assertEquals(true,abierto);
-		boolean domingo=carrousel.getHorarios().estaDisponible(1, "11:00");
-		assertEquals(false,domingo);
-		boolean abierto2=carrousel.getHorarios().estaDisponible(5,"15:00");
 		assertEquals(false,abierto2);
 	}
 	*/
