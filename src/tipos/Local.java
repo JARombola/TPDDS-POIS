@@ -15,7 +15,7 @@ public class Local extends POI {
 
 	//---------------BUSQUEDA-----------------------------------
 	public boolean tienePalabra(String texto){
-		 return (super.tienePalabra(texto) || tienePalabraEnRubro(texto));
+		return (super.tienePalabra(texto) || tienePalabraEnRubro(texto));
 	}
 		 
 	public boolean tienePalabraEnRubro(String texto){

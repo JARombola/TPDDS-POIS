@@ -41,7 +41,7 @@ public class Servicio{
 		return horarios;
 	}
 	public boolean tienePalabra(String palabra){
-		return (getNombre().contains(palabra) || getTags().contains(palabra));
+		return (getNombre().contains(palabra));// || getTags().contains(palabra));
 	}
 	
 	public boolean estaDisponible(int dia,String hora){

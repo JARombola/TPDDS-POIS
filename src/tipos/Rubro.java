@@ -38,6 +38,6 @@ public class Rubro {
 		this.nombre = nombre;
 	}
 	public boolean tienePalabra(String palabra){
-		return (getNombre().contains(palabra) || getTags().contains(palabra));
+		return (getNombre().contains(palabra));
 	}
 }
