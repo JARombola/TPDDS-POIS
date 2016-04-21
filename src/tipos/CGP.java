@@ -1,31 +1,29 @@
 package tipos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 import principal.Comuna;
+
+import principal.EntesConServicios;
 import principal.Maquina;
 import principal.POI;
 
-public class CGP extends POI{
+public class CGP extends POI implements Disponibilidad{
 	private Comuna comuna;
-	List<Servicio> servicios;
+	private EntesConServicios servicios;
+
+	
 
 	public CGP() {
-		servicios=new ArrayList<Servicio>();
+		servicios=new EntesConServicios();
 	}
 	//------------------------DISPONIBILIDAD------------------
 	
 	public void agregarServicio(Servicio unServicio){
-		this.servicios.add(unServicio);
+		this.servicios.agregarServicio(unServicio);
 	}
 	
 	public boolean estaDisponible(int dia, String hora,String servicioBuscado){
-		boolean abierto=(servicios.stream()
-				.filter(unServicio->(unServicio.getNombre().contains(servicioBuscado)))		//Filtra los dias que coinciden con la fecha
-				.anyMatch(unServicio->unServicio.estaDisponible(dia,hora)));			//se fija si el horario coincide con los registrados
-		return abierto;
+	return getServicios().estaDisponible(dia, hora, servicioBuscado);
 	}
 	
 	public boolean estaDisponible(int dia, String hora){
@@ -50,7 +48,7 @@ public class CGP extends POI{
 	}
 	
 	public boolean tienePalabraEnServicio(String texto){
-		return getServicios().stream().anyMatch(servicio->(servicio.tienePalabra(texto)));
+		return getServicios().tienePalabra(texto);
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
@@ -61,12 +59,7 @@ public class CGP extends POI{
 		this.comuna = comuna;
 	}	
 	
-	public List<Servicio> getServicios() {
+	public EntesConServicios getServicios() {
 		return servicios;
 	}
-	public void setServicios(Servicio servicio) {
-		this.servicios.add(servicio);
-	}
-	
-	
 }

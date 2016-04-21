@@ -1,29 +1,28 @@
 package tipos;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import principal.EntesConServicios;
 import principal.POI;
 
-public class Banco extends POI {
+public class Banco extends POI implements Disponibilidad{
 	int LUNES=1,VIERNES=5;
-	
+	private EntesConServicios servicios;
 	//------------------------DISPONIBILIDAD------------------
-	List<Servicio> servicios;
+	
 	LocalTime INICIO=new LocalTime(10,00),
 			  FIN= new LocalTime(15,00);
 	
 	public Banco(){
-		servicios=new ArrayList<Servicio>();
+		servicios=new EntesConServicios();
 	}
 	
 
 	public void agregarServicio(Servicio unServicio){
-		this.servicios.add(unServicio);
+		this.servicios.agregarServicio(unServicio);
 	}
 	
 	
@@ -34,10 +33,7 @@ public class Banco extends POI {
 	}
 	
 	public boolean estaDisponible(int dia, String hora,String servicioBuscado){
-		boolean abierto=(servicios.stream()
-				.filter(unServicio->(servicioBuscado.contains(servicioBuscado)))		//Filtra los dias que coinciden con la fecha
-				.anyMatch(unServicio->unServicio.estaDisponible(dia,hora)));			//se fija si el horario coincide con los registrados
-		return abierto;
+		return getServicios().estaDisponible(dia, hora, servicioBuscado);
 	}
 	
 	//---------------BUSQUEDA-----------------------------------
@@ -48,15 +44,15 @@ public class Banco extends POI {
 	}
 	
 	public boolean tienePalabraEnServicio(String texto){
-		return (getServicios().stream().anyMatch(servicio->(servicio.tienePalabra(texto))));
+		return getServicios().tienePalabra(texto);
 	}
 	
 		
 	// -------------------GETTERS,SETTERS-----------------
-	public List<Servicio> getServicios() {
+	public EntesConServicios getServicios() {
 		return servicios;
 	}
 	public void setServicios(Servicio servicio) {
-		this.servicios.add(servicio);
+		this.getServicios().agregarServicio(servicio);
 	}
 }

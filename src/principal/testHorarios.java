@@ -56,10 +56,10 @@ public class testHorarios {
 	public void testServiciosBanco(){
 		boolean abierto=banco.estaDisponible(1, "12:00", "Rentas");
 		assertEquals(true, abierto);
-		boolean abiertoRentas=banco.estaDisponible(1,"09:00","rentas");
-		assertEquals(false, abiertoRentas);
-		boolean abiertoJubilacion=banco.estaDisponible(2, "08:00", "jUBiLaciOn");
-		assertEquals(true,abiertoJubilacion);
+		abierto=banco.estaDisponible(1,"09:00","rentas");
+		assertEquals(false, abierto);
+		abierto=banco.estaDisponible(2, "08:00", "jubilacion");
+		assertEquals(true,abierto);
 	}
 	@Test
 	public void testHorarioCGP(){
@@ -79,7 +79,7 @@ public class testHorarios {
 	
 	@Test
 	public void testHorarioParadas() {
-		boolean disponible = parada.estaDisponible();
+		boolean disponible = parada.estaDisponible(666,"","");
 		assertEquals(true, disponible);
 	}
 	@Test
@@ -88,18 +88,7 @@ public class testHorarios {
 		assertEquals(true,abierto);
 		boolean domingo=carrousel.estaDisponible(1, "11:00");
 		assertEquals(false,domingo);
-		boolean abierto2=carrousel.estaDisponible(5,"15:00");
-		assertEquals(false,abierto2);
+		abierto=carrousel.estaDisponible(5,"15:00");
+		assertEquals(false,abierto);
 	}
-/*
-	@Test
-	public void testHorarioLocal() {
-		boolean abierto=carrousel.estaDisponible(3, "19:00");
-		assertEquals(true,abierto);
-		boolean domingo=carrousel.estaDisponible(1, "11:00");
-		assertEquals(false,domingo);
-		boolean abierto2=carrousel.estaDisponible(5,"15:00");
-		assertEquals(false,abierto2);
-	}
-	*/
 }
