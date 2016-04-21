@@ -65,10 +65,16 @@ public class testHorarios {
 	public void testHorarioCGP(){
 		boolean abierto=unCGP.estaDisponible(1, "12:00", "Rentas");		
 		assertEquals(true,abierto);
+		abierto=unCGP.estaDisponible(1, "12:00");
+		assertEquals(true,abierto);
 		abierto=unCGP.estaDisponible(4, "06:00");		
 		assertEquals(false,abierto);
 		abierto=unCGP.estaDisponible(2,"06:00");	//hay jubilacion
 		assertEquals(true,abierto);
+		abierto=unCGP.estaDisponible(3,"04:23");
+		assertEquals(false,abierto);
+		abierto=unCGP.estaDisponible(3,"04:23","Ropa");
+		assertEquals(false,abierto);
 	}
 	
 	@Test
@@ -79,11 +85,11 @@ public class testHorarios {
 
 	@Test
 	public void testHorarioLocal() {
-		boolean abierto=carrousel.getHorarios().estaDisponible(3, "19:00");
+		boolean abierto=carrousel.estaDisponible(3, "19:00");
 		assertEquals(true,abierto);
-		boolean domingo=carrousel.getHorarios().estaDisponible(1, "11:00");
+		boolean domingo=carrousel.estaDisponible(1, "11:00");
 		assertEquals(false,domingo);
-		boolean abierto2=carrousel.getHorarios().estaDisponible(5,"15:00");
+		boolean abierto2=carrousel.estaDisponible(5,"15:00");
 		assertEquals(false,abierto2);
 	}
 }

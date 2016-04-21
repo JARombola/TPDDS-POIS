@@ -23,14 +23,15 @@ public class CGP extends POI{
 	
 	public boolean estaDisponible(int dia, String hora,String servicioBuscado){
 		boolean abierto=(servicios.stream()
-				.filter(unServicio->(servicioBuscado.equalsIgnoreCase(servicioBuscado)))		//Filtra los dias que coinciden con la fecha
-				.anyMatch(unServicio->unServicio.getHorarios().estaDisponibleSegunLista(dia,hora)));			//se fija si el horario coincide con los registrados
+				.filter(unServicio->(unServicio.getNombre().contains(servicioBuscado)))		//Filtra los dias que coinciden con la fecha
+				.anyMatch(unServicio->unServicio.estaDisponible(dia,hora)));			//se fija si el horario coincide con los registrados
 		return abierto;
 	}
 	
 	public boolean estaDisponible(int dia, String hora){
-		boolean abierto=(servicios.stream()
-				.anyMatch(unServicio->unServicio.getHorarios().estaDisponibleSegunLista(dia,hora)));			//EL servicio le pregunta a sus horarios si esta disponible
+		boolean abierto=estaDisponible(dia,hora,"");	//usa la de arriba
+		//(servicios.stream()
+				//.anyMatch(unServicio->unServicio.estaDisponibleSegunLista(dia,hora)));			//EL servicio le pregunta a sus horarios si esta disponible
 		return abierto;
 	}
 	

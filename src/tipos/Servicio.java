@@ -32,5 +32,8 @@ public class Servicio{
 	public boolean tienePalabra(String palabra){
 		return (getNombre().contains(palabra));
 	}
+	public boolean estaDisponible(int dia,String hora){
+		return getHorarios().estaDisponible(dia,hora);
+	}
 
 }

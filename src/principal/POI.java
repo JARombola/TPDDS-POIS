@@ -25,6 +25,9 @@ public class POI{
 		this.tags=new ArrayList<String>();
 	}
 	
+	public boolean estaDisponible(int dia, String hora){
+		return getHorarios().estaDisponible(dia,hora);		//le delega a EnteConHorarios
+	}
 
 
 	//---------------BUSQUEDA-----------------------------------

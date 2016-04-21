@@ -35,8 +35,8 @@ public class Banco extends POI {
 	
 	public boolean estaDisponible(int dia, String hora,String servicioBuscado){
 		boolean abierto=(servicios.stream()
-				.filter(unServicio->(servicioBuscado.equalsIgnoreCase(servicioBuscado)))		//Filtra los dias que coinciden con la fecha
-				.anyMatch(unServicio->unServicio.getHorarios().estaDisponibleSegunLista(dia,hora)));			//se fija si el horario coincide con los registrados
+				.filter(unServicio->(servicioBuscado.contains(servicioBuscado)))		//Filtra los dias que coinciden con la fecha
+				.anyMatch(unServicio->unServicio.estaDisponible(dia,hora)));			//se fija si el horario coincide con los registrados
 		return abierto;
 	}
 	
