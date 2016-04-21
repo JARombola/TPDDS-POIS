@@ -92,21 +92,6 @@ public class testHorarios {
 		Assert.assertTrue(unCGP.estaDisponible(2,"06:00"));	//hay jubilacion
 	}
 	
-	@Test
-	public void testHorarioCGP(){
-		boolean abierto=unCGP.estaDisponible(1, "12:00", "Rentas");		
-		assertEquals(true,abierto);
-		abierto=unCGP.estaDisponible(1, "12:00");
-		assertEquals(true,abierto);
-		abierto=unCGP.estaDisponible(4, "06:00");		
-		assertEquals(false,abierto);
-		abierto=unCGP.estaDisponible(2,"06:00");	//hay jubilacion
-		assertEquals(true,abierto);
-		abierto=unCGP.estaDisponible(3,"04:23");
-		assertEquals(false,abierto);
-		abierto=unCGP.estaDisponible(3,"04:23","Ropa");
-		assertEquals(false,abierto);
-	}
 	
 	//tests horarios paradas colectivos
 	@Test

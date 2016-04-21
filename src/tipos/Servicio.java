@@ -1,5 +1,7 @@
 package tipos;
 
+import java.util.List;
+
 import principal.EntesConHorarios;
 
 
@@ -7,6 +9,15 @@ public class Servicio{
 	private EntesConHorarios horarios;
 	private String nombre;
 	private String descripcion;
+	private List<String> tags;
+	
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void agregarTag(String tag) {
+		this.tags.add(tag);
+	}
 
 	public Servicio(String nombre) {
 		horarios = new EntesConHorarios();
@@ -30,8 +41,9 @@ public class Servicio{
 		return horarios;
 	}
 	public boolean tienePalabra(String palabra){
-		return (getNombre().contains(palabra));
+		return (getNombre().contains(palabra) || getTags().contains(palabra));
 	}
+	
 	public boolean estaDisponible(int dia,String hora){
 		return getHorarios().estaDisponible(dia,hora);
 	}

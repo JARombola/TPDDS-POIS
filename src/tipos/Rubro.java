@@ -1,11 +1,23 @@
 package tipos;
 
+import java.util.List;
+
 public class Rubro {
 	private double radioCercania;
 	public String nombre;
 
 	public Rubro(String rubroNombre){
 		this.nombre=rubroNombre;
+	}
+	
+	private List<String> tags;
+	
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void agregarTag(String tag) {
+		this.tags.add(tag);
 	}
 
 	
@@ -26,6 +38,6 @@ public class Rubro {
 		this.nombre = nombre;
 	}
 	public boolean tienePalabra(String palabra){
-		return (getNombre().contains(palabra));
+		return (getNombre().contains(palabra) || getTags().contains(palabra));
 	}
 }
