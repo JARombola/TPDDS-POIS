@@ -1,5 +1,10 @@
 package tipos;
 
+import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import principal.EntesConHorarios;
 import principal.POI;
 
 public class Local extends POI {
@@ -28,5 +33,10 @@ public class Local extends POI {
 
 	public double getRadioCercania() {
 		return rubro.getRadioCercania();
+	}
+	
+
+	public boolean estaDisponible(int dia, String hora){
+		return getHorarios().estaDisponible(dia,hora);
 	}
 }
