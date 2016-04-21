@@ -7,6 +7,9 @@ public class POI{
 	private EntesConHorarios horarios;
 	private String nombre;
 	private List<String> tags;
+	private Direccion direccion; 
+	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
+	
 	
 	public List<String> getTags() {
 		return tags;
@@ -16,8 +19,6 @@ public class POI{
 		this.tags.add(tag);
 	}
 
-	private Direccion direccion; 
-	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 	
 	public POI (){
 		this.direccion = new Direccion();
@@ -28,6 +29,7 @@ public class POI{
 	public boolean estaDisponible(int dia, String hora){
 		return getHorarios().estaDisponible(dia,hora);		//le delega a EnteConHorarios
 	}
+	
 
 
 	//---------------BUSQUEDA-----------------------------------

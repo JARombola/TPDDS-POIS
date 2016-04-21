@@ -1,6 +1,7 @@
 package principal;
 
 
+
 import org.joda.time.LocalTime;
 import org.junit.Assert;
 import org.junit.Before;
@@ -48,18 +49,27 @@ public class testHorarios {
 		Assert.assertFalse(banco.estaDisponible(7, "12:00")); //banco un domingo? Ja
 	}
 		
+	@Test
+	public void testBancoEstaDisponibleMartes14hs() {
+		Assert.assertTrue(banco.estaDisponible(2, "14:00"));
+	}
 	
+	@Test
 	public void testBancoNoEstaDisponibleViernesTarde() {
 	Assert.assertFalse(banco.estaDisponible(5, "16:00"));	//demasiado temprano...
 		}
 
 //tests disponibilidad servicios de bancos
-
+	@Test
 	public void testRentasEstaDisponibleLunesMediodia(){
 		Assert.assertTrue(banco.estaDisponible(1, "12:00", "Rentas"));
 	}		
 		
-	
+	@Test
+	public void testRentasNOEstaDisponibleLunes9am(){	
+		Assert.assertFalse(banco.estaDisponible(1,"09:00","rentas"));
+	}
+		
 	@Test
 	public void testJubilacionEstaDisponibleMartes8am(){
 		Assert.assertTrue(banco.estaDisponible(2, "08:00", "jubilacion"));
@@ -74,12 +84,12 @@ public class testHorarios {
 		
 	@Test
 	public void testCGPNOEstaDisponibleJueves6am(){
-		Assert.assertFalse(unCGP.estaDisponible(4, "06:00"));		
+		Assert.assertFalse(unCGP.estaDisponible(4, "06:00",""));		
 	}
 		
 	@Test
 	public void testHayUnCGPAbiertoMartes6am(){
-		Assert.assertTrue(unCGP.estaDisponible(2,"06:00"));	//hay jubilacion
+		Assert.assertTrue(unCGP.estaDisponible(2,"06:00",""));	//hay jubilacion
 	}
 	
 	
@@ -99,8 +109,11 @@ public class testHorarios {
 	public void testCarrouselCerradoLunes11am() {
 		Assert.assertFalse(carrousel.estaDisponible(1, "11:00"));
 	}
-}
 	
+	@Test
+	public void testCarrouselCerradoViernes15hs() {
+		Assert.assertFalse(carrousel.estaDisponible(5,"15:00"));
+	}
 
 /*
 	@Test
@@ -112,40 +125,5 @@ public class testHorarios {
 		boolean abierto2=carrousel.estaDisponible(5,"15:00");
 		assertEquals(false,abierto2);
 	}
-	@Test
-<<<<<<< HEAD
-	public void testServiciosBanco(){
-		boolean abierto=banco.estaDisponible(1, "12:00", "Rentas");
-		assertEquals(true, abierto);
-		abierto=banco.estaDisponible(1,"09:00","rentas");
-		assertEquals(false, abierto);
-		abierto=banco.estaDisponible(2, "08:00", "jubilacion");
-		assertEquals(true,abierto);
-	}
-	@Test
-	public void testHorarioCGP(){
-		boolean abierto=unCGP.estaDisponible(1, "12:00", "Rentas");		
-		assertEquals(true,abierto);
-		abierto=unCGP.estaDisponible(1, "12:00");
-		assertEquals(true,abierto);
-		abierto=unCGP.estaDisponible(4, "06:00");		
-		assertEquals(false,abierto);
-		abierto=unCGP.estaDisponible(2,"06:00");	//hay jubilacion
-		assertEquals(true,abierto);
-		abierto=unCGP.estaDisponible(3,"04:23");
-		assertEquals(false,abierto);
-		abierto=unCGP.estaDisponible(3,"04:23","Ropa");
-		assertEquals(false,abierto);
-=======
-	public void testBancoEstaDisponibleMartes14hs() {
-		Assert.assertTrue(banco.estaDisponible(2, "14:00"));
->>>>>>> branch 'master' of https://github.com/dds-utn/2016-jm-group-05.git
-	}
-	
-	@Test
-<<<<<<< HEAD
-	public void testHorarioParadas() {
-		boolean disponible = parada.estaDisponible(666,"","");
-		assertEquals(true, disponible);
-	}
-=======*/
+	*/
+}

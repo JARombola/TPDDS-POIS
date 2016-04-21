@@ -19,7 +19,7 @@ public class Mapa {
 
 	//---------------BUSQUEDA-----------------------------------
 	public List<POI> Buscar(String texto) {
-		System.out.println("\n----BUSCÓ: "+texto);
+		
 		List<POI> resultadosBusqueda;
 		resultadosBusqueda = new ArrayList<POI>();
 		resultadosBusqueda = getListaPOIS().stream().filter(poi->(poi.tienePalabra(texto))).collect(Collectors.toList());

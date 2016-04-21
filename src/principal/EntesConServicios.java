@@ -28,4 +28,6 @@ public class EntesConServicios {
 	public boolean tienePalabra(String palabra){
 		return getServicios().stream().anyMatch(servicio->servicio.tienePalabra(palabra));
 	}
+
 }
+
