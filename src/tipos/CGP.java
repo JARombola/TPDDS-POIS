@@ -1,13 +1,15 @@
 package tipos;
 
 
+import org.joda.time.LocalTime;
+
 import principal.Comuna;
 
 import principal.EntesConServicios;
 import principal.Maquina;
 import principal.POI;
 
-public class CGP extends POI implements Disponibilidad{
+public class CGP extends POI{
 	private Comuna comuna;
 	private EntesConServicios servicios;
 
@@ -22,16 +24,14 @@ public class CGP extends POI implements Disponibilidad{
 		this.servicios.agregarServicio(unServicio);
 	}
 	
-	public boolean estaDisponible(int dia, String hora,String servicioBuscado){
+	public boolean estaDisponible(int dia, LocalTime hora,String servicioBuscado){
 	return getServicios().estaDisponible(dia, hora, servicioBuscado);
 	}
-	/*
-	public boolean estaDisponible(int dia, String hora){
+	
+	public boolean estaDisponible(int dia, LocalTime hora){
 		boolean abierto=estaDisponible(dia,hora,"");	//usa la de arriba
-		//(servicios.stream()
-				//.anyMatch(unServicio->unServicio.estaDisponibleSegunLista(dia,hora)));			//EL servicio le pregunta a sus horarios si esta disponible
 		return abierto;
-	}*/
+	}
 	
 	//---------------CERCANIA-----------------------------------
 

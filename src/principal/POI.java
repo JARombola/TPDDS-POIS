@@ -3,7 +3,9 @@ package principal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class POI{
+import org.joda.time.LocalTime;
+
+public abstract class POI{
 	private EntesConHorarios horarios;
 	private String nombre;
 	private List<String> tags;
@@ -26,10 +28,10 @@ public class POI{
 		this.tags=new ArrayList<String>();
 	}
 	
-	public boolean estaDisponible(int dia, String hora){
+	public boolean estaDisponible(int dia, LocalTime hora){
 		return getHorarios().estaDisponible(dia,hora);		//le delega a EnteConHorarios
 	}
-	
+	public abstract boolean estaDisponible(int dia, LocalTime hora, String palabra);
 
 
 	//---------------BUSQUEDA-----------------------------------

@@ -3,6 +3,8 @@ package principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.LocalTime;
+
 import tipos.Servicio;
 
 public class EntesConServicios {
@@ -16,7 +18,7 @@ public class EntesConServicios {
 	public EntesConServicios(){
 		servicios=new ArrayList<Servicio>();
 	}
-	public boolean estaDisponible(int dia, String hora, String servicioBuscado){
+	public boolean estaDisponible(int dia, LocalTime hora, String servicioBuscado){
 		boolean abierto=(getServicios().stream()
 				.filter(unServicio->(unServicio.getNombre().contains(servicioBuscado)))		//Filtra los dias que coinciden con la fecha
 				.anyMatch(unServicio->unServicio.estaDisponible(dia,hora)));			//se fija si el horario coincide con los registrados

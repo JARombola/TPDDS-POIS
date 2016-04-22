@@ -2,6 +2,8 @@ package tipos;
 
 import java.util.List;
 
+import org.joda.time.LocalTime;
+
 import principal.EntesConHorarios;
 
 
@@ -44,7 +46,7 @@ public class Servicio{
 		return (getNombre().contains(palabra));// || getTags().contains(palabra));
 	}
 	
-	public boolean estaDisponible(int dia,String hora){
+	public boolean estaDisponible(int dia,LocalTime hora){
 		return getHorarios().estaDisponible(dia,hora);
 	}
 

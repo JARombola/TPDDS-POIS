@@ -37,9 +37,7 @@ public class Horario {
 		System.out.println(getInicio() + " " + getFin());
 	}
 
-	public boolean estaAbierto(String Hora) {
-		DateTimeFormatter formato= DateTimeFormat.forPattern("HH:mm");
-		LocalTime hora=LocalTime.parse(Hora,formato);
+	public boolean estaAbierto(LocalTime hora) {
 		return (hora.isAfter(this.getInicio()) && hora.isBefore(this.getFin()));
 	}
 }

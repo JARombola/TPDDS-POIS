@@ -19,11 +19,11 @@ public class Mapa {
 
 	//---------------BUSQUEDA-----------------------------------
 	public List<POI> Buscar(String texto) {
-		
+		//System.out.println("Buscó: "+texto);
 		List<POI> resultadosBusqueda;
 		resultadosBusqueda = new ArrayList<POI>();
 		resultadosBusqueda = getListaPOIS().stream().filter(poi->(poi.tienePalabra(texto))).collect(Collectors.toList());
-		resultadosBusqueda.forEach(asd->asd.mostrarDatos());
+		//resultadosBusqueda.forEach(asd->asd.mostrarDatos());
 		return resultadosBusqueda;
 	}
 

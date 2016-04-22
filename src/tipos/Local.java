@@ -1,9 +1,11 @@
 package tipos;
 
 
+import org.joda.time.LocalTime;
+
 import principal.POI;
 
-public class Local extends POI implements Disponibilidad{
+public class Local extends POI{
 	private Rubro rubro;
 
 	public Local() {
@@ -32,7 +34,7 @@ public class Local extends POI implements Disponibilidad{
 		return rubro.getRadioCercania();
 	}
 	
-	public boolean estaDisponible(int dia, String hora,String innecesario){
+	public boolean estaDisponible(int dia, LocalTime hora,String innecesario){
 		return getHorarios().estaDisponible(dia,hora);
 	}
 }

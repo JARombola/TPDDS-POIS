@@ -8,7 +8,7 @@ import org.joda.time.format.DateTimeFormatter;
 import principal.EntesConServicios;
 import principal.POI;
 
-public class Banco extends POI implements Disponibilidad{
+public class Banco extends POI{
 	int LUNES=1,VIERNES=5;
 	private EntesConServicios servicios;
 	//------------------------DISPONIBILIDAD------------------
@@ -26,13 +26,11 @@ public class Banco extends POI implements Disponibilidad{
 	}
 	
 	
-	public boolean estaDisponible(int dia, String hora){
-		DateTimeFormatter formato= DateTimeFormat.forPattern("HH:mm");
-		LocalTime horaP=LocalTime.parse(hora,formato);
-		return ((dia>=LUNES) && (dia<=VIERNES) && (horaP.isAfter(INICIO))&& (horaP.isBefore(FIN)));
+	public boolean estaDisponible(int dia, LocalTime hora){
+		return ((dia>=LUNES) && (dia<=VIERNES) && (hora.isAfter(INICIO))&& (hora.isBefore(FIN)));
 	}
 	
-	public boolean estaDisponible(int dia, String hora,String servicioBuscado){
+	public boolean estaDisponible(int dia, LocalTime hora,String servicioBuscado){
 		return getServicios().estaDisponible(dia, hora, servicioBuscado);
 	}
 	
@@ -51,8 +49,5 @@ public class Banco extends POI implements Disponibilidad{
 	// -------------------GETTERS,SETTERS-----------------
 	public EntesConServicios getServicios() {
 		return servicios;
-	}
-	public void setServicios(Servicio servicio) {
-		this.getServicios().agregarServicio(servicio);
 	}
 }
