@@ -1,10 +1,11 @@
-package principal;
+package tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import principal.Mapa;
 import tipos.Banco;
 import tipos.CGP;
 import tipos.Local;

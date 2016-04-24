@@ -14,7 +14,8 @@ public class ParadaColectivo extends POI{
 	public boolean estaDisponible(int dia, LocalTime hora, String palabra) {
 		return true;
 	}
+	/*
 	public boolean estaDisponible(int dia, LocalTime hora) {
 		return true;
-	}
+	}*/
 }

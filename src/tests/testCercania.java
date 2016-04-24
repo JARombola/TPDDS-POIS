@@ -1,4 +1,4 @@
-package principal;
+package tests;
 
 
 
@@ -6,6 +6,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import principal.Comuna;
+import principal.Coordenadas;
+import principal.Maquina;
 import tipos.Banco;
 import tipos.CGP;
 import tipos.Local;

@@ -27,12 +27,12 @@ public class CGP extends POI{
 	public boolean estaDisponible(int dia, LocalTime hora,String servicioBuscado){
 	return getServicios().estaDisponible(dia, hora, servicioBuscado);
 	}
-	
+	/*
 	public boolean estaDisponible(int dia, LocalTime hora){
 		boolean abierto=estaDisponible(dia,hora,"");	//usa la de arriba
 		return abierto;
 	}
-	
+	*/
 	//---------------CERCANIA-----------------------------------
 
 	public boolean estaCerca(Maquina puntoActual) {

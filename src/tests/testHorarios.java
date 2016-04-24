@@ -128,7 +128,7 @@ public class testHorarios {
 	
 }*/
 
-package principal;
+package tests;
 
 import static org.junit.Assert.*;
 
@@ -184,13 +184,13 @@ public class testHorarios {
 	@Test
 	public void testHorariosBanco() {
 		horaX=new LocalTime(12,00);
-		boolean domingo = banco.estaDisponible(7, horaX); // Banco un domingo? Ja
+		boolean domingo = banco.estaDisponible(7, horaX,null); // Banco un domingo? Ja
 		assertEquals(false, domingo);
 		horaX=new LocalTime(14,00);
-		boolean lunes = banco.estaDisponible(2, horaX);
+		boolean lunes = banco.estaDisponible(2, horaX,null);
 		assertEquals(true, lunes);
 		horaX= new LocalTime (16,00);
-		boolean viernesTarde = banco.estaDisponible(5, horaX);	//demasiado temprano...
+		boolean viernesTarde = banco.estaDisponible(5, horaX,null);	//demasiado temprano...
 		assertEquals(false, viernesTarde);
 	}
 	@Test
@@ -211,30 +211,30 @@ public class testHorarios {
 		boolean abierto=unCGP.estaDisponible(1, horaX, "Rentas");		
 		assertEquals(true,abierto);
 		horaX = new LocalTime(6,00);
-		abierto=unCGP.estaDisponible(4, horaX);		
+		abierto=unCGP.estaDisponible(4, horaX,"");		
 		assertEquals(false,abierto);
 		horaX=new LocalTime(6,00);
-		abierto=unCGP.estaDisponible(2,horaX);	//hay jubilacion
+		abierto=unCGP.estaDisponible(2,horaX,"");	//hay jubilacion
 		assertEquals(true,abierto);
 	}
 	
 	@Test
 	public void testHorarioParadas() {
 		horaX=new LocalTime(6,00);
-		boolean disponible = parada.estaDisponible(3,horaX);
+		boolean disponible = parada.estaDisponible(3,horaX,"");
 		assertEquals(true, disponible);
 	}
 
 	@Test
 	public void testHorarioLocal() {
 		horaX=new LocalTime(19,00);
-		boolean abierto=carrousel.getHorarios().estaDisponible(3, horaX);
+		boolean abierto=carrousel.estaDisponible(3, horaX,"");
 		assertEquals(true,abierto);
 		horaX=new LocalTime(11,00);
-		boolean domingo=carrousel.getHorarios().estaDisponible(1, horaX);
+		boolean domingo=carrousel.estaDisponible(1, horaX,"");
 		assertEquals(false,domingo);
 		horaX=new LocalTime(15,00);
-		boolean abierto2=carrousel.getHorarios().estaDisponible(5,horaX);
+		boolean abierto2=carrousel.estaDisponible(5,horaX,"");
 		assertEquals(false,abierto2);
 	}
 }

@@ -26,12 +26,15 @@ public class Banco extends POI{
 	}
 	
 	
-	public boolean estaDisponible(int dia, LocalTime hora){
+	private boolean estaDisponibleSinServicio(int dia, LocalTime hora){
 		return ((dia>=LUNES) && (dia<=VIERNES) && (hora.isAfter(INICIO))&& (hora.isBefore(FIN)));
 	}
 	
 	public boolean estaDisponible(int dia, LocalTime hora,String servicioBuscado){
-		return getServicios().estaDisponible(dia, hora, servicioBuscado);
+		if(servicioBuscado==null)
+			return estaDisponibleSinServicio(dia, hora);
+		else
+			return getServicios().estaDisponible(dia, hora, servicioBuscado);
 	}
 	
 	//---------------BUSQUEDA-----------------------------------
