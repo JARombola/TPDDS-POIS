@@ -184,13 +184,13 @@ public class testHorarios {
 	@Test
 	public void testHorariosBanco() {
 		horaX=new LocalTime(12,00);
-		boolean domingo = banco.estaDisponible(7, horaX,null); // Banco un domingo? Ja
+		boolean domingo = banco.estaDisponible(7, horaX,""); // Banco un domingo? Ja
 		assertEquals(false, domingo);
 		horaX=new LocalTime(14,00);
-		boolean lunes = banco.estaDisponible(2, horaX,null);
+		boolean lunes = banco.estaDisponible(2, horaX,"");
 		assertEquals(true, lunes);
 		horaX= new LocalTime (16,00);
-		boolean viernesTarde = banco.estaDisponible(5, horaX,null);	//demasiado temprano...
+		boolean viernesTarde = banco.estaDisponible(5, horaX,"");	//demasiado temprano...
 		assertEquals(false, viernesTarde);
 	}
 	@Test

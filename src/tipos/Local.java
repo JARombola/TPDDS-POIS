@@ -34,7 +34,7 @@ public class Local extends POI{
 		return rubro.getRadioCercania();
 	}
 	
-	public boolean estaDisponible(int dia, LocalTime hora,String innecesario){
+	public boolean estaDisponible(int dia, LocalTime hora,String palabra){
 		return getHorarios().estaDisponible(dia,hora);
 	}
 }

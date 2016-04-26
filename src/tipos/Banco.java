@@ -31,7 +31,7 @@ public class Banco extends POI{
 	}
 	
 	public boolean estaDisponible(int dia, LocalTime hora,String servicioBuscado){
-		if(servicioBuscado==null)
+		if(servicioBuscado=="")
 			return estaDisponibleSinServicio(dia, hora);
 		else
 			return getServicios().estaDisponible(dia, hora, servicioBuscado);
