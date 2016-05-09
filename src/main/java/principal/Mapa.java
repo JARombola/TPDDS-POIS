@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 public class Mapa {
 
 	List<POI> pois;
+	List<OrigenDatos> origenesDatos;
 
 	public Mapa() {
 		pois = new ArrayList<POI>();
