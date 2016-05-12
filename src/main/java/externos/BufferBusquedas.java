@@ -1,7 +1,10 @@
 package externos;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import principal.POI;
+import tipos.CGP;
 
 public class BufferBusquedas {
 	List<CentroDTO> listaCGP;
@@ -9,11 +12,28 @@ public class BufferBusquedas {
 	public List<CentroDTO> getListaCGP() {
 		return listaCGP;
 	}
+	
 	public void setListaCGP(List<CentroDTO> listaCGP) {
-		this.listaCGP = listaCGP;
+		this.listaCGP.addAll(listaCGP);
 	}
-	public void buscar(OrigenDatos componente, String palabra){		//CGP
-		listaCGP = new ArrayList<CentroDTO>();
-		setListaCGP(OrigenDatos.buscar(palabra));
+
+
+
+	public List<POI> buscar(OrigenDatos componente, String palabra){		//Una sola palabra: CGP
+		List<POI> puntos=componente.buscar(palabra).stream()
+								.map(unCentro->adaptar(unCentro))
+								.collect(Collectors.toList());
+		return puntos;
+	}
+	/*public static List<POI> buscarBanco(OrigenDatos componente, String banco, String servicio){		//CGP
+		List<POI> puntos=componente.buscar(banco,servicio);			//IMPLEMENTAR JACKSON
+		return puntos;
+	}*/
+	
+
+	public POI adaptar(CentroDTO a){
+		CGP nuevoPoi=new CGP();
+		nuevoPoi.setNombre(a.getDomicilio());
+		return nuevoPoi;
 	}
 }

@@ -2,10 +2,8 @@ package principal;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+
 
 public class EntesConHorarios {		//Contiene la Lista con Horarios, determina si estan disponibles o no
 

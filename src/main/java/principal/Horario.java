@@ -1,8 +1,6 @@
 package principal;
 
 import org.joda.time.LocalTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 public class Horario {
 	private int dia; // Domingo=1, Lunes=2.....Sabado=7

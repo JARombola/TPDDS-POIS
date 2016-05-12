@@ -9,6 +9,8 @@ import tipos.Servicio;
 
 public class EntesConServicios {
 	List<Servicio> servicios;
+	
+	
 	public List<Servicio> getServicios() {
 		return servicios;
 	}

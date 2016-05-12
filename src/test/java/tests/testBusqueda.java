@@ -56,13 +56,13 @@ public class testBusqueda {
 				banco.agregarServicio(jubilacion);
 				banco.setNombre("Banco Nacion");
 		mapa = new Mapa();
-			mapa.agregarPOI(parada1);
-			mapa.agregarPOI(parada2);
-			mapa.agregarPOI(parada3);
-			mapa.agregarPOI(mueblesSA);
-			mapa.agregarPOI(mueblesParaTodos);
-			mapa.agregarPOI(cgp);
-			mapa.agregarPOI(banco);
+			mapa.setPOI(parada1);
+			mapa.setPOI(parada2);
+			mapa.setPOI(parada3);
+			mapa.setPOI(mueblesSA);
+			mapa.setPOI(mueblesParaTodos);
+			mapa.setPOI(cgp);
+			mapa.setPOI(banco);
 			
 	}
 
