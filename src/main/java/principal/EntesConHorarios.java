@@ -9,6 +9,10 @@ public class EntesConHorarios {		//Contiene la Lista con Horarios, determina si 
 
 	List<Horario> horariosAtencion;
 
+	public void setHorariosAtencion(List<Horario> horariosAtencion) {
+		this.horariosAtencion = horariosAtencion;
+	}
+
 	public EntesConHorarios() {
 		horariosAtencion = new ArrayList<Horario>();
 	}
@@ -16,7 +20,6 @@ public class EntesConHorarios {		//Contiene la Lista con Horarios, determina si 
 	public List<Horario> getHorariosAtencion() {
 		return horariosAtencion;
 	}
-
 
 		public void horarioNuevo(int dia, LocalTime horaInicio, LocalTime horaFin) {
 			/*DateTimeFormatter formato= DateTimeFormat.mediumTime();
@@ -28,6 +31,9 @@ public class EntesConHorarios {		//Contiene la Lista con Horarios, determina si 
 			horarioNuevo.setFin(horaFin);
 			horariosAtencion.add(horarioNuevo);
 	}
+		public void agregarHorario(Horario horario){
+			horariosAtencion.add(horario);
+		}
 
 	// -------------------CALCULO DISPONIBILIDAD-----------------
 

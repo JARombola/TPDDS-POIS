@@ -10,6 +10,8 @@ public abstract class POI{
 	private String nombre;
 	private List<String> tags;
 	private Direccion direccion; 
+	private int id;
+
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 	
 	
@@ -90,4 +92,14 @@ public abstract class POI{
 	public void mostrarDatos(){
 		System.out.println("POI: "+this.getNombre());
 	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+
 }

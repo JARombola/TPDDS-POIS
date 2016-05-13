@@ -6,25 +6,21 @@ import java.util.List;
 import principal.Horario;
 
 public class CentroDTO {
-	int comuna;
-	String zona, domicilio, telefono, nombreDirector;
-	
-	public String getDomicilio() {
-		return domicilio;
-	}
-	public void setDomicilio(String domicilio) {
-		this.domicilio = domicilio;
-	}
+	private int comuna;
+	private int id;
+	private String zona, domicilio, telefono, nombreDirector;
+
 	List<ServiciosDTO> servicios;
 	
+
 	public String getCalle(){
 		List<String> direc = separarDomicilio();
-		return direc.get(0);
+		return (direc.get(0));
 	}
 	
 	public int getNumero(){
 		List<String> direc = separarDomicilio();
-		return Integer.parseInt(direc.get(1));
+		return (Integer.parseInt(direc.get(1)));
 	}
 	
 	private List<String> separarDomicilio(){
@@ -41,7 +37,28 @@ public class CentroDTO {
 		
 		return domicilioSeparado;
 	}
-
 	
+	public String getDomicilio() {
+		return domicilio;
+	}
+	public void setDomicilio(String domicilio) {
+		this.domicilio = domicilio;
+	}
+	
+	public List<ServiciosDTO> getServicios() {
+		return servicios;
+	}
+
+	public void setServicios(List<ServiciosDTO> servicios) {
+		this.servicios = servicios;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 }

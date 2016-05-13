@@ -1,10 +1,15 @@
 package externos;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.joda.time.LocalTime;
+
+import principal.Horario;
 import principal.POI;
 import tipos.CGP;
+import tipos.Servicio;
 
 public class BufferBusquedas {
 	List<CentroDTO> listaCGP;
@@ -21,7 +26,7 @@ public class BufferBusquedas {
 
 	public List<POI> buscar(OrigenDatos componente, String palabra){		//Una sola palabra: CGP
 		List<POI> puntos=componente.buscar(palabra).stream()
-								.map(unCentro->adaptar(unCentro))
+								.map(unCentro->adaptarCGP(unCentro))
 								.collect(Collectors.toList());
 		return puntos;
 	}
@@ -31,11 +36,31 @@ public class BufferBusquedas {
 	}*/
 	
 
-	public POI adaptar(CentroDTO a){
-		CGP nuevoPoi=new CGP();
-		nuevoPoi.setNombre(a.getDomicilio());
-		nuevoPoi.getDireccion().setCalle(a.getCalle());
-		nuevoPoi.getDireccion().setNumero(a.getNumero());
-		return nuevoPoi;
+	public POI adaptarCGP(CentroDTO poiEntrada){
+		CGP poiSalida=new CGP();
+		poiSalida.setId(poiEntrada.getId());
+		poiSalida.setNombre(poiEntrada.getDomicilio());
+		poiSalida.getDireccion().setCalle(poiEntrada.getCalle());
+		poiSalida.getDireccion().setNumero(poiEntrada.getNumero());
+		poiEntrada.getServicios().forEach(servicioEntrada->poiSalida.agregarServicio(adaptarSerivicio(servicioEntrada)));
+		return poiSalida;
+	}
+	
+	public Servicio adaptarSerivicio (ServiciosDTO servicioEntrada){
+		List<Horario> horarios = new ArrayList();
+		Servicio servicioSalida = new Servicio(servicioEntrada.getNombre());
+		horarios = servicioEntrada.getRangos().stream().map(rango -> adaptarAHorarioLocalTime(rango)).collect(Collectors.toList());
+		servicioSalida.getHorarios().setHorariosAtencion(horarios);
+		return servicioSalida;
+	}
+	
+	public Horario adaptarAHorarioLocalTime(RangosServiciosDTO rangoEntrada){
+		Horario horarioSalida = new Horario();
+		LocalTime horaInicio= new LocalTime(rangoEntrada.getHoraInicio(),rangoEntrada.getMinutoInicio());
+		LocalTime horaFin= new LocalTime(rangoEntrada.getHoraFin(),rangoEntrada.getMinutoFin());
+		horarioSalida.setInicio(horaInicio);
+		horarioSalida.setFin(horaFin);
+		horarioSalida.setDia(rangoEntrada.getDia());
+		return horarioSalida;
 	}
 }

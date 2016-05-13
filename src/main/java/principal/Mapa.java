@@ -57,5 +57,7 @@ public class Mapa {
 		return map.get(tipo);
 	}
 	
+
+	
 	
 }

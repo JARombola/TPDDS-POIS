@@ -13,11 +13,10 @@ public class CGP extends POI{
 	private Comuna comuna;
 	private EntesConServicios servicios;
 
-	
-
 	public CGP() {
 		servicios=new EntesConServicios();
 	}
+	
 	//------------------------DISPONIBILIDAD------------------
 	
 	public void agregarServicio(Servicio unServicio){
