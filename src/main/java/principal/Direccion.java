@@ -7,13 +7,7 @@ public class Direccion {
 	}
 
 	private String calle;
-	public String getCalle() {
-		return calle;
-	}
 
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
 
 	private String[] callesEntreLasQueSeEncuentra = new String[2];
 	private int numero;
@@ -44,5 +38,23 @@ public class Direccion {
 	public void setLongitud(double longitud) {
 		coordenadas.setLongitud(longitud);
 	}
+	
+	public String getCalle() {
+		return calle;
+	}
+
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+	
+	
 
 }

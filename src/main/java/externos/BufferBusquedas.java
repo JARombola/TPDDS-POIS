@@ -34,6 +34,8 @@ public class BufferBusquedas {
 	public POI adaptar(CentroDTO a){
 		CGP nuevoPoi=new CGP();
 		nuevoPoi.setNombre(a.getDomicilio());
+		nuevoPoi.getDireccion().setCalle(a.getCalle());
+		nuevoPoi.getDireccion().setNumero(a.getNumero());
 		return nuevoPoi;
 	}
 }

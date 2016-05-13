@@ -30,6 +30,7 @@ public class testBusqueda {
 	Mapa mapa;
 	private JsonFactory jsonFactory = new JsonFactory();
 	
+	
 	@Before
 	public void initialize(){
 		
