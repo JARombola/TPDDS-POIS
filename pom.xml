@@ -5,7 +5,6 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>TPMapa</name>
   <build>
-    <sourceDirectory>src</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -34,5 +33,10 @@
    <artifactId>geodds-xtend</artifactId>		<!-- isInside(PUNTO); para saber si un punto esta dentro de un poligono -->
    <version>1.0.0</version>
 </dependency>
+<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.6.3</version>
+	</dependency>
   </dependencies>
 </project>

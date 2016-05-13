@@ -56,4 +56,6 @@ public class Mapa {
 		map.put("CGP",new CGP());
 		return map.get(tipo);
 	}
+	
+	
 }
