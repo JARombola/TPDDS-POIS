@@ -1,9 +1,10 @@
 package tests;
 
-import static org.junit.Assert.*;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.fasterxml.jackson.core.JsonFactory;
 
 import principal.Mapa;
 import tipos.Banco;
@@ -27,9 +28,11 @@ public class testBusqueda {
 	CGP cgp;
 	Banco banco;
 	Mapa mapa;
+	private JsonFactory jsonFactory = new JsonFactory();
 	
 	@Before
 	public void initialize(){
+		
 		parada1 = new ParadaColectivo();
 		parada2 = new ParadaColectivo();
 		parada3 = new ParadaColectivo();
@@ -69,27 +72,27 @@ public class testBusqueda {
 	@Test		
 	public void busquedaParadas114(){
 		encontrados=mapa.Buscar("114").size();		//3 paradas
-		assertEquals(encontrados, 3);
+		Assert.assertEquals(encontrados, 3,0);
 	}
 	@Test	
 	public void busquedaAsesoramiento(){
 		encontrados=mapa.Buscar("asesoramiento").size();
-		assertEquals(encontrados,2);					//banco y CGP
+		Assert.assertEquals(encontrados,2,0);					//banco y CGP
 		
 	}
 	@Test	
 	public void busquedaJubilacion(){
 		encontrados=mapa.Buscar("jubilacion").size();		//banco
-		assertEquals(encontrados,1);
+		Assert.assertEquals(encontrados,1,0);
 	}
 	@Test	
 	public void busquedaSociedad(){
 		encontrados=mapa.Buscar("sociedad").size();		//muebles sociedad anonima=1	
-		assertEquals(encontrados,1);
+		Assert.assertEquals(encontrados,1,0);
 	}
 	@Test
 	public void busquedaTagsParada(){
 		encontrados=mapa.Buscar("Feo").size();
-		assertEquals(encontrados,1);
+		Assert.assertEquals(encontrados,1,0);
 	}
 }

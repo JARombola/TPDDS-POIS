@@ -130,9 +130,8 @@ public class testHorarios {
 
 package tests;
 
-import static org.junit.Assert.*;
-
 import org.joda.time.LocalTime;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -185,56 +184,56 @@ public class testHorarios {
 	public void testHorariosBanco() {
 		horaX=new LocalTime(12,00);
 		boolean domingo = banco.estaDisponible(7, horaX,""); // Banco un domingo? Ja
-		assertEquals(false, domingo);
+		Assert.assertEquals(false, domingo);
 		horaX=new LocalTime(14,00);
 		boolean lunes = banco.estaDisponible(2, horaX,"");
-		assertEquals(true, lunes);
+		Assert.assertEquals(true, lunes);
 		horaX= new LocalTime (16,00);
 		boolean viernesTarde = banco.estaDisponible(5, horaX,"");	//demasiado temprano...
-		assertEquals(false, viernesTarde);
+		Assert.assertEquals(false, viernesTarde);
 	}
 	@Test
 	public void testServiciosBanco(){
 		horaX=new LocalTime(12,00);
 		boolean abierto=banco.estaDisponible(1, horaX, "Rentas");
-		assertEquals(true, abierto);
+		Assert.assertEquals(true, abierto);
 		horaX=new LocalTime(9,00);
 		boolean abiertoRentas=banco.estaDisponible(1,horaX,"rentas");
-		assertEquals(false, abiertoRentas);
+		Assert.assertEquals(false, abiertoRentas);
 		horaX=new LocalTime(8,00);
 		boolean abiertoJubilacion=banco.estaDisponible(2, horaX, "jubilacion");
-		assertEquals(true,abiertoJubilacion);
+		Assert.assertEquals(true,abiertoJubilacion);
 	}
 	@Test
 	public void testHorarioCGP(){
 		horaX=new LocalTime(12,00);
 		boolean abierto=unCGP.estaDisponible(1, horaX, "Rentas");		
-		assertEquals(true,abierto);
+		Assert.assertEquals(true,abierto);
 		horaX = new LocalTime(6,00);
 		abierto=unCGP.estaDisponible(4, horaX,"");		
-		assertEquals(false,abierto);
+		Assert.assertEquals(false,abierto);
 		horaX=new LocalTime(6,00);
 		abierto=unCGP.estaDisponible(2,horaX,"");	//hay jubilacion
-		assertEquals(true,abierto);
+		Assert.assertEquals(true,abierto);
 	}
 	
 	@Test
 	public void testHorarioParadas() {
 		horaX=new LocalTime(6,00);
 		boolean disponible = parada.estaDisponible(3,horaX,"");
-		assertEquals(true, disponible);
+		Assert.assertEquals(true, disponible);
 	}
 
 	@Test
 	public void testHorarioLocal() {
 		horaX=new LocalTime(19,00);
 		boolean abierto=carrousel.estaDisponible(3, horaX,"");
-		assertEquals(true,abierto);
+		Assert.assertEquals(true,abierto);
 		horaX=new LocalTime(11,00);
 		boolean domingo=carrousel.estaDisponible(1, horaX,"");
-		assertEquals(false,domingo);
+		Assert.assertEquals(false,domingo);
 		horaX=new LocalTime(15,00);
 		boolean abierto2=carrousel.estaDisponible(5,horaX,"");
-		assertEquals(false,abierto2);
+		Assert.assertEquals(false,abierto2);
 	}
 }
