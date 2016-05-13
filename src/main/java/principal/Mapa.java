@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import externos.BufferBusquedas;
 import externos.OrigenDatos;
 import tipos.Banco;
 import tipos.CGP;
@@ -17,6 +18,7 @@ public class Mapa {
 
 	static List<POI> pois;
 	List<OrigenDatos> origenesDatos;
+	BufferBusquedas buffer = new BufferBusquedas();
 
 	public Mapa() {
 		pois = new ArrayList<POI>();
@@ -24,13 +26,24 @@ public class Mapa {
 	
 	
 	//---------------BUSQUEDA-----------------------------------
-	public List<POI> Buscar(String texto) {
+	public List<POI> buscar(String texto, String servicio) {
 		//System.out.println("Buscó: "+texto);
-		List<POI> resultadosBusqueda;
-		resultadosBusqueda = new ArrayList<POI>();
+		List<POI> resultadosBusqueda = new ArrayList<POI>();
 		resultadosBusqueda = getListaPOIS().stream().filter(poi->(poi.tienePalabra(texto))).collect(Collectors.toList());
+		
+		origenesDatos.forEach(componente -> notificarBusqueda(componente, texto, servicio));
+		resultadosBusqueda.addAll(buffer.getResultados());
+		
 		//resultadosBusqueda.forEach(asd->asd.mostrarDatos());
 		return resultadosBusqueda;
+	}
+	
+	private void notificarBusqueda(OrigenDatos componente, String texto, String servicio){
+		if (servicio == ""){
+			buffer.buscar(componente, texto);
+		} else {
+			buffer.buscar(componente, texto, servicio);
+		}
 	}
 
 	// -------------------GETTERS,SETTERS-----------------

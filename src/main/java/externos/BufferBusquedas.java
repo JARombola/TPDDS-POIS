@@ -12,31 +12,35 @@ import tipos.CGP;
 import tipos.Servicio;
 
 public class BufferBusquedas {
-	List<CentroDTO> listaCGP;
+	List<POI> resultados = new ArrayList();
 	
-	public List<CentroDTO> getListaCGP() {
-		return listaCGP;
-	}
-	
-	public void setListaCGP(List<CentroDTO> listaCGP) {
-		this.listaCGP.addAll(listaCGP);
+	public List<POI> getResultados(){
+		return resultados;
 	}
 
 
+	public  void buscar(OrigenDatos componente, String palabra, String servicio){ //Este metodo es para que no me tire error en Mapa nada mas (por no existir buscar con 3 parametros). Despues lo borro
+		List<POI> lista = new ArrayList();
+	}
 
-	public List<POI> buscar(OrigenDatos componente, String palabra){		//Una sola palabra: CGP
+	public  void buscar(OrigenDatos componente, String palabra){		//Una sola palabra: CGP
 		List<POI> puntos=componente.buscar(palabra).stream()
 								.map(unCentro->adaptarCGP(unCentro))
 								.collect(Collectors.toList());
-		return puntos;
+		resultados.addAll(puntos);
 	}
+	
 	/*public static List<POI> buscarBanco(OrigenDatos componente, String banco, String servicio){		//CGP
 		List<POI> puntos=componente.buscar(banco,servicio);			//IMPLEMENTAR JACKSON
 		return puntos;
+	}
+	
+	public List<POI> adaptarBancos(String){
+		
 	}*/
 	
 
-	public POI adaptarCGP(CentroDTO poiEntrada){
+	public  POI adaptarCGP(CentroDTO poiEntrada){
 		CGP poiSalida=new CGP();
 		poiSalida.setId(poiEntrada.getId());
 		poiSalida.setNombre(poiEntrada.getDomicilio());
@@ -46,7 +50,7 @@ public class BufferBusquedas {
 		return poiSalida;
 	}
 	
-	public Servicio adaptarSerivicio (ServiciosDTO servicioEntrada){
+	public  Servicio adaptarSerivicio (ServiciosDTO servicioEntrada){
 		List<Horario> horarios = new ArrayList();
 		Servicio servicioSalida = new Servicio(servicioEntrada.getNombre());
 		horarios = servicioEntrada.getRangos().stream().map(rango -> adaptarAHorarioLocalTime(rango)).collect(Collectors.toList());
@@ -54,7 +58,7 @@ public class BufferBusquedas {
 		return servicioSalida;
 	}
 	
-	public Horario adaptarAHorarioLocalTime(RangosServiciosDTO rangoEntrada){
+	public  Horario adaptarAHorarioLocalTime(RangosServiciosDTO rangoEntrada){
 		Horario horarioSalida = new Horario();
 		LocalTime horaInicio= new LocalTime(rangoEntrada.getHoraInicio(),rangoEntrada.getMinutoInicio());
 		LocalTime horaFin= new LocalTime(rangoEntrada.getHoraFin(),rangoEntrada.getMinutoFin());

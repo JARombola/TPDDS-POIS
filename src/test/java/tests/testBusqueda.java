@@ -74,28 +74,28 @@ public class testBusqueda {
 
 	@Test		
 	public void busquedaParadas114(){
-		encontrados=mapa.Buscar("114").size();		//3 paradas
+		encontrados=mapa.buscar("114","").size();		//3 paradas
 		Assert.assertEquals(encontrados, 3,0);
 	}
 	@Test	
 	public void busquedaAsesoramiento(){
-		encontrados=mapa.Buscar("asesoramiento").size();
+		encontrados=mapa.buscar("asesoramiento","").size();
 		Assert.assertEquals(encontrados,2,0);					//banco y CGP
 		
 	}
 	@Test	
 	public void busquedaJubilacion(){
-		encontrados=mapa.Buscar("jubilacion").size();		//banco
+		encontrados=mapa.buscar("jubilacion","").size();		//banco
 		Assert.assertEquals(encontrados,1,0);
 	}
 	@Test	
 	public void busquedaSociedad(){
-		encontrados=mapa.Buscar("sociedad").size();		//muebles sociedad anonima=1	
+		encontrados=mapa.buscar("sociedad","").size();		//muebles sociedad anonima=1	
 		Assert.assertEquals(encontrados,1,0);
 	}
 	@Test
 	public void busquedaTagsParada(){
-		encontrados=mapa.Buscar("Feo").size();
+		encontrados=mapa.buscar("Feo","").size();
 		Assert.assertEquals(encontrados,1,0);
 	}
 }

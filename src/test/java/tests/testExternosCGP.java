@@ -17,9 +17,9 @@ public class testExternosCGP {
 	RangosServiciosDTO rangoServicio;
 	RangosServiciosDTO rangoServicio2;
 	RangosServiciosDTO rangoServicio3;
-	BufferBusquedas buffer;
 	ServiciosDTO servicioDTOTramite;
 	ServiciosDTO servicioDTOCobro;
+	BufferBusquedas buffer;
 	
 	@Before
 	public void initialize() {
