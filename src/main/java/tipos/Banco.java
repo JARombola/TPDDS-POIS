@@ -11,6 +11,12 @@ import principal.POI;
 public class Banco extends POI{
 	int LUNES=1,VIERNES=5;
 	private EntesConServicios servicios;
+	
+	public void modificar(Banco poiEntrante){
+		servicios = poiEntrante.getServicios();
+		super.modificar(poiEntrante);
+	}
+	
 	//------------------------DISPONIBILIDAD------------------
 	
 	LocalTime INICIO=new LocalTime(10,00),

@@ -34,6 +34,16 @@ public abstract class POI{
 		return getHorarios().estaDisponible(dia,hora);		//le delega a EnteConHorarios
 	}
 	public abstract boolean estaDisponible(int dia, LocalTime hora, String palabra);
+	
+	public boolean equals(POI otroPoi){
+		return (otroPoi.getId() == id);
+	}
+	
+	public void modificar(POI poiEntrante){
+		setNombre(poiEntrante.getNombre());
+		direccion.setCalle(poiEntrante.getDireccion().getCalle());
+		direccion.setNumero(poiEntrante.getDireccion().getNumero());
+	}
 
 
 	//---------------BUSQUEDA-----------------------------------

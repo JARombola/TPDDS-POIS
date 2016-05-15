@@ -17,6 +17,11 @@ public class CGP extends POI{
 		servicios=new EntesConServicios();
 	}
 	
+	public void modificar(Banco poiEntrante){
+		servicios = poiEntrante.getServicios();
+		super.modificar(poiEntrante);
+	}
+	
 	//------------------------DISPONIBILIDAD------------------
 	
 	public void agregarServicio(Servicio unServicio){
