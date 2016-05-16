@@ -18,10 +18,31 @@ public class Mapa {
 
 	static List<POI> pois;
 	List<OrigenDatos> origenesDatos;
-	BufferBusquedas buffer = new BufferBusquedas();
+	
+	public List<OrigenDatos> getOrigenesDatos() {
+		return origenesDatos;
+	}
+
+
+	public void setOrigenesDatos(List<OrigenDatos> origenesDatos) {
+		this.origenesDatos = origenesDatos;
+	}
+
+	BufferBusquedas buffer;
+
+	public BufferBusquedas getBuffer() {
+		return buffer;
+	}
+
+
+	public void setBuffer(BufferBusquedas buffer) {
+		this.buffer = buffer;
+	}
+
 
 	public Mapa() {
 		pois = new ArrayList<POI>();
+		origenesDatos=new ArrayList<OrigenDatos>();
 	}
 	
 	
@@ -29,9 +50,11 @@ public class Mapa {
 	public List<POI> buscar(String texto, String servicio) {
 		//System.out.println("Buscó: "+texto);
 		List<POI> resultadosBusqueda = new ArrayList<POI>();
-		resultadosBusqueda = getListaPOIS().stream().filter(poi->(poi.tienePalabra(texto))).collect(Collectors.toList());
+		resultadosBusqueda = getListaPOIS().stream()
+										   .filter(poi->poi.tienePalabra(texto))
+										   .collect(Collectors.toList());
 		
-		//origenesDatos.forEach(componente -> notificarBusqueda(componente, texto, servicio));
+		getOrigenesDatos().forEach(componente -> notificarBusqueda(componente, texto, servicio));
 		//resultadosBusqueda.addAll(buffer.getResultados());
 		// ^ESTO ESTA COMENTADO PORQUE SINO ROMPEN LOS TEST, PORQUE FALTA TERMINAR, NO PORQUE ESTE MAL. DESPUES HAY QUE DESCOMENTARLO
 		

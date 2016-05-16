@@ -12,7 +12,7 @@ import tipos.CGP;
 import tipos.Servicio;
 
 public class BufferBusquedas {
-	List<POI> resultados = new ArrayList();
+	List<POI> resultados = new ArrayList<POI>();
 	
 	public List<POI> getResultados(){
 		return resultados;
@@ -20,10 +20,10 @@ public class BufferBusquedas {
 
 
 	public  void buscar(OrigenDatos componente, String palabra, String servicio){ //Este metodo es para que no me tire error en Mapa nada mas (por no existir buscar con 3 parametros). Despues lo borro
-		List<POI> lista = new ArrayList();
+		List<POI> lista = new ArrayList<POI>();
 	}
 
-	public  void buscar(OrigenDatos componente, String palabra){		//Una sola palabra: CGP
+	public  void buscar(OrigenDatos componente, String palabra){		//Una sola palabra => CGP
 		List<POI> puntos=componente.buscar(palabra).stream()
 								.map(unCentro->adaptarCGP(unCentro))
 								.collect(Collectors.toList());
@@ -40,18 +40,18 @@ public class BufferBusquedas {
 	}*/
 	
 
-	public  POI adaptarCGP(CentroDTO poiEntrada){
+	public  CGP adaptarCGP(CentroDTO poiEntrada){
 		CGP poiSalida=new CGP();
 		poiSalida.setId(poiEntrada.getId());
 		poiSalida.setNombre(poiEntrada.getDomicilio());
 		poiSalida.getDireccion().setCalle(poiEntrada.getCalle());
 		poiSalida.getDireccion().setNumero(poiEntrada.getNumero());
-		poiEntrada.getServicios().forEach(servicioEntrada->poiSalida.agregarServicio(adaptarSerivicio(servicioEntrada)));
+		poiEntrada.getServicios().forEach(servicioEntrada->poiSalida.agregarServicio(this.adaptarSerivicio(servicioEntrada)));
 		return poiSalida;
 	}
 	
 	public  Servicio adaptarSerivicio (ServiciosDTO servicioEntrada){
-		List<Horario> horarios = new ArrayList();
+		List<Horario> horarios = new ArrayList<Horario>();
 		Servicio servicioSalida = new Servicio(servicioEntrada.getNombre());
 		horarios = servicioEntrada.getRangos().stream().map(rango -> adaptarAHorarioLocalTime(rango)).collect(Collectors.toList());
 		servicioSalida.getHorarios().setHorariosAtencion(horarios);
