@@ -74,13 +74,22 @@ public class Mapa {
 
 	
 	public void agregarOmodificar (POI poiEntrante){
+		
+		int posPOI=pois.indexOf(poiEntrante);
+		if(posPOI!=-1){
+			pois.get(posPOI).modificar(poiEntrante);;
+		}else{
+			pois.add(poiEntrante);
+		}
+		// Lo cambie porque con los test no andaba este
+		/*
 		List<POI> mismoPoiEnSistema = pois.stream().filter(poi->poi.equals(poiEntrante)).collect(Collectors.toList());
 		
 		if(mismoPoiEnSistema.size()==1){
 			mismoPoiEnSistema.get(0).modificar(poiEntrante);
 		} else {
 			pois.add(poiEntrante);
-		}
+		}*/
 	}
 	
 	// -------------------GETTERS,SETTERS-----------------
