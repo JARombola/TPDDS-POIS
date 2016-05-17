@@ -41,10 +41,13 @@ public abstract class POI{
 	
 	public void modificar(POI poiEntrante){
 		setNombre(poiEntrante.getNombre());
-		direccion.setCalle(poiEntrante.getDireccion().getCalle());
-		direccion.setNumero(poiEntrante.getDireccion().getNumero());
+		if(!poiEntrante.getDireccion().getCalle().isEmpty()){
+			direccion.setCalle(poiEntrante.getDireccion().getCalle());
+		}
+		if(poiEntrante.getDireccion().getNumero()>0){
+			direccion.setNumero(poiEntrante.getDireccion().getNumero());
+		}
 	}
-
 
 	//---------------BUSQUEDA-----------------------------------
 	public boolean tienePalabra(String texto){

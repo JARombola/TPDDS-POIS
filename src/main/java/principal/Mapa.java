@@ -110,4 +110,15 @@ public class Mapa {
 
 	
 	
+	public void eliminarPOI (POI poiEntrante){
+		int posPOI=pois.indexOf(poiEntrante);
+		if(posPOI!=-1){
+			pois.remove(posPOI);
+		}else{
+		     System.out.println("No existe el POI ingresado");
+		}
+	}
+
+	
+	
 }
