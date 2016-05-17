@@ -13,7 +13,9 @@ public class Banco extends POI{
 	private EntesConServicios servicios;
 	
 	public void modificar(Banco poiEntrante){
-		servicios = poiEntrante.getServicios();
+		if(poiEntrante.getServicios().getServicios().size()>0){
+			servicios = poiEntrante.getServicios();
+		}
 		super.modificar(poiEntrante);
 	}
 	
