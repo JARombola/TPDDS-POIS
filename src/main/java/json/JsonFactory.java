@@ -1,9 +1,8 @@
 package json;
 
 import java.io.IOException;
+import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,15 +22,18 @@ public class JsonFactory {
 	}
 
 	
-
-
-	public Banco fromJson(String json, Class<Banco> ba) {
+	public List<Banco> fromJson(String json) {
 		try {
-			return this.objectMapper.readValue(json, ba);
-		} catch (IOException e) {
+			return this.objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Banco.class));
+					}catch (IOException e) {
 
-			throw new RuntimeException("Error reading a json", e);
+						throw new RuntimeException("Error reading a json", e);
 		}
+		
+	}
+	
 }
-}
+
+	
+
 	
