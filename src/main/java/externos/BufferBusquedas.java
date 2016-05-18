@@ -6,8 +6,10 @@ import java.util.stream.Collectors;
 
 import org.joda.time.LocalTime;
 
+import principal.Direccion;
 import principal.Horario;
 import principal.POI;
+import tipos.Banco;
 import tipos.CGP;
 import tipos.Servicio;
 
@@ -66,5 +68,23 @@ public class BufferBusquedas {
 		horarioSalida.setFin(horaFin);
 		horarioSalida.setDia(rangoEntrada.getDia());
 		return horarioSalida;
+	}
+	
+	public  Banco adaptarBanco(BancoExterno poiEntrada){
+		Banco poiSalida=new Banco();
+		//poiSalida.setId(poiEntrada.getId()); TODO el json no me devuelve id, es necesario asignarle?
+		poiSalida.setNombre(poiEntrada.getNombre());
+		poiSalida.getDireccion().setLatitud(poiEntrada.getDireccion().getLatitud());
+		poiSalida.getDireccion().setLongitud(poiEntrada.getDireccion().getLongitud());
+		poiSalida.setSucursal(poiEntrada.getSucursal());
+		poiSalida.setGerente(poiEntrada.getGerente());		
+		poiEntrada.getServicios().forEach(servicioEntrada->poiSalida.agregarServicio(this.adaptarSerivicioDeString(servicioEntrada)));
+		
+		return poiSalida;
+	}
+	
+	public  Servicio adaptarSerivicioDeString (String servicioEntrada){
+		Servicio servicioSalida = new Servicio(servicioEntrada);
+		return servicioSalida;
 	}
 }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import externos.BancoExterno;
 import tipos.Banco;
 
 public class JsonFactory {
@@ -25,7 +26,7 @@ public class JsonFactory {
 	
 
 
-	public Banco fromJson(String json, Class<Banco> ba) {
+	public BancoExterno fromJson(String json, Class<BancoExterno> ba) {
 		try {
 			return this.objectMapper.readValue(json, ba);
 		} catch (IOException e) {

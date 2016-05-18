@@ -2,38 +2,41 @@ package tests;
 
 
 import static org.junit.Assert.*;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import externos.BancoExterno;
 import json.JsonFactory;
-import tipos.Banco;
 
 
 public class testJackson {
 	
 		private JsonFactory jsonFactory = new JsonFactory();
-		private Banco banco;
+		private BancoExterno bancoext;
 		private String jsonBanco =  "{\"nombre\": \"Banco de la Plaza\", "
 				+ "\"latitud\": -35.9338322, "
 				+ "\"longitud\": 72.348353, "
 				+ "\"sucursal\": \"Avellaneda\", "
-				+ "\"gerente\": \"Javier Loeschbor\"}";
+				+ "\"gerente\": \"Javier Loeschbor\", "
+				+ "\"servicios\":[\"cobro cheques\", \"depósitos\", \"extracciones\", \"transferencias\", \"créditos\", \"\", \"\", \"\" ]"
+				+ "}";
 			
 		@Before
 		public void setUp() {
-			banco = jsonFactory.fromJson(jsonBanco,Banco.class);
+			bancoext = jsonFactory.fromJson(jsonBanco,BancoExterno.class);
 		}
 		
 		
 		@Test
 		public void nombreSucursalGerenteDelBancoTest() {
-			assertEquals(banco.getNombre(), "Banco de la Plaza");
-			assertEquals(banco.getGerente(),"Javier Loeschbor");
-			assertEquals(banco.getSucursal(),"Avellaneda");
+			assertEquals(bancoext.getNombre(), "Banco de la Plaza");
+			assertEquals(bancoext.getGerente(),"Javier Loeschbor");
+			assertEquals(bancoext.getSucursal(),"Avellaneda");
+			assertEquals(bancoext.getServicios().get(0),"cobro cheques");
+			assertEquals(bancoext.getServicios().get(5),"");
 		}
 		
 		
-			}
-
+			
+}
