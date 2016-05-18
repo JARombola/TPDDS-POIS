@@ -6,6 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import externos.BancoExterno;
 import tipos.Banco;
 
 public class JsonFactory {
@@ -21,10 +22,11 @@ public class JsonFactory {
 		return objectMapper;
 	}
 
-	
-	public List<Banco> fromJson(String json) {
+
+
+	public List<BancoExterno> fromJson(String json) {
 		try {
-			return this.objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Banco.class));
+			return this.objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, BancoExterno.class));
 					}catch (IOException e) {
 
 						throw new RuntimeException("Error reading a json", e);
