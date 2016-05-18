@@ -8,7 +8,13 @@ import org.joda.time.format.DateTimeFormatter;
 import principal.EntesConServicios;
 import principal.POI;
 
+
 public class Banco extends POI{
+	
+	private String sucursal;
+	private String gerente;
+
+	
 	int LUNES=1,VIERNES=5;
 	private EntesConServicios servicios;
 	
@@ -60,5 +66,25 @@ public class Banco extends POI{
 	// -------------------GETTERS,SETTERS-----------------
 	public EntesConServicios getServicios() {
 		return servicios;
+	}
+	
+	
+	public String getSucursal() {
+		return sucursal;
+	}
+
+
+	public void setSucursal(String sucursal) {
+		this.sucursal = sucursal;
+	}
+
+
+	public String getGerente() {
+		return gerente;
+	}
+
+
+	public void setGerente(String gerente) {
+		this.gerente = gerente;
 	}
 }
