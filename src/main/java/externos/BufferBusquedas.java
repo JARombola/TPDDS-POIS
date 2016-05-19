@@ -8,6 +8,7 @@ import org.joda.time.LocalTime;
 
 import principal.Horario;
 import principal.POI;
+import tipos.Banco;
 import tipos.CGP;
 import tipos.Servicio;
 
@@ -38,7 +39,14 @@ public class BufferBusquedas {
 	public List<POI> adaptarBancos(String){
 		
 	}*/
-	
+	public Banco adaptarBanco(BancoExterno poiEntrada){
+		Banco poiSalida=new Banco();
+		poiSalida.setNombre(poiEntrada.getNombre());
+		poiSalida.setGerente(poiEntrada.getGerente());
+		poiEntrada.getServicios().forEach(servicioEntrada->poiSalida.agregarServicio(this.adaptarSerivicioString(servicioEntrada)));
+		poiSalida.setDireccion(poiEntrada.getDireccion());
+		return poiSalida;
+	}
 
 	public  CGP adaptarCGP(CentroDTO poiEntrada){
 		CGP poiSalida=new CGP();
@@ -55,6 +63,12 @@ public class BufferBusquedas {
 		Servicio servicioSalida = new Servicio(servicioEntrada.getNombre());
 		horarios = servicioEntrada.getRangos().stream().map(rango -> adaptarAHorarioLocalTime(rango)).collect(Collectors.toList());
 		servicioSalida.getHorarios().setHorariosAtencion(horarios);
+		return servicioSalida;
+	}
+
+	
+	public  Servicio adaptarSerivicioString (String nombre){
+		Servicio servicioSalida = new Servicio(nombre);
 		return servicioSalida;
 	}
 	
