@@ -49,6 +49,12 @@ public class BufferBusquedas {
 		servicioSalida.getHorarios().setHorariosAtencion(horarios);
 		return servicioSalida;
 	}
+
+	
+	public  Servicio adaptarSerivicioString (String nombre){
+		Servicio servicioSalida = new Servicio(nombre);
+		return servicioSalida;
+	}
 	
 	public  Horario adaptarAHorarioLocalTime(RangosServiciosDTO rangoEntrada){
 		Horario horarioSalida = new Horario();
