@@ -11,23 +11,28 @@ import org.mockito.Mockito;
 
 import externos.BufferBusquedas;
 import externos.CentroDTO;
+import externos.OrigenDatos;
 import externos.RangosServiciosDTO;
 import externos.ServiciosDTO;
 import principal.Horario;
+import principal.Mapa;
 import tipos.CGP;
 import tipos.Servicio;
 
 public class testExternosCGP {
 	RangosServiciosDTO rangoServicio, rangoServicio2, rangoServicio3;
 	ServiciosDTO servicioDTOTramite, servicioDTOCobro;
-	CentroDTO cgp,cgpMock;
+	CentroDTO cgp;
+	OrigenDatos cgpMock;
 	BufferBusquedas buffer;
 	List<ServiciosDTO> servicios;
+	List<CentroDTO> centros;
+	Mapa mapa;
 	
 	@Before
 	public void initialize() {
-		cgpMock=Mockito.mock(CentroDTO.class);
-		cgpMock.setDomicilio("Av. 9 de Julio 4322");
+		mapa = new Mapa();
+		cgpMock=Mockito.mock(OrigenDatos.class);
 		cgp = new CentroDTO();
 			cgp.setDomicilio("Av. 9 de Julio 4322");
 		rangoServicio = new RangosServiciosDTO();
@@ -58,12 +63,31 @@ public class testExternosCGP {
 		servicios=new ArrayList<ServiciosDTO>();
 		servicios.add(servicioDTOCobro);
 		servicios.add(servicioDTOTramite);
+		//Para probar el EXTERNO
+		cgp.setServicios(servicios);
+		centros = new ArrayList<CentroDTO>();
+		centros.add(cgp);
+		Mockito.when(cgpMock.buscar("9 de julio")).thenReturn(centros);
 		buffer = new BufferBusquedas();
+		mapa.setBuffer(buffer);
+		mapa.agregarExterno(cgpMock);
 	}
 	
 	@Test
 	public void testDomicilioCalle() {
+		mapa.buscar("Av. 9 de Julio","");
 		Assert.assertEquals(cgp.getCalle(),"Av. 9 de Julio");
+		Mockito.verify(cgpMock,Mockito.times(1)).buscar("Av. 9 de Julio");
+	}
+	@Test
+	public void testBusquedaExternaCGP() {
+		Assert.assertEquals(mapa.getListaPOIS().size(), 0);
+		mapa.buscar("9 de julio","");
+		Assert.assertEquals(mapa.getListaPOIS().size(), 1);			//La lista esta vacia, y agrega el nuevo encontrado en el externo
+		mapa.buscar("9 de julio","");
+		Assert.assertEquals(mapa.getListaPOIS().size(), 2);
+		cgpMock.buscar("9 de julio");
+		Mockito.verify(cgpMock,Mockito.times(3)).buscar("9 de julio");
 	}
 	
 	@Test
@@ -80,7 +104,7 @@ public class testExternosCGP {
 	
 	@Test
 	public void testAdaptarSerivicio(){
-		Servicio servicioPOI = buffer.adaptarSerivicio(servicioDTOTramite);
+		Servicio servicioPOI = buffer.adaptarServicio(servicioDTOTramite);
 		Assert.assertEquals(servicioPOI.getNombre(),"Tramite Jubilacion");
 		Assert.assertEquals(servicioPOI.getHorarios().getHorariosAtencion().get(0).getInicio(),new LocalTime(8,30));
 		Assert.assertEquals(servicioPOI.getHorarios().getHorariosAtencion().get(0).getDia(),1);
@@ -94,9 +118,4 @@ public class testExternosCGP {
 		Assert.assertEquals(poicgp.getNombre(),("Av. 9 de Julio 4322"));
 		Assert.assertEquals(poicgp.getServicios().getServicios().size(),cgp.getServicios().size());
 	}
-	
-	//Faltaria un test final para de adaptarCGP, para ver si funca adaptando TODA la
-	// lista de servicios de un CGP. Que es alto bardo. Suerte.
-	
-
 }

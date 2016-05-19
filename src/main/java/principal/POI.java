@@ -40,7 +40,7 @@ public abstract class POI{
 	}
 	
 	public void modificar(POI poiEntrante){
-		setNombre(poiEntrante.getNombre());
+		this.setNombre(poiEntrante.getNombre());
 		if(poiEntrante.getDireccion().getCalle()!=null && !(poiEntrante.getDireccion().getCalle().isEmpty())){
 			direccion.setCalle(poiEntrante.getDireccion().getCalle());
 		}

@@ -1,9 +1,14 @@
 package tests;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
+import externos.OrigenDatos;
 import principal.Direccion;
 import principal.Mapa;
 import tipos.Banco;
@@ -14,8 +19,13 @@ public class testABM {
 	Banco banco;
 	Mapa mapa;
 	Direccion dire;
+	List<OrigenDatos> componentesExternos;
+	OrigenDatos externoCGP;
+	OrigenDatos externoBanco;
 	@Before
 	public void initialize(){
+		externoCGP = Mockito.mock(OrigenDatos.class);
+		externoBanco = Mockito.mock(OrigenDatos.class);
 		mapa = new Mapa();
 		cgp = new CGP();
 		dire=new Direccion();
@@ -23,6 +33,7 @@ public class testABM {
 		dire.setCalle("hola");
 		dire.setNumero(100);
 		cgp.setDireccion(dire);
+		
 		
 	}
 	
@@ -37,11 +48,11 @@ public class testABM {
 	public void modificarPOI(){
 		mapa.agregarOmodificar(banco);
 		mapa.agregarOmodificar(cgp);
+		int pos=mapa.getListaPOIS().indexOf(cgp);
 		dire.setNumero(150);
 		dire.setCalle("chau");
 		cgp.setDireccion(dire);
 		mapa.agregarOmodificar(cgp);
-		int pos=mapa.getListaPOIS().indexOf(cgp);
 	     System.out.println(mapa.getListaPOIS().get(pos).getDireccion().getCalle());
 	     System.out.println(mapa.getListaPOIS().get(pos).getDireccion().getNumero());
 

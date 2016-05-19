@@ -1,6 +1,5 @@
 package tests;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.internal.verification.AtLeast;
-
-import com.fasterxml.jackson.core.JsonFactory;
 
 import externos.BufferBusquedas;
 import externos.OrigenDatos;
@@ -35,8 +31,7 @@ public class testBusqueda {
 	BufferBusquedas buffer;
 	OrigenDatos origen1,origen2,origen3;
 	List<OrigenDatos> listaOrigenesDatos;
-	private JsonFactory jsonFactory = new JsonFactory();
-	
+
 	
 	@Before
 	public void initialize(){
@@ -44,10 +39,8 @@ public class testBusqueda {
 		buffer=new BufferBusquedas();
 		origen1 =Mockito.mock(OrigenDatos.class);
 		origen2 =Mockito.mock(OrigenDatos.class);
-		
 		listaOrigenesDatos.add(origen1);
 		listaOrigenesDatos.add(origen2);
-	
 		parada1 = new ParadaColectivo();
 		parada2 = new ParadaColectivo();
 		parada3 = new ParadaColectivo();
@@ -89,27 +82,37 @@ public class testBusqueda {
 	public void busquedaParadas114(){
 		encontrados=mapa.buscar("114","").size();		//3 paradas
 		Assert.assertEquals(encontrados, 3,0);
-		Mockito.verify(origen1,Mockito.times(1)).buscar("114");
+		Mockito.verify(origen1,Mockito.times(1)).buscar("114");		
 	}
+	
 	@Test	
 	public void busquedaAsesoramiento(){
 		encontrados=mapa.buscar("asesoramiento","").size();
-		Assert.assertEquals(encontrados,2,0);					//banco y CGP
-		
+		Assert.assertEquals(encontrados,2,0);					//banco y CGP	
 	}
+	
 	@Test	
 	public void busquedaJubilacion(){
 		encontrados=mapa.buscar("jubilacion","").size();		//banco
 		Assert.assertEquals(encontrados,1,0);
+		Mockito.verify(origen1,Mockito.times(1)).buscar("jubilacion");	
 	}
+	
 	@Test	
 	public void busquedaSociedad(){
 		encontrados=mapa.buscar("sociedad","").size();		//muebles sociedad anonima=1	
 		Assert.assertEquals(encontrados,1,0);
 	}
+	
 	@Test
 	public void busquedaTagsParada(){
 		encontrados=mapa.buscar("Feo","").size();
 		Assert.assertEquals(encontrados,1,0);
+	}
+	@Test
+	public void busquedaExternosCGP(){
+		mapa.buscar("asesoramiento","");
+		Mockito.verify(origen1,Mockito.times(1)).buscar("asesoramiento");
+		Mockito.verify(origen2,Mockito.times(1)).buscar("asesoramiento");
 	}
 }

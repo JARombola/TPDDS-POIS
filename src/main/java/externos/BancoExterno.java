@@ -10,8 +10,23 @@ public class BancoExterno {
 	private String sucursal;
 	private String gerente;
 	private List<String> servicios;
+	public BancoExterno(){
+		this.direccion=new Direccion();
+	}
 	
-
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
+	}
+	public void setSucursal(String sucursal) {
+		this.sucursal = sucursal;
+	}
+	public void setGerente(String gerente) {
+		this.gerente = gerente;
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}

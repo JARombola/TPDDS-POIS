@@ -18,48 +18,23 @@ public class Mapa {
 
 	static List<POI> pois;
 	List<OrigenDatos> origenesDatos;
-	
-	public List<OrigenDatos> getOrigenesDatos() {
-		return origenesDatos;
-	}
-
-
-	public void setOrigenesDatos(List<OrigenDatos> origenesDatos) {
-		this.origenesDatos = origenesDatos;
-	}
-
 	BufferBusquedas buffer;
-
-	public BufferBusquedas getBuffer() {
-		return buffer;
-	}
-
-
-	public void setBuffer(BufferBusquedas buffer) {
-		this.buffer = buffer;
-	}
-
-
-	public Mapa() {
-		pois = new ArrayList<POI>();
-		origenesDatos=new ArrayList<OrigenDatos>();
-	}
 	
 	
 	//---------------BUSQUEDA-----------------------------------
 	public List<POI> buscar(String texto, String servicio) {
 		//System.out.println("Buscó: "+texto);
+		getOrigenesDatos().forEach(componente -> notificarBusqueda(componente, texto, servicio));
+		buffer.getResultados().forEach(poi->agregarOmodificar(poi));			//Primero busqueda externa
 		List<POI> resultadosBusqueda = new ArrayList<POI>();
 		resultadosBusqueda = getListaPOIS().stream()
 										   .filter(poi->poi.tienePalabra(texto))
 										   .collect(Collectors.toList());
-		
-		getOrigenesDatos().forEach(componente -> notificarBusqueda(componente, texto, servicio));
-		//resultadosBusqueda.addAll(buffer.getResultados());
-		// ^ESTO ESTA COMENTADO PORQUE SINO ROMPEN LOS TEST, PORQUE FALTA TERMINAR, NO PORQUE ESTE MAL. DESPUES HAY QUE DESCOMENTARLO
-		
-		buffer.getResultados().forEach(poi->agregarOmodificar(poi));
-		
+		if (servicio!=""){
+		resultadosBusqueda.addAll(getListaPOIS().stream()
+				.filter(poi->poi.tienePalabra(servicio)).collect(Collectors.toList()));}
+//		Para que ADEMAS busque el servicio...
+	
 		//resultadosBusqueda.forEach(asd->asd.mostrarDatos());
 		return resultadosBusqueda;
 	}
@@ -67,14 +42,13 @@ public class Mapa {
 	private void notificarBusqueda(OrigenDatos componente, String texto, String servicio){
 		if (servicio == ""){
 			buffer.buscar(componente, texto);
+		//	buffer.buscar(componente, servicio);
 		} else {
 			buffer.buscar(componente, texto, servicio);
 		}
 	}
-
 	
 	public void agregarOmodificar (POI poiEntrante){
-		
 		int posPOI=pois.indexOf(poiEntrante);
 		if(posPOI!=-1){
 			pois.get(posPOI).modificar(poiEntrante);;
@@ -82,10 +56,10 @@ public class Mapa {
 			pois.add(poiEntrante);
 		}
 		// Lo cambie porque con los test no andaba este
-		/*
-		List<POI> mismoPoiEnSistema = pois.stream().filter(poi->poi.equals(poiEntrante)).collect(Collectors.toList());
 		
-		if(mismoPoiEnSistema.size()==1){
+		/*List<POI> mismoPoiEnSistema = pois.stream().filter(poi->poi.equals(poiEntrante)).collect(Collectors.toList());
+		
+		if(mismoPoiEnSistema.size()!=0){
 			mismoPoiEnSistema.get(0).modificar(poiEntrante);
 		} else {
 			pois.add(poiEntrante);
@@ -93,13 +67,37 @@ public class Mapa {
 	}
 	
 	// -------------------GETTERS,SETTERS-----------------
-	
+
+	public BufferBusquedas getBuffer() {
+		return buffer;
+	}
+
+	public void setBuffer(BufferBusquedas buffer) {
+		this.buffer = buffer;
+	}
+
+	public Mapa() {
+		pois = new ArrayList<POI>();
+		origenesDatos=new ArrayList<OrigenDatos>();
+	}
+
 	public List<POI> getListaPOIS() {
 		return pois;
 	}
 
 	public void setPOI(POI poi) {
 		pois.add(poi);
+	}
+	public List<OrigenDatos> getOrigenesDatos() {
+		return origenesDatos;
+	}
+
+	public void agregarExterno(OrigenDatos origenDatos) {
+		this.origenesDatos.add(origenDatos);
+	}
+	
+	public void setOrigenesDatos(List<OrigenDatos> origenesDatos) {
+		this.origenesDatos = origenesDatos;
 	}
 	// -------------------ABM POIS-----------------------
 	public void registrarPOI(String tipo){
@@ -115,10 +113,7 @@ public class Mapa {
 		map.put("CGP",new CGP());
 		return map.get(tipo);
 	}
-	
-
-	
-	
+		
 	public void eliminarPOI (POI poiEntrante){
 		int posPOI=pois.indexOf(poiEntrante);
 		if(posPOI!=-1){
