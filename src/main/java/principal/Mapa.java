@@ -31,16 +31,7 @@ public class Mapa {
 		resultadosBusqueda = getListaPOIS().stream()
 										   .filter(poi->poi.tienePalabra(texto1))
 										   .collect(Collectors.toList());
-		
-		if (texto2!=""){
-		resultadosBusqueda.addAll(getListaPOIS().stream()
-				.filter(poi->poi.tienePalabra(texto2)).collect(Collectors.toList()));}
-		//	Para que ADEMAS busque el servicio...
-		// ^Eso creo que esta de mas. Por ahora para lo unico que usamos el segundo string es para los bancos externos. Si alguien quiere buscar algo por servicio usa el primer string nada mas. Y si despues queremos hacer busquedas tipo OR con varios strings, habria que hacerlo a parte imo(?
-		
-		// Tambien me parece una negrada hacer la busqueda externa, agregar los pois y volverlos a buscar(? Pero BOE
-		
-		//resultadosBusqueda.forEach(asd->asd.mostrarDatos());
+
 		return resultadosBusqueda;
 	}
 	
@@ -80,9 +71,7 @@ public class Mapa {
 		return origenesDatos;
 	}
 
-	public void agregarExterno(OrigenDatos origenDatos) {
-		this.origenesDatos.add(origenDatos);
-	}
+	
 	
 	public void setOrigenesDatos(List<OrigenDatos> origenesDatos) {
 		this.origenesDatos = origenesDatos;

@@ -11,7 +11,7 @@ import principal.POI;
 import tipos.CGP;
 import tipos.Servicio;
 
-public class BuscadorCGPExterno {
+public class BuscadorCGPExterno implements InterfazBuscadores {
 	OrigenDatos componente;
 	List<POI> resultado= new ArrayList();;
 	
@@ -60,6 +60,10 @@ public class BuscadorCGPExterno {
 	
 	public List<POI> getResultado() {
 		return resultado;
+	}
+	
+	public void setComponente(OrigenDatos componente) {
+		this.componente = componente;
 	}
 
 }

@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import externos.BufferBusquedas;
+import externos.BuscadorBancoExterno;
+import externos.BuscadorCGPExterno;
 import externos.CentroDTO;
 import externos.OrigenDatos;
 import externos.RangosServiciosDTO;
@@ -28,6 +30,7 @@ public class testExternosCGP {
 	List<ServiciosDTO> servicios;
 	List<CentroDTO> centros;
 	Mapa mapa;
+	BuscadorCGPExterno buscadorExterno;
 	
 	@Before
 	public void initialize() {
@@ -70,7 +73,11 @@ public class testExternosCGP {
 		Mockito.when(cgpMock.buscar("9 de julio")).thenReturn(centros);
 		buffer = new BufferBusquedas();
 		mapa.setBuffer(buffer);
-		mapa.agregarExterno(cgpMock);
+		
+		buscadorExterno = new BuscadorCGPExterno();
+		buscadorExterno.setComponente(cgpMock);
+		
+		buffer.agregarExterno(buscadorExterno);
 	}
 	
 	@Test
@@ -97,14 +104,14 @@ public class testExternosCGP {
 	
 	@Test
 	public void testAdaptarAHorarioLocalTime(){
-		Horario horario = buffer.adaptarAHorarioLocalTime(rangoServicio);
+		Horario horario = buscadorExterno.adaptarAHorarioLocalTime(rangoServicio);
 		Assert.assertEquals(horario.getInicio(),new LocalTime(8,30));
 		Assert.assertEquals(horario.getFin(),new LocalTime(19,15));
 	}
 	
 	@Test
 	public void testAdaptarSerivicio(){
-		Servicio servicioPOI = buffer.adaptarServicio(servicioDTOTramite);
+		Servicio servicioPOI = buscadorExterno.adaptarServicio(servicioDTOTramite);
 		Assert.assertEquals(servicioPOI.getNombre(),"Tramite Jubilacion");
 		Assert.assertEquals(servicioPOI.getHorarios().getHorariosAtencion().get(0).getInicio(),new LocalTime(8,30));
 		Assert.assertEquals(servicioPOI.getHorarios().getHorariosAtencion().get(0).getDia(),1);
@@ -114,7 +121,7 @@ public class testExternosCGP {
 	@Test
 	public void testAdaptarCgp(){
 		cgp.setServicios(servicios);
-		CGP poicgp= buffer.adaptarCGP(cgp);
+		CGP poicgp= buscadorExterno.adaptarCGP(cgp);
 		Assert.assertEquals(poicgp.getNombre(),("Av. 9 de Julio 4322"));
 		Assert.assertEquals(poicgp.getServicios().getServicios().size(),cgp.getServicios().size());
 	}

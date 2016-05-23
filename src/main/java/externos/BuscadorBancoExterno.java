@@ -9,8 +9,10 @@ import principal.POI;
 import tipos.Banco;
 import tipos.Servicio;
 
-public class BuscadorBancoExterno {
+public class BuscadorBancoExterno implements InterfazBuscadores {
 	OrigenDatos componente;
+	
+
 	List<POI> resultado= new ArrayList();
 	
 
@@ -49,6 +51,10 @@ public class BuscadorBancoExterno {
 	
 	public List<POI> getResultado() {
 		return resultado;
+	}
+	
+	public void setComponente(OrigenDatos componente) {
+		this.componente = componente;
 	}
 
 }
