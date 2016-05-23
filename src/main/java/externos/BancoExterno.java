@@ -10,6 +10,16 @@ public class BancoExterno {
 	private String sucursal;
 	private String gerente;
 	private List<String> servicios;
+	private int id;
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public BancoExterno(){
 		this.direccion=new Direccion();
 	}

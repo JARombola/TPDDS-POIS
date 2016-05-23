@@ -18,35 +18,32 @@ public class Mapa {
 
 	static List<POI> pois;
 	List<OrigenDatos> origenesDatos;
-	BufferBusquedas buffer;
+	BufferBusquedas buffer = new BufferBusquedas();
 	
 	
 	//---------------BUSQUEDA-----------------------------------
-	public List<POI> buscar(String texto, String servicio) {
-		//System.out.println("Buscó: "+texto);
-		getOrigenesDatos().forEach(componente -> notificarBusqueda(componente, texto, servicio));
+	public List<POI> buscar(String texto1, String texto2) {
+		//System.out.println("Buscó: "+texto1);
+		buffer.busquedaExterna(texto1, texto2);
 		buffer.getResultados().forEach(poi->agregarOmodificar(poi));			//Primero busqueda externa
+		
 		List<POI> resultadosBusqueda = new ArrayList<POI>();
 		resultadosBusqueda = getListaPOIS().stream()
-										   .filter(poi->poi.tienePalabra(texto))
+										   .filter(poi->poi.tienePalabra(texto1))
 										   .collect(Collectors.toList());
-		if (servicio!=""){
+		
+		if (texto2!=""){
 		resultadosBusqueda.addAll(getListaPOIS().stream()
-				.filter(poi->poi.tienePalabra(servicio)).collect(Collectors.toList()));}
-//		Para que ADEMAS busque el servicio...
-	
+				.filter(poi->poi.tienePalabra(texto2)).collect(Collectors.toList()));}
+		//	Para que ADEMAS busque el servicio...
+		// ^Eso creo que esta de mas. Por ahora para lo unico que usamos el segundo string es para los bancos externos. Si alguien quiere buscar algo por servicio usa el primer string nada mas. Y si despues queremos hacer busquedas tipo OR con varios strings, habria que hacerlo a parte imo(?
+		
+		// Tambien me parece una negrada hacer la busqueda externa, agregar los pois y volverlos a buscar(? Pero BOE
+		
 		//resultadosBusqueda.forEach(asd->asd.mostrarDatos());
 		return resultadosBusqueda;
 	}
 	
-	private void notificarBusqueda(OrigenDatos componente, String texto, String servicio){
-		if (servicio == ""){
-			buffer.buscar(componente, texto);
-		//	buffer.buscar(componente, servicio);
-		} else {
-			buffer.buscar(componente, texto, servicio);
-		}
-	}
 	
 	public void agregarOmodificar (POI poiEntrante){
 		int posPOI=pois.indexOf(poiEntrante);
@@ -55,15 +52,6 @@ public class Mapa {
 		}else{
 			pois.add(poiEntrante);
 		}
-		// Lo cambie porque con los test no andaba este
-		
-		/*List<POI> mismoPoiEnSistema = pois.stream().filter(poi->poi.equals(poiEntrante)).collect(Collectors.toList());
-		
-		if(mismoPoiEnSistema.size()!=0){
-			mismoPoiEnSistema.get(0).modificar(poiEntrante);
-		} else {
-			pois.add(poiEntrante);
-		}*/
 	}
 	
 	// -------------------GETTERS,SETTERS-----------------
