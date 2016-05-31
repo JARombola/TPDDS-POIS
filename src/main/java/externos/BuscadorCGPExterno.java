@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 
 import org.joda.time.LocalTime;
 
+import otros.Administrador;
+import otros.Mail;
+import otros.MailSender;
+import otros.TiempoEjecucion;
 import principal.Horario;
 import principal.POI;
 import tipos.CGP;
@@ -14,12 +18,28 @@ import tipos.Servicio;
 public class BuscadorCGPExterno implements InterfazBuscadores {
 	OrigenDatos componente;
 	List<POI> resultado= new ArrayList();;
-	
+	int tiempoEsperaMax=2;
 	public  void buscar(String texto1, String texto2){	
 		if (texto2 == ""){
+		double tiempoEjecucion;
+		TiempoEjecucion.Start();
 		List<POI> puntos=componente.buscar(texto1).stream()
 								.map(unCentro->adaptarCGP(unCentro))
 								.collect(Collectors.toList());
+	
+		TiempoEjecucion.Stop();
+		tiempoEjecucion=TiempoEjecucion.getTiempoEjecucion();
+		if(tiempoEjecucion>tiempoEsperaMax){
+			Administrador adminInterno=new Administrador();
+			Mail mail = new Mail();
+			mail.setFrom(adminInterno.getEmail());
+		//agregar parametro Admin
+			//mail.setTo(admin.getEmail());
+			mail.setMessage("tardo mucho la busqueda");
+			mail.setSubject("Aviso busqueda lenta");
+			MailSender mailSender = null ;
+			mailSender.send(mail);
+		}
 		resultado.addAll(puntos);
 		}
 	}
