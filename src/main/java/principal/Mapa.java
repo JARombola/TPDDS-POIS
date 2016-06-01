@@ -24,10 +24,11 @@ public class Mapa {
 	//---------------BUSQUEDA-----------------------------------
 	public List<POI> buscar(String texto1, String texto2) {
 		//System.out.println("Buscó: "+texto1);
-		buffer.busquedaExterna(texto1, texto2);
-		buffer.getResultados().forEach(poi->agregarOmodificar(poi));			//Primero busqueda externa
-		
 		List<POI> resultadosBusqueda = new ArrayList<POI>();
+		buffer.busquedaExterna(texto1, texto2);
+		List<POI> resultadosExternos=buffer.getResultados();
+				resultadosExternos.forEach(poi->agregarOmodificar(poi));			//Primero busqueda externa
+		
 		resultadosBusqueda = getListaPOIS().stream()
 										   .filter(poi->poi.tienePalabra(texto1))
 										   .collect(Collectors.toList());

@@ -13,7 +13,7 @@ public class BuscadorBancoExterno implements InterfazBuscadores {
 	OrigenDatos componente;
 	
 
-	List<POI> resultado= new ArrayList();
+	List<POI> resultado= new ArrayList<POI>();
 	
 
 	private JsonFactory jsonFactory = new JsonFactory();
@@ -26,6 +26,7 @@ public class BuscadorBancoExterno implements InterfazBuscadores {
 		}
 	}
 	
+	//------------------ADAPTER----------------------------------------
 	public List<POI> adaptarJsonBanco(String jsonBanco){
 		List<BancoExterno> bancoext = jsonFactory.fromJson(jsonBanco);
 	 	List<POI> bancos = bancoext.stream().map(banco->adaptarBanco(banco)).collect(Collectors.toList());

@@ -68,7 +68,7 @@ public abstract class POI{
 		return(distanciaHorizontal + distanciaVertical); //Lo devuelve en Kms
 	}
 	
-	public boolean estaCerca(Maquina puntoActual){
+	public boolean estaCerca(Terminal puntoActual){
 	
 		double distancia = distanciaAOtroPunto(puntoActual.getCoordenadas());
 		return (distancia <= this.getRadioCercania()); 
