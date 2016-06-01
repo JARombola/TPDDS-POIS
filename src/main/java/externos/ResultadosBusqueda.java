@@ -11,6 +11,7 @@ public class ResultadosBusqueda {
 	private String fraseBuscada;
 	private int cantidadResultados;
 	private LocalDate fecha;
+
 	private int tiempoBusqueda;
 	
 	public ResultadosBusqueda(){
@@ -28,6 +29,13 @@ public class ResultadosBusqueda {
 
 	public int getCantidadResultados() {
 		return cantidadResultados;
+	}
+	public LocalDate getFecha() {
+		return fecha;
+	}
+	
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
 	}
 
 	public void setCantidadResultados(int cantidadResultados) {
