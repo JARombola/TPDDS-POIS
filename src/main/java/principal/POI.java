@@ -9,6 +9,7 @@ public abstract class POI{
 	private EntesConHorarios horarios;
 	private String nombre;
 	private List<String> tags;
+	
 	private Direccion direccion; 
 	private int id;
 
@@ -68,7 +69,7 @@ public abstract class POI{
 		return(distanciaHorizontal + distanciaVertical); //Lo devuelve en Kms
 	}
 	
-	public boolean estaCerca(Terminal puntoActual){
+	public boolean estaCerca(Maquina puntoActual){
 	
 		double distancia = distanciaAOtroPunto(puntoActual.getCoordenadas());
 		return (distancia <= this.getRadioCercania()); 

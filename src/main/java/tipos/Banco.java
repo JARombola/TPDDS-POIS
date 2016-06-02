@@ -2,9 +2,6 @@ package tipos;
 
 
 import org.joda.time.LocalTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import principal.EntesConServicios;
 import principal.POI;
 
