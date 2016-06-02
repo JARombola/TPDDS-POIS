@@ -15,6 +15,11 @@ public class ParadaColectivo extends POI{
 		return true;
 	}
 	
+	public boolean tienePalabra(String palabra) {
+		
+		return (getNombre().contains(palabra));
+	}
+	
 	/*
 	public boolean estaDisponible(int dia, LocalTime hora) {
 		return true;
