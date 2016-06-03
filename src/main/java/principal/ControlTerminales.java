@@ -15,5 +15,16 @@ public class ControlTerminales {
 	}
 	
 	private void agregarFecha(LocalDate fecha){
+		fechas.add(fecha);
+	}
+	
+	public void busquedasParcialesPorTerminal(Terminal unaTerminal){
+			System.out.println("Usuario: "+unaTerminal.getNombre());
+			System.out.println("Cantidad de Resultados Parciales");
+			unaTerminal.getHistorialBusquedas().forEach(busqueda->System.out.println(busqueda.cantidadResultados));
+	}
+	public void busquedasTotalesDeTerminales(){
+		System.out.println("Usuario     |   Cantidad de Resultados Totales");
+		terminales.forEach(terminal-> System.out.println(terminal.getNombre() + "   |   " + terminal.cantidadTotalResultados()));
 	}
 }

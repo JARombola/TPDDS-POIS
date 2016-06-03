@@ -10,6 +10,7 @@ import org.joda.time.LocalDate;
 
 
 public class Terminal{
+	private String nombre;
 	private Mapa mapa;
 	private List<Busqueda> historialBusquedas; //teoricamente deberia ya estar ordenado por fecha porque se van guardando a medida que se hacen, pero despues veo de ordenarlo por las dudas
 
@@ -47,7 +48,7 @@ public class Terminal{
 	}
 	
 	public int cantidadTotalResultados(){		
-		int cantidadResultados=getHistorialBusquedas().stream().mapToInt(a->a.getCantidadResultados()).sum();
+		int cantidadResultados=getHistorialBusquedas().stream().mapToInt(a->a.getCantidadResultados()).sum(); //TODO verificar
 		return cantidadResultados;
 	}
 	
@@ -57,13 +58,17 @@ public class Terminal{
 	public List<Busqueda> getHistorialBusquedas() {
 		return historialBusquedas;
 	}
-
 	public Mapa getMapa() {
 		return mapa;
 	}
-
 	public void setMapa(Mapa mapa) {
 		this.mapa = mapa;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public String getNombre() {
+		return nombre;
 	}
 
 }
