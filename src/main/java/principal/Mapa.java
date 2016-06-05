@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import externos.BufferBusquedas;
 import externos.OrigenDatos;
+import otros.TiempoEjecucion;
 import tipos.Banco;
 import tipos.CGP;
 import tipos.Local;
@@ -24,6 +25,7 @@ public class Mapa {
 	//---------------BUSQUEDA-----------------------------------
 	public List<POI> buscar(String texto1, String texto2) {
 		//System.out.println("Buscó: "+texto1);
+
 		buffer.busquedaExterna(texto1, texto2);
 		buffer.getResultados().forEach(poi->agregarOmodificar(poi));			//Primero busqueda externa
 			
@@ -31,7 +33,7 @@ public class Mapa {
 		resultadosBusqueda= getListaPOIS().stream()
 							.filter(poi->poi.tienePalabra(texto1))
 							.collect(Collectors.toList());
-		
+
 		return resultadosBusqueda;
 	}
 	

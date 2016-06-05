@@ -7,7 +7,7 @@ public class Busqueda {
 	
 	private String fraseBuscada;
 	public int cantidadResultados;
-	private int tiempoBusqueda;
+	private double tiempoBusqueda;
 	private LocalDate fecha; 
 	
 	public Busqueda(){
@@ -27,10 +27,10 @@ public class Busqueda {
 	public void setCantidadResultados(int cantidadResultados) {
 		this.cantidadResultados = cantidadResultados;
 	}
-	public int getTiempoBusqueda() {
+	public double getTiempoBusqueda() {
 		return tiempoBusqueda;
 	}
-	public void setTiempoBusqueda(int tiempoBusqueda) {
+	public void setTiempoBusqueda(double tiempoBusqueda) {
 		this.tiempoBusqueda = tiempoBusqueda;
 	}
 	public LocalDate getFecha() {

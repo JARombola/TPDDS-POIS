@@ -10,12 +10,9 @@ public class BufferBusquedas {
 	List<POI> resultados;
 	List<InterfazBuscadores> buscadoresComponentes = new ArrayList<InterfazBuscadores>();
 	
-	public double busquedaExterna (String texto1, String texto2){
-		TiempoEjecucion.Start();
+	public void busquedaExterna (String texto1, String texto2){
 
 		buscadoresComponentes.forEach(componente -> componente.buscar(texto1, texto2));
-		TiempoEjecucion.Stop();
-		return TiempoEjecucion.getTiempoEjecucion();
 
 
 	}

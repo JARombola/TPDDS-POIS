@@ -1,20 +1,20 @@
-package externos;
-
+package principal;
 
 import otros.Administrador;
 import otros.Mail;
 import otros.MailSender;
-import otros.TiempoEjecucion;
 
-public class BuscadorBancoExternoConEmail {
-	BufferBusquedas buscador;
+public class TerminalConEnvioEmailEnLaBusqueda {
+	Terminal terminal;
 	double tiempoEsperaMax;
-	public BuscadorBancoExternoConEmail(BufferBusquedas buscador, double tiempoEecucionMax) {
+	public TerminalConEnvioEmailEnLaBusqueda(Terminal terminal, double tiempoEecucionMax) {
 		this.tiempoEsperaMax=tiempoEecucionMax;
-		this.buscador = buscador;
+		this.terminal = terminal;
 	}
 	public  void buscar(String texto1, String texto2){
-		double tiempoEjecucion= buscador.busquedaExterna(texto1, texto2);
+		
+		double tiempoEjecucion=	terminal.buscar(texto1, texto2);
+		
 		if(tiempoEjecucion>tiempoEsperaMax){
 			Administrador adminInterno=new Administrador();
 			Mail mail = new Mail();
@@ -27,4 +27,5 @@ public class BuscadorBancoExternoConEmail {
 			mailSender.send(mail);
 		}
 	}
+
 }
