@@ -7,17 +7,14 @@ import otros.MailSender;
 import otros.TiempoEjecucion;
 
 public class BuscadorBancoExternoConEmail {
-	BuscadorBancoExterno buscador;
+	BufferBusquedas buscador;
 	double tiempoEsperaMax;
-	public BuscadorBancoExternoConEmail(BuscadorBancoExterno buscador, double tiempoEecucionMax) {
+	public BuscadorBancoExternoConEmail(BufferBusquedas buscador, double tiempoEecucionMax) {
 		this.tiempoEsperaMax=tiempoEecucionMax;
 		this.buscador = buscador;
 	}
 	public  void buscar(String texto1, String texto2){
-		TiempoEjecucion.Start();
-		buscador.buscar(texto1, texto2);
-		TiempoEjecucion.Stop();
-		double tiempoEjecucion=TiempoEjecucion.getTiempoEjecucion();
+		double tiempoEjecucion= buscador.busquedaExterna(texto1, texto2);
 		if(tiempoEjecucion>tiempoEsperaMax){
 			Administrador adminInterno=new Administrador();
 			Mail mail = new Mail();

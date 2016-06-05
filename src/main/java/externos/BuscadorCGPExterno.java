@@ -21,7 +21,7 @@ public class BuscadorCGPExterno implements InterfazBuscadores {
 	
 	public  void buscar(String texto1, String texto2){	
 		if (texto2 == ""){
-			
+
 			List<POI> puntos=componente.buscar(texto1).stream()
 					.map(unCentro->adaptarCGP(unCentro))
 					.collect(Collectors.toList());
