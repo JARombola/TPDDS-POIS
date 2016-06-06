@@ -1,6 +1,9 @@
 package principal;
 
 import otros.Administrador;
+
+import java.util.List;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
@@ -26,9 +29,10 @@ public class TerminalConEnvioEmailEnLaBusqueda {
 		this.mailSender = mailSender;
 	}
 	
-	public  void buscar(String texto1, String texto2){
+	public  List<POI> buscar(String texto1, String texto2){
 		
-		double tiempoEjecucion=	terminal.buscar(texto1, texto2);
+		List<POI> resultadosBusqueda = terminal.buscar(texto1, texto2);
+		double tiempoEjecucion = terminal.getUltimaBusqueda().getTiempoBusqueda();
 		
 		if(tiempoEjecucion>tiempoEsperaMax){
 			MimeMessage message = mailSender.createMimeMessage();
@@ -53,6 +57,7 @@ public class TerminalConEnvioEmailEnLaBusqueda {
 				e.printStackTrace();
 			}
 		}
+	return resultadosBusqueda;
 	}
 
 }

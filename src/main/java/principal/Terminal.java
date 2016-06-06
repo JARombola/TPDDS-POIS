@@ -16,12 +16,12 @@ public class Terminal{
 	private Mapa mapa;
 	private List<Busqueda> historialBusquedas; //teoricamente deberia ya estar ordenado por fecha porque se van guardando a medida que se hacen, pero despues veo de ordenarlo por las dudas
 
-	public double buscar(String texto1, String texto2){
-		double TIEMPO_DE_BUSQUEDA=10;			//TODO Agregar tiempos de demora
+	public List<POI> buscar(String texto1, String texto2){
+		double TIEMPO_DE_BUSQUEDA;
 		Busqueda nuevaBusqueda=new Busqueda();
+		
 		TiempoEjecucion.Start();
-
-		List<POI>resultadosBusqueda=this.getMapa().buscar(texto1, texto2);
+		List<POI> resultadosBusqueda = this.getMapa().buscar(texto1, texto2);
 		TiempoEjecucion.Stop();
 		TIEMPO_DE_BUSQUEDA= TiempoEjecucion.getTiempoEjecucion();
 
@@ -29,7 +29,7 @@ public class Terminal{
 		nuevaBusqueda.setFraseBuscada(texto1+" "+texto2);
 		nuevaBusqueda.setTiempoBusqueda(TIEMPO_DE_BUSQUEDA);
 		historialBusquedas.add(nuevaBusqueda);
-		return TIEMPO_DE_BUSQUEDA;
+		return resultadosBusqueda;
 	}
 	
 	public int reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas
@@ -58,6 +58,10 @@ public class Terminal{
 	public int cantidadTotalResultados(){		
 		int cantidadResultados=getHistorialBusquedas().stream().mapToInt(a->a.getCantidadResultados()).sum(); //TODO verificar
 		return cantidadResultados;
+	}
+	
+	public Busqueda getUltimaBusqueda(){
+		return historialBusquedas.get(historialBusquedas.size()-1);
 	}
 	
 	public void setHistorialBusquedas(List<Busqueda> busquedas) {
