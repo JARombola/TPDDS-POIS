@@ -1,13 +1,10 @@
 package tests;
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import principal.Mapa;
-import principal.POI;
 import tipos.Banco;
 import tipos.CGP;
 import tipos.Local;

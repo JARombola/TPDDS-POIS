@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import externos.BufferBusquedas;
-import externos.OrigenDatos;
-import otros.TiempoEjecucion;
 import tipos.Banco;
 import tipos.CGP;
 import tipos.Local;
@@ -18,7 +16,6 @@ import tipos.ParadaColectivo;
 public class Mapa {
 
 	static List<POI> pois;
-	List<OrigenDatos> origenesDatos;
 	BufferBusquedas buffer = new BufferBusquedas();
 	
 	
@@ -59,7 +56,6 @@ public class Mapa {
 
 	public Mapa() {
 		pois = new ArrayList<POI>();
-		origenesDatos=new ArrayList<OrigenDatos>();
 	}
 
 	public List<POI> getListaPOIS() {
@@ -69,15 +65,7 @@ public class Mapa {
 	public void setPOI(POI poi) {
 		pois.add(poi);
 	}
-	public List<OrigenDatos> getOrigenesDatos() {
-		return origenesDatos;
-	}
 
-	
-	
-	public void setOrigenesDatos(List<OrigenDatos> origenesDatos) {
-		this.origenesDatos = origenesDatos;
-	}
 	// -------------------ABM POIS-----------------------
 	public void registrarPOI(String tipo){
 		POI puntoNuevo=crearPoi(tipo);

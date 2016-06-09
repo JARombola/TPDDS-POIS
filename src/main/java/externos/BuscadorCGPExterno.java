@@ -6,10 +6,6 @@ import java.util.stream.Collectors;
 
 import org.joda.time.LocalTime;
 
-import otros.Administrador;
-import otros.Mail;
-import otros.MailSender;
-import otros.TiempoEjecucion;
 import principal.Horario;
 import principal.POI;
 import tipos.CGP;

@@ -9,8 +9,6 @@ import org.joda.time.LocalDate;
 
 import otros.TiempoEjecucion;
 
-
-
 public class Terminal{
 	private String nombre;
 	private Mapa mapa;
@@ -33,15 +31,15 @@ public class Terminal{
 	}
 	
 	public int reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas
-		int cantBusq = historialBusquedas.size();
+		int cantBusquedas = historialBusquedas.size();
 		int i;
-		for (i = 0; i < cantBusq; ) {
+		for (i = 0; i < cantBusquedas; ) {				//va a mostrar todas las busquedas POR fecha
 			
 			LocalDate fecha=historialBusquedas.get(i).getFecha();
 			List<Busqueda>busquedas=busquedasDeFecha(fecha);
 			
-			i+=busquedas.size();
-			busquedas.forEach(a->System.out.println(a.getFraseBuscada()));
+			i+=busquedas.size();					//suma la cantidad de resultados de la fecha
+			busquedas.forEach(unaBusqueda->System.out.println(unaBusqueda.getFraseBuscada()));
 			System.out.println("["+fecha+"] - Cantidad busquedas: "+busquedas.size());
 		}
 		return i;

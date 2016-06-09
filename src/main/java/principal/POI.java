@@ -52,7 +52,7 @@ public abstract class POI{
 
 	//---------------BUSQUEDA-----------------------------------
 	public boolean tienePalabra(String texto){
-		return (getNombre().contains(texto) || getTags().contains(texto) || getDireccion().getCalle().contains(texto));
+		return (getNombre().contains(texto) || getTags().contains(texto)); //|| getDireccion().getCalle().contains(texto));
 	}
 
 	//-----------------CERCANIA---------------------------------------------------

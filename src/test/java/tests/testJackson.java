@@ -8,7 +8,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.internal.invocation.realmethod.CGLIBProxyRealMethod;
 
 import json.JsonFactory;
 import principal.Direccion;

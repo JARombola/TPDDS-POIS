@@ -16,8 +16,8 @@ public class ParadaColectivo extends POI{
 	}
 	
 	public boolean tienePalabra(String palabra) {
-		
-		return (getNombre().contains(palabra));
+		 
+		return (getNombre().contains(palabra) || this.getTags().contains(palabra));
 	}
 	
 	/*

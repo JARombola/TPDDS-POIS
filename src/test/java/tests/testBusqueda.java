@@ -1,14 +1,13 @@
 package tests;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import externos.BufferBusquedas;
+import externos.BuscadorBancoExterno;
+import externos.BuscadorCGPExterno;
 import externos.OrigenDatos;
 import principal.Mapa;
 import tipos.Banco;
@@ -29,18 +28,20 @@ public class testBusqueda {
 	Banco banco;
 	Mapa mapa;
 	BufferBusquedas buffer;
-	OrigenDatos origen1,origen2,origen3;
-	List<OrigenDatos> listaOrigenesDatos;
+	BuscadorBancoExterno buscadorBanco;
+	BuscadorCGPExterno buscadorCgp;
+	OrigenDatos origenBanco,origenCGP,origen3;
 
 	
 	@Before
 	public void initialize(){
-		listaOrigenesDatos=new ArrayList<OrigenDatos>();
 		buffer=new BufferBusquedas();
-		origen1 =Mockito.mock(OrigenDatos.class);
-		origen2 =Mockito.mock(OrigenDatos.class);
-		listaOrigenesDatos.add(origen1);
-		listaOrigenesDatos.add(origen2);
+		buscadorBanco=new BuscadorBancoExterno();
+		buscadorCgp=new BuscadorCGPExterno();
+		origenBanco =Mockito.mock(OrigenDatos.class);
+		buscadorBanco.setComponente(origenBanco);
+		origenCGP =Mockito.mock(OrigenDatos.class);
+		buscadorCgp.setComponente(origenCGP);
 		parada1 = new ParadaColectivo();
 		parada2 = new ParadaColectivo();
 		parada3 = new ParadaColectivo();
@@ -74,15 +75,16 @@ public class testBusqueda {
 			mapa.setPOI(mueblesParaTodos);
 			mapa.setPOI(cgp);
 			mapa.setPOI(banco);
+			buffer.agregarExterno(buscadorBanco);
+			buffer.agregarExterno(buscadorCgp);
 			mapa.setBuffer(buffer);
-			mapa.setOrigenesDatos(listaOrigenesDatos);
 	}
 
 	@Test		
 	public void busquedaParadas114(){
 		encontrados=mapa.buscar("114","").size();		//3 paradas
 		Assert.assertEquals(encontrados, 3,0);
-		Mockito.verify(origen1,Mockito.times(1)).buscar("114");		
+		Mockito.verify(origenCGP,Mockito.times(1)).buscar("114");		//a origen1 no lo llama xq corresponde a un banco
 	}
 	
 	@Test	
@@ -95,7 +97,7 @@ public class testBusqueda {
 	public void busquedaJubilacion(){
 		encontrados=mapa.buscar("jubilacion","").size();		//banco
 		Assert.assertEquals(encontrados,1,0);
-		Mockito.verify(origen1,Mockito.times(1)).buscar("jubilacion");	
+		Mockito.verify(origenCGP,Mockito.times(1)).buscar("jubilacion");	
 	}
 	
 	@Test	
@@ -105,14 +107,8 @@ public class testBusqueda {
 	}
 	
 	@Test
-	public void busquedaTagsParada(){
-		encontrados=mapa.buscar("Feo","").size();
-		Assert.assertEquals(encontrados,1,0);
-	}
-	@Test
 	public void busquedaExternosCGP(){
 		mapa.buscar("asesoramiento","");
-		Mockito.verify(origen1,Mockito.times(1)).buscar("asesoramiento");
-		Mockito.verify(origen2,Mockito.times(1)).buscar("asesoramiento");
+		Mockito.verify(origenCGP,Mockito.times(1)).buscar("asesoramiento");
 	}
 }

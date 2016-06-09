@@ -36,22 +36,17 @@ public class TerminalConEnvioEmailEnLaBusqueda {
 		
 		if(tiempoEjecucion>tiempoEsperaMax){
 			MimeMessage message = mailSender.createMimeMessage();
-			
 				Administrador adminInterno=new Administrador();
-			
 			MimeMessageHelper helper;
-				
 			try {
 			
 				helper = new MimeMessageHelper(message, true);
-
 				helper.setFrom(simpleMailMessage.getFrom());
 				helper.setTo(simpleMailMessage.getTo());
 				helper.setSubject(simpleMailMessage.getSubject());
 				helper.setText(String.format(
-					simpleMailMessage.getText(), adminInterno.getEmail(), "tardo mucho la busqueda")); 
+					simpleMailMessage.getText(), adminInterno.getEmail(), "Busqueda demasiado lenta")); 
 		//	this.mailSender.send(message);
-					
 			} catch (MessagingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

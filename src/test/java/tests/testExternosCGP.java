@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import externos.BufferBusquedas;
-import externos.BuscadorBancoExterno;
 import externos.BuscadorCGPExterno;
 import externos.CentroDTO;
 import externos.OrigenDatos;
