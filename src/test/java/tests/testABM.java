@@ -48,6 +48,7 @@ public class testABM {
 	     System.out.println(mapa.getListaPOIS().get(pos).getDireccion().getNumero());
 
 	}
+	
 	@Test		
 	public void eliminarPOI(){
 		mapa.agregarOmodificar(banco);
