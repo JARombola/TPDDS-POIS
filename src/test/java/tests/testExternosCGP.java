@@ -15,6 +15,7 @@ import externos.CentroDTO;
 import externos.OrigenDatos;
 import externos.RangosServiciosDTO;
 import externos.ServiciosDTO;
+import principal.Buscador;
 import principal.Horario;
 import principal.Mapa;
 import tipos.CGP;
@@ -30,6 +31,7 @@ public class testExternosCGP {
 	List<CentroDTO> centros;
 	Mapa mapa;
 	BuscadorCGPExterno buscadorExterno;
+	Buscador buscador;
 	
 	@Before
 	public void initialize() {
@@ -71,7 +73,10 @@ public class testExternosCGP {
 		centros.add(cgp);
 		Mockito.when(cgpMock.buscar("9 de julio")).thenReturn(centros);
 		buffer = new BufferBusquedas();
-		mapa.setBuffer(buffer);
+
+		buscador = new Buscador();
+			buscador.setBuffer(buffer);
+			buscador.setMapa(mapa);
 		
 		buscadorExterno = new BuscadorCGPExterno();
 		buscadorExterno.setComponente(cgpMock);
@@ -81,17 +86,17 @@ public class testExternosCGP {
 	
 	@Test
 	public void testDomicilioCalle() {
-		mapa.buscar("Av. 9 de Julio","");
+		buscador.buscar("Av. 9 de Julio","");
 		Assert.assertEquals(cgp.getCalle(),"Av. 9 de Julio");
 		Mockito.verify(cgpMock,Mockito.times(1)).buscar("Av. 9 de Julio");
 	}
 	@Test
 	public void testBusquedaExternaCGP() {
 		Assert.assertEquals(mapa.getListaPOIS().size(), 0);
-		mapa.buscar("9 de julio","");
+		buscador.buscar("9 de julio","");
 		Assert.assertEquals(mapa.getListaPOIS().size(), 1);			//La lista esta vacia, y agrega el nuevo encontrado en el externo
-		mapa.buscar("9 de julio","");
-		Assert.assertEquals(mapa.getListaPOIS().size(), 2);
+		buscador.buscar("9 de julio","");
+		Assert.assertEquals(mapa.getListaPOIS().size(), 1);			//Esto estaba en 2, que creo que estaba mal porque si busca lo mismo, tendria que modificarlo, no agregar un nuevo POI
 		cgpMock.buscar("9 de julio");
 		Mockito.verify(cgpMock,Mockito.times(3)).buscar("9 de julio");
 	}

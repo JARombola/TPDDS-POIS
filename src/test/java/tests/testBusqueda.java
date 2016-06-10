@@ -9,6 +9,7 @@ import externos.BufferBusquedas;
 import externos.BuscadorBancoExterno;
 import externos.BuscadorCGPExterno;
 import externos.OrigenDatos;
+import principal.Buscador;
 import principal.Mapa;
 import tipos.Banco;
 import tipos.CGP;
@@ -31,11 +32,12 @@ public class testBusqueda {
 	BuscadorBancoExterno buscadorBanco;
 	BuscadorCGPExterno buscadorCgp;
 	OrigenDatos origenBanco,origenCGP,origen3;
+	Buscador buscador;
 
 	
 	@Before
 	public void initialize(){
-		buffer=new BufferBusquedas();
+		
 		buscadorBanco=new BuscadorBancoExterno();
 		buscadorCgp=new BuscadorCGPExterno();
 		origenBanco =Mockito.mock(OrigenDatos.class);
@@ -75,40 +77,47 @@ public class testBusqueda {
 			mapa.setPOI(mueblesParaTodos);
 			mapa.setPOI(cgp);
 			mapa.setPOI(banco);
+			
+		buffer=new BufferBusquedas();
 			buffer.agregarExterno(buscadorBanco);
 			buffer.agregarExterno(buscadorCgp);
-			mapa.setBuffer(buffer);
+		buscador = new Buscador();
+			buscador.setBuffer(buffer);
+			buscador.setMapa(mapa);
+		
 	}
 
 	@Test		
 	public void busquedaParadas114(){
-		encontrados=mapa.buscar("114","").size();		//3 paradas
+		encontrados=buscador.buscar("114","").size();		//3 paradas
 		Assert.assertEquals(encontrados, 3,0);
 		Mockito.verify(origenCGP,Mockito.times(1)).buscar("114");		//a origen1 no lo llama xq corresponde a un banco
 	}
 	
 	@Test	
 	public void busquedaAsesoramiento(){
-		encontrados=mapa.buscar("asesoramiento","").size();
+		encontrados=buscador.buscar("asesoramiento","").size();
 		Assert.assertEquals(encontrados,2,0);					//banco y CGP	
 	}
 	
 	@Test	
 	public void busquedaJubilacion(){
-		encontrados=mapa.buscar("jubilacion","").size();		//banco
+		encontrados=buscador.buscar("jubilacion","").size();		//banco
 		Assert.assertEquals(encontrados,1,0);
 		Mockito.verify(origenCGP,Mockito.times(1)).buscar("jubilacion");	
 	}
 	
 	@Test	
 	public void busquedaSociedad(){
-		encontrados=mapa.buscar("sociedad","").size();		//muebles sociedad anonima=1	
+		encontrados=buscador.buscar("sociedad","").size();		//muebles sociedad anonima=1	
 		Assert.assertEquals(encontrados,1,0);
 	}
 	
 	@Test
 	public void busquedaExternosCGP(){
-		mapa.buscar("asesoramiento","");
+		buscador.buscar("asesoramiento","");
 		Mockito.verify(origenCGP,Mockito.times(1)).buscar("asesoramiento");
 	}
+	
+	
 }

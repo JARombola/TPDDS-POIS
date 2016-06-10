@@ -16,44 +16,10 @@ import tipos.ParadaColectivo;
 public class Mapa {
 
 	static List<POI> pois;
-	BufferBusquedas buffer = new BufferBusquedas();
 	
-	
-	//---------------BUSQUEDA-----------------------------------
-	public List<POI> buscar(String texto1, String texto2) {
-		//System.out.println("Buscó: "+texto1);
-
-		buffer.busquedaExterna(texto1, texto2);
-		buffer.getResultados().forEach(poi->agregarOmodificar(poi));			//Primero busqueda externa
-			
-		List<POI> resultadosBusqueda;
-		resultadosBusqueda= getListaPOIS().stream()
-							.filter(poi->poi.tienePalabra(texto1))
-							.collect(Collectors.toList());
-
-		return resultadosBusqueda;
-	}
-	
-	
-	public void agregarOmodificar (POI poiEntrante){
-		int posPOI=pois.indexOf(poiEntrante);
-		if(posPOI!=-1){
-			pois.get(posPOI).modificar(poiEntrante);;
-		}else{
-			pois.add(poiEntrante);
-		}
-	}
 	
 	// -------------------GETTERS,SETTERS-----------------
-
-	public BufferBusquedas getBuffer() {
-		return buffer;
-	}
-
-	public void setBuffer(BufferBusquedas buffer) {
-		this.buffer = buffer;
-	}
-
+	
 	public Mapa() {
 		pois = new ArrayList<POI>();
 	}
@@ -87,6 +53,16 @@ public class Mapa {
 			pois.remove(posPOI);
 		}else{
 		     System.out.println("No existe el POI ingresado");
+		}
+	}
+	
+	public void agregarOmodificar (POI poiEntrante){
+		List<POI> mismoPoiEnSistema = pois.stream().filter(poi->poi.equals(poiEntrante)).collect(Collectors.toList());
+ 		
+ 		if(mismoPoiEnSistema.size()==1){
+ 			mismoPoiEnSistema.get(0).modificar(poiEntrante);
+ 		} else {
+ 			pois.add(poiEntrante);
 		}
 	}
 

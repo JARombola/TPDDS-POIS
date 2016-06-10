@@ -10,8 +10,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import json.JsonFactory;
+import principal.Buscador;
 import principal.Direccion;
 import principal.Mapa;
+import principal.Terminal;
 import tipos.Banco;
 import externos.BancoExterno;
 import externos.BufferBusquedas;
@@ -26,7 +28,6 @@ public class testJackson {
 		private BuscadorBancoExterno buscadorExterno;
 		
 		private Mapa mapa;
-		private BufferBusquedas buffer;
 		private List<BancoExterno> listaBancosExt;
 		private String jsonBanco =  "[{\"nombre\": \"Banco de la Plaza\", "
 				+ "\"latitud\": -35.9338322, "
@@ -38,6 +39,9 @@ public class testJackson {
 		OrigenDatos banco;
 		BancoExterno bancoExt;
 		Direccion dire;
+		Terminal terminal;
+		Buscador buscador;
+		BufferBusquedas buffer;
 			
 		@Before
 		public void setUp() {
@@ -48,17 +52,19 @@ public class testJackson {
 				bancoExt.setDireccion(dire);
 				bancoExt.setGerente("Mr. Burns");
 				bancoExt.setNombre("Banco de Madera");
-			mapa= new Mapa();
-			buffer = new BufferBusquedas();
 			banco=Mockito.mock(OrigenDatos.class);
 			Mockito.when(banco.buscar("Banco de la Plaza", "cobro cheques")).thenReturn(jsonBanco);
 			listaBancosExt = jsonFactory.fromJson(jsonBanco);
-			mapa.setBuffer(buffer);
-				
+	
 			buscadorExterno = new BuscadorBancoExterno();
-			buscadorExterno.setComponente(banco);
+				buscadorExterno.setComponente(banco);
 			
-			buffer.agregarExterno(buscadorExterno);
+			buffer = new BufferBusquedas();
+			mapa= new Mapa();
+			buscador = new Buscador();
+				buscador.setBuffer(buffer);
+				buscador.agregarExterno(buscadorExterno);
+				buscador.setMapa(mapa);
 		}
 		
 		
@@ -73,7 +79,7 @@ public class testJackson {
 		}
 		@Test
 		public void bancoATravesDelMapa() {
-			mapa.buscar("Banco de la Plaza", "cobro cheques");
+			buscador.buscar("Banco de la Plaza", "cobro cheques");
 			assertEquals(bancoExt.getNombre(), "Banco de Madera");
 			Mockito.verify(banco,Mockito.times(1)).buscar("Banco de la Plaza", "cobro cheques");
 			assertEquals(mapa.getListaPOIS().size(),1);				//Estaba vacio y agrega el banco

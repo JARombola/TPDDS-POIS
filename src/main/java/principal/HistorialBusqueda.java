@@ -3,14 +3,14 @@ package principal;
 import org.joda.time.LocalDate;
 
 
-public class Busqueda {
+public class HistorialBusqueda {
 	
 	private String fraseBuscada;
 	public int cantidadResultados;
 	private double tiempoBusqueda;
 	private LocalDate fecha; 
 	
-	public Busqueda(){
+	public HistorialBusqueda(){
 		this.fecha=LocalDate.now();
 	}
 	

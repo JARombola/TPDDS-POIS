@@ -1,60 +1,57 @@
 package tests;
 
-
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import principal.Direccion;
+
 import principal.Mapa;
 import tipos.Banco;
 import tipos.CGP;
+import tipos.Local;
 
 public class testABM {
-	CGP cgp;
-	Banco banco;
+	Banco poi1;
+	CGP poi2;
+	Banco poi3;
+	Local poi4;
 	Mapa mapa;
-	Direccion dire;
+	
 	@Before
-	public void initialize(){
+	public void initialize() {
+		poi1 = new Banco();
+			poi1.setId(12);
+			poi1.setNombre("La Nacion");
+		poi2 = new CGP();
+			poi2.setId(4);
+		poi3 = new Banco();
+			poi3.setId(12);
+			poi3.setNombre("Ciudad");
+		poi4 = new Local();
+			poi4.setId(8);
+			
 		mapa = new Mapa();
-		cgp = new CGP();
-		dire=new Direccion();
-		banco = new Banco();
-		dire.setCalle("hola");
-		dire.setNumero(100);
-		cgp.setDireccion(dire);
-		
+			mapa.setPOI(poi1);
+			mapa.setPOI(poi2);
 		
 	}
 	
-	@Test		
-	public void agregarPOI(){
-		mapa.agregarOmodificar(banco);
-		mapa.agregarOmodificar(cgp);
-		Assert.assertEquals(mapa.getListaPOIS().size(), 2);
-
-	}
-	@Test		
-	public void modificarPOI(){
-		mapa.agregarOmodificar(banco);
-		mapa.agregarOmodificar(cgp);
-		int pos=mapa.getListaPOIS().indexOf(cgp);
-		dire.setNumero(150);
-		dire.setCalle("chau");
-		cgp.setDireccion(dire);
-		mapa.agregarOmodificar(cgp);
-	     System.out.println(mapa.getListaPOIS().get(pos).getDireccion().getCalle());
-	     System.out.println(mapa.getListaPOIS().get(pos).getDireccion().getNumero());
-
+	@Test
+	public void testModificarPoi(){
+		mapa.agregarOmodificar(poi3);
+		Assert.assertEquals(poi1.getNombre(),"Ciudad");
 	}
 	
+	@Test
+	public void testCrearPoi(){
+		mapa.agregarOmodificar(poi4);
+		Assert.assertEquals(3,mapa.getListaPOIS().size());
+		
+	}
 	
 	@Test		
-	public void eliminarPOI(){
-		mapa.agregarOmodificar(banco);
-		mapa.agregarOmodificar(cgp);
-		mapa.eliminarPOI(cgp);
+	public void testEliminarPOI(){
+		mapa.eliminarPOI(poi1);
 		Assert.assertEquals(mapa.getListaPOIS().size(), 1);
 	}
+	
 }
