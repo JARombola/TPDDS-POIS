@@ -1,5 +1,7 @@
 package principal;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 
 
@@ -9,7 +11,18 @@ public class HistorialBusqueda {
 	public int cantidadResultados;
 	private double tiempoBusqueda;
 	private LocalDate fecha; 
+	private List<POI> resultadosBusqueda;
 	
+	public List<POI> getResultadosBusqueda() {
+		return resultadosBusqueda;
+	}
+
+
+	public void setResultadosBusqueda(List<POI> resultadosBusqueda) {
+		this.resultadosBusqueda = resultadosBusqueda;
+	}
+
+
 	public HistorialBusqueda(){
 		this.fecha=LocalDate.now();
 	}

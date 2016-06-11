@@ -12,6 +12,7 @@ import externos.BufferBusquedas;
 import externos.BuscadorCGPExterno;
 import externos.OrigenDatos;
 import principal.HistorialBusqueda;
+import principal.Buscador;
 import principal.ControlTerminales;
 import principal.Mapa;
 import principal.Terminal;
@@ -25,15 +26,17 @@ public class testReportes {
 	Mapa mapa;
 	ParadaColectivo parada1, parada2;
 	ControlTerminales controlMaestro;
-	BufferBusquedas buscador;
+	BufferBusquedas buffer;
 	OrigenDatos cgpExterno;
 	BuscadorCGPExterno buscadorCgp;
+	Buscador buscador;
+	
 	
 	
 	@Before
 	public void initialize(){
 		mapa=new Mapa();
-		buscador=new BufferBusquedas();
+		buffer=new BufferBusquedas();
 		cgpExterno=Mockito.mock(OrigenDatos.class);
 		buscadorCgp=new BuscadorCGPExterno();
 		buscadorCgp.setComponente(cgpExterno);
@@ -74,6 +77,10 @@ public class testReportes {
 		terminal2.setNombre("Terminal 2");
 		controlMaestro.agregarTerminal(terminal);
 		controlMaestro.agregarTerminal(terminal2);
+		buscador = new Buscador();
+		terminal.setBuscador(buscador);
+		buscador.setMapa(mapa);
+		buscador.setBuffer(buffer);
 	}
 	
 	@Test

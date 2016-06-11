@@ -1,6 +1,7 @@
 package principal;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,28 +13,15 @@ import otros.TiempoEjecucion;
 public class Terminal{
 	private String nombre;
 	private Mapa mapa;
-	private List<HistorialBusqueda> historialBusquedas; //teoricamente deberia ya estar ordenado por fecha porque se van guardando a medida que se hacen, pero despues veo de ordenarlo por las dudas
 	private Buscador buscador;
+	private List<HistorialBusqueda> historialBusquedas = new ArrayList();
 	
 	
 
 	public List<POI> buscar(String texto1, String texto2){
-		
-		double TIEMPO_DE_BUSQUEDA;
-		HistorialBusqueda nuevaBusqueda=new HistorialBusqueda();
-		
-		TiempoEjecucion.Start();
 		List<POI> resultadosBusqueda = buscador.buscar(texto1, texto2);
-		TiempoEjecucion.Stop();
-		TIEMPO_DE_BUSQUEDA= TiempoEjecucion.getTiempoEjecucion();
-
-		nuevaBusqueda.setCantidadResultados(resultadosBusqueda.size());
-		nuevaBusqueda.setFraseBuscada(texto1+" "+texto2);
-		nuevaBusqueda.setTiempoBusqueda(TIEMPO_DE_BUSQUEDA);
-		historialBusquedas.add(nuevaBusqueda);
-		
+		historialBusquedas.add(buscador.getHistorialBusqueda());
 		return resultadosBusqueda;
-		
 	}
 	
 	public int reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas
