@@ -1,11 +1,11 @@
-package principal;
+package principal.POIS;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalTime;
 
-import tipos.Servicio;
+import principal.POIS.TiposPOI.Servicio;
 
 public class EntesConServicios {
 	List<Servicio> servicios;

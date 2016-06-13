@@ -1,4 +1,4 @@
-package otros;
+package configuracionTerminales;
 
 public class TiempoEjecucion {
 	private static  double time_start,time_end, tiempoEjecucion;

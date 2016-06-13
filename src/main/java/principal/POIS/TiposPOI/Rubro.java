@@ -1,4 +1,4 @@
-package tipos;
+package principal.POIS.TiposPOI;
 
 
 

@@ -4,14 +4,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import principal.Comuna;
-import principal.Coordenadas;
-import principal.Maquina;
-import tipos.Banco;
-import tipos.CGP;
-import tipos.Local;
-import tipos.ParadaColectivo;
-import tipos.Rubro;
+import principal.POIS.Comuna;
+import principal.POIS.Coordenadas;
+import principal.POIS.TiposPOI.Banco;
+import principal.POIS.TiposPOI.CGP;
+import principal.POIS.TiposPOI.Local;
+import principal.POIS.TiposPOI.ParadaColectivo;
+import principal.POIS.TiposPOI.Rubro;
+import principal.Terminales.Maquina;
 
 public class testCercania {
 	Banco banco;

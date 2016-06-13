@@ -1,4 +1,4 @@
-package principal;
+package principal.Terminales;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import externos.BufferBusquedas;
-import tipos.Banco;
-import tipos.CGP;
-import tipos.Local;
-import tipos.ParadaColectivo;
+import principal.POIS.POI;
+import principal.POIS.TiposPOI.Banco;
+import principal.POIS.TiposPOI.CGP;
+import principal.POIS.TiposPOI.Local;
+import principal.POIS.TiposPOI.ParadaColectivo;
 
 
 public class Mapa {
@@ -65,6 +65,13 @@ public class Mapa {
  			pois.add(poiEntrante);
 		}
 	}
+	/*
+	public List<POI> buscar(String textoBuscado){
+		return(this.getListaPOIS().stream()
+				.filter(poi->poi.tienePalabra(textoBuscado))
+				.collect(Collectors.toList()));
+
+	}*/
 
 	
 	

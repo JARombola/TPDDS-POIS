@@ -1,13 +1,12 @@
-package tipos;
+package principal.POIS.TiposPOI;
 
 
 import org.joda.time.LocalTime;
 
-import principal.Comuna;
-
-import principal.EntesConServicios;
-import principal.Maquina;
-import principal.POI;
+import principal.POIS.Comuna;
+import principal.POIS.EntesConServicios;
+import principal.POIS.POI;
+import principal.Terminales.Maquina;
 
 public class CGP extends POI{
 	private Comuna comuna;

@@ -1,9 +1,10 @@
-package tipos;
+package principal.POIS.TiposPOI;
 
 
 import org.joda.time.LocalTime;
-import principal.EntesConServicios;
-import principal.POI;
+
+import principal.POIS.EntesConServicios;
+import principal.POIS.POI;
 
 
 public class Banco extends POI{

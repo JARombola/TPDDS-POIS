@@ -9,7 +9,7 @@ import principal.POIS.TiposPOI.CGP;
 import principal.POIS.TiposPOI.Local;
 import principal.Terminales.Mapa;
 
-public class testABM {
+public class testCreacionYActualizacionDePOI {
 	Banco poi1;
 	CGP poi2;
 	Banco poi3;
@@ -46,12 +46,6 @@ public class testABM {
 		mapa.agregarOmodificar(poi4);
 		Assert.assertEquals(3,mapa.getListaPOIS().size());
 		
-	}
-	
-	@Test		
-	public void testEliminarPOI(){
-		mapa.eliminarPOI(poi1);
-		Assert.assertEquals(mapa.getListaPOIS().size(), 1);
 	}
 	
 }

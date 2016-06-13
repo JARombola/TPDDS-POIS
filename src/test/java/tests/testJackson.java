@@ -10,13 +10,13 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import json.JsonFactory;
-import principal.Buscador;
-import principal.Direccion;
-import principal.Mapa;
-import principal.Terminal;
-import tipos.Banco;
+import principal.POIS.Direccion;
+import principal.POIS.TiposPOI.Banco;
+import principal.Terminales.BufferBusquedas;
+import principal.Terminales.Buscador;
+import principal.Terminales.Mapa;
+import principal.Terminales.Terminal;
 import externos.BancoExterno;
-import externos.BufferBusquedas;
 import externos.BuscadorBancoExterno;
 import externos.OrigenDatos;
 

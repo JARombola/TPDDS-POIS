@@ -1,9 +1,11 @@
-package principal;
+package principal.POIS;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalTime;
+
+import principal.Terminales.Maquina;
 
 public abstract class POI{
 	private EntesConHorarios horarios;

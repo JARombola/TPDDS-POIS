@@ -1,4 +1,4 @@
-package principal;
+package principal.POIS;
 
 import org.uqbar.geodds.Point;
 import org.uqbar.geodds.Polygon;

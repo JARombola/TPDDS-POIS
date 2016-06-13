@@ -1,4 +1,4 @@
-package principal;
+package principal.POIS;
 
 import java.util.ArrayList;
 import java.util.List;

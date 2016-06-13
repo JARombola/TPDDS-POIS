@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import json.JsonFactory;
-import principal.POI;
-import tipos.Banco;
-import tipos.Servicio;
+import principal.POIS.POI;
+import principal.POIS.TiposPOI.Banco;
+import principal.POIS.TiposPOI.Servicio;
 
 public class BuscadorBancoExterno implements InterfazBuscadores {
 	OrigenDatos componente;

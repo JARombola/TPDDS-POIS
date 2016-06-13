@@ -1,4 +1,4 @@
-package otros;
+package configuracionTerminales;
 
 public class Post {
 	public Post() {

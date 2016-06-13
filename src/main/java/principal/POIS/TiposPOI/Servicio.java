@@ -1,10 +1,10 @@
-package tipos;
+package principal.POIS.TiposPOI;
 
 import java.util.List;
 
 import org.joda.time.LocalTime;
 
-import principal.EntesConHorarios;
+import principal.POIS.EntesConHorarios;
 
 
 public class Servicio{

@@ -5,18 +5,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import externos.BufferBusquedas;
 import externos.BuscadorBancoExterno;
 import externos.BuscadorCGPExterno;
 import externos.OrigenDatos;
-import principal.Buscador;
-import principal.Mapa;
-import tipos.Banco;
-import tipos.CGP;
-import tipos.Local;
-import tipos.ParadaColectivo;
-import tipos.Rubro;
-import tipos.Servicio;
+import principal.POIS.TiposPOI.Banco;
+import principal.POIS.TiposPOI.CGP;
+import principal.POIS.TiposPOI.Local;
+import principal.POIS.TiposPOI.ParadaColectivo;
+import principal.POIS.TiposPOI.Rubro;
+import principal.POIS.TiposPOI.Servicio;
+import principal.Terminales.BufferBusquedas;
+import principal.Terminales.Buscador;
+import principal.Terminales.Mapa;
 
 
 public class testBusqueda {

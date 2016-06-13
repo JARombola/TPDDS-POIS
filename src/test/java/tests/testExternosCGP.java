@@ -9,17 +9,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import externos.BufferBusquedas;
 import externos.BuscadorCGPExterno;
 import externos.CentroDTO;
 import externos.OrigenDatos;
 import externos.RangosServiciosDTO;
 import externos.ServiciosDTO;
-import principal.Buscador;
-import principal.Horario;
-import principal.Mapa;
-import tipos.CGP;
-import tipos.Servicio;
+import principal.POIS.Horario;
+import principal.POIS.TiposPOI.CGP;
+import principal.POIS.TiposPOI.Servicio;
+import principal.Terminales.BufferBusquedas;
+import principal.Terminales.Buscador;
+import principal.Terminales.Mapa;
 
 public class testExternosCGP {
 	RangosServiciosDTO rangoServicio, rangoServicio2, rangoServicio3;
@@ -98,7 +98,9 @@ public class testExternosCGP {
 		buscador.buscar("9 de julio","");
 		Assert.assertEquals(mapa.getListaPOIS().size(), 1);			//Esto estaba en 2, que creo que estaba mal porque si busca lo mismo, tendria que modificarlo, no agregar un nuevo POI
 		cgpMock.buscar("9 de julio");
-		Mockito.verify(cgpMock,Mockito.times(3)).buscar("9 de julio");
+		Mockito.verify(cgpMock,Mockito.times(2)).buscar("9 de julio");		
+		
+		
 	}
 	
 	@Test

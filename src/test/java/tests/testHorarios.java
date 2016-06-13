@@ -6,11 +6,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import tipos.Banco;
-import tipos.CGP;
-import tipos.Local;
-import tipos.ParadaColectivo;
-import tipos.Servicio;
+import principal.POIS.TiposPOI.Banco;
+import principal.POIS.TiposPOI.CGP;
+import principal.POIS.TiposPOI.Local;
+import principal.POIS.TiposPOI.ParadaColectivo;
+import principal.POIS.TiposPOI.Servicio;
 
 public class testHorarios {
 	Banco banco;

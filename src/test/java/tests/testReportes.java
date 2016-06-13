@@ -8,28 +8,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import externos.BufferBusquedas;
 import externos.BuscadorCGPExterno;
-import externos.OrigenDatos;
-import principal.HistorialBusqueda;
-import principal.Buscador;
-import principal.ControlTerminales;
-import principal.Mapa;
-import principal.Terminal;
-import tipos.ParadaColectivo;
+import principal.POIS.TiposPOI.ParadaColectivo;
+import principal.Terminales.BufferBusquedas;
+import principal.Terminales.Buscador;
+import principal.Terminales.Busqueda;
+import principal.Terminales.ControlTerminales;
+import principal.Terminales.Mapa;
+import principal.Terminales.Terminal;
 
 public class testReportes {
 	Terminal terminal,terminal2;
-	HistorialBusqueda busqueda1,busqueda2,busqueda3,busqueda4;
+	Busqueda busqueda1,busqueda2,busqueda3,busqueda4;
 	LocalDate fecha1, fecha2, fecha3, fecha4;
-	List<HistorialBusqueda> almacenamientoBusquedas;
+	List<Busqueda> almacenamientoBusquedas;
 	Mapa mapa;
 	ParadaColectivo parada1, parada2;
 	ControlTerminales controlMaestro;
 	BufferBusquedas buffer;
-	OrigenDatos cgpExterno;
 	BuscadorCGPExterno buscadorCgp;
-	Buscador buscador;
+	Buscador buscador, buscadorMock;
 	
 	
 	
@@ -37,9 +35,7 @@ public class testReportes {
 	public void initialize(){
 		mapa=new Mapa();
 		buffer=new BufferBusquedas();
-		cgpExterno=Mockito.mock(OrigenDatos.class);
-		buscadorCgp=new BuscadorCGPExterno();
-		buscadorCgp.setComponente(cgpExterno);
+		buscadorMock=Mockito.mock(Buscador.class);
 		controlMaestro=new ControlTerminales();
 		parada1 = new ParadaColectivo();
 		parada2 = new ParadaColectivo();
@@ -49,38 +45,42 @@ public class testReportes {
 		fecha2 = new LocalDate(2016,02,02);
 		fecha3 = new LocalDate(2016,02,02);
 		fecha4 = new LocalDate(2016,12,23);
-		busqueda1 = new HistorialBusqueda();
+		busqueda1 = new Busqueda();
 		busqueda1.setFecha(fecha1);
 		busqueda1.setFraseBuscada("Perro");
 		busqueda1.setCantidadResultados(100);
-		busqueda2 = new HistorialBusqueda();
+		busqueda2 = new Busqueda();
 		busqueda2.setFecha(fecha2);
 		busqueda2.setFraseBuscada("Gato");
 		busqueda2.setCantidadResultados(200);
-		busqueda3 = new HistorialBusqueda();
+		busqueda3 = new Busqueda();
 		busqueda3.setFecha(fecha3);
 		busqueda3.setFraseBuscada("Operativos");
 		busqueda3.setCantidadResultados(2);
-		busqueda4 = new HistorialBusqueda();
+		busqueda4 = new Busqueda();
 		busqueda4.setFecha(fecha4);
 		busqueda4.setFraseBuscada("Dejar_la_facultad");
-		almacenamientoBusquedas = new ArrayList<HistorialBusqueda>();
+		almacenamientoBusquedas = new ArrayList<Busqueda>();
 		mapa.setPOI(parada1);
 		mapa.setPOI(parada2);
 		terminal = new Terminal();
 		terminal2=new Terminal();
-		terminal.setHistorialBusquedas(almacenamientoBusquedas);
+
+		buscador = new Buscador();
+		buscador.setMapa(mapa);
+		buscador.setBuffer(buffer);
+		
+		terminal.setBuscador(buscador);
+		terminal2.setBuscador(buscador);
+			
+		terminal.getBuscador().setHistorialBusquedas(almacenamientoBusquedas);
 		terminal.setMapa(mapa);
 		terminal.setNombre("Terminal 1");
-		terminal2.setHistorialBusquedas(almacenamientoBusquedas);
+		terminal2.getBuscador().setHistorialBusquedas(almacenamientoBusquedas);
 		terminal2.setMapa(mapa);
 		terminal2.setNombre("Terminal 2");
 		controlMaestro.agregarTerminal(terminal);
 		controlMaestro.agregarTerminal(terminal2);
-		buscador = new Buscador();
-		terminal.setBuscador(buscador);
-		buscador.setMapa(mapa);
-		buscador.setBuffer(buffer);
 	}
 	
 	@Test
@@ -89,19 +89,28 @@ public class testReportes {
 		almacenamientoBusquedas.add(busqueda2);
 		almacenamientoBusquedas.add(busqueda3);
 		almacenamientoBusquedas.add(busqueda4);
-		assertEquals(terminal.reporteFechas(),4,0);
+		assertEquals(terminal.reporteFechas().size(),3,0);			//4 busquedas, pero 2 son del mismo dia => cuentan como una
 	}
 	
 	@Test
-	public void testReporteAlRealizarBusquedas (){
+	public void testOpcionBusqueda(){
 		terminal.buscar("Hola", "Chau");
 		terminal.buscar("114", "");
 		terminal.buscar("Julian", "Crack");
-		terminal.reporteFechas();
-		assertEquals(terminal.cantidadTotalResultados(),2,0);			//hubieron 2 aciertos (114)
+		//terminal.reporteFechas();
+		assertEquals(terminal.cantidadTotalResultados(),0,0);			//No se registraron, estaba desactivado
+		terminal.activarOpcion("historial");
+		terminal.buscar("Hola", "Chau");
+		terminal.buscar("114", "");
+		terminal.buscar("Julian", "Crack");
+		assertEquals(terminal.cantidadTotalResultados(),2,0);			//Registrados, hubieron 2 aciertos (114)
 		terminal.buscar("114", "");
 		assertEquals(terminal.cantidadTotalResultados(),4,0);			//2 aciertos mas
+		terminal.desactivarOpcion("historial");
+		terminal.buscar("114", "");
+		assertEquals(terminal.cantidadTotalResultados(),4,0);
 	}
+	
 	@Test
 	public void testReportesParcialesTerminal1(){
 		almacenamientoBusquedas.add(busqueda1);		//100 resultados
@@ -121,13 +130,14 @@ public class testReportes {
 		assertEquals(totalResultados, 604,0);				//302 de cada terminal (2) = 604
 	}
 	
-	
 	@Test
-	public void tiempoBusqueda(){			//no funciona, no se como hacer que el mock "espere"...
-		 Mockito.when(cgpExterno.buscar("asd","asd")).thenReturn("asd");
-		cgpExterno.buscar("asd","asd");
-		  Mockito.verify(cgpExterno,Mockito.timeout(100)).buscar("asd","asd");
+	public void testMail(){
+		buscador.setTiempoMax(0);
+		buscador.activarOpcion("Mail");
+		terminal.buscar("114", "");
+		buscador.desactivarOpcion("Mail");
 	}
+	
 	
 }
 

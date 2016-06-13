@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 
 import org.joda.time.LocalTime;
 
-import principal.Horario;
-import principal.POI;
-import tipos.CGP;
-import tipos.Servicio;
+import principal.POIS.Horario;
+import principal.POIS.POI;
+import principal.POIS.TiposPOI.CGP;
+import principal.POIS.TiposPOI.Servicio;
 
 public class BuscadorCGPExterno implements InterfazBuscadores {
 	OrigenDatos componente;
