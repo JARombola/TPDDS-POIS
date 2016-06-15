@@ -130,13 +130,13 @@ public class testReportes {
 		assertEquals(totalResultados, 604,0);				//302 de cada terminal (2) = 604
 	}
 	
-	@Test
+	/*	@Test
 	public void testMail(){
 		buscador.setTiempoMax(0);
 		buscador.activarOpcion("Mail");
 		terminal.buscar("114", "");
 		buscador.desactivarOpcion("Mail");
-	}
+	}*/
 	
 	
 }

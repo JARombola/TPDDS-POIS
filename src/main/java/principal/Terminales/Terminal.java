@@ -22,21 +22,32 @@ public class Terminal{
 		return resultadosBusqueda;
 	}
 	
-	public ArrayList<String> reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas
+	public List<DatosReporte> reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas
 		int cantBusquedas = historialBusquedas().size();
 		int i;
-		ArrayList<String> reporteBusquedasPorFechas=new ArrayList<String>();
+		List<DatosReporte> reporteBusquedasPorFechas=new ArrayList<DatosReporte>();
 		for (i = 0; i < cantBusquedas; ) {				
 			LocalDate fecha=historialBusquedas().get(i).getFecha();
 			List<Busqueda>busquedas=getBuscador().busquedasDeFecha(fecha);	
+			DatosReporte busquedasFecha=this.crearReporte(busquedas);
+			reporteBusquedasPorFechas.add(busquedasFecha);
 			i+=busquedas.size();							//suma la cantidad de resultados de la fecha
-			reporteBusquedasPorFechas.add("["+fecha+"] - Cantidad Busquedas: "+busquedas.size());
 		}
-		//reporteBusquedasPorFechas.forEach(unaBusqueda->System.out.println(unaBusqueda));
+		//reporteBusquedasPorFechas.forEach(unaBusqueda->System.out.println("["+unaBusqueda.getFecha()+"]"+"-Terminal: "+unaBusqueda.getTerminal()+" |Resultados: "+unaBusqueda.getDatos()));
 		return reporteBusquedasPorFechas;
 	}
 	
 	
+	private DatosReporte crearReporte(List<Busqueda> busquedas) {
+		DatosReporte datos=new DatosReporte();
+		datos.setFecha(busquedas.get(0).getFecha());
+		datos.setTerminal(this.getNombre());
+		datos.setDatos(busquedas.stream()
+				 .mapToInt(datosBusqueda->datosBusqueda.getCantidadResultados())
+				 .sum());
+		return datos;
+	}
+
 	public int cantidadTotalResultados(){		
 		int cantidadResultados=getBuscador().cantidadTotalResultados(); 
 		return cantidadResultados;

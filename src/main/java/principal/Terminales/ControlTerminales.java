@@ -27,13 +27,15 @@ public class ControlTerminales {
 	}
 	
 	public int busquedasTotalesDeTerminales(){
-		List<String> busquedasTotales=new ArrayList<String>();	//Crea un List<String> con todos los datos (Podria ser una nueva Clase "Reporte"
-		busquedasTotales.add("Usuario     |   Cantidad de Resultados Totales");
+		List<DatosReporte> busquedasTotales=new ArrayList<DatosReporte>();	//Una lista con los datos del reporte... esa lista vendria a ser el reporte en si
 		getTerminales().forEach(terminal->{
-			busquedasTotales.add(terminal.getNombre() + "   |   " + String.valueOf(terminal.cantidadTotalResultados()));			
+			DatosReporte datosBusquedaUnaTerminal=new DatosReporte();
+			datosBusquedaUnaTerminal.setTerminal(terminal.getNombre());
+			datosBusquedaUnaTerminal.setDatos(terminal.cantidadTotalResultados());
+			busquedasTotales.add(datosBusquedaUnaTerminal);			
 			}
 		);	
-		//busquedasTotales.forEach(a->System.out.println(a));
+		//busquedasTotales.forEach(a->System.out.println(a.getTerminal()+" Busquedas: "+a.getDatos()));
 		int cantidadResultados=terminales.stream().mapToInt(a->a.cantidadTotalResultados()).sum();
 		return cantidadResultados;
 	}
