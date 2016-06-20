@@ -25,8 +25,8 @@ public abstract class POI{
 	public void agregarTag(String tag) {
 		this.tags.add(tag);
 	}
-	public void eliminarTag(String tag) {
-		this.tags.remove(tag);
+	public void eliminarTags() {
+		this.tags.clear();
 	}
 	
 	public POI (){

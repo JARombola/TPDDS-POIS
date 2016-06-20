@@ -32,21 +32,10 @@ public class ProcesoActualizacionLocalesComerciales implements Proceso{
 				POI poi=mapa.getPOI(nombre);
 				if(poi!=null){
 					boolean primero=true;
-					List<String>tags=poi.getTags();
-					//elimino los que no estan 
-					for (String tag : tags){ 
-						boolean existe=parts.equals(tag);
-						if(!existe){//no esta
-							poi.eliminarTag(tag);
-						}
-					}
-					//agrego los nuevos tags
+					poi.eliminarTags();
 					for (String tag : parts){ 
 						if(!primero){//salteo el primero porque es el nombre
-							int index=tags.indexOf(tag);
-							if(index<0){//no esta
-								poi.agregarTag(tag);
-							}
+							poi.agregarTag(tag);
 						}
 					}
 				}
