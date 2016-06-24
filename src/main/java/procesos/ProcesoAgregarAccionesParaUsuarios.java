@@ -3,30 +3,13 @@ package procesos;
 import principal.POIS.Horario;
 import principal.Terminales.Mapa;
 
-public class ProcesoAgregarAccionesParaUsuarios implements Proceso{
+public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 
-	@Override
-	public void ejecutar() {
-		// TODO Auto-generated method stub
+
+	public void run() {
+
 		
 	}
-
-	@Override
-	public void setFecha(Horario dia) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setHorario(Horario horario) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setMapa(Mapa mapa) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

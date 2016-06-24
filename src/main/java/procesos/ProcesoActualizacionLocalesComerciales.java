@@ -3,15 +3,19 @@ package procesos;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.TimerTask;
 
-import principal.POIS.Horario;
 import principal.POIS.POI;
 import principal.Terminales.Mapa;
 
-public class ProcesoActualizacionLocalesComerciales implements Proceso{
+public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	BufferedReader  archivo;
-	Mapa mapa;
+	
+
+	
 	public ProcesoActualizacionLocalesComerciales(String  ruta){
 		try{
 			this.archivo=new  BufferedReader(new FileReader(ruta));
@@ -19,11 +23,10 @@ public class ProcesoActualizacionLocalesComerciales implements Proceso{
 			e.printStackTrace();
 		} 
 	}
+	
 
-	@Override
-	public void ejecutar() {
-		// TODO Auto-generated method stub
-		
+
+	public void run() {
 		String sCurrentLine;
 		try{
 			while ((sCurrentLine = archivo.readLine()) != null) {
@@ -47,22 +50,11 @@ public class ProcesoActualizacionLocalesComerciales implements Proceso{
 		
 	}
 
-	@Override
-	public void setFecha(Horario dia) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void setHorario(Horario horario) {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
+	
 
-	@Override
-	public void setMapa(Mapa mapa) {
-		// TODO Auto-generated method stub
-		this.mapa=mapa;
-	}
+
 
 }

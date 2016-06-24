@@ -1,12 +1,11 @@
 package procesos;
 
-import principal.POIS.Horario;
+import java.sql.Date;
+import java.util.TimerTask;
+
 import principal.Terminales.Mapa;
 
-public interface Proceso {
-	public void ejecutar();
-	public void setFecha(Horario dia);
-	public void setHorario(Horario horario);
-	public void setMapa(Mapa mapa);
+public abstract class Proceso extends TimerTask {
+	Mapa mapa;
 
 }
