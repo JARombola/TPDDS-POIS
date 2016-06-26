@@ -1,6 +1,5 @@
 package procesos;
 
-import java.sql.Date;
 import java.util.TimerTask;
 
 import configuracionTerminales.Administrador;
@@ -14,4 +13,9 @@ public abstract class Proceso extends TimerTask {
 		mapa = admin.getTerminal().getMapa();
 		controladorProcesos = admin.getControlador();
 	}
+
+	public void setMapa(Mapa mapa) {
+		this.mapa=mapa;
+	}
+
 }
