@@ -68,6 +68,10 @@ public class Mapa {
 	public POI getPOI(String nombre){		
 		return pois.stream().filter(poi->poi.getNombre().equals(nombre)).findFirst().get();
 	}
+	
+	public POI getPOI(int id){
+		return pois.stream().filter(poi->poi.getId() == id).findFirst().get();
+	}
 	/*
 	public List<POI> buscar(String textoBuscado){
 		return(this.getListaPOIS().stream()
