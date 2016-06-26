@@ -26,7 +26,6 @@ public class testProcesos {
 		mapa.setPOI(poi);
 		mapa.setPOI(poi);
 			
-		
 		proceso=new ProcesoActualizacionLocalesComerciales("C:\\Users\\JULIETA\\test.txt");
 		proceso.setMapa(mapa);
 

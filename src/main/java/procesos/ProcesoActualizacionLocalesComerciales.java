@@ -31,7 +31,6 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 		try{
 			while ((sCurrentLine = archivo.readLine()) != null) {
 				String[] parts = sCurrentLine.split(";");
-				
 				String nombre = parts[0]; 
 				POI poi=mapa.getPOI(nombre);
 				if(poi!=null){
