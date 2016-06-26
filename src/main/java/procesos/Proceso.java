@@ -12,6 +12,5 @@ public abstract class Proceso extends TimerTask {
 		this.mapa=mapa;
 	}
 
-	
 
 }

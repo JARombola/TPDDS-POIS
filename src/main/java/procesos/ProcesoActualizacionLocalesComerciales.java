@@ -25,7 +25,6 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	}
 	
 
-
 	public void run() {
 		String sCurrentLine;
 		try{
