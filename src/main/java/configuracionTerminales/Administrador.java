@@ -18,6 +18,10 @@ public class Administrador {
 		return email;
 	}
 	
+	public ControlProcesos getControlador() {
+		return controladorProcesos;
+	}
+	
 	public void setEmail(String email) {
 		this.email=email;
 	}

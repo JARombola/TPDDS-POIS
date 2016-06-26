@@ -3,20 +3,17 @@ package procesos;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.TimerTask;
 
+import configuracionTerminales.Administrador;
 import principal.POIS.POI;
-import principal.Terminales.Mapa;
 
 public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	BufferedReader  archivo;
 	
 
 	
-	public ProcesoActualizacionLocalesComerciales(String  ruta){
+	public ProcesoActualizacionLocalesComerciales(String  ruta, Administrador admin){
+		super(admin);
 		try{
 			this.archivo=new  BufferedReader(new FileReader(ruta));
 		} catch (IOException e) {
