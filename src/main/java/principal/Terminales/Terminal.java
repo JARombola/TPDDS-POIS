@@ -18,7 +18,6 @@ public class Terminal{
 	private FuncionesExtra extra;
 	private BufferBusquedas buffer;
 	
-	
 	public List<POI> iniciarBusqueda(String texto1, String texto2){
 		extra.inicioBusqueda();
 		
@@ -39,6 +38,10 @@ public class Terminal{
 							.collect(Collectors.toList());
 			
 		return resultadosBusqueda;
+	}
+	
+	public POI getPOI(int id){
+		return mapa.getPOI(id);
 	}
 
 	//----------------------REPORTES---------------------------------------

@@ -9,9 +9,9 @@ public class ControlProcesos {
 	private List<Proceso> procesos;
 	
 	
-	public void agregarProceso(Proceso prosesoNuevo, Date fechaYhorarioEjecucion){
+	public void agregarProceso(Proceso procesoNuevo, Date fechaYhorarioEjecucion){
 		Timer timer = new Timer();
-		timer.schedule(prosesoNuevo, fechaYhorarioEjecucion);  
+		timer.schedule(procesoNuevo, fechaYhorarioEjecucion);  
 	}
 	
 	
@@ -24,5 +24,6 @@ public class ControlProcesos {
 		this.procesos=procesos;
 		
 	}
+	
 
 }
