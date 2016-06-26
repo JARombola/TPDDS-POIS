@@ -33,7 +33,7 @@ public class testProcesos {
 		
 			
 		
-		proceso=new ProcesoActualizacionLocalesComerciales("C:\\Users\\JULIETA\\test.txt", admin);
+		proceso=new ProcesoActualizacionLocalesComerciales("test.txt", admin);
 		proceso.setMapa(mapa);
 
 		
