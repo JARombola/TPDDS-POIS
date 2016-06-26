@@ -10,7 +10,6 @@ public abstract class Proceso extends TimerTask {
 	Mapa mapa;
 	public void setMapa(Mapa mapa) {
 		this.mapa=mapa;
-		
 	}
 
 
