@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import configuracionTerminales.FuncionesExtra;
 import externos.BuscadorCGPExterno;
 import principal.POIS.TiposPOI.ParadaColectivo;
 import principal.Terminales.BufferBusquedas;
@@ -28,7 +29,7 @@ public class testReportes {
 	BufferBusquedas buffer;
 	BuscadorCGPExterno buscadorCgp;
 	Buscador buscador, buscadorMock;
-	
+	FuncionesExtra extra;
 	
 	
 	@Before
@@ -66,19 +67,19 @@ public class testReportes {
 		terminal = new Terminal();
 		terminal2=new Terminal();
 
-		buscador = new Buscador();
-		buscador.setMapa(mapa);
-		buscador.setBuffer(buffer);
-		
-		terminal.setBuscador(buscador);
-		terminal2.setBuscador(buscador);
-			
-		terminal.getBuscador().setHistorialBusquedas(almacenamientoBusquedas);
+		terminal.setHistorialBusquedas(almacenamientoBusquedas);
 		terminal.setMapa(mapa);
 		terminal.setNombre("Terminal 1");
-		terminal2.getBuscador().setHistorialBusquedas(almacenamientoBusquedas);
+		terminal2.setHistorialBusquedas(almacenamientoBusquedas);
 		terminal2.setMapa(mapa);
 		terminal2.setNombre("Terminal 2");
+		
+		extra= new FuncionesExtra(10);
+
+		terminal.setBuffer(buffer);
+		terminal2.setBuffer(buffer);
+		terminal.setExtra(extra);
+		terminal2.setExtra(extra);
 		controlMaestro.agregarTerminal(terminal);
 		controlMaestro.agregarTerminal(terminal2);
 	}
@@ -94,21 +95,22 @@ public class testReportes {
 	
 	@Test
 	public void testOpcionBusqueda(){
-		terminal.buscar("Hola", "Chau");
-		terminal.buscar("114", "");
-		terminal.buscar("Julian", "Crack");
+		extra.setTerminal(terminal);
+		terminal.iniciarBusqueda("Hola", "Chau");
+		terminal.iniciarBusqueda("114", "");
+		terminal.iniciarBusqueda("Julian", "Crack");
 		//terminal.reporteFechas();
-		assertEquals(terminal.cantidadTotalResultados(),0,0);			//No se registraron, estaba desactivado
+		assertEquals(terminal.cantidadTotalResultados().getDatos(),0,0);			//No se registraron, estaba desactivado
 		terminal.activarOpcion("historial");
-		terminal.buscar("Hola", "Chau");
-		terminal.buscar("114", "");
-		terminal.buscar("Julian", "Crack");
-		assertEquals(terminal.cantidadTotalResultados(),2,0);			//Registrados, hubieron 2 aciertos (114)
-		terminal.buscar("114", "");
-		assertEquals(terminal.cantidadTotalResultados(),4,0);			//2 aciertos mas
+		terminal.iniciarBusqueda("Hola", "Chau");
+		terminal.iniciarBusqueda("114", "");
+		terminal.iniciarBusqueda("Julian", "Crack");
+		assertEquals(terminal.cantidadTotalResultados().getDatos(),2,0);			//Registrados, hubieron 2 aciertos (114)
+		terminal.iniciarBusqueda("114", "");
+		assertEquals(terminal.cantidadTotalResultados().getDatos(),4,0);			//2 aciertos mas
 		terminal.desactivarOpcion("historial");
-		terminal.buscar("114", "");
-		assertEquals(terminal.cantidadTotalResultados(),4,0);
+		terminal.iniciarBusqueda("114", "");
+		assertEquals(terminal.cantidadTotalResultados().getDatos(),4,0);
 	}
 	
 	@Test
@@ -117,26 +119,9 @@ public class testReportes {
 		almacenamientoBusquedas.add(busqueda2);		//200
 		almacenamientoBusquedas.add(busqueda3);		//2
 		almacenamientoBusquedas.add(busqueda4);		//0
-		int cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal);
+		int cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal).size();
 		assertEquals(cantidadBusquedas, 4);
 	}
-	@Test
-	public void testBusquedasTotales(){
-		almacenamientoBusquedas.add(busqueda1);		//100 resultados
-		almacenamientoBusquedas.add(busqueda2);		//200
-		almacenamientoBusquedas.add(busqueda3);		//2
-		almacenamientoBusquedas.add(busqueda4);	
-		int totalResultados= controlMaestro.busquedasTotalesDeTerminales();
-		assertEquals(totalResultados, 604,0);				//302 de cada terminal (2) = 604
-	}
-	
-	/*	@Test
-	public void testMail(){
-		buscador.setTiempoMax(0);
-		buscador.activarOpcion("Mail");
-		terminal.buscar("114", "");
-		buscador.desactivarOpcion("Mail");
-	}*/
 	
 	
 }

@@ -3,40 +3,86 @@ package principal.Terminales;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.joda.time.LocalDate;
 
+import configuracionTerminales.FuncionesExtra;
 import principal.POIS.POI;
 
 
 public class Terminal{
 	private String nombre;
 	private Mapa mapa;
-	private Buscador buscador;
-//	private List<Busqueda> historialBusquedas;
+	private List<Busqueda> historialBusquedas;
+	private FuncionesExtra extra;
+	private BufferBusquedas buffer;
 	
 	
-
-	public List<POI> buscar(String texto1, String texto2){
-		List<POI> resultadosBusqueda = buscador.buscar(texto1, texto2);
+	public List<POI> iniciarBusqueda(String texto1, String texto2){
+		extra.inicioBusqueda();
+		
+		List<POI> resultadosBusqueda = buscar(texto1, texto2);
+		Busqueda nuevaBusqueda=new Busqueda();						//Registro la busqueda realizada
+		nuevaBusqueda.setCantidadResultados(resultadosBusqueda.size());
+		nuevaBusqueda.setFraseBuscada(texto1+" "+texto2);
+		
+		extra.finBusqueda(nuevaBusqueda);
 		return resultadosBusqueda;
 	}
-	
+
+	public List<POI> buscar(String texto1, String texto2) {
+		buffer.buscar(texto1, texto2).forEach(poi->mapa.agregarOmodificar(poi));	//Primero busqueda externa				
+		List<POI> resultadosBusqueda;
+		resultadosBusqueda= mapa.getListaPOIS().stream()
+							.filter(poi->poi.tienePalabra(texto1))
+							.collect(Collectors.toList());
+			
+		return resultadosBusqueda;
+	}
+
+	//----------------------REPORTES---------------------------------------
 	public List<DatosReporte> reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas
-		int cantBusquedas = historialBusquedas().size();
+		int cantBusquedas = getHistorialBusquedas().size();
 		int i;
 		List<DatosReporte> reporteBusquedasPorFechas=new ArrayList<DatosReporte>();
 		for (i = 0; i < cantBusquedas; ) {				
-			LocalDate fecha=historialBusquedas().get(i).getFecha();
-			List<Busqueda>busquedas=getBuscador().busquedasDeFecha(fecha);	
-			DatosReporte busquedasFecha=this.crearReporte(busquedas);
+			LocalDate fecha=getHistorialBusquedas().get(i).getFecha();
+			List<Busqueda>busquedas=this.busquedasDeFecha(fecha);	
+			DatosReporte busquedasFecha=this.crearReporteFechas(busquedas);
 			reporteBusquedasPorFechas.add(busquedasFecha);
 			i+=busquedas.size();							//suma la cantidad de resultados de la fecha
 		}
 		//reporteBusquedasPorFechas.forEach(unaBusqueda->System.out.println("["+unaBusqueda.getFecha()+"]"+"-Terminal: "+unaBusqueda.getTerminal()+" |Resultados: "+unaBusqueda.getDatos()));
 		return reporteBusquedasPorFechas;
 	}
+	public List<Busqueda> busquedasDeFecha(LocalDate fecha){
+		List<Busqueda> busquedas;
+				busquedas=getHistorialBusquedas().stream()
+				.filter(busqueda->busqueda.getFecha().isEqual(fecha))
+				.collect(Collectors.toList());
+	return busquedas;
+	}
 	
+	public List<DatosReporte> obtenerResultadosParciales() {
+		List<Busqueda> datosBusquedas=getHistorialBusquedas();
+		List<DatosReporte> reporte=new ArrayList<DatosReporte>();
+		datosBusquedas.stream().forEach(busqueda->{
+			DatosReporte reporteParciales=new DatosReporte();
+			reporteParciales.setDatos(busqueda.getCantidadResultados());
+			reporte.add(reporteParciales);
+			}
+		);
+		return reporte;
+	}
+	
+	public DatosReporte cantidadTotalResultados(){
+		if (!getHistorialBusquedas().isEmpty()){
+		List<Busqueda> datosBusquedas=getHistorialBusquedas();
+		DatosReporte reporteBusquedasTotales=this.crearReporte(datosBusquedas);
+		return reporteBusquedasTotales;}
+		return new DatosReporte();
+	}
 	
 	private DatosReporte crearReporte(List<Busqueda> busquedas) {
 		DatosReporte datos=new DatosReporte();
@@ -47,29 +93,22 @@ public class Terminal{
 				 .sum());
 		return datos;
 	}
-
-	public int cantidadTotalResultados(){		
-		int cantidadResultados=getBuscador().cantidadTotalResultados(); 
-		return cantidadResultados;
+	private DatosReporte crearReporteFechas(List<Busqueda> busquedas){
+		DatosReporte datos=new DatosReporte();
+		datos.setFecha(busquedas.get(0).getFecha());
+		datos.setTerminal(this.getNombre());
+		datos.setDatos(busquedas.size());
+		return datos;
 	}
-	
-	public List<Busqueda> historialBusquedas(){
-		return buscador.getHistorialBusqueda();
-	}
-	
-	// -------------------GETTERS,SETTERS-----------------
-	
-	public Busqueda getUltimaBusqueda(){
-		return getBuscador().ultimaBusqueda();
-	}
-	
+		
 	public void activarOpcion(String opcion){
-		getBuscador().activarOpcion(opcion);
+		getExtra().activarOpcion(opcion);
 	}
 	public void desactivarOpcion(String opcion){
-		getBuscador().desactivarOpcion(opcion);
+		getExtra().desactivarOpcion(opcion);
 	}
 
+	// -------------------GETTERS,SETTERS-----------------
 	public Mapa getMapa() {
 		return mapa;
 	}
@@ -82,13 +121,29 @@ public class Terminal{
 	public String getNombre() {
 		return nombre;
 	}
-	
-	public Buscador getBuscador() {
-		return buscador;
+	public List<Busqueda> getHistorialBusquedas() {
+		return historialBusquedas;
+	}
+	public void setHistorialBusquedas(List<Busqueda> historialBusquedas) {
+		this.historialBusquedas = historialBusquedas;
+	}
+	public FuncionesExtra getExtra() {
+		return extra;
+	}
+	public void setExtra(FuncionesExtra extra) {
+		this.extra = extra;
 	}
 
-	public void setBuscador(Buscador buscador) {
-		this.buscador = buscador;
+	public void guardarBusquedas(Busqueda unaBusqueda){
+		getHistorialBusquedas().add(unaBusqueda);
+	}
+
+	public BufferBusquedas getBuffer() {
+		return buffer;
+	}
+
+	public void setBuffer(BufferBusquedas buffer) {
+		this.buffer = buffer;
 	}
 
 }
