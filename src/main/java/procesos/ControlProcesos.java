@@ -28,8 +28,7 @@ public class ControlProcesos {
 
 
 	public void manejarFallas(Proceso proceso) {
-		
-		
+		manejoResultados.manejarError(proceso);
 	}
 
 
