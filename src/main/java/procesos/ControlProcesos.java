@@ -7,6 +7,7 @@ import java.util.Timer;
 
 public class ControlProcesos {
 	private List<Proceso> procesos;
+	private ManejoDeResultadosProcesos manejoResultados;
 	
 	
 	public void agregarProceso(Proceso procesoNuevo, Date fechaYhorarioEjecucion){
@@ -24,6 +25,12 @@ public class ControlProcesos {
 		this.procesos=procesos;
 		
 	}
-	
+
+
+	public void manejarFallas(Proceso proceso) {
+		
+		
+	}
+
 
 }

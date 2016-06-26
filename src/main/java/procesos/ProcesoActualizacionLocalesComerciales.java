@@ -10,8 +10,6 @@ import principal.POIS.POI;
 public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	BufferedReader  archivo;
 	
-
-	
 	public ProcesoActualizacionLocalesComerciales(String  ruta, Administrador admin){
 		super(admin);
 		try{
@@ -41,7 +39,7 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 				}
 			}
 		}catch(IOException e) {
-			e.printStackTrace();
+			this.controladorProcesos.manejarFallas(this);
 		}
 
 		
