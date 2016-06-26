@@ -39,6 +39,8 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 					for (String tag : parts){ 
 						if(!primero){//salteo el primero porque es el nombre
 							poi.agregarTag(tag);
+						}else{
+							primero=false;
 						}
 					}
 				}

@@ -1,9 +1,9 @@
 package tests;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
-import org.junit.Before;
 
 import principal.POIS.TiposPOI.Local;
 import principal.Terminales.Mapa;
@@ -33,7 +33,6 @@ public class testProcesos {
 	}
 	@Test
 	public void testProcesoActualizacionLocalesComerciales(){
-		Assert.assertEquals(poi.getTags().size(),3);
 		proceso.run();
 		Assert.assertEquals(poi.getTags().size(),4);
 	}
