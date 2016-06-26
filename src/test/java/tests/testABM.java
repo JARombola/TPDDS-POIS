@@ -49,9 +49,14 @@ public class testABM {
 	}
 	
 	@Test		
-	public void testEliminarPOI(){
+	public void testEliminarUnPOI() throws Exception{
 		mapa.eliminarPOI(poi1);
 		Assert.assertEquals(mapa.getListaPOIS().size(), 1);
+	}
+	
+	@Test(expected=Exception.class)		
+	public void testEliminarPOIinexistente() throws Exception{
+		mapa.eliminarPOI(poi3);
 	}
 	
 }

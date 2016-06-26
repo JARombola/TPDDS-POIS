@@ -47,12 +47,13 @@ public class Mapa {
 		return map.get(tipo);
 	}
 		
-	public void eliminarPOI (POI poiEntrante){
+	public void eliminarPOI (POI poiEntrante) throws Exception{
 		int posPOI=pois.indexOf(poiEntrante);
 		if(posPOI!=-1){
 			pois.remove(posPOI);
 		}else{
 		     System.out.println("No existe el POI ingresado");
+		     throw new Exception("No existe el POI ingresado");
 		}
 	}
 	

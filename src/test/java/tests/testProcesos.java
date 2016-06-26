@@ -8,6 +8,7 @@ import org.junit.Test;
 import principal.POIS.TiposPOI.Local;
 import principal.Terminales.Mapa;
 import procesos.ProcesoActualizacionLocalesComerciales;
+import configuracionTerminales.Administrador;
 
 public class testProcesos {
 	Local poi;
@@ -22,12 +23,17 @@ public class testProcesos {
 		poi.agregarTag("c");
 		poi.setNombre("kosiuko");
 			
+			
 		mapa = new Mapa();
 		mapa.setPOI(poi);
 		mapa.setPOI(poi);
+		
+		Administrador admin = new Administrador();
+		
+		
 			
 		
-		proceso=new ProcesoActualizacionLocalesComerciales("C:\\Users\\JULIETA\\test.txt");
+		proceso=new ProcesoActualizacionLocalesComerciales("C:\\Users\\JULIETA\\test.txt", admin);
 		proceso.setMapa(mapa);
 
 		
