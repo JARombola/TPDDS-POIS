@@ -19,6 +19,7 @@ import procesos.ControlProcesos;
 import procesos.ProcesoActualizacionLocalesComerciales;
 import procesos.ProcesoAgregarAccionesParaUsuarios;
 import procesos.ProcesoBajaPOIs;
+import procesos.ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra;
 import configuracionTerminales.Administrador;
 import externos.OrigenDatos;
 
@@ -29,12 +30,15 @@ public class testProcesos {
 	ProcesoActualizacionLocalesComerciales localesMock;
 	ProcesoBajaPOIs bajaMock;
 	ControlProcesos controlProcesos;
-	Timer timer;
+	ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra procesoNegro1;
+	ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra procesoNegro2;
+	
 	
 	@Before
 	public void initialize() {
-
-		timer = new Timer();
+		procesoNegro1 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra();
+		procesoNegro2 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra();
+		
 		localesMock=Mockito.mock(ProcesoActualizacionLocalesComerciales.class);
 		bajaMock=Mockito.mock(ProcesoBajaPOIs.class);
 
@@ -70,7 +74,6 @@ public class testProcesos {
 		mapa = new Mapa();
 		controlProcesos = new ControlProcesos();
 		controlProcesos.setMapa(mapa);
-		controlProcesos.setTimer(timer);
 		
 
 		proceso=new ProcesoActualizacionLocalesComerciales("test.txt");
@@ -85,22 +88,23 @@ public class testProcesos {
 
 	}
 	
-	/*@Test
+	@Test
 	public void testEjecucionDeProcesos(){
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-		System.out.println(dateFormat.format(date));
+		System.out.println(dateFormat.format(date) + ": hora actual");
 
-		controlProcesos.agregarProceso(localesMock,date);
-		controlProcesos.agregarProceso(bajaMock, date);
+		controlProcesos.agregarProceso(procesoNegro1,date);
+		controlProcesos.agregarProceso(procesoNegro2, date);
 		
 		try {
-		TimeUnit.SECONDS.sleep(7);
+		TimeUnit.SECONDS.sleep(5);
 		} catch (InterruptedException e) {
 		} 
 		
-	}*/
+		System.out.println("Entre cada una de estas horas tiene que haber 2 segundos de diferencia. Si no, es porque rompieron algo, y lo arreglan c:");
+	}
 	
 	@Test
 	public void testProcesoActualizacionLocalesComerciales(){

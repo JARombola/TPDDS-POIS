@@ -11,7 +11,7 @@ import principal.Terminales.Mapa;
 public class ControlProcesos {
 	private Mapa mapa;
 	private ManejoDeResultadosProcesos manejoResultados;
-	Timer timer;
+	Timer timer = new Timer();
 	
 	public ControlProcesos() {
 	}
