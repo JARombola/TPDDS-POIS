@@ -18,6 +18,7 @@ public class ProcesoBajaPOIs extends Proceso{
 		catch( Exception e) {
 			//Aca supongo que es mejor con burbujeo, no que el Proceso conozca a su controlador 
 		}
+		
 
 	}
 }
