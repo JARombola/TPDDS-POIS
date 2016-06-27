@@ -111,6 +111,6 @@ public class testProcesos {
 		proceso.run();
 		Assert.assertEquals(poi.getTags().size(),4);
 	}
-	
+
 	
 }
