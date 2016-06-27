@@ -1,17 +1,15 @@
 package procesos;
 
 import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
 
 import configuracionTerminales.Administrador;
 import principal.Terminales.Mapa;
 
-public abstract class Proceso extends TimerTask {
+public abstract class Proceso extends TimerTask  {
 	Mapa mapa;
-	ControlProcesos controladorProcesos;
-	
-	public Proceso(Administrador admin){
-		mapa = admin.getTerminal().getMapa();
-		controladorProcesos = admin.getControlador();
+
+	public Proceso(){
 	}
 
 	public void setMapa(Mapa mapa) {

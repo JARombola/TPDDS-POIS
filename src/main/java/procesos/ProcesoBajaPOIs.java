@@ -7,9 +7,8 @@ import principal.POIS.POI;
 public class ProcesoBajaPOIs extends Proceso{
 	private POI poi;
 
-	public ProcesoBajaPOIs(int id, Administrador admin) {
-		super(admin);
-		this.poi = admin.getTerminal().getPOI(id);
+	public ProcesoBajaPOIs(int id) {
+		this.poi = mapa.getPOI(id);
 	}
 
 	public void run() {
@@ -17,7 +16,7 @@ public class ProcesoBajaPOIs extends Proceso{
 			mapa.eliminarPOI(poi);
 		}
 		catch( Exception e) {
-			this.controladorProcesos.manejarFallas(this);
+			//Aca supongo que es mejor con burbujeo, no que el Proceso conozca a su controlador 
 		}
 
 	}

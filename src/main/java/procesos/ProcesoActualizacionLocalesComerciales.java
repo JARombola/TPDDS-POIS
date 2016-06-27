@@ -6,21 +6,29 @@ import java.io.IOException;
 
 import configuracionTerminales.Administrador;
 import principal.POIS.POI;
+import principal.Terminales.Mapa;
 
 public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	BufferedReader  archivo;
+	Mapa mapa;
 	
-	public ProcesoActualizacionLocalesComerciales(String  ruta, Administrador admin){
-		super(admin);
+	public void setMapa(Mapa mapa) {
+		this.mapa=mapa;
+	}
+	
+	public ProcesoActualizacionLocalesComerciales(String  ruta){
+		super();
 		try{
 			this.archivo=new  BufferedReader(new FileReader(ruta));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
+		
 	}
 	
 
 	public void run() {
+		
 		String sCurrentLine;
 		try{
 			while ((sCurrentLine = archivo.readLine()) != null) {
@@ -40,16 +48,11 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 				}
 			}
 		}catch(IOException e) {
-			this.controladorProcesos.manejarFallas(this);
+			//Aca supongo que es mejor con burbujeo, no que el Proceso conozca a su controlador 
 		}
 
-		
+
 	}
-
-
-	
-	
-	
 
 
 

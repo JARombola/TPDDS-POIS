@@ -40,9 +40,7 @@ public class Terminal{
 		return resultadosBusqueda;
 	}
 	
-	public POI getPOI(int id){
-		return mapa.getPOI(id);
-	}
+	
 
 	//----------------------REPORTES---------------------------------------
 	public List<DatosReporte> reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas

@@ -52,7 +52,7 @@ public class Mapa {
 		if(posPOI!=-1){
 			pois.remove(posPOI);
 		}else{
-		     System.out.println("No existe el POI ingresado");
+		    
 		     throw new Exception("No existe el POI ingresado");
 		}
 	}
