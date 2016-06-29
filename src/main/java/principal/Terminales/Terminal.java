@@ -8,10 +8,13 @@ import java.util.stream.Collectors;
 import org.joda.time.LocalDate;
 
 import configuracionTerminales.FuncionesExtra;
+import principal.POIS.Comuna;
+import principal.POIS.Coordenadas;
 import principal.POIS.POI;
 
 
 public class Terminal{
+	private Coordenadas coordenadas;
 	private String nombre;
 	private Mapa mapa;
 	private List<Busqueda> historialBusquedas;
@@ -110,6 +113,10 @@ public class Terminal{
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
+	public boolean estaEnLaComuna(Comuna unaComuna){
+		return (unaComuna.dentroDeLaZona(getCoordenadas()));
+	}
+	
 	public Mapa getMapa() {
 		return mapa;
 	}
@@ -145,6 +152,14 @@ public class Terminal{
 
 	public void setBuffer(BufferBusquedas buffer) {
 		this.buffer = buffer;
+	}
+
+	public Coordenadas getCoordenadas() {
+		return coordenadas;
+	}
+
+	public void setCoordenadas(Coordenadas coordenadas) {
+		this.coordenadas = coordenadas;
 	}
 
 }

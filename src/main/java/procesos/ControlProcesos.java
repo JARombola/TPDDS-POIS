@@ -1,9 +1,7 @@
 package procesos;
 
-import java.sql.Date;
-import java.util.List;
+import java.util.Date;
 import java.util.Timer;
-import java.util.concurrent.Semaphore;
 
 import principal.Terminales.Mapa;
 
@@ -16,7 +14,7 @@ public class ControlProcesos {
 	public ControlProcesos() {
 	}
 	
-	public void agregarProceso(Proceso procesoNuevo, java.util.Date date){
+	public void agregarProceso(Proceso procesoNuevo, Date date){
 		procesoNuevo.setMapa(mapa);
 		timer.schedule(procesoNuevo, date);
 	}

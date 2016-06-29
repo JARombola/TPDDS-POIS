@@ -45,7 +45,7 @@ public class FuncionesExtra {
 		}
 	}
 
-	private Map<String, Boolean> getOpciones() {
+	public Map<String, Boolean> getOpciones() {
 			return opciones;
 	}	
 	

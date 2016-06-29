@@ -3,7 +3,6 @@ package tests;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
@@ -17,11 +16,8 @@ import principal.POIS.TiposPOI.Local;
 import principal.Terminales.Mapa;
 import procesos.ControlProcesos;
 import procesos.ProcesoActualizacionLocalesComerciales;
-import procesos.ProcesoAgregarAccionesParaUsuarios;
 import procesos.ProcesoBajaPOIs;
 import procesos.ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra;
-import configuracionTerminales.Administrador;
-import externos.OrigenDatos;
 
 public class testProcesos {
 	Local poi;
