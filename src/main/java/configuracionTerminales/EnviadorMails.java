@@ -10,7 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 public class EnviadorMails {
 	private JavaMailSender mailSender;
-	private SimpleMailMessage mail;
+	public SimpleMailMessage mail;
 	private Administrador adminInterno;
 	
 	public EnviadorMails(){
