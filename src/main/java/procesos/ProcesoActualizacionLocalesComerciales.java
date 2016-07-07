@@ -22,16 +22,14 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 			this.archivo=new  BufferedReader(new FileReader(ruta));
 		} catch (IOException e) {
 			e.printStackTrace();
-			this.controladorProcesos.manejarFallas(this);
 		} 
 		
 	}
 	
 
-	public void run() {
+	public void ejecutarProceso() throws IOException {
 		
 		String sCurrentLine;
-		try{
 			while ((sCurrentLine = archivo.readLine()) != null) {
 				String[] parts = sCurrentLine.split(";");
 				String nombre = parts[0]; 
@@ -48,9 +46,6 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 					}
 				}
 			}
-		}catch(IOException e) {
-			//Aca supongo que es mejor con burbujeo, no que el Proceso conozca a su controlador 
-		}
 
 
 	}

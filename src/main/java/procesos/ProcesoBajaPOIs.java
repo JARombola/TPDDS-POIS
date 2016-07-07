@@ -11,15 +11,10 @@ public class ProcesoBajaPOIs extends Proceso{
 		super(admin);
 		this.poi = admin.getTerminal().getPOI(id);
 	}
-
-	public void run() {
-		try{
-			mapa.eliminarPOI(poi);
-		}
-		catch( Exception e) {
-			this.controladorProcesos.manejarFallas(this);
-		}
-		
-
+	
+	public void ejecutarProceso() throws Exception {
+		mapa.eliminarPOI(poi);	
 	}
+	
 }
+
