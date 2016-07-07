@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import configuracionTerminales.Administrador;
 import principal.POIS.POI;
 import principal.Terminales.Mapa;
 
@@ -15,12 +16,13 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 		this.mapa=mapa;
 	}
 	
-	public ProcesoActualizacionLocalesComerciales(String  ruta){
-		super();
+	public ProcesoActualizacionLocalesComerciales(String  ruta, Administrador admin){
+		super(admin);
 		try{
 			this.archivo=new  BufferedReader(new FileReader(ruta));
 		} catch (IOException e) {
 			e.printStackTrace();
+			this.controladorProcesos.manejarFallas(this);
 		} 
 		
 	}

@@ -1,5 +1,6 @@
 package procesos;
 
+import configuracionTerminales.Administrador;
 import principal.POIS.Comuna;
 import principal.Terminales.ControlTerminales;
 import principal.Terminales.Terminal;
@@ -11,19 +12,24 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 	private boolean todos;
 	private String accion;					//las terminales usan strings para activar/desactivar acciones
 	
-	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales centralTerminales,Comuna unaComuna,String accion) {
+	
+	
+	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales centralTerminales,Comuna unaComuna,String accion, Administrador admin) {
+		super(admin);
 		setCentralTerminales(centralTerminales);
 		setComuna(unaComuna);
 		setAccion(accion);
 	}
 	
-	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales centralTerminales,Terminal unaTerminal, String accion) {
+	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales centralTerminales,Terminal unaTerminal, String accion, Administrador admin) {
+		super(admin);
 		setCentralTerminales(centralTerminales);
 		setTerminal(unaTerminal);
 		setAccion(accion);
 	}
 	
-	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales centralTerminales,String accion) {
+	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales centralTerminales,String accion, Administrador admin) {
+		super(admin);
 		setCentralTerminales(centralTerminales);
 		setTodos(true);
 		setAccion(accion);

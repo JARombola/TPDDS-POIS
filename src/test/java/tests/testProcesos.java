@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import configuracionTerminales.Administrador;
 import principal.POIS.TiposPOI.Local;
 import principal.Terminales.Mapa;
 import procesos.ControlProcesos;
@@ -70,9 +71,9 @@ public class testProcesos {
 		mapa = new Mapa();
 		controlProcesos = new ControlProcesos();
 		controlProcesos.setMapa(mapa);
-		
+		Administrador admin = new Administrador();
 
-		proceso=new ProcesoActualizacionLocalesComerciales("test.txt");
+		proceso=new ProcesoActualizacionLocalesComerciales("test.txt", admin);
 		proceso.setMapa(mapa);
 		
 		poi = new Local();
