@@ -43,13 +43,13 @@ public abstract class Proceso extends TimerTask  {
 		
 	}
 
-	private void ejecutar() {
+	private void ejecutar() throws Exception {
 		this.ejecutarProceso();
 		this.ejecucionExitosa();
 	}
 
-	private void ejecutarProceso() {
-		// se overidea
+	void ejecutarProceso() throws Exception{
+		// se overridea
 	}
 
 }

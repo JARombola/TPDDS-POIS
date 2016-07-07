@@ -27,7 +27,7 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	}
 	
 
-	public void ejecutarProceso() throws IOException {
+	public void ejecutarProceso() throws Exception  {
 		
 		String sCurrentLine;
 			while ((sCurrentLine = archivo.readLine()) != null) {

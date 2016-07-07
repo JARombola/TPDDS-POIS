@@ -35,7 +35,7 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 		setAccion(accion);
 	}
 
-	public void run() {
+	public void ejecutarProceso() {		
 		if(isTodos()){
 		getCentralTerminales().setearOpcion(getAccion());}
 		if(getComuna()!=null){
