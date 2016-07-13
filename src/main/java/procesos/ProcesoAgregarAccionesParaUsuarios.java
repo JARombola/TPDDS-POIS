@@ -36,12 +36,14 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 	}
 
 	public void ejecutarProceso() {		
+		int resultados;
 		if(isTodos()){
-		getCentralTerminales().setearOpcion(getAccion());}
+		resultados=getCentralTerminales().setearOpcion(getAccion());}
 		if(getComuna()!=null){
-			getCentralTerminales().setearOpcion(getComuna(),getAccion());}
+			resultados=getCentralTerminales().setearOpcion(getComuna(),getAccion());}
 		if(getTerminal()!=null){
-			getCentralTerminales().setearOpcion(getTerminal(),getAccion());}
+			resultados=getCentralTerminales().setearOpcion(getTerminal(),getAccion());}
+		//return resultados;
 	}
 
 	public ControlTerminales getCentralTerminales() {

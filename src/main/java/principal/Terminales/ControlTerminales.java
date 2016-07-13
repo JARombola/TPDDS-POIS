@@ -2,6 +2,7 @@ package principal.Terminales;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import principal.POIS.Comuna;
 
@@ -33,22 +34,24 @@ public class ControlTerminales {
 		this.terminales.add(terminal);
 	}
 
-	public void setearOpcion(String opcionActivar) {
-		getTerminales().stream()
-						.forEach(terminal->terminal.activarOpcion(opcionActivar));
-		
+	public int setearOpcion(String opcionActivar) {
+		getTerminales().stream().forEach(terminal->terminal.activarOpcion(opcionActivar));
+		return getTerminales().size();
 	}
 
-	public void setearOpcion(Comuna comuna, String opcionActivar) {
-		getTerminales().stream()
+	public int setearOpcion(Comuna comuna, String opcionActivar) {
+		List<Terminal>terminales=getTerminales().stream()
 						.filter(unaTerminal->unaTerminal.estaEnLaComuna(comuna))
-						.forEach(unaTerminal->unaTerminal.activarOpcion(opcionActivar));
-		
+						.collect(Collectors.toList());
+		terminales.forEach(unaTerminal->unaTerminal.activarOpcion(opcionActivar));
+		return terminales.size();
 	}
 
-	public void setearOpcion(Terminal terminal, String opcionActivar) {
-		getTerminales().stream().
-						filter(unaTerminal->unaTerminal.equals(terminal))
-						.forEach(unaTerminal->unaTerminal.activarOpcion(opcionActivar));
+	public int setearOpcion(Terminal terminal, String opcionActivar) {
+		List<Terminal>terminales= getTerminales().stream()
+									.filter(unaTerminal->unaTerminal.equals(terminal))
+									.collect(Collectors.toList());
+		terminales.forEach(unaTerminal->unaTerminal.activarOpcion(opcionActivar));
+		return terminales.size();
 	}
 }
