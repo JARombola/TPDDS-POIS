@@ -27,27 +27,29 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	}
 	
 
-	public void ejecutarProceso() throws Exception  {
+	public int ejecutarProceso() throws Exception  {
 		
 		String sCurrentLine;
-			while ((sCurrentLine = archivo.readLine()) != null) {
-				String[] parts = sCurrentLine.split(";");
-				String nombre = parts[0]; 
-				POI poi=mapa.getPOI(nombre);
-				if(poi!=null){
-					boolean primero=true;
-					poi.eliminarTags();
-					for (String tag : parts){ 
-						if(!primero){//salteo el primero porque es el nombre
-							poi.agregarTag(tag);
-						}else{
-							primero=false;
-						}
+		int resultado=0;
+		while ((sCurrentLine = archivo.readLine()) != null) {
+			String[] parts = sCurrentLine.split(";");
+			String nombre = parts[0]; 
+			POI poi=mapa.getPOI(nombre);
+			if(poi!=null){
+				boolean primero=true;
+				poi.eliminarTags();
+				for (String tag : parts){ 
+					if(!primero){//salteo el primero porque es el nombre
+						poi.agregarTag(tag);
+						resultado ++;
+					}else{
+						primero=false;
 					}
 				}
 			}
+		}
 
-
+		return resultado;
 	}
 
 

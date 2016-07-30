@@ -35,15 +35,15 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 		setAccion(accion);
 	}
 
-	public void ejecutarProceso() {		
-		int resultados;
+	public int ejecutarProceso() {		
+		int resultados = 0;
 		if(isTodos()){
 		resultados=getCentralTerminales().setearOpcion(getAccion());}
 		if(getComuna()!=null){
 			resultados=getCentralTerminales().setearOpcion(getComuna(),getAccion());}
 		if(getTerminal()!=null){
 			resultados=getCentralTerminales().setearOpcion(getTerminal(),getAccion());}
-		//return resultados;
+		return resultados;
 	}
 
 	public ControlTerminales getCentralTerminales() {
