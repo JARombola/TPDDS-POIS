@@ -46,6 +46,7 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 		return resultados;
 	}
 
+	
 	public ControlTerminales getCentralTerminales() {
 		return centralTerminales;
 	}

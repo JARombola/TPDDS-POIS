@@ -5,10 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import configuracionTerminales.Administrador;
+
 public class ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra extends Proceso {
 	
-	public ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra() {
-		// TODO Auto-generated constructor stub
+	public ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(Administrador admin) {
+		super(admin);
 	}
 	
 	public void run() {

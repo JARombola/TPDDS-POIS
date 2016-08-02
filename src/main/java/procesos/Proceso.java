@@ -1,56 +1,68 @@
 package procesos;
 
+import java.util.Date;
 import java.util.TimerTask;
 
 import configuracionTerminales.Administrador;
 import principal.Terminales.Mapa;
 
 public abstract class Proceso extends TimerTask  {
-	Mapa mapa;
-	Administrador admin;
-	ControlProcesos controladorProcesos;
-	EstadoEjecucion estadoDeEjecucion = null;
+	protected Mapa mapa;
+	protected static Administrador admin;
+	protected ControlProcesos controladorProcesos;
+	protected ResultadoDeProceso resultado;
+	protected Date fechaEjecucion;
+	protected int reintentos, cantidadAfectados=0;
 	
-	public Proceso(Administrador admin){
-		mapa = admin.getTerminal().getMapa();
-		controladorProcesos = admin.getControlador();
-		this.admin = admin;
-	}
-
-	public Proceso(){
-	}
-	
-	public void fallar() {
-		this.estadoDeEjecucion = EstadoEjecucion.falla(this);
+	public Proceso(Administrador administrador){
+		mapa = administrador.getTerminal().getMapa();
+		controladorProcesos = administrador.getControlador();
+		resultado = new ResultadoDeProceso();
+		admin = administrador;
 	}
 	
-	public void ejecucionExitosa() {
-		this.estadoDeEjecucion = EstadoEjecucion.exitoso(this);
-	}
-
-	public void setMapa(Mapa mapa) {
-		this.mapa=mapa;
-	}
 	
 	public void run() {
-		try{
-			this.ejecutar();	
-		}
-		catch( Exception e) {
-			this.fallar();
-			this.controladorProcesos.manejarFallas(this);
-		}
-		
+		int i=0;
+		resultado.setFecha(fechaEjecucion);
+		resultado.setTipoProceso(this);
+		do{
+			try{
+				this.ejecutar();
+				resultado.setEstadoEjecucion(true);
+				controladorProcesos.getManejoResultados().agregarResultado(resultado);
+				break;
+			}
+			catch( Exception e) {
+				resultado.setEstadoEjecucion(false);
+				controladorProcesos.getManejoResultados().agregarResultado(resultado);
+				i++;
+			}
+		}while(i<=reintentos);
 	}
 
 	private void ejecutar() throws Exception {
-		this.ejecutarProceso();
-		this.ejecucionExitosa();
+		cantidadAfectados = this.ejecutarProceso();        //verificar como queda si tira excepcion
+		resultado.setElementosAfectados(cantidadAfectados);
 	}
 
 	int ejecutarProceso() throws Exception{
 		// se overridea
 		return 0;
+	}
+	
+	
+	public void setMapa(Mapa mapa) {
+		this.mapa=mapa;
+	}
+	public void setFecha(Date fecha) {
+		this.fechaEjecucion=fecha;
+	}
+	public Date getFecha(){
+		return this.fechaEjecucion;
+	}
+	public void setReintentos(int reintentos) {
+		this.reintentos=reintentos;
 	}
 
 }

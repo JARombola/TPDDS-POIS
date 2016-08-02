@@ -29,12 +29,14 @@ public class testProcesos {
 	ControlProcesos controlProcesos;
 	ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra procesoNegro1;
 	ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra procesoNegro2;
+	private Administrador admin;
 	
 	
 	@Before
 	public void initialize() {
-		procesoNegro1 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra();
-		procesoNegro2 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra();
+		admin = new Administrador();
+		procesoNegro1 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(admin);
+		procesoNegro2 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(admin);
 		
 		localesMock=Mockito.mock(ProcesoActualizacionLocalesComerciales.class);
 		bajaMock=Mockito.mock(ProcesoBajaPOIs.class);
@@ -92,8 +94,8 @@ public class testProcesos {
 		Date date = new Date();
 		System.out.println(dateFormat.format(date) + ": hora actual");
 
-		controlProcesos.agregarProceso(procesoNegro1,date);
-		controlProcesos.agregarProceso(procesoNegro2, date);
+		controlProcesos.agregarProceso(procesoNegro1,date,0);
+		controlProcesos.agregarProceso(procesoNegro2, date,1);
 		
 		try {
 		TimeUnit.SECONDS.sleep(5);

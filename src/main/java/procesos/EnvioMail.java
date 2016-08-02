@@ -1,22 +1,24 @@
 package procesos;
 
 import org.springframework.mail.SimpleMailMessage;
+
 import configuracionTerminales.EnviadorMails;
 
-public class EnvioMail implements ManejoDeResultadosProcesos{
+public class EnvioMail {
 	
 	EnviadorMails enviador;
 	
-	@Override
-	public void manejarError(Proceso proceso) {
-		
+	//@Override
+	public void MandarMailDeFallaProceso(Proceso proceso) {
+	    String nombre = proceso.getClass().getName();
 		enviador.mail=new SimpleMailMessage();
-		enviador.mail.setFrom("Terminal");			
-		enviador.mail.setSubject("Busqueda lenta");
-		enviador.mail.setText("La busqueda tardó demasiado che");
+		enviador.mail.setFrom("Manejo de Resultados de los Procesos");			
+		enviador.mail.setSubject("Error en el proceso "+nombre);
+		enviador.mail.setText("el proceso "+nombre+" ejecutado el dia "+ proceso.getFecha()+ " Fallo su ejecucion.");
 		enviador.mail.setTo(proceso.admin.getEmail());
 		
 		enviador.enviarMail();
+		
 	}
 
 }
