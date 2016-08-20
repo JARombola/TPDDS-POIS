@@ -62,6 +62,7 @@ public class Terminal{
 		//reporteBusquedasPorFechas.forEach(unaBusqueda->System.out.println("["+unaBusqueda.getFecha()+"]"+"-Terminal: "+unaBusqueda.getTerminal()+" |Resultados: "+unaBusqueda.getDatos()));
 		return reporteBusquedasPorFechas;
 	}
+	
 	public List<Busqueda> busquedasDeFecha(LocalDate fecha){
 		List<Busqueda> busquedas;
 				busquedas=getHistorialBusquedas().stream()

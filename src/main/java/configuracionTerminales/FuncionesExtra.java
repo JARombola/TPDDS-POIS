@@ -27,10 +27,10 @@ public class FuncionesExtra {
 		TiempoEjecucion.Stop();
 		double tiempoBusqueda= TiempoEjecucion.getTiempoEjecucion();
 		datosBusqueda.setTiempoBusqueda(tiempoBusqueda);
-		
 		this.enviarMail(tiempoBusqueda);
 		this.guardarBusqueda(datosBusqueda);
 	}
+	
 	private void guardarBusqueda(Busqueda datosBusqueda) {
 		if (getOpciones().get("HISTORIAL")){
 			terminal.guardarBusquedas(datosBusqueda);

@@ -19,7 +19,7 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	public ProcesoActualizacionLocalesComerciales(String  ruta, Administrador admin){
 		super(admin);
 		try{
-			this.archivo=new  BufferedReader(new FileReader(ruta));
+			this.archivo=new BufferedReader(new FileReader(ruta));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 

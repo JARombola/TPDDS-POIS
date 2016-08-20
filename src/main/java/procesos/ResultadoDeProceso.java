@@ -3,12 +3,12 @@ package procesos;
 import java.util.Date;
 
 public class ResultadoDeProceso {
+	
 	private int elementosAfectados;
 	private boolean estadoEjecucion;
 	private Date fecha;
 	private Proceso tipoProceso;
 
-	
 	
 	public int getElementosAfectados() {
 		return elementosAfectados;

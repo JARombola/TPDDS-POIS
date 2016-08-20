@@ -6,43 +6,44 @@ import principal.Terminales.ControlTerminales;
 import principal.Terminales.Terminal;
 
 public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
+
 	private ControlTerminales centralTerminales;
 	private Comuna comuna;
 	private Terminal terminal;
-	private boolean todos;
 	private String accion;					//las terminales usan strings para activar/desactivar acciones
+	private boolean todos;
 	
 	
-	
-	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales centralTerminales,Comuna unaComuna,String accion, Administrador admin) {
-		super(admin);
-		setCentralTerminales(centralTerminales);
+	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales central, Administrador administrador, String accion) {
+		super(administrador);
+		setCentralTerminales(central);
+		setAccion(accion);		
+	}
+
+	public void AgregarAccionComuna(Comuna unaComuna) {
 		setComuna(unaComuna);
-		setAccion(accion);
 	}
 	
-	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales centralTerminales,Terminal unaTerminal, String accion, Administrador admin) {
-		super(admin);
-		setCentralTerminales(centralTerminales);
+	public void agregarAccionTerminal(Terminal unaTerminal) {
 		setTerminal(unaTerminal);
-		setAccion(accion);
 	}
 	
-	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales centralTerminales,String accion, Administrador admin) {
-		super(admin);
-		setCentralTerminales(centralTerminales);
+	public void agregarAccionTodasTerminales() {
 		setTodos(true);
-		setAccion(accion);
 	}
 
 	public int ejecutarProceso() {		
 		int resultados = 0;
+		
 		if(isTodos()){
-		resultados=getCentralTerminales().setearOpcion(getAccion());}
+			resultados=getCentralTerminales().setearOpcion(getAccion());}
+		
 		if(getComuna()!=null){
 			resultados=getCentralTerminales().setearOpcion(getComuna(),getAccion());}
+		
 		if(getTerminal()!=null){
 			resultados=getCentralTerminales().setearOpcion(getTerminal(),getAccion());}
+		
 		return resultados;
 	}
 

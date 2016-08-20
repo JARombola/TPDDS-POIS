@@ -7,6 +7,7 @@ import configuracionTerminales.Administrador;
 import principal.Terminales.Mapa;
 
 public abstract class Proceso extends TimerTask  {
+	
 	protected Mapa mapa;
 	protected static Administrador admin;
 	protected ControlProcesos controladorProcesos;
@@ -15,7 +16,7 @@ public abstract class Proceso extends TimerTask  {
 	protected int reintentos, cantidadAfectados=0;
 	
 	public Proceso(Administrador administrador){
-		mapa = administrador.getTerminal().getMapa();
+		//mapa = administrador.getTerminal().getMapa();
 		controladorProcesos = administrador.getControlador();
 		resultado = new ResultadoDeProceso();
 		admin = administrador;
@@ -23,7 +24,7 @@ public abstract class Proceso extends TimerTask  {
 	
 	
 	public void run() {
-		int i=0;
+		int i=1;
 		resultado.setFecha(fechaEjecucion);
 		resultado.setTipoProceso(this);
 		do{
@@ -42,7 +43,7 @@ public abstract class Proceso extends TimerTask  {
 	}
 
 	private void ejecutar() throws Exception {
-		cantidadAfectados = this.ejecutarProceso();        //verificar como queda si tira excepcion
+		cantidadAfectados = this.ejecutarProceso();        //TODO crear nueva clase que guarde los resultados?
 		resultado.setElementosAfectados(cantidadAfectados);
 	}
 
@@ -63,6 +64,36 @@ public abstract class Proceso extends TimerTask  {
 	}
 	public void setReintentos(int reintentos) {
 		this.reintentos=reintentos;
+	}
+
+
+	public ResultadoDeProceso getResultado() {
+		return resultado;
+	}
+
+
+	public void setResultado(ResultadoDeProceso resultado) {
+		this.resultado = resultado;
+	}
+
+
+	public ControlProcesos getControladorProcesos() {
+		return controladorProcesos;
+	}
+
+
+	public void setControladorProcesos(ControlProcesos controladorProcesos) {
+		this.controladorProcesos = controladorProcesos;
+	}
+
+
+	public int getCantidadAfectados() {
+		return cantidadAfectados;
+	}
+
+
+	public void setCantidadAfectados(int cantidadAfectados) {
+		this.cantidadAfectados = cantidadAfectados;
 	}
 
 }
