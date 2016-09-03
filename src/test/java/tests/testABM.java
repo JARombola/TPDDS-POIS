@@ -4,10 +4,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import principal.POIS.TiposPOI.Banco;
-import principal.POIS.TiposPOI.CGP;
-import principal.POIS.TiposPOI.Local;
-import principal.Terminales.Mapa;
+import terminales.Mapa;
+import tiposPoi.Banco;
+import tiposPoi.CGP;
+import tiposPoi.Local;
 
 public class testABM {
 	Banco poi1;

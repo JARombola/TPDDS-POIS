@@ -1,4 +1,4 @@
-package principal.Terminales;
+package terminales;
 
 import org.joda.time.LocalDate;
 
@@ -7,6 +7,10 @@ public class DatosReporte {
 	private String terminal;
 	private int datos;
 
+	public DatosReporte(){
+		
+	}
+	
 	public LocalDate getFecha() {
 		return fecha;
 	}

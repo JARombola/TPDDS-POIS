@@ -1,4 +1,4 @@
-package principal.POIS;
+package pois;
 
 public class Haversine {
 	private static final int EARTH_RADIUS = 6371; // Approx Earth radius in KM

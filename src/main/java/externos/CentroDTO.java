@@ -3,7 +3,7 @@ package externos;
 import java.util.ArrayList;
 import java.util.List;
 
-import principal.POIS.Horario;
+import pois.Horario;
 
 public class CentroDTO {
 	private int comuna;

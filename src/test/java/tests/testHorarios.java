@@ -6,11 +6,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import principal.POIS.TiposPOI.Banco;
-import principal.POIS.TiposPOI.CGP;
-import principal.POIS.TiposPOI.Local;
-import principal.POIS.TiposPOI.ParadaColectivo;
-import principal.POIS.TiposPOI.Servicio;
+import pois.ListaHorarios;
+import pois.ListaServicios;
+import tiposPoi.Banco;
+import tiposPoi.CGP;
+import tiposPoi.Local;
+import tiposPoi.ParadaColectivo;
+import tiposPoi.Servicio;
 
 public class testHorarios {
 	Banco banco;
@@ -23,23 +25,37 @@ public class testHorarios {
 	public void initialize() {
 		banco = new Banco();
 		Servicio rentas=new Servicio("Rentas");
+		rentas.setNombre("Rentas");
+		
 		horaInicio=new LocalTime(10,00);
 		horaCierre=new LocalTime(22,00);
+		ListaHorarios horarios=new ListaHorarios();
+		rentas.setHorarios(horarios);
 		rentas.getHorarios().horarioNuevo(1, horaInicio, horaCierre);
+		
 		Servicio jubilacion=new Servicio("jubilacion");
+		jubilacion.setNombre("jubilacion");
 		horaInicio=new LocalTime(5,00);
 		horaCierre=new LocalTime(9,00);
+		ListaHorarios horarios2=new ListaHorarios();
+		jubilacion.setHorarios(horarios2);
 		jubilacion.getHorarios().horarioNuevo(2, horaInicio, horaCierre);
 
+		ListaServicios serv=new ListaServicios();
+		banco.setServicios(serv);
 		banco.agregarServicio(rentas);
 		banco.agregarServicio(jubilacion);
 		
+		ListaServicios serv1=new ListaServicios();
 		unCGP = new CGP();
+		unCGP.setServicios(serv1);
 		unCGP.agregarServicio(rentas);
 		unCGP.agregarServicio(jubilacion);
 		
 		parada = new ParadaColectivo();
+		ListaHorarios horarios3=new ListaHorarios();
 		carrousel = new Local();
+		carrousel.setHorarios(horarios3);
 		for (int dia = 2; dia <= 7; dia++) {		//Horarios Carrousel 
 			horaInicio=new LocalTime(10,00);
 			horaCierre=new LocalTime(13,00);
@@ -63,6 +79,7 @@ public class testHorarios {
 		boolean viernesTarde = banco.estaDisponible(5, horaX,"");	//demasiado temprano...
 		Assert.assertEquals(false, viernesTarde);
 	}
+	
 	@Test
 	public void testServiciosBanco(){
 		horaX=new LocalTime(12,00);
@@ -75,6 +92,7 @@ public class testHorarios {
 		boolean abiertoJubilacion=banco.estaDisponible(2, horaX, "jubilacion");
 		Assert.assertEquals(true,abiertoJubilacion);
 	}
+	
 	@Test
 	public void testHorarioCGP(){
 		horaX=new LocalTime(12,00);

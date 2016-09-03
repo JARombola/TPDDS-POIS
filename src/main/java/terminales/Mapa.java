@@ -1,4 +1,4 @@
-package principal.Terminales;
+package terminales;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import principal.POIS.POI;
-import principal.POIS.TiposPOI.Banco;
-import principal.POIS.TiposPOI.CGP;
-import principal.POIS.TiposPOI.Local;
-import principal.POIS.TiposPOI.ParadaColectivo;
+import pois.POI;
+import tiposPoi.Banco;
+import tiposPoi.CGP;
+import tiposPoi.Local;
+import tiposPoi.ParadaColectivo;
 
 
 public class Mapa {
@@ -52,35 +52,33 @@ public class Mapa {
 		if(posPOI!=-1){
 			pois.remove(posPOI);
 		}else{
-		    
 		     throw new Exception("No existe el POI ingresado");
 		}
 	}
 	
 	public void agregarOmodificar (POI poiEntrante){
-		List<POI> mismoPoiEnSistema = pois.stream().filter(poi->poi.equals(poiEntrante)).collect(Collectors.toList());
- 		
+		List<POI> mismoPoiEnSistema = pois.stream()
+										.filter(poi->poi.equals(poiEntrante))
+										.collect(Collectors.toList());
  		if(mismoPoiEnSistema.size()==1){
  			mismoPoiEnSistema.get(0).modificar(poiEntrante);
  		} else {
  			pois.add(poiEntrante);
 		}
 	}
+	
 	public POI getPOI(String nombre){		
-		return pois.stream().filter(poi->poi.getNombre().equals(nombre)).findFirst().get();
+		return pois.stream()
+				.filter(poi->poi.getNombre().equals(nombre))
+				.findFirst()
+				.get();
 	}
 	
 	public POI getPOI(int id){
-		return pois.stream().filter(poi->poi.getId() == id).findFirst().get();
+		return pois.stream()
+				.filter(poi->poi.getId() == id)
+				.findFirst()
+				.get();
 	}
-	/*
-	public List<POI> buscar(String textoBuscado){
-		return(this.getListaPOIS().stream()
-				.filter(poi->poi.tienePalabra(textoBuscado))
-				.collect(Collectors.toList()));
-
-	}*/
-
-	
 	
 }

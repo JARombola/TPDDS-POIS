@@ -1,7 +1,7 @@
-package principal.Terminales;
+package terminales;
 
-import principal.POIS.Comuna;
-import principal.POIS.Coordenadas;
+import pois.Comuna;
+import pois.Coordenadas;
 
 public class Maquina {
 	private Coordenadas coordenadas;

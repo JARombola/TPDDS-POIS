@@ -1,16 +1,12 @@
-package principal.POIS.TiposPOI;
-
-
+package tiposPoi;
 
 public class Rubro {
+	
 	private double radioCercania;
 	public String nombre;
 
-	public Rubro(String rubroNombre){
-		this.nombre=rubroNombre;
+	public Rubro(){
 	}
-
-
 	
 	// -------------------GETTERS,SETTERS-----------------
 	public void setRadioCercania(double radioCercania) {

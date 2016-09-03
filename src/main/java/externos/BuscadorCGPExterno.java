@@ -7,10 +7,12 @@ import java.util.stream.Collectors;
 
 import org.joda.time.LocalTime;
 
-import principal.POIS.Horario;
-import principal.POIS.POI;
-import principal.POIS.TiposPOI.CGP;
-import principal.POIS.TiposPOI.Servicio;
+import pois.Horario;
+import pois.ListaHorarios;
+import pois.ListaServicios;
+import pois.POI;
+import tiposPoi.CGP;
+import tiposPoi.Servicio;
 
 public class BuscadorCGPExterno implements InterfazBuscadores {
 	OrigenDatos componente;
@@ -18,11 +20,9 @@ public class BuscadorCGPExterno implements InterfazBuscadores {
 	
 	public  void buscar(String texto1, String texto2){	
 		if (texto2 == ""){
-
 			List<POI> puntos=componente.buscar(texto1).stream()
-					.map(unCentro->adaptarCGP(unCentro))
+							.map(unCentro->adaptarCGP(unCentro))
 					.collect(Collectors.toList());
-
 			resultado.addAll(puntos);
 		}
 	}
@@ -41,15 +41,19 @@ public class BuscadorCGPExterno implements InterfazBuscadores {
 		CGP poiSalida=new CGP();
 		poiSalida.setId(poiEntrada.getId());
 		poiSalida.setNombre(poiEntrada.getDomicilio());
-		poiSalida.getDireccion().setCalle(poiEntrada.getCalle());
-		poiSalida.getDireccion().setNumero(poiEntrada.getNumero());
+		poiSalida.setServicios(new ListaServicios());
+		poiSalida.setTags(new ArrayList<String>());
+	//	poiSalida.getDireccion().setCalle(poiEntrada.getCalle());
+	//	poiSalida.getDireccion().setNumero(poiEntrada.getNumero());
 		poiEntrada.getServicios().forEach(servicioEntrada->poiSalida.agregarServicio(this.adaptarServicio(servicioEntrada)));
 		return poiSalida;
 	}
 	
 	public  Servicio adaptarServicio (ServiciosDTO servicioEntrada){
-		List<Horario> horarios = new ArrayList<Horario>();
+		List<Horario> horarios;
 		Servicio servicioSalida = new Servicio(servicioEntrada.getNombre());
+		servicioSalida.setNombre(servicioEntrada.getNombre());
+		servicioSalida.setHorarios(new ListaHorarios());
 		horarios = servicioEntrada.getRangos().stream().map(rango -> adaptarAHorarioLocalTime(rango)).collect(Collectors.toList());
 		servicioSalida.getHorarios().setHorariosAtencion(horarios);
 		return servicioSalida;

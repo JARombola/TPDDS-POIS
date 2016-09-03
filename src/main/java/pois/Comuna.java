@@ -1,13 +1,15 @@
-package principal.POIS;
+package pois;
 
 import org.uqbar.geodds.Point;
 import org.uqbar.geodds.Polygon;
 
 public class Comuna {
+
+	Polygon polygonoActual;
+	
 	public Comuna(){
 		 this.polygonoActual = new Polygon();
 	}
-	Polygon polygonoActual ;
 	
 	public void addPunto(Coordenadas coordenada){
 		Point punto=new Point(coordenada.getLatitud(),coordenada.getLongitud());

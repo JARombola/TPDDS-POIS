@@ -2,7 +2,7 @@ package externos;
 
 import java.util.List;
 
-import principal.POIS.POI;
+import pois.POI;
 
 public interface InterfazBuscadores {
 	

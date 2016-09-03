@@ -1,10 +1,10 @@
-package principal.Terminales;
+package terminales;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import principal.POIS.Comuna;
+import pois.Comuna;
 
 
 public class ControlTerminales {

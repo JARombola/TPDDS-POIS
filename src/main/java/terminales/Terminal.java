@@ -1,4 +1,4 @@
-package principal.Terminales;
+package terminales;
 
 
 import java.util.ArrayList;
@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import org.joda.time.LocalDate;
 
 import configuracionTerminales.FuncionesExtra;
-import principal.POIS.Comuna;
-import principal.POIS.Coordenadas;
-import principal.POIS.POI;
+import pois.Comuna;
+import pois.Coordenadas;
+import pois.POI;
 
 
 public class Terminal{
@@ -20,6 +20,10 @@ public class Terminal{
 	private List<Busqueda> historialBusquedas;
 	private FuncionesExtra extra;
 	private BufferBusquedas buffer;
+	
+	public Terminal(){
+	
+	}
 	
 	public List<POI> iniciarBusqueda(String texto1, String texto2){
 		extra.inicioBusqueda();
@@ -35,10 +39,9 @@ public class Terminal{
 
 	public List<POI> buscar(String texto1, String texto2) {
 		buffer.buscar(texto1, texto2).forEach(poi->mapa.agregarOmodificar(poi));	//Primero busqueda externa				
-		List<POI> resultadosBusqueda;
-		resultadosBusqueda= mapa.getListaPOIS().stream()
-							.filter(poi->poi.tienePalabra(texto1))
-							.collect(Collectors.toList());
+		List<POI> resultadosBusqueda= mapa.getListaPOIS().stream()
+									.filter(poi->poi.tienePalabra(texto1))
+									.collect(Collectors.toList());
 			
 		return resultadosBusqueda;
 	}

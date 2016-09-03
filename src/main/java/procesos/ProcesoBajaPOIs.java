@@ -2,7 +2,7 @@ package procesos;
 
 
 import configuracionTerminales.Administrador;
-import principal.POIS.POI;
+import pois.POI;
 
 public class ProcesoBajaPOIs extends Proceso{
 	private POI poi;

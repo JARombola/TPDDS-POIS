@@ -1,15 +1,14 @@
-package principal.POIS;
+package pois;
 
 public class Direccion {
 
 	public Direccion() {
-		coordenadas = new Coordenadas();
 	}
 
 	private String calle;
 
 
-	private String[] callesEntreLasQueSeEncuentra = new String[2];
+	private String[] callesEntreLasQueSeEncuentra;
 	private int numero;
 	private int piso;
 	private int dpto;
@@ -53,6 +52,14 @@ public class Direccion {
 
 	public void setNumero(int numero) {
 		this.numero = numero;
+	}
+
+	public Coordenadas getCoordenadas() {
+		return coordenadas;
+	}
+
+	public void setCoordenadas(Coordenadas coordenadas) {
+		this.coordenadas = coordenadas;
 	}
 	
 	

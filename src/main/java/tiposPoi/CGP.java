@@ -1,19 +1,19 @@
-package principal.POIS.TiposPOI;
+package tiposPoi;
 
 
 import org.joda.time.LocalTime;
 
-import principal.POIS.Comuna;
-import principal.POIS.EntesConServicios;
-import principal.POIS.POI;
-import principal.Terminales.Maquina;
+import pois.Comuna;
+import pois.ListaServicios;
+import pois.POI;
+import terminales.Maquina;
 
 public class CGP extends POI{
 	private Comuna comuna;
-	private EntesConServicios servicios;
+	private ListaServicios servicios;
 
 	public CGP() {
-		servicios=new EntesConServicios();
+		//servicios=new ListaServicios();
 	}
 	
 	public void modificar(Banco poiEntrante){
@@ -32,12 +32,6 @@ public class CGP extends POI{
 	public boolean estaDisponible(int dia, LocalTime hora,String servicioBuscado){
 	return getServicios().estaDisponible(dia, hora, servicioBuscado);
 	}
-	/*
-	public boolean estaDisponible(int dia, LocalTime hora){
-		boolean abierto=estaDisponible(dia,hora,"");	//usa la de arriba
-		return abierto;
-	}
-	*/
 	//---------------CERCANIA-----------------------------------
 
 	public boolean estaCerca(Maquina puntoActual) {
@@ -64,7 +58,12 @@ public class CGP extends POI{
 		this.comuna = comuna;
 	}	
 	
-	public EntesConServicios getServicios() {
+	public ListaServicios getServicios() {
 		return servicios;
 	}
+
+	public void setServicios(ListaServicios servicios) {
+		this.servicios = servicios;
+	}
+	
 }

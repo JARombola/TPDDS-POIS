@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import configuracionTerminales.Administrador;
-import principal.POIS.POI;
-import principal.Terminales.Mapa;
+import pois.POI;
+import terminales.Mapa;
 
 public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	BufferedReader  archivo;

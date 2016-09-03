@@ -14,12 +14,12 @@ import externos.CentroDTO;
 import externos.OrigenDatos;
 import externos.RangosServiciosDTO;
 import externos.ServiciosDTO;
-import principal.POIS.Horario;
-import principal.POIS.TiposPOI.CGP;
-import principal.POIS.TiposPOI.Servicio;
-import principal.Terminales.BufferBusquedas;
-import principal.Terminales.Buscador;
-import principal.Terminales.Mapa;
+import pois.Horario;
+import terminales.BufferBusquedas;
+import terminales.Mapa;
+import terminales.Terminal;
+import tiposPoi.CGP;
+import tiposPoi.Servicio;
 
 public class testExternosCGP {
 	RangosServiciosDTO rangoServicio, rangoServicio2, rangoServicio3;
@@ -30,40 +30,47 @@ public class testExternosCGP {
 	List<ServiciosDTO> servicios;
 	List<CentroDTO> centros;
 	Mapa mapa;
+	Terminal terminal;
 	BuscadorCGPExterno buscadorExterno;
-	Buscador buscador;
 	
 	@Before
 	public void initialize() {
+		terminal=new Terminal();
 		mapa = new Mapa();
 		cgpMock=Mockito.mock(OrigenDatos.class);
 		cgp = new CentroDTO();
 			cgp.setDomicilio("Av. 9 de Julio 4322");
+			
 		rangoServicio = new RangosServiciosDTO();
 			rangoServicio.setDia(1);
 			rangoServicio.setHoraInicio(8);
 			rangoServicio.setMinutoInicio(30);
 			rangoServicio.setHoraFin(19);
 			rangoServicio.setMinutoFin(15);
+			
 		rangoServicio2 = new RangosServiciosDTO();
 			rangoServicio2.setDia(2);
 			rangoServicio2.setHoraInicio(7);
 			rangoServicio2.setMinutoInicio(00);
 			rangoServicio2.setHoraFin(21);
 			rangoServicio2.setMinutoFin(15);
+			
 		rangoServicio3 = new RangosServiciosDTO();
 			rangoServicio3.setDia(3);
 			rangoServicio3.setHoraInicio(7);
 			rangoServicio3.setMinutoInicio(00);
 			rangoServicio3.setHoraFin(21);
 			rangoServicio3.setMinutoFin(15);
+			
 		servicioDTOTramite = new ServiciosDTO();
 			servicioDTOTramite.agregarRango(rangoServicio);
 			servicioDTOTramite.agregarRango(rangoServicio2);
 			servicioDTOTramite.setNombre("Tramite Jubilacion");
+			
 		servicioDTOCobro = new ServiciosDTO();
 			servicioDTOCobro.agregarRango(rangoServicio3);
 			servicioDTOCobro.setNombre("Cobro Jubilacion");
+			
 		servicios=new ArrayList<ServiciosDTO>();
 		servicios.add(servicioDTOCobro);
 		servicios.add(servicioDTOTramite);
@@ -74,9 +81,8 @@ public class testExternosCGP {
 		Mockito.when(cgpMock.buscar("9 de julio")).thenReturn(centros);
 		buffer = new BufferBusquedas();
 
-		buscador = new Buscador();
-			buscador.setBuffer(buffer);
-			buscador.setMapa(mapa);
+			terminal.setBuffer(buffer);
+			terminal.setMapa(mapa);
 		
 		buscadorExterno = new BuscadorCGPExterno();
 		buscadorExterno.setComponente(cgpMock);
@@ -86,21 +92,19 @@ public class testExternosCGP {
 	
 	@Test
 	public void testDomicilioCalle() {
-		buscador.buscar("Av. 9 de Julio","");
+		terminal.buscar("Av. 9 de Julio","");
 		Assert.assertEquals(cgp.getCalle(),"Av. 9 de Julio");
 		Mockito.verify(cgpMock,Mockito.times(1)).buscar("Av. 9 de Julio");
 	}
 	@Test
 	public void testBusquedaExternaCGP() {
 		Assert.assertEquals(mapa.getListaPOIS().size(), 0);
-		buscador.buscar("9 de julio","");
+		terminal.buscar("9 de julio","");
 		Assert.assertEquals(mapa.getListaPOIS().size(), 1);			//La lista esta vacia, y agrega el nuevo encontrado en el externo
-		buscador.buscar("9 de julio","");
+		terminal.buscar("9 de julio","");
 		Assert.assertEquals(mapa.getListaPOIS().size(), 1);			//Esto estaba en 2, que creo que estaba mal porque si busca lo mismo, tendria que modificarlo, no agregar un nuevo POI
 		cgpMock.buscar("9 de julio");
-		Mockito.verify(cgpMock,Mockito.times(2)).buscar("9 de julio");		
-		
-		
+		Mockito.verify(cgpMock,Mockito.times(2)).buscar("9 de julio");				
 	}
 	
 	@Test

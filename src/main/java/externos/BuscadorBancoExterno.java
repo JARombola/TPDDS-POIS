@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import json.JsonFactory;
-import principal.POIS.POI;
-import principal.POIS.TiposPOI.Banco;
-import principal.POIS.TiposPOI.Servicio;
+import pois.ListaServicios;
+import pois.POI;
+import tiposPoi.Banco;
+import tiposPoi.Servicio;
 
 public class BuscadorBancoExterno implements InterfazBuscadores {
 	OrigenDatos componente;
@@ -37,8 +38,9 @@ public class BuscadorBancoExterno implements InterfazBuscadores {
 		Banco poiSalida=new Banco();
 	 	poiSalida.setId(externo.getId());
 	 	poiSalida.setNombre(externo.getNombre());
-	 	poiSalida.getDireccion().setLatitud(externo.getDireccion().getLatitud());
-	 	poiSalida.getDireccion().setLongitud(externo.getDireccion().getLongitud());
+	 	poiSalida.setServicios(new ListaServicios());
+	 //	poiSalida.getDireccion().setLatitud(externo.getDireccion().getLatitud());
+	 //	poiSalida.getDireccion().setLongitud(externo.getDireccion().getLongitud());
 	 	poiSalida.setSucursal(externo.getSucursal());
 	 	poiSalida.setGerente(externo.getGerente());		
 	 	externo.getServicios().forEach(servicioEntrada->poiSalida.agregarServicio(this.adaptarSerivicioDeString(servicioEntrada)));

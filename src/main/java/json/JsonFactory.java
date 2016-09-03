@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import externos.BancoExterno;
-import principal.POIS.TiposPOI.Banco;
+import tiposPoi.Banco;
 
 public class JsonFactory {
 

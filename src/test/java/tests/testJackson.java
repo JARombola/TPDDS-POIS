@@ -10,12 +10,11 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import json.JsonFactory;
-import principal.POIS.Direccion;
-import principal.POIS.TiposPOI.Banco;
-import principal.Terminales.BufferBusquedas;
-import principal.Terminales.Buscador;
-import principal.Terminales.Mapa;
-import principal.Terminales.Terminal;
+import pois.Direccion;
+import terminales.BufferBusquedas;
+import terminales.Mapa;
+import terminales.Terminal;
+import tiposPoi.Banco;
 import externos.BancoExterno;
 import externos.BuscadorBancoExterno;
 import externos.OrigenDatos;
@@ -40,7 +39,6 @@ public class testJackson {
 		BancoExterno bancoExt;
 		Direccion dire;
 		Terminal terminal;
-		Buscador buscador;
 		BufferBusquedas buffer;
 			
 		@Before
@@ -61,10 +59,10 @@ public class testJackson {
 			
 			buffer = new BufferBusquedas();
 			mapa= new Mapa();
-			buscador = new Buscador();
-				buscador.setBuffer(buffer);
-				buscador.agregarExterno(buscadorExterno);
-				buscador.setMapa(mapa);
+			terminal = new Terminal();
+				terminal.setBuffer(buffer);
+				buffer.agregarExterno(buscadorExterno);
+				terminal.setMapa(mapa);
 		}
 		
 		
@@ -79,7 +77,7 @@ public class testJackson {
 		}
 		@Test
 		public void bancoATravesDelMapa() {
-			buscador.buscar("Banco de la Plaza", "cobro cheques");
+			terminal.buscar("Banco de la Plaza", "cobro cheques");
 			assertEquals(bancoExt.getNombre(), "Banco de Madera");
 			Mockito.verify(banco,Mockito.times(1)).buscar("Banco de la Plaza", "cobro cheques");
 			assertEquals(mapa.getListaPOIS().size(),1);				//Estaba vacio y agrega el banco

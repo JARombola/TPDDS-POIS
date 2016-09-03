@@ -1,6 +1,6 @@
 package configuracionTerminales;
-import principal.Terminales.Terminal;
 import procesos.ControlProcesos;
+import terminales.Terminal;
 
 public class Administrador {
 	

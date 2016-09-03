@@ -3,7 +3,7 @@ package procesos;
 import java.util.Date;
 import java.util.Timer;
 
-import principal.Terminales.Mapa;
+import terminales.Mapa;
 
 
 public class ControlProcesos {

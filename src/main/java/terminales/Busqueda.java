@@ -1,4 +1,4 @@
-package principal.Terminales;
+package terminales;
 
 import org.joda.time.LocalDate;
 

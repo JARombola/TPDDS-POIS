@@ -1,32 +1,31 @@
-package principal.POIS.TiposPOI;
+package tiposPoi;
 
 import java.util.List;
 
 import org.joda.time.LocalTime;
 
-import principal.POIS.EntesConHorarios;
-
+import pois.ListaHorarios;
 
 public class Servicio{
-	private EntesConHorarios horarios;
+	private ListaHorarios horarios;
 	private String nombre;
 	private String descripcion;
 	private List<String> tags;
 	
-	public List<String> getTags() {
-		return tags;
-	}
-
-	public void agregarTag(String tag) {
-		this.tags.add(tag);
-	}
 
 	public Servicio(String nombre) {
-		horarios = new EntesConHorarios();
-		this.setNombre(nombre);
+	//	horarios = new ListaHorarios();
+	//	this.setNombre(nombre);
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
+	public List<String> getTags() {
+		return tags;
+	}
+	
+	public void agregarTag(String tag) {
+		this.tags.add(tag);
+	}
 	public String getNombre() {
 		return nombre;
 	}
@@ -39,7 +38,7 @@ public class Servicio{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public EntesConHorarios getHorarios() {
+	public ListaHorarios getHorarios() {
 		return horarios;
 	}
 	public boolean tienePalabra(String palabra){
@@ -48,6 +47,10 @@ public class Servicio{
 	
 	public boolean estaDisponible(int dia,LocalTime hora){
 		return getHorarios().estaDisponible(dia,hora);
+	}
+
+	public void setHorarios(ListaHorarios horarios) {
+		this.horarios = horarios;
 	}
 
 }

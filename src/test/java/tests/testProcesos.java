@@ -2,6 +2,7 @@ package tests;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -13,12 +14,12 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import configuracionTerminales.Administrador;
-import principal.POIS.TiposPOI.Local;
-import principal.Terminales.Mapa;
 import procesos.ControlProcesos;
 import procesos.ProcesoActualizacionLocalesComerciales;
 import procesos.ProcesoBajaPOIs;
 import procesos.ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra;
+import terminales.Mapa;
+import tiposPoi.Local;
 
 public class testProcesos {
 	Local poi;
@@ -79,6 +80,7 @@ public class testProcesos {
 		proceso.setMapa(mapa);
 		
 		poi = new Local();
+		poi.setTags(new ArrayList<String>());
 		poi.agregarTag("a");
 		poi.agregarTag("b");
 		poi.agregarTag("c");

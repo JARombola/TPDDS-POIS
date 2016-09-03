@@ -5,11 +5,11 @@ import org.junit.Test;
 
 import configuracionTerminales.Administrador;
 import configuracionTerminales.FuncionesExtra;
-import principal.POIS.Comuna;
-import principal.POIS.Coordenadas;
-import principal.Terminales.ControlTerminales;
-import principal.Terminales.Terminal;
+import pois.Comuna;
+import pois.Coordenadas;
 import procesos.ProcesoAgregarAccionesParaUsuarios;
+import terminales.ControlTerminales;
+import terminales.Terminal;
 
 
 public class TestProceso3 {

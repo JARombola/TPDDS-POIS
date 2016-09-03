@@ -1,12 +1,23 @@
-package principal.POIS;
+package pois;
 
 import org.joda.time.LocalTime;
 
 public class Horario {
-	private int dia; // Domingo=1, Lunes=2.....Sabado=7
-	private LocalTime inicio; // Hora que abré
-	private LocalTime fin; // Hora que cierra
+	
+	private int dia; 				// Domingo=1, Lunes=2.....Sabado=7
+	private LocalTime inicio; 		// Hora que abre
+	private LocalTime fin; 			// Hora que cierra
 
+	public Horario(){
+		
+	}
+	
+	public boolean estaAbierto(LocalTime hora) {
+		return (hora.isAfter(this.getInicio()) && hora.isBefore(this.getFin()));
+	}
+
+	
+	//---------------------GETTERS/SETTERS------------------------------------
 	public LocalTime getInicio() {
 		return inicio;
 	}
@@ -31,11 +42,4 @@ public class Horario {
 		this.dia = dia;
 	}
 
-	public void mostrar() {
-		System.out.println(getInicio() + " " + getFin());
-	}
-
-	public boolean estaAbierto(LocalTime hora) {
-		return (hora.isAfter(this.getInicio()) && hora.isBefore(this.getFin()));
-	}
 }

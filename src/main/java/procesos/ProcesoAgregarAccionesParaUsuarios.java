@@ -1,9 +1,9 @@
 package procesos;
 
 import configuracionTerminales.Administrador;
-import principal.POIS.Comuna;
-import principal.Terminales.ControlTerminales;
-import principal.Terminales.Terminal;
+import pois.Comuna;
+import terminales.ControlTerminales;
+import terminales.Terminal;
 
 public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 

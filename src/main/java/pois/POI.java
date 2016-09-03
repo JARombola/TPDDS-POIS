@@ -1,44 +1,33 @@
-package principal.POIS;
+package pois;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 import org.joda.time.LocalTime;
 
-import principal.Terminales.Maquina;
+import terminales.Maquina;
 
 public abstract class POI{
-	private EntesConHorarios horarios;
+	
+	@Id @GeneratedValue
+	private int id;
+	private ListaHorarios horarios;
 	private String nombre;
 	private List<String> tags;
-	
 	private Direccion direccion; 
-	private int id;
-
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
-	
-	
-	public List<String> getTags() {
-		return tags;
-	}
-
-	public void agregarTag(String tag) {
-		this.tags.add(tag);
-	}
-	public void eliminarTags() {
-		this.tags.clear();
-	}
-	
+		
 	public POI (){
-		this.direccion = new Direccion();
-		this.horarios= new EntesConHorarios();
-		this.tags=new ArrayList<String>();
+		
 	}
+	
+	public abstract boolean estaDisponible(int dia, LocalTime hora, String palabra);
 	
 	public boolean estaDisponible(int dia, LocalTime hora){
 		return getHorarios().estaDisponible(dia,hora);		//le delega a EnteConHorarios
 	}
-	public abstract boolean estaDisponible(int dia, LocalTime hora, String palabra);
 	
 	public boolean equals(POI otroPoi){
 		return (otroPoi.getId() == id);
@@ -46,11 +35,13 @@ public abstract class POI{
 	
 	public void modificar(POI poiEntrante){
 		this.setNombre(poiEntrante.getNombre());
-		if(poiEntrante.getDireccion().getCalle()!=null && !(poiEntrante.getDireccion().getCalle().isEmpty())){
-			direccion.setCalle(poiEntrante.getDireccion().getCalle());
-		}
-		if(poiEntrante.getDireccion().getNumero()>0){
-			direccion.setNumero(poiEntrante.getDireccion().getNumero());
+		if(poiEntrante.getDireccion()!=null){
+				if(poiEntrante.getDireccion().getCalle().isEmpty()){
+					direccion.setCalle(poiEntrante.getDireccion().getCalle());
+				}
+				if(poiEntrante.getDireccion().getNumero()>0){
+					direccion.setNumero(poiEntrante.getDireccion().getNumero());
+				}
 		}
 	}
 
@@ -74,12 +65,21 @@ public abstract class POI{
 	}
 	
 	public boolean estaCerca(Maquina puntoActual){
-	
 		double distancia = distanciaAOtroPunto(puntoActual.getCoordenadas());
 		return (distancia <= this.getRadioCercania()); 
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
+	public List<String> getTags() {
+		return tags;
+	}
+	public void agregarTag(String tag) {
+		this.tags.add(tag);
+	}
+	public void eliminarTags() {
+		this.tags.clear();
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -103,7 +103,7 @@ public abstract class POI{
 	public double getRadioCercania() {
 		return radioCercania;
 	}
-	public EntesConHorarios getHorarios() {
+	public ListaHorarios getHorarios() {
 		return horarios;
 	}
 
@@ -117,6 +117,14 @@ public abstract class POI{
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public void setHorarios(ListaHorarios horarios) {
+		this.horarios = horarios;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 	
 

@@ -3,20 +3,19 @@ package tests;
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import configuracionTerminales.FuncionesExtra;
 import externos.BuscadorCGPExterno;
-import principal.POIS.TiposPOI.ParadaColectivo;
-import principal.Terminales.BufferBusquedas;
-import principal.Terminales.Buscador;
-import principal.Terminales.Busqueda;
-import principal.Terminales.ControlTerminales;
-import principal.Terminales.Mapa;
-import principal.Terminales.Terminal;
+import terminales.BufferBusquedas;
+import terminales.Busqueda;
+import terminales.ControlTerminales;
+import terminales.Mapa;
+import terminales.Terminal;
+import tiposPoi.ParadaColectivo;
 
 public class testReportes {
 	Terminal terminal,terminal2;
@@ -28,7 +27,6 @@ public class testReportes {
 	ControlTerminales controlMaestro;
 	BufferBusquedas buffer;
 	BuscadorCGPExterno buscadorCgp;
-	Buscador buscador, buscadorMock;
 	FuncionesExtra extra;
 	
 	
@@ -36,10 +34,11 @@ public class testReportes {
 	public void initialize(){
 		mapa=new Mapa();
 		buffer=new BufferBusquedas();
-		buscadorMock=Mockito.mock(Buscador.class);
 		controlMaestro=new ControlTerminales();
 		parada1 = new ParadaColectivo();
+		parada1.setTags(new ArrayList<String>());
 		parada2 = new ParadaColectivo();
+		parada2.setTags(new ArrayList<String>());
 		parada1.setNombre("primer parada de la linea 114");
 		parada2.setNombre("segunda parada de la linea 114");
 		fecha1 = new LocalDate(2016,02,01);
@@ -62,8 +61,10 @@ public class testReportes {
 		busqueda4.setFecha(fecha4);
 		busqueda4.setFraseBuscada("Dejar_la_facultad");
 		almacenamientoBusquedas = new ArrayList<Busqueda>();
+		
 		mapa.setPOI(parada1);
 		mapa.setPOI(parada2);
+		
 		terminal = new Terminal();
 		terminal2=new Terminal();
 
@@ -96,10 +97,10 @@ public class testReportes {
 	@Test
 	public void testOpcionBusqueda(){
 		extra.setTerminal(terminal);
+		
 		terminal.iniciarBusqueda("Hola", "Chau");
 		terminal.iniciarBusqueda("114", "");
 		terminal.iniciarBusqueda("Julian", "Crack");
-		//terminal.reporteFechas();
 		assertEquals(terminal.cantidadTotalResultados().getDatos(),0,0);			//No se registraron, estaba desactivado
 		terminal.activarOpcion("historial");
 		terminal.iniciarBusqueda("Hola", "Chau");

@@ -2,7 +2,7 @@ package externos;
 
 import java.util.List;
 
-import principal.POIS.Direccion;
+import pois.Direccion;
 
 public class BancoExterno {
 	private String nombre;

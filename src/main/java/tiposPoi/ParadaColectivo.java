@@ -1,13 +1,14 @@
-package principal.POIS.TiposPOI;
+package tiposPoi;
 
 import org.joda.time.LocalTime;
 
-import principal.POIS.POI;
+import pois.POI;
 
 public class ParadaColectivo extends POI{
-
+	double radioCercania=0.1;
+	
 	public ParadaColectivo() {
-		radioCercania = 0.1;
+
 	}
 	
 	//------------------------DISPONIBILIDAD------------------
@@ -16,12 +17,6 @@ public class ParadaColectivo extends POI{
 	}
 	
 	public boolean tienePalabra(String palabra) {
-		 
 		return (getNombre().contains(palabra) || this.getTags().contains(palabra));
 	}
-	
-	/*
-	public boolean estaDisponible(int dia, LocalTime hora) {
-		return true;
-	}*/
 }

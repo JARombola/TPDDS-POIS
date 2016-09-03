@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.TimerTask;
 
 import configuracionTerminales.Administrador;
-import principal.Terminales.Mapa;
+import terminales.Mapa;
 
 public abstract class Proceso extends TimerTask  {
 	

@@ -1,20 +1,18 @@
-package principal.POIS.TiposPOI;
+package tiposPoi;
 
 
 import org.joda.time.LocalTime;
 
-import principal.POIS.EntesConServicios;
-import principal.POIS.POI;
+import pois.ListaServicios;
+import pois.POI;
 
 
 public class Banco extends POI{
 	
 	private String sucursal;
 	private String gerente;
-
-	
 	int LUNES=1,VIERNES=5;
-	private EntesConServicios servicios;
+	private ListaServicios servicios;
 	
 	public void modificar(Banco poiEntrante){
 		if(poiEntrante.getServicios().getServicios().size()>0){
@@ -29,14 +27,12 @@ public class Banco extends POI{
 			  FIN= new LocalTime(15,00);
 	
 	public Banco(){
-		servicios=new EntesConServicios();
 	}
 	
-
 	public void agregarServicio(Servicio unServicio){
 		this.servicios.agregarServicio(unServicio);
 	}
-	
+
 	
 	private boolean estaDisponibleSinServicio(int dia, LocalTime hora){
 		return ((dia>=LUNES) && (dia<=VIERNES) && (hora.isAfter(INICIO))&& (hora.isBefore(FIN)));
@@ -62,8 +58,12 @@ public class Banco extends POI{
 	
 		
 	// -------------------GETTERS,SETTERS-----------------
-	public EntesConServicios getServicios() {
+	public ListaServicios getServicios() {
 		return servicios;
+	}
+	
+	public void setServicios(ListaServicios servicios) {
+		this.servicios = servicios;
 	}
 	
 	
@@ -85,4 +85,6 @@ public class Banco extends POI{
 	public void setGerente(String gerente) {
 		this.gerente = gerente;
 	}
+
+
 }

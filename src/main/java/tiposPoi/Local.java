@@ -1,15 +1,14 @@
-package principal.POIS.TiposPOI;
+package tiposPoi;
 
 
 import org.joda.time.LocalTime;
 
-import principal.POIS.POI;
+import pois.POI;
 
 public class Local extends POI{
+	
 	private Rubro rubro;
-
 	public Local() {
-		super();
 	}
 
 	//---------------BUSQUEDA-----------------------------------

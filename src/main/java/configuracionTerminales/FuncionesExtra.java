@@ -3,8 +3,8 @@ package configuracionTerminales;
 import java.util.HashMap;
 import java.util.Map;
 
-import principal.Terminales.Busqueda;
-import principal.Terminales.Terminal;
+import terminales.Busqueda;
+import terminales.Terminal;
 
 public class FuncionesExtra {
 	

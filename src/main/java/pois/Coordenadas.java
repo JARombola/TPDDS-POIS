@@ -1,4 +1,4 @@
-package principal.POIS;
+package pois;
 
 public class Coordenadas {
 
