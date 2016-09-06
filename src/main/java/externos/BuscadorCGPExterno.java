@@ -41,7 +41,9 @@ public class BuscadorCGPExterno implements InterfazBuscadores {
 		CGP poiSalida=new CGP();
 		poiSalida.setId(poiEntrada.getId());
 		poiSalida.setNombre(poiEntrada.getDomicilio());
-		poiSalida.setServicios(new ListaServicios());
+		ListaServicios servicios= new ListaServicios();
+		servicios.setServicios(new ArrayList<Servicio>());
+		poiSalida.setServicios(servicios);
 		poiSalida.setTags(new ArrayList<String>());
 	//	poiSalida.getDireccion().setCalle(poiEntrada.getCalle());
 	//	poiSalida.getDireccion().setNumero(poiEntrada.getNumero());

@@ -2,15 +2,21 @@ package pois;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import org.joda.time.LocalTime;
 
 
 public class ListaHorarios {		//Contiene la Lista con Horarios, determina si estan disponibles o no
-
+	@Id @GeneratedValue
+	private int id;
+	
 	private List<Horario> horariosAtencion;
 
 	public ListaHorarios() {
-		horariosAtencion = new ArrayList<Horario>();
+		
 	}
 	
 	public boolean estaDisponible(int dia, LocalTime hora) {

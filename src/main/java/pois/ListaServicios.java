@@ -19,7 +19,7 @@ public class ListaServicios {
 	}
 	
 	public ListaServicios(){
-		servicios=new ArrayList<Servicio>();
+		
 	}
 	
 	public boolean estaDisponible(int dia, LocalTime hora, String servicioBuscado){

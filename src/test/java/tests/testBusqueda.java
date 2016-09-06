@@ -76,6 +76,7 @@ public class testBusqueda {
 		jubilacion.setNombre("jubilacion");
 			cgp = new CGP();
 			ListaServicios servicios1=new ListaServicios();
+			servicios1.setServicios(new ArrayList<Servicio>());
 			cgp.setServicios(servicios1);
 			cgp.setTags(new ArrayList<String>());
 			banco = new Banco();
@@ -83,6 +84,7 @@ public class testBusqueda {
 				cgp.agregarServicio(asesoramiento);
 				cgp.setNombre("CGP nro 1");
 			ListaServicios servicios2=new ListaServicios();
+			servicios2.setServicios(new ArrayList<Servicio>());
 				banco.setServicios(servicios2);
 				banco.agregarServicio(asesoramiento);
 				banco.agregarServicio(jubilacion);

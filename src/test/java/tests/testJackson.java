@@ -20,7 +20,6 @@ import externos.BuscadorBancoExterno;
 import externos.OrigenDatos;
 
 
-
 public class testJackson {
 	
 		private JsonFactory jsonFactory = new JsonFactory();

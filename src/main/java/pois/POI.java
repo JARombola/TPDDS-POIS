@@ -2,21 +2,27 @@ package pois;
 
 import java.util.List;
 
+import javax.persistence.Embedded;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.joda.time.LocalTime;
 
 import terminales.Maquina;
 
 public abstract class POI{
-	
 	@Id @GeneratedValue
 	private int id;
+	@OneToMany
 	private ListaHorarios horarios;
 	private String nombre;
+	@OneToMany
 	private List<String> tags;
+	@Embedded
 	private Direccion direccion; 
+	@Transient
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 		
 	public POI (){

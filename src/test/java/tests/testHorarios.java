@@ -1,11 +1,14 @@
 
 package tests;
 
+import java.util.ArrayList;
+
 import org.joda.time.LocalTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import pois.Horario;
 import pois.ListaHorarios;
 import pois.ListaServicios;
 import tiposPoi.Banco;
@@ -30,6 +33,7 @@ public class testHorarios {
 		horaInicio=new LocalTime(10,00);
 		horaCierre=new LocalTime(22,00);
 		ListaHorarios horarios=new ListaHorarios();
+		horarios.setHorariosAtencion(new ArrayList<Horario>());
 		rentas.setHorarios(horarios);
 		rentas.getHorarios().horarioNuevo(1, horaInicio, horaCierre);
 		
@@ -38,22 +42,26 @@ public class testHorarios {
 		horaInicio=new LocalTime(5,00);
 		horaCierre=new LocalTime(9,00);
 		ListaHorarios horarios2=new ListaHorarios();
+		horarios2.setHorariosAtencion(new ArrayList<Horario>());
 		jubilacion.setHorarios(horarios2);
 		jubilacion.getHorarios().horarioNuevo(2, horaInicio, horaCierre);
 
-		ListaServicios serv=new ListaServicios();
-		banco.setServicios(serv);
+		ListaServicios servicios=new ListaServicios();
+		servicios.setServicios(new ArrayList<Servicio>());
+		banco.setServicios(servicios);
 		banco.agregarServicio(rentas);
 		banco.agregarServicio(jubilacion);
 		
-		ListaServicios serv1=new ListaServicios();
+		ListaServicios servicios1=new ListaServicios();
+		servicios1.setServicios(new ArrayList<Servicio>());
 		unCGP = new CGP();
-		unCGP.setServicios(serv1);
+		unCGP.setServicios(servicios1);
 		unCGP.agregarServicio(rentas);
 		unCGP.agregarServicio(jubilacion);
 		
 		parada = new ParadaColectivo();
 		ListaHorarios horarios3=new ListaHorarios();
+		horarios3.setHorariosAtencion(new ArrayList<Horario>());
 		carrousel = new Local();
 		carrousel.setHorarios(horarios3);
 		for (int dia = 2; dia <= 7; dia++) {		//Horarios Carrousel 

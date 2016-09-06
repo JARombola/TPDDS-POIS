@@ -1,13 +1,24 @@
 package terminales;
 
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.joda.time.LocalDate;
 
+@Entity
+@Table(name="busquedas")
 
 public class Busqueda {
+	@Id @GeneratedValue
+	private int id;
 	
 	private String fraseBuscada;
 	public int cantidadResultados;
 	private double tiempoBusqueda;
+	//@Convert -> CONVERTIR LOCALDATE Para que funque con la BD.
 	private LocalDate fecha; 
 	
 	public Busqueda(){

@@ -38,7 +38,9 @@ public class BuscadorBancoExterno implements InterfazBuscadores {
 		Banco poiSalida=new Banco();
 	 	poiSalida.setId(externo.getId());
 	 	poiSalida.setNombre(externo.getNombre());
-	 	poiSalida.setServicios(new ListaServicios());
+	 	ListaServicios servicios= new ListaServicios();
+	 	servicios.setServicios(new ArrayList<Servicio>());
+	 	poiSalida.setServicios(servicios);
 	 //	poiSalida.getDireccion().setLatitud(externo.getDireccion().getLatitud());
 	 //	poiSalida.getDireccion().setLongitud(externo.getDireccion().getLongitud());
 	 	poiSalida.setSucursal(externo.getSucursal());
