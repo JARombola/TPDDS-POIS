@@ -8,6 +8,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+import procesos.Proceso;
+
 public class EnviadorMails {
 	private JavaMailSender mailSender;
 	public SimpleMailMessage mail;
@@ -16,17 +18,26 @@ public class EnviadorMails {
 	public EnviadorMails(){
 		mailSender=new JavaMailSenderImpl();
 		this.adminInterno=new Administrador();
-		this.adminInterno.setEmail("Admin@hotmail.com");
-		this.configurarMail();
-		
+		this.adminInterno.setEmail("Admin@hotmail.com");		
 	}
-	private void configurarMail(){
+	
+	public void mailBusquedaLenta(){
 		this.mail=new SimpleMailMessage();
 		this.mail.setFrom("Terminal");			//CHAN...
 		this.mail.setSubject("Busqueda lenta");
-		this.mail.setText("La busqueda tardó demasiado che");
+		this.mail.setText("La busqueda tardó demasiado");
 		this.mail.setTo(adminInterno.getEmail());
 	}
+	
+	public void mailFallaProceso(Proceso proceso) {
+	    String nombre = proceso.getClass().getName();
+		mail=new SimpleMailMessage();
+		mail.setFrom("Manejo de Resultados de los Procesos");			
+		mail.setSubject("Error en el proceso "+nombre);
+		mail.setText("el proceso "+nombre+" ejecutado el dia "+ proceso.getFecha()+ " Fallo su ejecucion.");
+		mail.setTo(proceso.admin.getEmail()); 
+	}	
+	
 	
 	public void enviarMail(){
 		MimeMessage message = mailSender.createMimeMessage();			 			

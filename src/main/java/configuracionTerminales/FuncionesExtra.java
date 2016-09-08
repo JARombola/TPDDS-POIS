@@ -41,7 +41,7 @@ public class FuncionesExtra {
 	private void enviarMail(double tiempoBusqueda){
 		if (getOpciones().get("MAIL") && tiempoBusqueda>tiempoMax){		//activado el mail, y el tiempo se excedió
 			EnviadorMails mail=new EnviadorMails();
-			mail.enviarMail();
+			mail.mailBusquedaLenta();
 		}
 	}
 

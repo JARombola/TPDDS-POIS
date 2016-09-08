@@ -1,7 +1,5 @@
 package configuracionTerminales;
 
-
-
 public class Mail {
 	public Mail() {
 		

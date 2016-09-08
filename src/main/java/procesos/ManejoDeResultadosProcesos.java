@@ -3,10 +3,12 @@ package procesos;
 import java.util.ArrayList;
 import java.util.List;
 
+import configuracionTerminales.EnviadorMails;
+
 public class ManejoDeResultadosProcesos {
 	
 	private List<ResultadoDeProceso> resultados;
-	EnvioMail enviadorMails;
+	EnviadorMails enviadorMails;
 	
 	public ManejoDeResultadosProcesos(){
 		resultados=new ArrayList<ResultadoDeProceso>();

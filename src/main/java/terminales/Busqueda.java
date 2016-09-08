@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.joda.time.LocalDate;
 
 @Entity
-@Table(name="busquedas")
+@Table(name="Busquedas")
 
 public class Busqueda {
 	@Id @GeneratedValue
@@ -20,11 +20,8 @@ public class Busqueda {
 	private double tiempoBusqueda;
 	//@Convert -> CONVERTIR LOCALDATE Para que funque con la BD.
 	private LocalDate fecha; 
-	
-	public Busqueda(){
-		this.fecha=LocalDate.now();
-	}
-	
+
+	public Busqueda(){}
 	
 	public String getFraseBuscada() {
 		return fraseBuscada;

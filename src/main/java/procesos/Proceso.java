@@ -9,7 +9,7 @@ import terminales.Mapa;
 public abstract class Proceso extends TimerTask  {
 	
 	protected Mapa mapa;
-	protected static Administrador admin;
+	public Administrador admin;
 	protected ControlProcesos controladorProcesos;
 	protected ResultadoDeProceso resultado;
 	protected Date fechaEjecucion;

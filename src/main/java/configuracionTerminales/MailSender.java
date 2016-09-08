@@ -1,5 +1,5 @@
 package configuracionTerminales;
 
 public  interface MailSender {
-	public   void send (Mail mail);
+	public void send (Mail mail);
 }

@@ -11,7 +11,6 @@ public class ControlProcesos {
 	private ManejoDeResultadosProcesos manejoResultados;
 	Timer timer = new Timer();
 	
-	
 	public ControlProcesos() {
 		manejoResultados = new ManejoDeResultadosProcesos();
 	}
