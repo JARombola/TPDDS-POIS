@@ -27,7 +27,7 @@ public class testHorarios {
 	@Before
 	public void initialize() {
 		banco = new Banco();
-		Servicio rentas=new Servicio("Rentas");
+		Servicio rentas=new Servicio();
 		rentas.setNombre("Rentas");
 		
 		horaInicio=new LocalTime(10,00);
@@ -37,7 +37,7 @@ public class testHorarios {
 		rentas.setHorarios(horarios);
 		rentas.getHorarios().horarioNuevo(1, horaInicio, horaCierre);
 		
-		Servicio jubilacion=new Servicio("jubilacion");
+		Servicio jubilacion=new Servicio();
 		jubilacion.setNombre("jubilacion");
 		horaInicio=new LocalTime(5,00);
 		horaCierre=new LocalTime(9,00);

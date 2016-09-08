@@ -1,18 +1,25 @@
 package tiposPoi;
 
-
 import org.joda.time.LocalTime;
-
 import pois.ListaServicios;
 import pois.POI;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
-
+@Entity
 public class Banco extends POI{
-	
+	@Id @GeneratedValue
+	private int id;
 	private String sucursal;
 	private String gerente;
+	@Transient
 	int LUNES=1,VIERNES=5;
 	private ListaServicios servicios;
+	@Transient
+	LocalTime INICIO=new LocalTime(10,00), FIN= new LocalTime(15,00);
+	
 	
 	public void modificar(Banco poiEntrante){
 		if(poiEntrante.getServicios().getServicios().size()>0){
@@ -23,9 +30,7 @@ public class Banco extends POI{
 	
 	//------------------------DISPONIBILIDAD------------------
 	
-	LocalTime INICIO=new LocalTime(10,00),
-			  FIN= new LocalTime(15,00);
-	
+
 	public Banco(){
 	}
 	
@@ -84,6 +89,14 @@ public class Banco extends POI{
 
 	public void setGerente(String gerente) {
 		this.gerente = gerente;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 

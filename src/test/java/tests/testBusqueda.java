@@ -70,9 +70,9 @@ public class testBusqueda {
 				mueblesSA.setNombre("muebles sociedad anonima");
 				mueblesParaTodos.setRubro(muebleria);
 				mueblesParaTodos.setNombre("otra muebleria");
-		asesoramiento = new Servicio("asesoramiento");
+		asesoramiento = new Servicio();
 		asesoramiento.setNombre("asesoramiento");
-		jubilacion = new Servicio("jubilacion");
+		jubilacion = new Servicio();
 		jubilacion.setNombre("jubilacion");
 			cgp = new CGP();
 			ListaServicios servicios1=new ListaServicios();

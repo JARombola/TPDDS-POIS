@@ -1,7 +1,11 @@
 package pois;
 
-public class Coordenadas {
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
+public class Coordenadas {
+	@Id @GeneratedValue
+	private int id;
 	private double latitud;
 	private double longitud;
 
@@ -21,6 +25,14 @@ public class Coordenadas {
 
 	public void setLongitud(double longitud) {
 		this.longitud = longitud;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

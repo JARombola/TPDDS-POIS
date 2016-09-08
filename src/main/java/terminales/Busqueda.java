@@ -10,7 +10,6 @@ import org.joda.time.LocalDate;
 
 @Entity
 @Table(name="Busquedas")
-
 public class Busqueda {
 	@Id @GeneratedValue
 	private int id;

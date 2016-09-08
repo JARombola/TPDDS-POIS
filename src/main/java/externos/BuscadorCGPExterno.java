@@ -53,7 +53,8 @@ public class BuscadorCGPExterno implements InterfazBuscadores {
 	
 	public  Servicio adaptarServicio (ServiciosDTO servicioEntrada){
 		List<Horario> horarios;
-		Servicio servicioSalida = new Servicio(servicioEntrada.getNombre());
+		Servicio servicioSalida = new Servicio();
+		servicioSalida.setNombre(servicioEntrada.getNombre());
 		servicioSalida.setNombre(servicioEntrada.getNombre());
 		servicioSalida.setHorarios(new ListaHorarios());
 		horarios = servicioEntrada.getRangos().stream().map(rango -> adaptarAHorarioLocalTime(rango)).collect(Collectors.toList());
@@ -62,8 +63,9 @@ public class BuscadorCGPExterno implements InterfazBuscadores {
 	}
 
 	
-	public  Servicio adaptarSerivicioString (String nombre){
-		Servicio servicioSalida = new Servicio(nombre);
+	public  Servicio adaptarSerivicioString (String nombreServicio){
+		Servicio servicioSalida = new Servicio();
+		servicioSalida.setNombre(nombreServicio);
 		return servicioSalida;
 	}
 	

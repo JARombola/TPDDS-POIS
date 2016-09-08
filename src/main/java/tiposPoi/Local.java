@@ -1,13 +1,16 @@
 package tiposPoi;
 
 
+
 import org.joda.time.LocalTime;
-
 import pois.POI;
+import javax.persistence.Entity;
 
+@Entity
 public class Local extends POI{
 	
 	private Rubro rubro;
+	
 	public Local() {
 	}
 

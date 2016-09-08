@@ -2,23 +2,25 @@ package pois;
 
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Transient;
 
 import org.joda.time.LocalTime;
 
 import terminales.Maquina;
 
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) 
 public abstract class POI{
 	@Id @GeneratedValue
 	private int id;
-	@OneToMany
 	private ListaHorarios horarios;
 	private String nombre;
-	@OneToMany
+	@ElementCollection
 	private List<String> tags;
 	@Embedded
 	private Direccion direccion; 

@@ -8,12 +8,19 @@ import pois.ListaServicios;
 import pois.POI;
 import terminales.Maquina;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class CGP extends POI{
+	@Id @GeneratedValue
+	private int id;
 	private Comuna comuna;
 	private ListaServicios servicios;
 
 	public CGP() {
-		//servicios=new ListaServicios();
+
 	}
 	
 	public void modificar(Banco poiEntrante){

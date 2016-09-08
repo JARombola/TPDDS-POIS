@@ -1,7 +1,13 @@
 package tiposPoi;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Rubro {
-	
+	@Id @GeneratedValue
+	private int id;
 	private double radioCercania;
 	public String nombre;
 
@@ -26,5 +32,13 @@ public class Rubro {
 	}
 	public boolean tienePalabra(String palabra){
 		return (getNombre().contains(palabra));
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

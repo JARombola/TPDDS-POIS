@@ -1,12 +1,17 @@
 package pois;
 
+import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+
+@Embeddable
 public class Direccion {
 
-	public Direccion() {
-	}
-
+	@Id @GeneratedValue
+	int id;
+	
 	private String calle;
-
 
 	private String[] callesEntreLasQueSeEncuentra;
 	private int numero;
@@ -18,8 +23,11 @@ public class Direccion {
 	private String barrio;
 	private String provincia;
 	private String pais;
+	@JoinColumn
 	private Coordenadas coordenadas;
 
+	public Direccion() {
+	}
 	// -------------------GETTERS,SETTERS-----------------
 
 	public double getLatitud() {
@@ -60,6 +68,42 @@ public class Direccion {
 
 	public void setCoordenadas(Coordenadas coordenadas) {
 		this.coordenadas = coordenadas;
+	}
+
+	public void setCallesEntreLasQueSeEncuentra(String[] callesEntreLasQueSeEncuentra) {
+		this.callesEntreLasQueSeEncuentra = callesEntreLasQueSeEncuentra;
+	}
+
+	public void setPiso(int piso) {
+		this.piso = piso;
+	}
+
+	public void setDpto(int dpto) {
+		this.dpto = dpto;
+	}
+
+	public void setUnidad(String unidad) {
+		this.unidad = unidad;
+	}
+
+	public void setCodigoPostal(int codigoPostal) {
+		this.codigoPostal = codigoPostal;
+	}
+
+	public void setLocalidad(String localidad) {
+		this.localidad = localidad;
+	}
+
+	public void setBarrio(String barrio) {
+		this.barrio = barrio;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
 	}
 	
 	

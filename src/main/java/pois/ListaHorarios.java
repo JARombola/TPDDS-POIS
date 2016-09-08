@@ -1,10 +1,10 @@
 package pois;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.joda.time.LocalTime;
 
@@ -12,7 +12,7 @@ import org.joda.time.LocalTime;
 public class ListaHorarios {		//Contiene la Lista con Horarios, determina si estan disponibles o no
 	@Id @GeneratedValue
 	private int id;
-	
+	@OneToMany
 	private List<Horario> horariosAtencion;
 
 	public ListaHorarios() {
@@ -50,6 +50,14 @@ public class ListaHorarios {		//Contiene la Lista con Horarios, determina si est
 		
 	public void agregarHorario(Horario horario){
 		horariosAtencion.add(horario);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}	
 
 }

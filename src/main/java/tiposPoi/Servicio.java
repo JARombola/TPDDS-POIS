@@ -6,16 +6,25 @@ import org.joda.time.LocalTime;
 
 import pois.ListaHorarios;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Servicio{
+	@Id @GeneratedValue
+	private int id;
+	
 	private ListaHorarios horarios;
 	private String nombre;
 	private String descripcion;
+	@ElementCollection
 	private List<String> tags;
 	
 
-	public Servicio(String nombre) {
-	//	horarios = new ListaHorarios();
-	//	this.setNombre(nombre);
+	public Servicio() {
+
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
@@ -51,6 +60,18 @@ public class Servicio{
 
 	public void setHorarios(ListaHorarios horarios) {
 		this.horarios = horarios;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 
 }

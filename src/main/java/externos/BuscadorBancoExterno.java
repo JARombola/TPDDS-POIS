@@ -50,7 +50,8 @@ public class BuscadorBancoExterno implements InterfazBuscadores {
 	}
 		 	
 	public  Servicio adaptarSerivicioDeString (String servicioEntrada){
-		Servicio servicioSalida = new Servicio(servicioEntrada);
+		Servicio servicioSalida = new Servicio();
+		servicioSalida.setNombre(servicioEntrada);
 		return servicioSalida;
 	}
 	
