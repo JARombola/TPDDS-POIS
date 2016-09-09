@@ -13,7 +13,7 @@ import tiposPoi.Local;
 import tiposPoi.ParadaColectivo;
 import tiposPoi.Rubro;
 
-public class testCercania {
+public class TestCercania {
 	Banco banco;
 	ParadaColectivo parada;
 	Local librosSA;

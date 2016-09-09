@@ -17,7 +17,7 @@ import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.ParadaColectivo;
 
-public class testReportes {
+public class TestReportes {
 	Terminal terminal,terminal2;
 	Busqueda busqueda1,busqueda2,busqueda3,busqueda4;
 	LocalDate fecha1, fecha2, fecha3, fecha4;

@@ -21,7 +21,7 @@ import terminales.Terminal;
 import tiposPoi.CGP;
 import tiposPoi.Servicio;
 
-public class testExternosCGP {
+public class TestExternosCGP {
 	RangosServiciosDTO rangoServicio, rangoServicio2, rangoServicio3;
 	ServiciosDTO servicioDTOTramite, servicioDTOCobro;
 	CentroDTO cgp;

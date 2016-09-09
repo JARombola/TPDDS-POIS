@@ -14,7 +14,7 @@ import tiposPoi.Local;
 import tiposPoi.ParadaColectivo;
 import tiposPoi.Servicio;
 
-public class testHorarios {
+public class TestHorarios {
 	Banco banco;
 	ParadaColectivo parada;
 	Local carrousel;

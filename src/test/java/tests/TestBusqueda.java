@@ -21,7 +21,7 @@ import tiposPoi.Rubro;
 import tiposPoi.Servicio;
 
 
-public class testBusqueda {
+public class TestBusqueda {
 	int encontrados;
 	ParadaColectivo parada1, parada2, parada3;
 	Rubro muebleria;

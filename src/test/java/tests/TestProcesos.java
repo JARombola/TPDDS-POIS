@@ -21,7 +21,7 @@ import procesos.ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra;
 import terminales.Mapa;
 import tiposPoi.Local;
 
-public class testProcesos {
+public class TestProcesos {
 	Local poi;
 	Mapa mapa;
 	ProcesoActualizacionLocalesComerciales proceso;

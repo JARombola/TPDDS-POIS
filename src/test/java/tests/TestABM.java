@@ -9,7 +9,7 @@ import tiposPoi.Banco;
 import tiposPoi.CGP;
 import tiposPoi.Local;
 
-public class testABM {
+public class TestABM {
 	Banco poi1;
 	CGP poi2;
 	Banco poi3;
