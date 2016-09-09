@@ -14,6 +14,11 @@ public class Rubro {
 	public Rubro(){
 	}
 	
+	public Rubro(String rubroNombre){
+		super();
+		this.nombre=rubroNombre;
+	}
+	
 	// -------------------GETTERS,SETTERS-----------------
 	public void setRadioCercania(double radioCercania) {
 		this.radioCercania = radioCercania;

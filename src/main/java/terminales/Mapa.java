@@ -60,7 +60,8 @@ public class Mapa {
 		List<POI> mismoPoiEnSistema = pois.stream()
 										.filter(poi->poi.equals(poiEntrante))
 										.collect(Collectors.toList());
- 		if(mismoPoiEnSistema.size()==1){
+		
+ 		if(mismoPoiEnSistema.size()>=1){
  			mismoPoiEnSistema.get(0).modificar(poiEntrante);
  		} else {
  			pois.add(poiEntrante);

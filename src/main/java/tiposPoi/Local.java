@@ -5,10 +5,14 @@ package tiposPoi;
 import org.joda.time.LocalTime;
 import pois.POI;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class Local extends POI{
 	
+	@Id @GeneratedValue
+	private int id;	
 	private Rubro rubro;
 	
 	public Local() {

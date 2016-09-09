@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import org.joda.time.LocalTime;
 
 import pois.Horario;
-import pois.ListaHorarios;
-import pois.ListaServicios;
 import pois.POI;
 import tiposPoi.CGP;
 import tiposPoi.Servicio;
@@ -41,22 +39,15 @@ public class BuscadorCGPExterno implements InterfazBuscadores {
 		CGP poiSalida=new CGP();
 		poiSalida.setId(poiEntrada.getId());
 		poiSalida.setNombre(poiEntrada.getDomicilio());
-		ListaServicios servicios= new ListaServicios();
-		servicios.setServicios(new ArrayList<Servicio>());
-		poiSalida.setServicios(servicios);
-		poiSalida.setTags(new ArrayList<String>());
-	//	poiSalida.getDireccion().setCalle(poiEntrada.getCalle());
-	//	poiSalida.getDireccion().setNumero(poiEntrada.getNumero());
+		poiSalida.getDireccion().setCalle(poiEntrada.getCalle());
+		poiSalida.getDireccion().setNumero(poiEntrada.getNumero());
 		poiEntrada.getServicios().forEach(servicioEntrada->poiSalida.agregarServicio(this.adaptarServicio(servicioEntrada)));
 		return poiSalida;
 	}
 	
 	public  Servicio adaptarServicio (ServiciosDTO servicioEntrada){
 		List<Horario> horarios;
-		Servicio servicioSalida = new Servicio();
-		servicioSalida.setNombre(servicioEntrada.getNombre());
-		servicioSalida.setNombre(servicioEntrada.getNombre());
-		servicioSalida.setHorarios(new ListaHorarios());
+		Servicio servicioSalida = new Servicio(servicioEntrada.getNombre());
 		horarios = servicioEntrada.getRangos().stream().map(rango -> adaptarAHorarioLocalTime(rango)).collect(Collectors.toList());
 		servicioSalida.getHorarios().setHorariosAtencion(horarios);
 		return servicioSalida;
@@ -64,8 +55,7 @@ public class BuscadorCGPExterno implements InterfazBuscadores {
 
 	
 	public  Servicio adaptarSerivicioString (String nombreServicio){
-		Servicio servicioSalida = new Servicio();
-		servicioSalida.setNombre(nombreServicio);
+		Servicio servicioSalida = new Servicio(nombreServicio);
 		return servicioSalida;
 	}
 	

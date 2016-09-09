@@ -1,5 +1,6 @@
 package pois;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -28,7 +29,9 @@ public abstract class POI{
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 		
 	public POI (){
-		
+		this.direccion = new Direccion();
+		this.horarios= new ListaHorarios();
+		this.tags=new ArrayList<String>();
 	}
 	
 	public abstract boolean estaDisponible(int dia, LocalTime hora, String palabra);
@@ -44,7 +47,7 @@ public abstract class POI{
 	public void modificar(POI poiEntrante){
 		this.setNombre(poiEntrante.getNombre());
 		if(poiEntrante.getDireccion()!=null){
-				if(poiEntrante.getDireccion().getCalle().isEmpty()){
+				if(poiEntrante.getDireccion().getCalle()!=null){
 					direccion.setCalle(poiEntrante.getDireccion().getCalle());
 				}
 				if(poiEntrante.getDireccion().getNumero()>0){

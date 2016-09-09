@@ -80,7 +80,6 @@ public class testProcesos {
 		proceso.setMapa(mapa);
 		
 		poi = new Local();
-		poi.setTags(new ArrayList<String>());
 		poi.agregarTag("a");
 		poi.agregarTag("b");
 		poi.agregarTag("c");

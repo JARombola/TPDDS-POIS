@@ -20,6 +20,9 @@ public class Banco extends POI{
 	@Transient
 	LocalTime INICIO=new LocalTime(10,00), FIN= new LocalTime(15,00);
 	
+	public Banco(){
+		servicios=new ListaServicios();
+	}
 	
 	public void modificar(Banco poiEntrante){
 		if(poiEntrante.getServicios().getServicios().size()>0){
@@ -31,8 +34,7 @@ public class Banco extends POI{
 	//------------------------DISPONIBILIDAD------------------
 	
 
-	public Banco(){
-	}
+	
 	
 	public void agregarServicio(Servicio unServicio){
 		this.servicios.agregarServicio(unServicio);
@@ -90,14 +92,5 @@ public class Banco extends POI{
 	public void setGerente(String gerente) {
 		this.gerente = gerente;
 	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 
 }

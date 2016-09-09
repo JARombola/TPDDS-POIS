@@ -17,7 +17,6 @@ public class ParadaColectivo extends POI{
 	double radioCercania=0.1;
 	
 	public ParadaColectivo() {
-
 	}
 	
 	//------------------------DISPONIBILIDAD------------------

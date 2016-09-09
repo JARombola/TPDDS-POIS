@@ -13,7 +13,7 @@ public class Direccion {
 	
 	private String calle;
 
-	private String[] callesEntreLasQueSeEncuentra;
+	private String[] callesEntreLasQueSeEncuentra = new String[2];;
 	private int numero;
 	private int piso;
 	private int dpto;
@@ -27,6 +27,7 @@ public class Direccion {
 	private Coordenadas coordenadas;
 
 	public Direccion() {
+		coordenadas = new Coordenadas();
 	}
 	// -------------------GETTERS,SETTERS-----------------
 

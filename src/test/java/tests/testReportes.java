@@ -36,9 +36,7 @@ public class testReportes {
 		buffer=new BufferBusquedas();
 		controlMaestro=new ControlTerminales();
 		parada1 = new ParadaColectivo();
-		parada1.setTags(new ArrayList<String>());
 		parada2 = new ParadaColectivo();
-		parada2.setTags(new ArrayList<String>());
 		parada1.setNombre("primer parada de la linea 114");
 		parada2.setNombre("segunda parada de la linea 114");
 		fecha1 = new LocalDate(2016,02,01);

@@ -1,5 +1,6 @@
 package pois;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ public class ListaServicios {
 	private List<Servicio> servicios;
 	
 	public ListaServicios(){	
+		servicios=new ArrayList<Servicio>();
 	}
 	
 	public List<Servicio> getServicios() {

@@ -26,6 +26,12 @@ public class Servicio{
 	public Servicio() {
 
 	}
+	
+	public Servicio(String nombre) {
+		super();
+		horarios = new ListaHorarios();
+		this.setNombre(nombre);
+	}
 
 	// -------------------GETTERS,SETTERS-----------------
 	public List<String> getTags() {

@@ -1,5 +1,6 @@
 package pois;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
@@ -16,7 +17,7 @@ public class ListaHorarios {		//Contiene la Lista con Horarios, determina si est
 	private List<Horario> horariosAtencion;
 
 	public ListaHorarios() {
-		
+		horariosAtencion = new ArrayList<Horario>();
 	}
 	
 	public boolean estaDisponible(int dia, LocalTime hora) {

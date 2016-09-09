@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import json.JsonFactory;
-import pois.ListaServicios;
 import pois.POI;
 import tiposPoi.Banco;
 import tiposPoi.Servicio;
@@ -13,7 +12,6 @@ import tiposPoi.Servicio;
 public class BuscadorBancoExterno implements InterfazBuscadores {
 	OrigenDatos componente;
 	
-
 	List<POI> resultado= new ArrayList<POI>();
 	
 
@@ -38,11 +36,8 @@ public class BuscadorBancoExterno implements InterfazBuscadores {
 		Banco poiSalida=new Banco();
 	 	poiSalida.setId(externo.getId());
 	 	poiSalida.setNombre(externo.getNombre());
-	 	ListaServicios servicios= new ListaServicios();
-	 	servicios.setServicios(new ArrayList<Servicio>());
-	 	poiSalida.setServicios(servicios);
-	 //	poiSalida.getDireccion().setLatitud(externo.getDireccion().getLatitud());
-	 //	poiSalida.getDireccion().setLongitud(externo.getDireccion().getLongitud());
+	 	poiSalida.getDireccion().setLatitud(externo.getDireccion().getLatitud());
+	 	poiSalida.getDireccion().setLongitud(externo.getDireccion().getLongitud());
 	 	poiSalida.setSucursal(externo.getSucursal());
 	 	poiSalida.setGerente(externo.getGerente());		
 	 	externo.getServicios().forEach(servicioEntrada->poiSalida.agregarServicio(this.adaptarSerivicioDeString(servicioEntrada)));
@@ -50,8 +45,7 @@ public class BuscadorBancoExterno implements InterfazBuscadores {
 	}
 		 	
 	public  Servicio adaptarSerivicioDeString (String servicioEntrada){
-		Servicio servicioSalida = new Servicio();
-		servicioSalida.setNombre(servicioEntrada);
+		Servicio servicioSalida = new Servicio(servicioEntrada);
 		return servicioSalida;
 	}
 	

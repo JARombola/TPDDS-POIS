@@ -21,11 +21,15 @@ public class testABM {
 		poi1 = new Banco();
 			poi1.setId(12);
 			poi1.setNombre("La Nacion");
+		
 		poi2 = new CGP();
 			poi2.setId(4);
+			poi2.setNombre("CGP Quien Sabe");
+			
 		poi3 = new Banco();
 			poi3.setId(12);
 			poi3.setNombre("Ciudad");
+		
 		poi4 = new Local();
 			poi4.setId(8);
 			
