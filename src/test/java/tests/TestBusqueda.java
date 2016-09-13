@@ -58,8 +58,6 @@ public class TestBusqueda {
 		
 			mueblesSA = new Local();
 			mueblesParaTodos = new Local();
-			mueblesParaTodos.setTags(new ArrayList<String>());
-			mueblesSA.setTags(new ArrayList<String>());
 			
 				mueblesSA.setRubro(muebleria);
 				mueblesSA.setNombre("muebles sociedad anonima");

@@ -30,7 +30,7 @@ public class ListaHorarios {		//Contiene la Lista con Horarios, determina si est
 	}
 
 	public boolean estaDisponibleSegunLista(int dia, LocalTime hora) {
-		boolean abierto = getHorariosAtencion().stream()
+		 boolean abierto = getHorariosAtencion().stream()
 							.filter(horario -> (horario.getDia() == dia)) 
 							.anyMatch(horario -> horario.estaAbierto(hora)); 
 		return abierto;

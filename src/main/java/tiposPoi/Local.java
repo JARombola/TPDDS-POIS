@@ -20,6 +20,7 @@ public class Local extends POI{
 	private Rubro rubro;
 	
 	public Local() {
+		super();
 	}
 
 	//---------------BUSQUEDA-----------------------------------

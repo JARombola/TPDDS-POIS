@@ -1,11 +1,13 @@
 package tiposPoi;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 
+import pois.Horario;
 import pois.ListaHorarios;
 
 import javax.persistence.ElementCollection;
@@ -16,8 +18,10 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Servicio{
+	
 	@Id @GeneratedValue
 	private int id;
+	
 	@OneToOne @Cascade(value = CascadeType.ALL)
 	private ListaHorarios horarios;
 	private String nombre;
@@ -31,8 +35,8 @@ public class Servicio{
 	}
 	
 	public Servicio(String nombre) {
-		super();
 		horarios = new ListaHorarios();
+		tags = new ArrayList<String>();
 		this.setNombre(nombre);
 	}
 
@@ -60,7 +64,7 @@ public class Servicio{
 		return horarios;
 	}
 	public boolean tienePalabra(String palabra){
-		return (getNombre().contains(palabra));// || getTags().contains(palabra));
+		return (getNombre().contains(palabra) || getTags().contains(palabra));
 	}
 	
 	public boolean estaDisponible(int dia,LocalTime hora){
@@ -70,7 +74,12 @@ public class Servicio{
 	public void setHorarios(ListaHorarios horarios) {
 		this.horarios = horarios;
 	}
-
+	
+	public void agregarHorario(Horario unHorario){
+		this.getHorarios().getHorariosAtencion().add(unHorario);
+		
+	}
+	
 	public int getId() {
 		return id;
 	}

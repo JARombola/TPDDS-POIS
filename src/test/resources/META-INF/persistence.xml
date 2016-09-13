@@ -9,11 +9,14 @@
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
     	
 		<class>tiposPoi.ParadaColectivo</class> 
+		<class>tiposPoi.Banco</class> 
+		<class>pois.ListaServicios</class> 
+		<class>tiposPoi.Servicio</class> 
+		
 		<class>pois.Coordenadas</class> 
 		<class>pois.ListaHorarios</class> 
 		<class>pois.Horario</class> 
 		<class>pois.Direccion</class> 
-		<class>terminales.ConversorFechas</class> 
 		   	
     	 
         <properties> 

@@ -1,13 +1,12 @@
 package pois;
 
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.LocalTime;
 
-import terminales.ConversorFechas;
 
 @Entity
 public class Horario {
@@ -16,9 +15,9 @@ public class Horario {
 	private int id;
 
 	private int dia; 				// Domingo=1, Lunes=2.....Sabado=7
-	@Convert(converter=ConversorFechas.class)
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalTime")
 	private LocalTime inicio; 		// Hora que abre
-	@Convert(converter=ConversorFechas.class)
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalTime")
 	private LocalTime fin; 			// Hora que cierra
 
 	public Horario(){
