@@ -13,6 +13,15 @@
 		<class>pois.ListaHorarios</class> 
 		<class>pois.Horario</class> 
 		<class>pois.Direccion</class> 
+		<class>pois.Comuna</class> 
+		<class>pois.ListaServicios</class> 
+
+		<class>tiposPoi.ParadaColectivo</class> 
+		<class>tiposPoi.Banco</class> 
+		<class>tiposPoi.Servicio</class>
+		<class>tiposPoi.Local</class> 
+		<class>tiposPoi.Rubro</class> 
+		<class>tiposPoi.CGP</class> 
 		<class>tiposPoi.ParadaColectivo</class> 
 		<class>tiposPoi.Banco</class> 
 		<class>tiposPoi.Servicio</class> 

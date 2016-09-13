@@ -18,6 +18,7 @@ import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 import externos.BuscadorBancoExterno;
 import externos.BuscadorCGPExterno;
 import externos.OrigenDatos;
+import pois.Comuna;
 import pois.Direccion;
 import pois.Horario;
 import terminales.BufferBusquedas;
@@ -25,7 +26,10 @@ import terminales.Busqueda;
 import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.Banco;
+import tiposPoi.CGP;
+import tiposPoi.Local;
 import tiposPoi.ParadaColectivo;
+import tiposPoi.Rubro;
 import tiposPoi.Servicio;
 
 public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEntityManager {
@@ -128,7 +132,81 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	}	
 	
 	@Test
-	public void testBusqueda(){
+	public void testPersistenciaCGP(){
+		beginTransaction();
+			CGP cgp = new CGP();
+			cgp.setNombre("CGPlal");
+			Servicio jubilacion = new Servicio("JUBILACION");
+				jubilacion.setDescripcion("$$$$$$");
+				jubilacion.agregarTag("Plata");
+			Horario horaJubilacion=new Horario();
+				horaJubilacion.setDia(1);
+			LocalTime horaInicio=new LocalTime(10,00);
+			LocalTime horaCierre=new LocalTime(22,00);
+				horaJubilacion.setInicio(horaInicio);
+				horaJubilacion.setFin(horaCierre);
+			jubilacion.agregarHorario(horaJubilacion);
+			cgp.agregarServicio(jubilacion);
+			cgp.setLatitud(200);
+			Comuna comuna = new Comuna();
+			comuna.setNombre("Comuna 8");
+			cgp.setComuna(comuna);
+			
+		persist(cgp);
+		commitTransaction();
+		em.clear();		
+		
+		CGP cgpBuscado = (CGP) em.createQuery("from CGP where Nombre = :nombre")
+				.setParameter("nombre", "CGPlal")
+				.getSingleResult();
+		assertEquals(cgpBuscado.getNombre(),"CGPlal");
+		assertEquals(cgpBuscado.getDireccion().getLatitud(),200,0);
+		assertEquals(cgpBuscado.getServicios().getServicios().size(),1,0);
+		assertEquals(cgpBuscado.getComuna().getNombre(),"Comuna 8");
+		assertTrue(cgpBuscado.estaDisponible(1,new LocalTime(11,00),"JUBILACION"));	
+		
+	}
+	
+	@Test
+	public void testPersistenciaLocal(){
+		beginTransaction();
+			Local local = new Local();
+			local.setLatitud(47);
+			local.setLongitud(-122);
+			Rubro libreria = new Rubro("libros");
+			libreria.setRadioCercania(0.3);
+			local.setRubro(libreria);
+			local.setNombre("Nicolo");
+			LocalTime horaInicio;
+			LocalTime horaCierre;
+			
+			for (int dia = 2; dia <= 7; dia++) {
+				horaInicio=new LocalTime(10,00);
+				horaCierre=new LocalTime(13,00);
+				local.getHorarios().horarioNuevo(dia, horaInicio, horaCierre);
+				horaInicio=new LocalTime(17,00);
+				horaCierre=new LocalTime(20,30);
+				local.getHorarios().horarioNuevo(dia, horaInicio, horaCierre);
+			}
+
+		persist(local);
+		commitTransaction();
+		em.clear();		
+		
+		Local localBuscado = (Local) em.createQuery("from Local where Nombre = :nombre")
+				.setParameter("nombre", "Nicolo")
+				.getSingleResult();
+		assertEquals(localBuscado.getRubro().getNombre(),"libros");
+		assertEquals(localBuscado.getDireccion().getLatitud(),47,0);
+		assertEquals(localBuscado.getDireccion().getLongitud(),-122,0);
+		assertEquals(localBuscado.getRubro().getRadioCercania(),0.3,0);
+		assertTrue(localBuscado.estaDisponible(3,new LocalTime(19,00),""));	
+		
+		
+	}
+	
+	@Test
+	public void testBusquedas(){
 		beginTransaction();
 		
 		ParadaColectivo parada1, parada2, parada3;

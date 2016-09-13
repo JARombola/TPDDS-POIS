@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class CGP extends POI {
+	@OneToOne @Cascade(value=CascadeType.ALL)
 	private Comuna comuna;
 	@OneToOne @Cascade(value = CascadeType.ALL)
 	private ListaServicios servicios;
