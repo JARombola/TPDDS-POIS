@@ -14,8 +14,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class Local extends POI{
 	
-	@Id @GeneratedValue
-	private int id;	
 	@OneToOne @Cascade(value=CascadeType.ALL)
 	private Rubro rubro;
 	
