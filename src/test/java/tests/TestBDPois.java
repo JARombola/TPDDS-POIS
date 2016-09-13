@@ -50,7 +50,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(direccionBuscada.getLatitud(),99,0);
 		}
 	
-	/*@Test
+	@Test
 	public void testPersistirParadaColectivo(){
 		EntityManager em = PerThreadEntityManagers.getEntityManager();
 		beginTransaction();
@@ -59,11 +59,12 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			parada1.agregarTag("colectivo");
 			parada1.agregarTag("lento");
 			parada1.agregarTag("aburrido");
-			parada1.setNombre("ASD");
+			parada1.setNombre("PARADA COLECTIVO");
 			
 		Direccion dire= new Direccion();
 			dire.setLatitud(10);
 			dire.setLongitud(20);
+			dire.setBarrio("Palermo");
 			
 			parada1.setDireccion(dire);
 			
@@ -73,10 +74,12 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		
 		ParadaColectivo paradaBuscada = em.find(ParadaColectivo.class, 1);
 		
-		System.out.println(paradaBuscada.getNombre());
-		System.out.println(paradaBuscada.getTags().get(0));
+		assertEquals(paradaBuscada.getNombre(),"PARADA COLECTIVO");
+		assertEquals(paradaBuscada.getTags().get(2),"aburrido");
 		assertEquals(paradaBuscada.getTags().size(), 3);
-		}*/
+		assertEquals(paradaBuscada.getDireccion().getLatitud(),10,0);
+		assertEquals(paradaBuscada.getDireccion().getBarrio(),"Palermo");
 		
+		}		
 
 }

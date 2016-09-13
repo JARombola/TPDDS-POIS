@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -34,15 +33,14 @@ public abstract class POI{
 	@ElementCollection
 	private List<String> tags;
 	
-	@OneToOne
-	@JoinColumn
+	@OneToOne @JoinColumn @Cascade(value=CascadeType.ALL)			//CASCADE => Cuando persiste el POI persiste la direccion (en vez de tener que persistirla por separado)
 	private Direccion direccion; 
 	
 	@Transient
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 		
 	public POI (){
-		//this.direccion = new Direccion();
+		this.direccion = new Direccion();
 		this.horarios= new ListaHorarios();
 		this.tags=new ArrayList<String>();
 	}
