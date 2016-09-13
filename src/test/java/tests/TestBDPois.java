@@ -117,5 +117,67 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		
 	}
 	
+	/*@Test
+	public void testBusqueda(){
+		EntityManager em = 
+				PerThreadEntityManagers.
+				getEntityManager();
+		
+		beginTransaction();
+		
+		ParadaColectivo parada1, parada2, parada3;
+		Mapa mapa;
+		BufferBusquedas buffer;
+		BuscadorBancoExterno buscadorBanco;
+		BuscadorCGPExterno buscadorCgp;
+		OrigenDatos origenBanco,origenCGP,origen3;
+		Terminal terminal;
+		List<Busqueda> historial;
+		Busqueda busquedaBuscada;
+		
+		buscadorBanco=new BuscadorBancoExterno();
+		buscadorCgp=new BuscadorCGPExterno();
+		origenBanco =Mockito.mock(OrigenDatos.class);
+		buscadorBanco.setComponente(origenBanco);
+		origenCGP =Mockito.mock(OrigenDatos.class);
+		buscadorCgp.setComponente(origenCGP);
+		parada1 = new ParadaColectivo();
+		parada2 = new ParadaColectivo();
+		parada3 = new ParadaColectivo();
+			parada1.setNombre("primer parada de la linea 114");
+			parada2.setNombre("segunda parada de la linea 114");
+			parada3.setNombre("tercera parada de la linea 114");
+			parada3.agregarTag("Lento");
+			parada3.agregarTag("Llegas tarde");
+			parada3.agregarTag("Feo");
+		mapa = new Mapa();
+			mapa.setPOI(parada1);
+			mapa.setPOI(parada2);
+			mapa.setPOI(parada3);
+
+			
+		buffer=new BufferBusquedas();
+			buffer.agregarExterno(buscadorBanco);
+			buffer.agregarExterno(buscadorCgp);
+		terminal = new Terminal();
+			terminal.setBuffer(buffer);
+			terminal.setMapa(mapa);
+			
+			terminal.iniciarBusqueda("114","");
+			historial = terminal.getHistorialBusquedas();
+			
+			persist(historial.get(0));
+			commitTransaction();
+		em.clear();
+		
+		List<Busqueda> busquedaBuscada = em.find(Busqueda.class, 1);
+		
+		assertEquals(busquedaBuscada.getFraseBuscada(),"114");
+		assertEquals(busquedaBuscada.getCantidadResultados()),3);
+		
+	}*/
+	
+	
+	
 
 }
