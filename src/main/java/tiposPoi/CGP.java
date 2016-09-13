@@ -12,10 +12,13 @@ import terminales.Maquina;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class CGP extends POI {
+	@OneToOne @Cascade(value=CascadeType.ALL)
 	private Comuna comuna;
 	@OneToOne @Cascade(value = CascadeType.ALL)
 	private ListaServicios servicios;

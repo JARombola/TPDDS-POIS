@@ -11,12 +11,15 @@
 		<class>tiposPoi.ParadaColectivo</class> 
 		<class>tiposPoi.Banco</class> 
 		<class>pois.ListaServicios</class> 
-		<class>tiposPoi.Servicio</class> 
-		
+		<class>tiposPoi.Servicio</class>
+		<class>tiposPoi.Local</class> 
+		<class>tiposPoi.Rubro</class> 
+		<class>tiposPoi.CGP</class> 
 		<class>pois.Coordenadas</class> 
 		<class>pois.ListaHorarios</class> 
 		<class>pois.Horario</class> 
 		<class>pois.Direccion</class> 
+		<class>pois.Comuna</class> 
 		   	
     	 
         <properties> 
