@@ -8,15 +8,15 @@
     <persistence-unit name="db" transaction-type="RESOURCE_LOCAL">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
     	
-		<class>tiposPoi.ParadaColectivo</class> 
-		<class>tiposPoi.Banco</class> 
-		<class>pois.ListaServicios</class> 
-		<class>tiposPoi.Servicio</class> 
-		
+		<class>pois.ListaServicios</class> 		
 		<class>pois.Coordenadas</class> 
 		<class>pois.ListaHorarios</class> 
 		<class>pois.Horario</class> 
 		<class>pois.Direccion</class> 
+		<class>tiposPoi.ParadaColectivo</class> 
+		<class>tiposPoi.Banco</class> 
+		<class>tiposPoi.Servicio</class> 
+		<class>terminales.Busqueda</class> 
 		   	
     	 
         <properties> 

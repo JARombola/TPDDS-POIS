@@ -1,6 +1,7 @@
 package terminales;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +22,8 @@ public class Terminal{
 	private BufferBusquedas buffer;
 	
 	public Terminal(){
-	
+		extra = new FuncionesExtra(10);
+		extra.setTerminal(this);
 	}
 	
 	public List<POI> iniciarBusqueda(String texto1, String texto2){
@@ -124,6 +126,7 @@ public class Terminal{
 		getExtra().desactivarOpcion(opcion);
 	}
 	public void guardarBusquedas(Busqueda unaBusqueda){
+		if (this.historialBusquedas==null) historialBusquedas= new ArrayList<Busqueda>();
 		getHistorialBusquedas().add(unaBusqueda);
 	}
 

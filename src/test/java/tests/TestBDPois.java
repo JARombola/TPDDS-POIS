@@ -2,17 +2,28 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
+import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
+import externos.BuscadorBancoExterno;
+import externos.BuscadorCGPExterno;
+import externos.OrigenDatos;
 import pois.Direccion;
 import pois.Horario;
+import terminales.BufferBusquedas;
+import terminales.Busqueda;
+import terminales.Mapa;
+import terminales.Terminal;
 import tiposPoi.Banco;
 import tiposPoi.ParadaColectivo;
 import tiposPoi.Servicio;
@@ -114,15 +125,10 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(bancoBuscado.getServicios().getServicios().size(),1,0);	// Persistió los servicios
 		assertTrue(bancoBuscado.estaDisponible(1,new LocalTime(11,00),"JUBILACION"));	//Persistió tambien sus horarios :)
 		
-		
-	}
+	}	
 	
-	/*@Test
+	@Test
 	public void testBusqueda(){
-		EntityManager em = 
-				PerThreadEntityManagers.
-				getEntityManager();
-		
 		beginTransaction();
 		
 		ParadaColectivo parada1, parada2, parada3;
@@ -130,10 +136,8 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		BufferBusquedas buffer;
 		BuscadorBancoExterno buscadorBanco;
 		BuscadorCGPExterno buscadorCgp;
-		OrigenDatos origenBanco,origenCGP,origen3;
+		OrigenDatos origenBanco,origenCGP;
 		Terminal terminal;
-		List<Busqueda> historial;
-		Busqueda busquedaBuscada;
 		
 		buscadorBanco=new BuscadorBancoExterno();
 		buscadorCgp=new BuscadorCGPExterno();
@@ -154,30 +158,37 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			mapa.setPOI(parada1);
 			mapa.setPOI(parada2);
 			mapa.setPOI(parada3);
-
-			
+		
 		buffer=new BufferBusquedas();
 			buffer.agregarExterno(buscadorBanco);
 			buffer.agregarExterno(buscadorCgp);
+			
 		terminal = new Terminal();
 			terminal.setBuffer(buffer);
 			terminal.setMapa(mapa);
 			
+			terminal.activarOpcion("HISTORIAL");
 			terminal.iniciarBusqueda("114","");
-			historial = terminal.getHistorialBusquedas();
+			terminal.iniciarBusqueda("parada","");
 			
-			persist(historial.get(0));
+			
+			terminal.getHistorialBusquedas().stream().forEach(busqueda->persist(busqueda)); //persisto todas las busquedas
 			commitTransaction();
 		em.clear();
 		
-		List<Busqueda> busquedaBuscada = em.find(Busqueda.class, 1);
+		Busqueda busquedaBD = (Busqueda) em.createQuery("from Busqueda where frase_buscada = :frase")
+				.setParameter("frase", "114").getSingleResult();
+
+		assertEquals(busquedaBD.getCantidadResultados(),3,0);	//3 paradas del 114
+		assertFalse(busquedaBD.getFecha()==new LocalDate(2012,2,10));	//la busqueda fue hoy, no puede ser del 2012 (?
 		
-		assertEquals(busquedaBuscada.getFraseBuscada(),"114");
-		assertEquals(busquedaBuscada.getCantidadResultados()),3);
-		
-	}*/
-	
-	
+		em.clear();
+		@SuppressWarnings("unchecked")
+		List<Busqueda> busquedas = (List<Busqueda>) em.createQuery("from Busqueda").getResultList();
+		assertEquals(busquedas.size(),2);			//"parada" y "114"
+		assertEquals(busquedas.get(0).getFraseBuscada(),"114 ");
+		assertEquals(busquedas.get(1).getFraseBuscada(),"parada ");
+	}
 	
 
 }

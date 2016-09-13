@@ -1,10 +1,12 @@
 package terminales;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 @Entity
@@ -12,15 +14,15 @@ import org.joda.time.LocalDate;
 public class Busqueda {
 	@Id @GeneratedValue
 	private int id;
-	
+	@Column(name="frase_buscada")
 	private String fraseBuscada;
 	public int cantidadResultados;
 	private double tiempoBusqueda;
 
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate fecha; 
 
 	public Busqueda(){
-		
 	}
 	
 	public String getFraseBuscada() {
