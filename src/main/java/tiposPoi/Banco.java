@@ -1,11 +1,15 @@
 package tiposPoi;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 import pois.ListaServicios;
 import pois.POI;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -16,6 +20,7 @@ public class Banco extends POI{
 	private String gerente;
 	@Transient
 	int LUNES=1,VIERNES=5;
+	@OneToOne @Cascade(value = {CascadeType.ALL})
 	private ListaServicios servicios;
 	@Transient
 	LocalTime INICIO=new LocalTime(10,00), FIN= new LocalTime(15,00);

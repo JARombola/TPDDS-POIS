@@ -1,15 +1,19 @@
 package pois;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
-@Embeddable
+
+@Entity
 public class Direccion {
 
 	@Id @GeneratedValue
-	int id;
+	private int id;
 	
 	private String calle;
 
@@ -23,7 +27,8 @@ public class Direccion {
 	private String barrio;
 	private String provincia;
 	private String pais;
-	@JoinColumn
+	
+	@Embedded
 	private Coordenadas coordenadas;
 
 	public Direccion() {
@@ -106,7 +111,43 @@ public class Direccion {
 	public void setPais(String pais) {
 		this.pais = pais;
 	}
-	
+
+
+	public String[] getCallesEntreLasQueSeEncuentra() {
+		return callesEntreLasQueSeEncuentra;
+	}
+
+	public int getPiso() {
+		return piso;
+	}
+
+	public int getDpto() {
+		return dpto;
+	}
+
+	public String getUnidad() {
+		return unidad;
+	}
+
+	public int getCodigoPostal() {
+		return codigoPostal;
+	}
+
+	public String getLocalidad() {
+		return localidad;
+	}
+
+	public String getBarrio() {
+		return barrio;
+	}
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+	public String getPais() {
+		return pais;
+	}
 	
 
 }

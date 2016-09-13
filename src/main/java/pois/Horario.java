@@ -1,11 +1,24 @@
 package pois;
 
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import org.joda.time.LocalTime;
 
+import terminales.ConversorFechas;
+
+@Entity
 public class Horario {
 	
+	@Id @GeneratedValue
+	private int id;
+
 	private int dia; 				// Domingo=1, Lunes=2.....Sabado=7
+	@Convert(converter=ConversorFechas.class)
 	private LocalTime inicio; 		// Hora que abre
+	@Convert(converter=ConversorFechas.class)
 	private LocalTime fin; 			// Hora que cierra
 
 	public Horario(){
@@ -41,5 +54,14 @@ public class Horario {
 	public void setDia(int dia) {
 		this.dia = dia;
 	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 
 }

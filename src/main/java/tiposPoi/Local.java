@@ -2,17 +2,21 @@ package tiposPoi;
 
 
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 import pois.POI;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Local extends POI{
 	
 	@Id @GeneratedValue
 	private int id;	
+	@OneToOne @Cascade(value=CascadeType.ALL)
 	private Rubro rubro;
 	
 	public Local() {

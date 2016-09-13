@@ -2,6 +2,8 @@ package tiposPoi;
 
 import java.util.List;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 
 import pois.ListaHorarios;
@@ -10,12 +12,13 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Servicio{
 	@Id @GeneratedValue
 	private int id;
-	
+	@OneToOne @Cascade(value = CascadeType.ALL)
 	private ListaHorarios horarios;
 	private String nombre;
 	private String descripcion;

@@ -5,31 +5,44 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 
 import terminales.Maquina;
 
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class POI{
+	
 	@Id @GeneratedValue
 	private int id;
+	
+	@OneToOne @Cascade(value=CascadeType.ALL)
 	private ListaHorarios horarios;
 	private String nombre;
+
 	@ElementCollection
 	private List<String> tags;
-	@Embedded
+	
+	@OneToOne
+	@JoinColumn
 	private Direccion direccion; 
+	
 	@Transient
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 		
 	public POI (){
-		this.direccion = new Direccion();
+		//this.direccion = new Direccion();
 		this.horarios= new ListaHorarios();
 		this.tags=new ArrayList<String>();
 	}
@@ -37,7 +50,7 @@ public abstract class POI{
 	public abstract boolean estaDisponible(int dia, LocalTime hora, String palabra);
 	
 	public boolean estaDisponible(int dia, LocalTime hora){
-		return getHorarios().estaDisponible(dia,hora);		//le delega a EnteConHorarios
+		return getHorarios().estaDisponible(dia,hora);		//le delega a ListaHorarios
 	}
 	
 	public boolean equals(POI otroPoi){

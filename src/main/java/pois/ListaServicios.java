@@ -2,11 +2,12 @@ package pois;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 
 import tiposPoi.Servicio;
@@ -14,7 +15,7 @@ import tiposPoi.Servicio;
 public class ListaServicios {
 	@Id @GeneratedValue
 	private int id;
-	@OneToMany
+	@OneToMany @Cascade(value=CascadeType.ALL)
 	private List<Servicio> servicios;
 	
 	public ListaServicios(){	

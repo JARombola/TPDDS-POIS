@@ -1,5 +1,7 @@
 package tiposPoi;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 
 import pois.Comuna;
@@ -10,6 +12,7 @@ import terminales.Maquina;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class CGP extends POI {
@@ -17,6 +20,7 @@ public class CGP extends POI {
 	@GeneratedValue
 	private int id;
 	private Comuna comuna;
+	@OneToOne @Cascade(value = CascadeType.ALL)
 	private ListaServicios servicios;
 
 	public CGP() {

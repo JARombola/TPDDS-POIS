@@ -3,17 +3,22 @@ package pois;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 
-
+@Entity
 public class ListaHorarios {		//Contiene la Lista con Horarios, determina si estan disponibles o no
+	
 	@Id @GeneratedValue
 	private int id;
-	@OneToMany
+	
+	@OneToMany @Cascade(value = CascadeType.ALL)
 	private List<Horario> horariosAtencion;
 
 	public ListaHorarios() {
