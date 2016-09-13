@@ -1,14 +1,10 @@
 package tiposPoi;
 
-
-
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 import pois.POI;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity

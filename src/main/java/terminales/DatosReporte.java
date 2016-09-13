@@ -1,15 +1,24 @@
 package terminales;
 
+import javax.persistence.Entity;
+
 import org.joda.time.LocalDate;
 
+@Entity
 public class DatosReporte {
+	
 	private LocalDate fecha;
-	private String terminal;
-	private int datos;
+	private int resultados;
 
 	public DatosReporte(){
 		
 	}
+	
+	public DatosReporte(LocalDate fecha, int resultados){
+		this.fecha=fecha;
+		this.resultados=resultados;
+	}
+	
 	
 	public LocalDate getFecha() {
 		return fecha;
@@ -17,19 +26,13 @@ public class DatosReporte {
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
-	public String getTerminal() {
-		return terminal;
+
+	public int getResultados() {
+		return resultados;
 	}
-	public void setTerminal(String terminal) {
-		this.terminal = terminal;
+
+	public void setResultados(int resultados) {
+		this.resultados = resultados;
 	}
-	public int getDatos() {
-		return datos;
-	}
-	public void setDatos(int datos) {
-		this.datos = datos;
-	}
-	
-	
 
 }

@@ -1,6 +1,6 @@
 package tests;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +89,7 @@ public class TestReportes {
 		almacenamientoBusquedas.add(busqueda2);
 		almacenamientoBusquedas.add(busqueda3);
 		almacenamientoBusquedas.add(busqueda4);
-		assertEquals(terminal.reporteFechas().size(),3,0);			//4 busquedas, pero 2 son del mismo dia => cuentan como una
+		assertEquals(terminal.reporteFechas().getDatos().size(),3,0);			//4 busquedas, pero 2 son del mismo dia => cuentan como una
 	}
 	
 	@Test
@@ -99,17 +99,18 @@ public class TestReportes {
 		terminal.iniciarBusqueda("Hola", "Chau");
 		terminal.iniciarBusqueda("114", "");
 		terminal.iniciarBusqueda("Julian", "Crack");
-		assertEquals(terminal.cantidadTotalResultados().getDatos(),0,0);			//No se registraron, estaba desactivado
+		assertTrue(terminal.cantidadTotalResultados().getDatos().isEmpty());			//No se registraron, estaba desactivado
 		terminal.activarOpcion("historial");
 		terminal.iniciarBusqueda("Hola", "Chau");
 		terminal.iniciarBusqueda("114", "");
 		terminal.iniciarBusqueda("Julian", "Crack");
-		assertEquals(terminal.cantidadTotalResultados().getDatos(),2,0);			//Registrados, hubieron 2 aciertos (114)
+		assertEquals(terminal.getHistorialBusquedas().size(),3);
+		assertEquals(terminal.cantidadTotalResultados().getDatos().get(0).getResultados(),2,0);			//Registrados, hubieron 2 aciertos (114)
 		terminal.iniciarBusqueda("114", "");
-		assertEquals(terminal.cantidadTotalResultados().getDatos(),4,0);			//2 aciertos mas
+		assertEquals(terminal.cantidadTotalResultados().getDatos().get(0).getResultados(),4,0);			//2 aciertos mas
 		terminal.desactivarOpcion("historial");
 		terminal.iniciarBusqueda("114", "");
-		assertEquals(terminal.cantidadTotalResultados().getDatos(),4,0);
+		assertEquals(terminal.cantidadTotalResultados().getDatos().get(0).getResultados(),4,0);
 	}
 	
 	@Test
@@ -118,7 +119,7 @@ public class TestReportes {
 		almacenamientoBusquedas.add(busqueda2);		//200
 		almacenamientoBusquedas.add(busqueda3);		//2
 		almacenamientoBusquedas.add(busqueda4);		//0
-		int cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal).size();
+		int cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal).getDatos().size();
 		assertEquals(cantidadBusquedas, 4);
 	}
 	

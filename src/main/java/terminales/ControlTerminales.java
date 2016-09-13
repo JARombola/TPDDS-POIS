@@ -15,13 +15,13 @@ public class ControlTerminales {
 		terminales=new ArrayList<Terminal>();
 	}
 
-	public List<DatosReporte> busquedasParcialesPorTerminal(Terminal unaTerminal){
-		List<DatosReporte> busquedasParciales=unaTerminal.obtenerResultadosParciales();
+	public Reporte busquedasParcialesPorTerminal(Terminal unaTerminal){
+		Reporte busquedasParciales=unaTerminal.obtenerResultadosParciales();
 		return busquedasParciales;
 	}
 	
-	public DatosReporte totalDeResultadosPorTerminal(Terminal unaTerminal){
-		DatosReporte reporteTotalResultados=unaTerminal.cantidadTotalResultados();
+	public Reporte totalDeResultadosPorTerminal(Terminal unaTerminal){
+		Reporte reporteTotalResultados=unaTerminal.cantidadTotalResultados();
 		return reporteTotalResultados;
 	}
 	

@@ -1,6 +1,5 @@
 package terminales;
 
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,10 +16,12 @@ public class Busqueda {
 	private String fraseBuscada;
 	public int cantidadResultados;
 	private double tiempoBusqueda;
-	//@Convert -> CONVERTIR LOCALDATE Para que funque con la BD.
+
 	private LocalDate fecha; 
 
-	public Busqueda(){}
+	public Busqueda(){
+		
+	}
 	
 	public String getFraseBuscada() {
 		return fraseBuscada;

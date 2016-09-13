@@ -1,7 +1,6 @@
 package terminales;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,15 +51,16 @@ public class Terminal{
 	}
 
 	//----------------------REPORTES---------------------------------------
-	public List<DatosReporte> reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas
+	public Reporte reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas
 		int cantBusquedas = getHistorialBusquedas().size();
 		int i;
-		List<DatosReporte> reporteBusquedasPorFechas = new ArrayList<DatosReporte>();
+		Reporte reporteBusquedasPorFechas = new Reporte("Reporte Fechas");
+		reporteBusquedasPorFechas.setTerminal(getNombre());
 		for (i = 0; i < cantBusquedas;) {
 			LocalDate fecha = getHistorialBusquedas().get(i).getFecha();
 			List<Busqueda> busquedas = this.busquedasDeFecha(fecha);
 			DatosReporte busquedasFecha = this.crearReporteFechas(busquedas);
-			reporteBusquedasPorFechas.add(busquedasFecha);
+			reporteBusquedasPorFechas.agregarDatos(busquedasFecha);
 			i+=busquedas.size();							//suma la cantidad de resultados de la fecha
 		}
 		//reporteBusquedasPorFechas.forEach(unaBusqueda->System.out.println("["+unaBusqueda.getFecha()+"]"+"-Terminal: "+unaBusqueda.getTerminal()+" |Resultados: "+unaBusqueda.getDatos()));
@@ -77,39 +77,42 @@ public class Terminal{
 	
 	private DatosReporte crearReporteFechas(List<Busqueda> busquedas){
 		DatosReporte datos=new DatosReporte();
-		datos.setFecha(busquedas.get(0).getFecha());
-		datos.setTerminal(this.getNombre());
-		datos.setDatos(busquedas.size());
+			datos.setFecha(busquedas.get(0).getFecha());
+			datos.setResultados(busquedas.size());
 		return datos;
 	}
 	
-	public List<DatosReporte> obtenerResultadosParciales() {
+	public Reporte obtenerResultadosParciales() {
 		List<Busqueda> datosBusquedas = getHistorialBusquedas();
-		List<DatosReporte> reporte = new ArrayList<DatosReporte>();
+		
+		Reporte reporte = new Reporte("Resultados Parciales");
+		reporte.setTerminal(getNombre());
+		
 		datosBusquedas.stream().forEach(busqueda -> {
-			DatosReporte reporteParciales = new DatosReporte();
-			reporteParciales.setDatos(busqueda.getCantidadResultados());
-			reporte.add(reporteParciales);
-		});
+						DatosReporte reporteParciales = new DatosReporte();
+						reporteParciales.setResultados(busqueda.getCantidadResultados());
+						reporteParciales.setFecha(busqueda.getFecha());
+						reporte.agregarDatos(reporteParciales);}
+		);
+		
 		return reporte;
 	}
 	
-	public DatosReporte cantidadTotalResultados() {
-		if (!getHistorialBusquedas().isEmpty()) {
-			List<Busqueda> datosBusquedas = getHistorialBusquedas();
-			DatosReporte reporteBusquedasTotales = this.crearReporte(datosBusquedas);
-			return reporteBusquedasTotales;}
-		return new DatosReporte();
+	public Reporte cantidadTotalResultados() {
+		List<Busqueda> datosBusquedas = getHistorialBusquedas();
+		if (getHistorialBusquedas().isEmpty()) return new Reporte();
+		
+		Reporte reporteBusquedasTotales = crearReporte(datosBusquedas);
+		return reporteBusquedasTotales;
 	}
 	
-	private DatosReporte crearReporte(List<Busqueda> busquedas) {
-		DatosReporte datos=new DatosReporte();
-		datos.setFecha(busquedas.get(0).getFecha());
-		datos.setTerminal(this.getNombre());
-		datos.setDatos(busquedas.stream()
-				 .mapToInt(datosBusqueda->datosBusqueda.getCantidadResultados())
-				 .sum());
-		return datos;
+	private Reporte crearReporte(List<Busqueda> busquedas) {
+		Reporte reporte=new Reporte("Total Resultados");
+			reporte.setTerminal(this.getNombre());
+			reporte.agregarDatos(busquedas.get(0).getFecha(),busquedas.stream()
+					 .mapToInt(datosBusqueda->datosBusqueda.getCantidadResultados())
+					 .sum());
+		return reporte;
 	}
 	
 	
@@ -119,6 +122,9 @@ public class Terminal{
 	}
 	public void desactivarOpcion(String opcion){
 		getExtra().desactivarOpcion(opcion);
+	}
+	public void guardarBusquedas(Busqueda unaBusqueda){
+		getHistorialBusquedas().add(unaBusqueda);
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
@@ -149,10 +155,6 @@ public class Terminal{
 	}
 	public void setExtra(FuncionesExtra extra) {
 		this.extra = extra;
-	}
-
-	public void guardarBusquedas(Busqueda unaBusqueda){
-		getHistorialBusquedas().add(unaBusqueda);
 	}
 
 	public BufferBusquedas getBuffer() {

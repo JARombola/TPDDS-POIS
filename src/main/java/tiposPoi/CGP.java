@@ -10,8 +10,6 @@ import pois.POI;
 import terminales.Maquina;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
