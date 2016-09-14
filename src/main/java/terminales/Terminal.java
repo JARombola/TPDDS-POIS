@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalDate;
 
 import configuracionTerminales.FuncionesExtra;
@@ -12,15 +18,30 @@ import pois.Comuna;
 import pois.Coordenadas;
 import pois.POI;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
+@Entity
 public class Terminal{
+	@Embedded
 	private Coordenadas coordenadas;
-	private String nombre;
-	private Mapa mapa;
-	private List<Busqueda> historialBusquedas;
+	@OneToOne @Cascade(value=CascadeType.ALL)
 	private FuncionesExtra extra;
+
+	private String nombre;
+	@Transient
+	private Mapa mapa;
+	@Transient
+	private List<Busqueda> historialBusquedas;
+
+	@Transient
 	private BufferBusquedas buffer;
-	
+	@Id @GeneratedValue
+	private int id;
 	public Terminal(){
 		extra = new FuncionesExtra(10);
 		extra.setTerminal(this);

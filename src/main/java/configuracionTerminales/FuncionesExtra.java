@@ -6,12 +6,27 @@ import java.util.Map;
 import terminales.Busqueda;
 import terminales.Terminal;
 
-public class FuncionesExtra {
-	
-	private int tiempoMax;
-	private Map<String,Boolean> opciones;		//Usa el map para activar/desactivar las opciones... :)
-	private Terminal terminal;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+@Entity
+public class FuncionesExtra {
+	@Id @GeneratedValue
+	private int id;
+	private int tiempoMax;
+	@Transient
+	private Map<String,Boolean> opciones;		//Usa el map para activar/desactivar las opciones... :)
+	@Transient
+		private Terminal terminal;
+
+		public FuncionesExtra(){
+		
+		}
 	public FuncionesExtra(int tiempoMax){
 		this.tiempoMax=tiempoMax;
 		opciones=new HashMap<String,Boolean>();
@@ -63,5 +78,8 @@ public class FuncionesExtra {
 
 	public void setTerminal(Terminal terminal) {
 		this.terminal = terminal;
+	}
+	public int getTiempoMax() {
+		return tiempoMax;
 	}
 }
