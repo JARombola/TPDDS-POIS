@@ -46,15 +46,12 @@ public class TestReportes {
 		busqueda1 = new Busqueda();
 		busqueda1.setFecha(fecha1);
 		busqueda1.setFraseBuscada("Perro");
-		busqueda1.setCantidadResultados(100);
 		busqueda2 = new Busqueda();
 		busqueda2.setFecha(fecha2);
 		busqueda2.setFraseBuscada("Gato");
-		busqueda2.setCantidadResultados(200);
 		busqueda3 = new Busqueda();
 		busqueda3.setFecha(fecha3);
 		busqueda3.setFraseBuscada("Operativos");
-		busqueda3.setCantidadResultados(2);
 		busqueda4 = new Busqueda();
 		busqueda4.setFecha(fecha4);
 		busqueda4.setFraseBuscada("Dejar_la_facultad");
@@ -73,12 +70,9 @@ public class TestReportes {
 		terminal2.setMapa(mapa);
 		terminal2.setNombre("Terminal 2");
 		
-		extra= new FuncionesExtra(10);
 
 		terminal.setBuffer(buffer);
 		terminal2.setBuffer(buffer);
-		terminal.setExtra(extra);
-		terminal2.setExtra(extra);
 		controlMaestro.agregarTerminal(terminal);
 		controlMaestro.agregarTerminal(terminal2);
 	}
@@ -94,33 +88,37 @@ public class TestReportes {
 	
 	@Test
 	public void testOpcionBusqueda(){
-		extra.setTerminal(terminal);
-		
-		terminal.iniciarBusqueda("Hola", "Chau");
-		terminal.iniciarBusqueda("114", "");
-		terminal.iniciarBusqueda("Julian", "Crack");
+		terminal.realizarBusqueda("Hola", "Chau");
+		terminal.realizarBusqueda("114", "");
+		terminal.realizarBusqueda("Julian", "Crack");
 		assertTrue(terminal.cantidadTotalResultados().getDatos().isEmpty());			//No se registraron, estaba desactivado
-		terminal.activarOpcion("historial");
-		terminal.iniciarBusqueda("Hola", "Chau");
-		terminal.iniciarBusqueda("114", "");
-		terminal.iniciarBusqueda("Julian", "Crack");
+		terminal.activarOpcion("HISTORIAL");
+		terminal.realizarBusqueda("Hola", "Chau");
+		terminal.realizarBusqueda("114", "");
+		terminal.realizarBusqueda("Julian", "Crack");
 		assertEquals(terminal.getHistorialBusquedas().size(),3);
 		assertEquals(terminal.cantidadTotalResultados().getDatos().get(0).getResultados(),2,0);			//Registrados, hubieron 2 aciertos (114)
-		terminal.iniciarBusqueda("114", "");
+		terminal.realizarBusqueda("114", "");
 		assertEquals(terminal.cantidadTotalResultados().getDatos().get(0).getResultados(),4,0);			//2 aciertos mas
-		terminal.desactivarOpcion("historial");
-		terminal.iniciarBusqueda("114", "");
+		terminal.desactivarOpcion("HISTORIAL");
+		terminal.realizarBusqueda("114", "");
 		assertEquals(terminal.cantidadTotalResultados().getDatos().get(0).getResultados(),4,0);
 	}
 	
 	@Test
 	public void testReportesParcialesTerminal1(){
-		almacenamientoBusquedas.add(busqueda1);		//100 resultados
-		almacenamientoBusquedas.add(busqueda2);		//200
-		almacenamientoBusquedas.add(busqueda3);		//2
-		almacenamientoBusquedas.add(busqueda4);		//0
+		terminal.activarOpcion("HISTORIAL");
+		terminal.realizarBusqueda("Diseño", "");
 		int cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal).getDatos().size();
-		assertEquals(cantidadBusquedas, 4);
+		assertEquals(cantidadBusquedas, 1);
+
+		terminal.realizarBusqueda("ASD", "");
+		cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal).getDatos().size();
+		assertEquals(cantidadBusquedas, 2);
+		
+		terminal.realizarBusqueda("ASD", "Ejemplo");
+		cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal).getDatos().size();
+		assertEquals(cantidadBusquedas, 3);
 	}
 	
 	

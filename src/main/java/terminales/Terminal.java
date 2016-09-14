@@ -26,15 +26,15 @@ public class Terminal{
 		extra.setTerminal(this);
 	}
 	
-	public List<POI> iniciarBusqueda(String texto1, String texto2){
+	public List<POI> realizarBusqueda(String texto1, String texto2){
 		extra.inicioBusqueda();
 
 		List<POI> resultadosBusqueda = buscar(texto1, texto2);
 		Busqueda nuevaBusqueda=new Busqueda();						//Registro la busqueda realizada
-		nuevaBusqueda.setFecha(LocalDate.now());
-		nuevaBusqueda.setCantidadResultados(resultadosBusqueda.size());
-		nuevaBusqueda.setFraseBuscada(texto1+" "+texto2);
-
+			nuevaBusqueda.setFecha(LocalDate.now());
+			nuevaBusqueda.setResultados(resultadosBusqueda);
+			nuevaBusqueda.setFraseBuscada(texto1+" "+texto2);
+		
 		extra.finBusqueda(nuevaBusqueda);
 		return resultadosBusqueda;
 	}
@@ -89,7 +89,6 @@ public class Terminal{
 		
 		Reporte reporte = new Reporte("Resultados Parciales");
 		reporte.setTerminal(getNombre());
-		
 		datosBusquedas.stream().forEach(busqueda -> {
 						DatosReporte reporteParciales = new DatosReporte();
 						reporteParciales.setResultados(busqueda.getCantidadResultados());
@@ -111,8 +110,9 @@ public class Terminal{
 	private Reporte crearReporte(List<Busqueda> busquedas) {
 		Reporte reporte=new Reporte("Total Resultados");
 			reporte.setTerminal(this.getNombre());
-			reporte.agregarDatos(busquedas.get(0).getFecha(),busquedas.stream()
-					 .mapToInt(datosBusqueda->datosBusqueda.getCantidadResultados())
+			reporte.agregarDatos(busquedas.get(0).getFecha(),
+					 busquedas.stream()
+					 .mapToInt(datosBusqueda->datosBusqueda.getResultados().size())
 					 .sum());
 		return reporte;
 	}

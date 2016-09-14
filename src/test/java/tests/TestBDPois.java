@@ -246,19 +246,20 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			terminal.setMapa(mapa);
 			
 			terminal.activarOpcion("HISTORIAL");
-			terminal.iniciarBusqueda("114","");
-			terminal.iniciarBusqueda("parada","");
-			
+			terminal.realizarBusqueda("114","");
+			terminal.realizarBusqueda("parada","");
 			
 			terminal.getHistorialBusquedas().stream().forEach(busqueda->persist(busqueda)); //persisto todas las busquedas
 			commitTransaction();
 		em.clear();
 		
 		Busqueda busquedaBD = (Busqueda) em.createQuery("from Busqueda where frase_buscada = :frase")
-				.setParameter("frase", "114").getSingleResult();
-
+							.setParameter("frase", "114").getSingleResult();
+		
 		assertEquals(busquedaBD.getCantidadResultados(),3,0);	//3 paradas del 114
 		assertFalse(busquedaBD.getFecha()==new LocalDate(2012,2,10));	//la busqueda fue hoy, no puede ser del 2012 (?
+		assertEquals(busquedaBD.getResultados().get(0).getNombre(),parada1.getNombre());	
+		assertEquals(busquedaBD.getResultados().get(1).getNombre(),parada2.getNombre());	
 		
 		em.clear();
 		@SuppressWarnings("unchecked")

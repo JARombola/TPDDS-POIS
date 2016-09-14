@@ -28,7 +28,7 @@ public class FuncionesExtra {
 		double tiempoBusqueda= TiempoEjecucion.getTiempoEjecucion();
 		datosBusqueda.setTiempoBusqueda(tiempoBusqueda);
 		this.enviarMail(tiempoBusqueda);
-		guardarBusqueda(datosBusqueda);
+		this.guardarBusqueda(datosBusqueda);
 	}
 	
 	private void guardarBusqueda(Busqueda datosBusqueda) {
