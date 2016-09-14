@@ -23,11 +23,12 @@ public class FuncionesExtra {
 	@MapKeyJoinColumn
 	private Map<String,adapterBooleano> opciones;		//Usa el map para activar/desactivar las opciones... :)
 	@Transient
-		private Terminal terminal;
+	private Terminal terminal;
 
-		public FuncionesExtra(){
-		
-		}
+	public FuncionesExtra(){
+	
+	}
+	
 	public FuncionesExtra(int tiempoMax){
 		this.tiempoMax=tiempoMax;
 		opciones=new HashMap<String,adapterBooleano>();
@@ -56,7 +57,7 @@ public class FuncionesExtra {
 
 	private void enviarMail(double tiempoBusqueda){
 		if (getOpciones().get("MAIL").isActivado() && tiempoBusqueda>tiempoMax){		//activado el mail, y el tiempo se excedió
-			EnviadorMails mail=new EnviadorMails();
+			EnviadorMails mail=new EnviadorMails(terminal.getAdministrador());
 			mail.mailBusquedaLenta();
 		}
 	}

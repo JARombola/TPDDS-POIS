@@ -19,6 +19,7 @@ import pois.POI;
 
 @Entity
 @Table(name="Busquedas")
+
 public class Busqueda {
 	@Id @GeneratedValue
 	private int id;

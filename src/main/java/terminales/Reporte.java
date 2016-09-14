@@ -3,20 +3,25 @@ package terminales;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
+@Entity
 public class Reporte {
+	
 	@Id @GeneratedValue
 	private int idReporte;
 	
-	@OneToMany @Cascade(value=CascadeType.ALL)
+	@ElementCollection @Embedded 
 	private List<DatosReporte> datos;
+	
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate fecha;
 	private String terminal;
 	private String tipoReporte;
@@ -26,6 +31,7 @@ public class Reporte {
 	}
 	
 	public Reporte(String tipo){
+		tipoReporte = tipo;
 		datos = new ArrayList<DatosReporte>();
 		fecha = LocalDate.now();
 	}
@@ -64,5 +70,8 @@ public class Reporte {
 	public void setTipoReporte(String tipoReporte) {
 		this.tipoReporte = tipoReporte;
 	}
-	
+	public void mostrarInformacion(){
+		System.out.println(getFecha() + " ----" + getTerminal() + "("+getTipoReporte()+")\nBUSQUEDAS:");
+		getDatos().stream().forEach(d -> System.out.println(d.getFecha() + " --- Cantidad Resultados: " + d.getResultados()));
+	}
 }

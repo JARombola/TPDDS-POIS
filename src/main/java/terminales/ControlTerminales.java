@@ -16,12 +16,12 @@ public class ControlTerminales {
 	}
 
 	public Reporte busquedasParcialesPorTerminal(Terminal unaTerminal){
-		Reporte busquedasParciales=unaTerminal.obtenerResultadosParciales();
+		Reporte busquedasParciales=unaTerminal.reporteResultadosParciales();
 		return busquedasParciales;
 	}
 	
 	public Reporte totalDeResultadosPorTerminal(Terminal unaTerminal){
-		Reporte reporteTotalResultados=unaTerminal.cantidadTotalResultados();
+		Reporte reporteTotalResultados=unaTerminal.reporteTotalResultados();
 		return reporteTotalResultados;
 	}
 	

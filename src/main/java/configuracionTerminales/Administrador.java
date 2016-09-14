@@ -1,32 +1,36 @@
 package configuracionTerminales;
-import procesos.ControlProcesos;
-import terminales.Terminal;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+
+@Entity
 public class Administrador {
 	
-	private ControlProcesos controladorProcesos;
+	@Id
 	private String email;
 	private String nombre;
-	private Terminal terminal;
 	
 	public Administrador() {
-		terminal = new Terminal();
-		controladorProcesos = new ControlProcesos();
+	}
+	
+	public Administrador(String mail) {
+		this.email=mail;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 	
-	public ControlProcesos getControlador() {
-		return controladorProcesos;
-	}
 	
-	public Terminal getTerminal() {
-		return terminal;
-	}
-
 	public void setEmail(String email) {
 		this.email=email;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 }

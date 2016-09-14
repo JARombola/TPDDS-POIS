@@ -3,7 +3,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import configuracionTerminales.Administrador;
 import configuracionTerminales.FuncionesExtra;
 import pois.Comuna;
 import pois.Coordenadas;
@@ -17,12 +16,10 @@ public class TestProceso3 {
 	private Terminal terminal1, terminal2, terminal3, terminal4;
 	private Comuna comuna;
 	private Coordenadas coordenada1, coordenada2, coordenada3, coordenada4;
-	private Administrador admin;
 	private FuncionesExtra opciones;
 
 	@Before
 	public void intialize() {
-		admin = new Administrador();
 
 		comuna = new Comuna();
 		coordenada1 = new Coordenadas();
@@ -73,7 +70,7 @@ public class TestProceso3 {
 	@Test
 	public void testActivarMailEnUnaTerminal() {
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), false);
-		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlMaestro,admin, "MAIL");
+		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlMaestro,terminal1, "MAIL");
 		proceso.agregarAccionTerminal(terminal1);
 		proceso.run();
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), true);
@@ -83,7 +80,7 @@ public class TestProceso3 {
 	@Test
 	public void testActivarBusquedasEnUnaComuna() {
 		Assert.assertEquals(terminal1.estaActivado("HISTORIAL"), false);
-		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlMaestro, admin, "HISTORIAL");
+		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlMaestro, terminal1, "HISTORIAL");
 		proceso.AgregarAccionComuna(comuna);
 		proceso.run();
 		Assert.assertEquals(terminal1.estaActivado("HISTORIAL"), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial
@@ -96,7 +93,7 @@ public class TestProceso3 {
 	public void testActivarMailEnTodasLasTerminales() {
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), false);
 		Assert.assertEquals(terminal2.estaActivado("MAIL"), false);
-		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlMaestro, admin, "MAIL");
+		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlMaestro, terminal1, "MAIL");
 		proceso.agregarAccionTodasTerminales();
 		proceso.run();
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial

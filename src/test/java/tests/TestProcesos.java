@@ -2,7 +2,6 @@ package tests;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -13,31 +12,28 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import configuracionTerminales.Administrador;
 import procesos.ControlProcesos;
 import procesos.ProcesoActualizacionLocalesComerciales;
 import procesos.ProcesoBajaPOIs;
 import procesos.ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra;
 import terminales.Mapa;
+import terminales.Terminal;
 import tiposPoi.Local;
 
 public class TestProcesos {
-	Local poi;
-	Mapa mapa;
-	ProcesoActualizacionLocalesComerciales proceso;
-	ProcesoActualizacionLocalesComerciales localesMock;
-	ProcesoBajaPOIs bajaMock;
-	ControlProcesos controlProcesos;
-	ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra procesoNegro1;
-	ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra procesoNegro2;
-	private Administrador admin;
-	
+	private Local poi;
+	private Mapa mapa;
+	private ProcesoActualizacionLocalesComerciales proceso, localesMock;
+	private ProcesoBajaPOIs bajaMock;
+	private ControlProcesos controlProcesos;
+	private ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra procesoNegro1, procesoNegro2;
+	private Terminal terminal;
 	
 	@Before
 	public void initialize() {
-		admin = new Administrador();
-		procesoNegro1 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(admin);
-		procesoNegro2 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(admin);
+		terminal = new Terminal();
+		procesoNegro1 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(terminal);
+		procesoNegro2 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(terminal);
 		
 		localesMock=Mockito.mock(ProcesoActualizacionLocalesComerciales.class);
 		bajaMock=Mockito.mock(ProcesoBajaPOIs.class);
@@ -72,11 +68,11 @@ public class TestProcesos {
 		
 
 		mapa = new Mapa();
+		terminal.setMapa(mapa);
 		controlProcesos = new ControlProcesos();
-		controlProcesos.setMapa(mapa);
-		Administrador admin = new Administrador();
+		controlProcesos.setTerminal(terminal);
 
-		proceso=new ProcesoActualizacionLocalesComerciales("test.txt", admin);
+		proceso=new ProcesoActualizacionLocalesComerciales("test.txt", terminal);
 		proceso.setMapa(mapa);
 		
 		poi = new Local();

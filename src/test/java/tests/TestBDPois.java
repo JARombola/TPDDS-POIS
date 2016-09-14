@@ -15,6 +15,7 @@ import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
+import configuracionTerminales.Administrador;
 import configuracionTerminales.FuncionesExtra;
 import externos.BuscadorBancoExterno;
 import externos.BuscadorCGPExterno;
@@ -26,6 +27,7 @@ import pois.Horario;
 import terminales.BufferBusquedas;
 import terminales.Busqueda;
 import terminales.Mapa;
+import terminales.Reporte;
 import terminales.Terminal;
 import tiposPoi.Banco;
 import tiposPoi.CGP;
@@ -37,6 +39,15 @@ import tiposPoi.Servicio;
 public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEntityManager {
 
 	private EntityManager em;
+	
+	ParadaColectivo parada1, parada2, parada3;
+	Mapa mapa;
+	BufferBusquedas buffer;
+	BuscadorBancoExterno buscadorBanco;
+	BuscadorCGPExterno buscadorCgp;
+	OrigenDatos origenBanco,origenCGP;
+	Terminal terminal;
+	Administrador admin;
 	
 	@Before
 	public void init(){
@@ -74,33 +85,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(direccionBuscada.getLatitud(),99,0);
 		}
 	
-	@Test
-	public void testPersistirTerminal(){		
-		beginTransaction();
-			Terminal terminal= new Terminal();
-			terminal.setNombre("prueba");
-			Coordenadas coordenada=new Coordenadas();
-			coordenada.setLatitud(99);
-			coordenada.setLongitud(2);
-			terminal.setCoordenadas(coordenada);
-			FuncionesExtra fe=new FuncionesExtra(20);
-			terminal.setExtra(fe);
-			terminal.activarOpcion("MAIL");
-			terminal.desactivarOpcion("HISTORIAL");
-			persist(terminal);
-			commitTransaction();
-		em.clear();
-		
-		Terminal terminalBuscada = (Terminal) em.createQuery("from Terminal where Nombre = :nombre")
-				.setParameter("nombre", "prueba").getSingleResult();
-		assertEquals(terminalBuscada.getNombre(),"prueba");
-		assertEquals(terminalBuscada.getCoordenadas().getLatitud(),99,0);
-		assertEquals(terminalBuscada.getCoordenadas().getLongitud(),2,0);
-		assertEquals(terminalBuscada.getExtra().getTiempoMax(),20,0);
-		assertTrue(terminal.estaActivado("MAIL"));
-		assertFalse(terminal.estaActivado("HISTORIAL"));
-		
-		}
 	
 	@Test
 	public void testPersistirParadaColectivo(){
@@ -235,18 +219,8 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		
 	}
 	
-	@Test
-	public void testBusquedas(){
-		beginTransaction();
-		
-		ParadaColectivo parada1, parada2, parada3;
-		Mapa mapa;
-		BufferBusquedas buffer;
-		BuscadorBancoExterno buscadorBanco;
-		BuscadorCGPExterno buscadorCgp;
-		OrigenDatos origenBanco,origenCGP;
-		Terminal terminal;
-		
+	public void inicializarBusquedas(){
+		admin = new Administrador("MAIL@mail");
 		buscadorBanco=new BuscadorBancoExterno();
 		buscadorCgp=new BuscadorCGPExterno();
 		origenBanco =Mockito.mock(OrigenDatos.class);
@@ -272,13 +246,20 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			buffer.agregarExterno(buscadorCgp);
 			
 		terminal = new Terminal();
+		terminal.setNombre("Terminal 1");
 			terminal.setBuffer(buffer);
 			terminal.setMapa(mapa);
+			terminal.setAdministrador(admin);
 			
 			terminal.activarOpcion("HISTORIAL");
 			terminal.realizarBusqueda("114","");
 			terminal.realizarBusqueda("parada","");
-			
+	}
+	
+	@Test
+	public void testPersistenciaBusquedas(){
+		beginTransaction();
+			inicializarBusquedas();			
 			terminal.getHistorialBusquedas().stream().forEach(busqueda->persist(busqueda)); //persisto todas las busquedas
 			commitTransaction();
 		em.clear();
@@ -299,5 +280,71 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(busquedas.get(1).getFraseBuscada(),"parada ");
 	}
 	
+	@Test
+	public void testPersistirTerminal(){		
+		beginTransaction();
+		Administrador admin = new Administrador();
+		admin.setEmail("ASD");
+		Terminal terminal= new Terminal();
+			terminal.setAdministrador(admin);
+			terminal.setNombre("prueba");
+			terminal.setAdministrador(admin);
+		Coordenadas coordenada=new Coordenadas();
+			coordenada.setLatitud(99);
+			coordenada.setLongitud(2);
+		terminal.setCoordenadas(coordenada);
+		FuncionesExtra fe=new FuncionesExtra(20);
+		terminal.setExtra(fe);
+		terminal.activarOpcion("MAIL");
+		terminal.desactivarOpcion("HISTORIAL");
+		persist(terminal);
+		commitTransaction();
+		em.clear();
+		
+		Terminal terminalBuscada = (Terminal) em.createQuery("from Terminal where Nombre = :nombre")
+				.setParameter("nombre", "prueba").getSingleResult();
+		assertEquals(terminalBuscada.getNombre(),"prueba");
+		assertEquals(terminalBuscada.getCoordenadas().getLatitud(),99,0);
+		assertEquals(terminalBuscada.getCoordenadas().getLongitud(),2,0);
+		assertEquals(terminalBuscada.getExtra().getTiempoMax(),20,0);
+		assertTrue(terminal.estaActivado("MAIL"));
+		assertFalse(terminal.estaActivado("HISTORIAL"));
+		
+	}
+	
+	@Test
+	public void TestPersistenciaReportes(){
+		beginTransaction();
+		inicializarBusquedas();
+		terminal.realizarBusqueda("parada", "");		
+		terminal.getHistorialBusquedas().get(2).setFecha(new LocalDate(1995,10,25));
+		Reporte repFechas = terminal.reporteFechas();
+		Reporte repTotalResultados=terminal.reporteTotalResultados();
+		Reporte repParciales=terminal.reporteResultadosParciales();
+		int repFechasAntes = repFechas.getDatos().size();
+		int totalResultadosAntes = repTotalResultados.getDatos().size();
+		int parcialesAntes= repParciales.getDatos().size();
+		em.persist(repFechas);
+		em.persist(repTotalResultados);
+		em.persist(repParciales);
+		commitTransaction();
+		em.clear();
+		Reporte reporteFechasBD = (Reporte) em.createQuery("from Reporte where tipoReporte = :tipo")
+							.setParameter("tipo", "Reporte Fechas")
+							.getSingleResult();
+		assertEquals(reporteFechasBD.getDatos().size(), repFechasAntes);
+		em.clear();
+		Reporte reporteTotalResultadosBD = (Reporte) em.createQuery("from Reporte where tipoReporte = :tipo")
+				.setParameter("tipo", "Total Resultados")
+				.getSingleResult();
+		
+		assertNotEquals(reporteTotalResultadosBD.getDatos().size(), totalResultadosAntes+1);
+		assertEquals(reporteTotalResultadosBD.getDatos().size(), totalResultadosAntes);
+		em.clear();
+		Reporte reporteParcialesBD = (Reporte) em.createQuery("from Reporte where tipoReporte = :tipo")
+									.setParameter("tipo", "Resultados Parciales")
+									.getSingleResult();
+		assertEquals(reporteParcialesBD.getDatos().size(), parcialesAntes);
+	}
 
 }

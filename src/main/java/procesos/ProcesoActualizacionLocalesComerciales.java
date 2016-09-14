@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import configuracionTerminales.Administrador;
 import pois.POI;
 import terminales.Mapa;
+import terminales.Terminal;
 
 public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	BufferedReader  archivo;
@@ -16,8 +16,8 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 		this.mapa=mapa;
 	}
 	
-	public ProcesoActualizacionLocalesComerciales(String  ruta, Administrador admin){
-		super(admin);
+	public ProcesoActualizacionLocalesComerciales(String  ruta, Terminal terminal){
+		super(terminal);
 		try{
 			this.archivo=new BufferedReader(new FileReader(ruta));
 		} catch (IOException e) {

@@ -17,9 +17,14 @@ public class EnviadorMails {
 	
 	public EnviadorMails(){
 		mailSender=new JavaMailSenderImpl();
-		this.adminInterno=new Administrador();
-		this.adminInterno.setEmail("Admin@hotmail.com");		
 	}
+	
+	public EnviadorMails(Administrador admin){
+		adminInterno=admin;
+		mailSender=new JavaMailSenderImpl();
+	}
+	
+	
 	
 	public void mailBusquedaLenta(){
 		this.mail=new SimpleMailMessage();
@@ -35,7 +40,7 @@ public class EnviadorMails {
 		mail.setFrom("Manejo de Resultados de los Procesos");			
 		mail.setSubject("Error en el proceso "+nombre);
 		mail.setText("el proceso "+nombre+" ejecutado el dia "+ proceso.getFecha()+ " Fallo su ejecucion.");
-		mail.setTo(proceso.admin.getEmail()); 
+		mail.setTo(proceso.getTerminal().getAdministrador().getEmail()); 
 	}	
 	
 	

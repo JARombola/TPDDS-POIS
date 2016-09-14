@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -14,6 +15,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalDate;
 
+import configuracionTerminales.Administrador;
 import configuracionTerminales.FuncionesExtra;
 import pois.Comuna;
 import pois.Coordenadas;
@@ -27,7 +29,10 @@ import javax.persistence.Transient;
 public class Terminal{
 	@Id @GeneratedValue
 	private int id;
-
+	
+	@OneToOne @JoinColumn @Cascade(value=CascadeType.ALL)
+	private Administrador administrador;
+	
 	@Embedded
 	private Coordenadas coordenadas;
 	
@@ -40,6 +45,7 @@ public class Terminal{
 
 	@Transient
 	private Mapa mapa;
+	
 	@Transient
 	private BufferBusquedas buffer;
 
@@ -76,18 +82,17 @@ public class Terminal{
 
 	//----------------------REPORTES---------------------------------------
 	public Reporte reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas
-		int cantBusquedas = getHistorialBusquedas().size();
-		int i;
+		int i, cantBusquedas = getHistorialBusquedas().size();
+		List<Busqueda> busquedas;
 		Reporte reporteBusquedasPorFechas = new Reporte("Reporte Fechas");
 		reporteBusquedasPorFechas.setTerminal(getNombre());
-		for (i = 0; i < cantBusquedas;) {
-			LocalDate fecha = getHistorialBusquedas().get(i).getFecha();
-			List<Busqueda> busquedas = this.busquedasDeFecha(fecha);
+		LocalDate fecha;
+		for (i = 0; i < cantBusquedas; i+=busquedas.size()) {
+			fecha = getHistorialBusquedas().get(i).getFecha();
+			busquedas = this.busquedasDeFecha(fecha);
 			DatosReporte busquedasFecha = this.crearReporteFechas(busquedas);
 			reporteBusquedasPorFechas.agregarDatos(busquedasFecha);
-			i+=busquedas.size();							//suma la cantidad de resultados de la fecha
 		}
-		//reporteBusquedasPorFechas.forEach(unaBusqueda->System.out.println("["+unaBusqueda.getFecha()+"]"+"-Terminal: "+unaBusqueda.getTerminal()+" |Resultados: "+unaBusqueda.getDatos()));
 		return reporteBusquedasPorFechas;
 	}
 	
@@ -106,22 +111,18 @@ public class Terminal{
 		return datos;
 	}
 	
-	public Reporte obtenerResultadosParciales() {
+	public Reporte reporteResultadosParciales() {
 		List<Busqueda> datosBusquedas = getHistorialBusquedas();
 		
 		Reporte reporte = new Reporte("Resultados Parciales");
 		reporte.setTerminal(getNombre());
-		datosBusquedas.stream().forEach(busqueda -> {
-						DatosReporte reporteParciales = new DatosReporte();
-						reporteParciales.setResultados(busqueda.getCantidadResultados());
-						reporteParciales.setFecha(busqueda.getFecha());
-						reporte.agregarDatos(reporteParciales);}
-		);
+		datosBusquedas.stream()
+					.forEach(busqueda -> reporte.agregarDatos(busqueda.getFecha(), busqueda.getCantidadResultados()));
 		
 		return reporte;
 	}
 	
-	public Reporte cantidadTotalResultados() {
+	public Reporte reporteTotalResultados() {
 		List<Busqueda> datosBusquedas = getHistorialBusquedas();
 		if (getHistorialBusquedas().isEmpty()) return new Reporte();
 		
@@ -201,6 +202,22 @@ public class Terminal{
 
 	public void setCoordenadas(Coordenadas coordenadas) {
 		this.coordenadas = coordenadas;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Administrador getAdministrador() {
+		return administrador;
+	}
+
+	public void setAdministrador(Administrador administrador) {
+		this.administrador = administrador;
 	}
 
 }

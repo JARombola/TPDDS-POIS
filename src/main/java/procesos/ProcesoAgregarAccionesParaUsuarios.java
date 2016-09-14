@@ -1,6 +1,5 @@
 package procesos;
 
-import configuracionTerminales.Administrador;
 import pois.Comuna;
 import terminales.ControlTerminales;
 import terminales.Terminal;
@@ -14,8 +13,8 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 	private boolean todos;
 	
 	
-	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales central, Administrador administrador, String accion) {
-		super(administrador);
+	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales central, Terminal terminal, String accion) {
+		super(terminal);
 		setCentralTerminales(central);
 		setAccion(accion);		
 	}
@@ -38,12 +37,13 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 		if(isTodos()){
 			resultados=getCentralTerminales().setearOpcion(getAccion());}
 		
-		if(getComuna()!=null){
+		else {if(getComuna()!=null){
 			resultados=getCentralTerminales().setearOpcion(getComuna(),getAccion());}
 		
-		if(getTerminal()!=null){
+			else {if(getTerminal()!=null){
 			resultados=getCentralTerminales().setearOpcion(getTerminal(),getAccion());}
-		
+			}
+		}
 		return resultados;
 	}
 

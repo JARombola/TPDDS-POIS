@@ -3,23 +3,20 @@ package procesos;
 import java.util.Date;
 import java.util.TimerTask;
 
-import configuracionTerminales.Administrador;
-import terminales.Mapa;
+import terminales.Terminal;
 
 public abstract class Proceso extends TimerTask  {
 	
-	protected Mapa mapa;
-	public Administrador admin;
+	protected Terminal terminal;
 	protected ControlProcesos controladorProcesos;
 	protected ResultadoDeProceso resultado;
 	protected Date fechaEjecucion;
 	protected int reintentos, cantidadAfectados=0;
 	
-	public Proceso(Administrador administrador){
-		//mapa = administrador.getTerminal().getMapa();
-		controladorProcesos = administrador.getControlador();
+	public Proceso(Terminal terminal){
+		controladorProcesos = new ControlProcesos();
 		resultado = new ResultadoDeProceso();
-		admin = administrador;
+		this.terminal = terminal;
 	}
 	
 	
@@ -53,9 +50,6 @@ public abstract class Proceso extends TimerTask  {
 	}
 	
 	
-	public void setMapa(Mapa mapa) {
-		this.mapa=mapa;
-	}
 	public void setFecha(Date fecha) {
 		this.fechaEjecucion=fecha;
 	}
@@ -94,6 +88,16 @@ public abstract class Proceso extends TimerTask  {
 
 	public void setCantidadAfectados(int cantidadAfectados) {
 		this.cantidadAfectados = cantidadAfectados;
+	}
+
+
+	public Terminal getTerminal() {
+		return terminal;
+	}
+
+
+	public void setTerminal(Terminal terminal) {
+		this.terminal = terminal;
 	}
 
 }

@@ -25,9 +25,14 @@
 		<class>tiposPoi.ParadaColectivo</class> 
 		<class>tiposPoi.Banco</class> 
 		<class>tiposPoi.Servicio</class> 
+		
 		<class>terminales.Busqueda</class> 
 		<class>terminales.Terminal</class> 
+		<class>terminales.Reporte</class> 
+		<class>terminales.DatosReporte</class> 
+		
     	<class>configuracionTerminales.FuncionesExtra</class> 
+    	<class>configuracionTerminales.Administrador</class> 
     	 
         <properties> 
 	    	<property name="hibernate.archive.autodetection" value="class"/>        

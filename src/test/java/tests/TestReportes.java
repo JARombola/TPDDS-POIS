@@ -91,18 +91,18 @@ public class TestReportes {
 		terminal.realizarBusqueda("Hola", "Chau");
 		terminal.realizarBusqueda("114", "");
 		terminal.realizarBusqueda("Julian", "Crack");
-		assertTrue(terminal.cantidadTotalResultados().getDatos().isEmpty());			//No se registraron, estaba desactivado
+		assertTrue(terminal.reporteTotalResultados().getDatos().isEmpty());			//No se registraron, estaba desactivado
 		terminal.activarOpcion("HISTORIAL");
 		terminal.realizarBusqueda("Hola", "Chau");
 		terminal.realizarBusqueda("114", "");
 		terminal.realizarBusqueda("Julian", "Crack");
 		assertEquals(terminal.getHistorialBusquedas().size(),3);
-		assertEquals(terminal.cantidadTotalResultados().getDatos().get(0).getResultados(),2,0);			//Registrados, hubieron 2 aciertos (114)
+		assertEquals(terminal.reporteTotalResultados().getDatos().get(0).getResultados(),2,0);			//Registrados, hubieron 2 aciertos (114)
 		terminal.realizarBusqueda("114", "");
-		assertEquals(terminal.cantidadTotalResultados().getDatos().get(0).getResultados(),4,0);			//2 aciertos mas
+		assertEquals(terminal.reporteTotalResultados().getDatos().get(0).getResultados(),4,0);			//2 aciertos mas
 		terminal.desactivarOpcion("HISTORIAL");
 		terminal.realizarBusqueda("114", "");
-		assertEquals(terminal.cantidadTotalResultados().getDatos().get(0).getResultados(),4,0);
+		assertEquals(terminal.reporteTotalResultados().getDatos().get(0).getResultados(),4,0);
 	}
 	
 	@Test
