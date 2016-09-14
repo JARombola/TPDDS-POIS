@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Cascade;
@@ -20,30 +21,30 @@ import pois.POI;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 public class Terminal{
+	@Id @GeneratedValue
+	private int id;
+
 	@Embedded
 	private Coordenadas coordenadas;
+	
 	@OneToOne @Cascade(value=CascadeType.ALL)
 	private FuncionesExtra extra;
 
 	private String nombre;
-	@Transient
-	private Mapa mapa;
-	@Transient
+	@OneToMany @Cascade(value=CascadeType.ALL)
 	private List<Busqueda> historialBusquedas;
 
 	@Transient
+	private Mapa mapa;
+	@Transient
 	private BufferBusquedas buffer;
-	@Id @GeneratedValue
-	private int id;
+
 	public Terminal(){
-		extra = new FuncionesExtra(10);
+		extra = new FuncionesExtra(0);
 		extra.setTerminal(this);
 	}
 	
@@ -156,6 +157,10 @@ public class Terminal{
 		return (unaComuna.dentroDeLaZona(getCoordenadas()));
 	}
 	
+	public boolean estaActivado(String opcion){
+		return getExtra().estaActivado(opcion);
+	}
+	
 	public Mapa getMapa() {
 		return mapa;
 	}
@@ -179,6 +184,7 @@ public class Terminal{
 	}
 	public void setExtra(FuncionesExtra extra) {
 		this.extra = extra;
+		extra.setTerminal(this);
 	}
 
 	public BufferBusquedas getBuffer() {

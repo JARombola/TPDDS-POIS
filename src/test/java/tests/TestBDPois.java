@@ -73,6 +73,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(direccionBuscada.getLongitud(),2,0);
 		assertEquals(direccionBuscada.getLatitud(),99,0);
 		}
+	
 	@Test
 	public void testPersistirTerminal(){		
 		beginTransaction();
@@ -84,6 +85,8 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			terminal.setCoordenadas(coordenada);
 			FuncionesExtra fe=new FuncionesExtra(20);
 			terminal.setExtra(fe);
+			terminal.activarOpcion("MAIL");
+			terminal.desactivarOpcion("HISTORIAL");
 			persist(terminal);
 			commitTransaction();
 		em.clear();
@@ -94,7 +97,8 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(terminalBuscada.getCoordenadas().getLatitud(),99,0);
 		assertEquals(terminalBuscada.getCoordenadas().getLongitud(),2,0);
 		assertEquals(terminalBuscada.getExtra().getTiempoMax(),20,0);
-
+		assertTrue(terminal.estaActivado("MAIL"));
+		assertFalse(terminal.estaActivado("HISTORIAL"));
 		
 		}
 	
