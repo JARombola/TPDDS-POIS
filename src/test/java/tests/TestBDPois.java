@@ -15,10 +15,12 @@ import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
+import configuracionTerminales.FuncionesExtra;
 import externos.BuscadorBancoExterno;
 import externos.BuscadorCGPExterno;
 import externos.OrigenDatos;
 import pois.Comuna;
+import pois.Coordenadas;
 import pois.Direccion;
 import pois.Horario;
 import terminales.BufferBusquedas;
@@ -70,6 +72,30 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(direccionBuscada.getCalle(),"Beiro");
 		assertEquals(direccionBuscada.getLongitud(),2,0);
 		assertEquals(direccionBuscada.getLatitud(),99,0);
+		}
+	@Test
+	public void testPersistirTerminal(){		
+		beginTransaction();
+			Terminal terminal= new Terminal();
+			terminal.setNombre("prueba");
+			Coordenadas coordenada=new Coordenadas();
+			coordenada.setLatitud(99);
+			coordenada.setLongitud(2);
+			terminal.setCoordenadas(coordenada);
+			FuncionesExtra fe=new FuncionesExtra(20);
+			terminal.setExtra(fe);
+			persist(terminal);
+			commitTransaction();
+		em.clear();
+		
+		Terminal terminalBuscada = (Terminal) em.createQuery("from Terminal where Nombre = :nombre")
+				.setParameter("nombre", "prueba").getSingleResult();
+		assertEquals(terminalBuscada.getNombre(),"prueba");
+		assertEquals(terminalBuscada.getCoordenadas().getLatitud(),99,0);
+		assertEquals(terminalBuscada.getCoordenadas().getLongitud(),2,0);
+		assertEquals(terminalBuscada.getExtra().getTiempoMax(),20,0);
+
+		
 		}
 	
 	@Test
