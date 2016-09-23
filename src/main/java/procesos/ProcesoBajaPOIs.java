@@ -1,26 +1,42 @@
 package procesos;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
-import pois.POI;
+import terminales.ControlTerminales;
 import terminales.Terminal;
 
 public class ProcesoBajaPOIs extends Proceso{
-	private POI poi;
+	private int IDPoiEliminar;
 
-	public ProcesoBajaPOIs(int id, Terminal terminal) {
-		super(terminal);
-		this.poi = terminal.getPOI(id);
+	public ProcesoBajaPOIs(int id, ControlProcesos control, ControlTerminales terminales) {
+		super(control,terminales);
+		this.setIDPoiEliminar(id);
 	}
 	
-	public int ejecutarProceso() throws Exception {
-		int resultado;
-		if(poi != null){
-			terminal.getMapa().eliminarPOI(poi);	
-			resultado=1;
-		}else{
-			resultado=0;
-		}
-		return resultado;
+	public int ejecutarProceso() {
+		List<Terminal> terminalesAfectadas=getCentralTerminales().getTerminales()
+				.stream()
+				.filter(terminal->terminal.getMapa().getPOI(IDPoiEliminar)!=null)
+				.collect(Collectors.toList());
+		
+		getCentralTerminales().getTerminales()
+		.stream().forEach(terminal->{
+			try {
+				terminal.getMapa().eliminarPOI(IDPoiEliminar);
+			} catch (Exception e) {				//la atrapa el controlProcesos
+				throw new ExcepcionFallo(terminal);
+			}
+		});
+		return terminalesAfectadas.size();
+	}
+
+	public int getIDPoiEliminar() {
+		return IDPoiEliminar;
+	}
+
+	public void setIDPoiEliminar(int iDPoiEliminar) {
+		IDPoiEliminar = iDPoiEliminar;
 	}
 	
 }

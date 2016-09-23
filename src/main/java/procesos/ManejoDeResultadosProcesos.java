@@ -3,22 +3,22 @@ package procesos;
 import java.util.ArrayList;
 import java.util.List;
 
+import configuracionTerminales.Administrador;
 import configuracionTerminales.EnviadorMails;
 
+
 public class ManejoDeResultadosProcesos {
-	
 	private List<ResultadoDeProceso> resultados;
-	EnviadorMails enviadorMails;
 	
 	public ManejoDeResultadosProcesos(){
 		resultados=new ArrayList<ResultadoDeProceso>();
 	}
 	
 	
-	public void tratarResultado(ResultadoDeProceso resultado){
+	public void tratarResultado(ResultadoDeProceso resultado,Administrador admin){
 		if(!resultado.isEstadoEjecucion()){ //si el resultado fallo
-			//if mando mail? TODO
-			//enviadorMails.MandarMailDeFallaProceso(resultado.getTipoProceso());
+			EnviadorMails enviadorMails= new EnviadorMails();
+			enviadorMails.mailFallaProceso(resultado.getTipoProceso(),admin);
 		}
 	}
 	
@@ -27,7 +27,6 @@ public class ManejoDeResultadosProcesos {
 	}
 	public void agregarResultado(ResultadoDeProceso resultado) {
 		this.resultados.add(resultado);
-		this.tratarResultado(resultado);
 	}
 
 

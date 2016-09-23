@@ -219,7 +219,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		
 	}
 	
-	public void inicializarBusquedas(){
+	public void inicializarBusquedas() throws Exception{
 		admin = new Administrador("MAIL@mail");
 		buscadorBanco=new BuscadorBancoExterno();
 		buscadorCgp=new BuscadorCGPExterno();
@@ -257,7 +257,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	}
 	
 	@Test
-	public void testPersistenciaBusquedas(){
+	public void testPersistenciaBusquedas() throws Exception{
 		beginTransaction();
 			inicializarBusquedas();			
 			terminal.getHistorialBusquedas().stream().forEach(busqueda->persist(busqueda)); //persisto todas las busquedas
@@ -281,7 +281,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	}
 	
 	@Test
-	public void testPersistirTerminal(){		
+	public void testPersistirTerminal() throws Exception{		
 		beginTransaction();
 		Administrador admin = new Administrador();
 		admin.setEmail("ASD");
@@ -313,7 +313,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	}
 	
 	@Test
-	public void TestPersistenciaReportes(){
+	public void TestPersistenciaReportes() throws Exception{
 		beginTransaction();
 		inicializarBusquedas();
 		terminal.realizarBusqueda("parada", "");		

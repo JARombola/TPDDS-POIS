@@ -142,7 +142,7 @@ public class Terminal{
 	
 	
 		
-	public void activarOpcion(String opcion){
+	public void activarOpcion(String opcion) throws Exception {
 		getExtra().activarOpcion(opcion);
 	}
 	public void desactivarOpcion(String opcion){

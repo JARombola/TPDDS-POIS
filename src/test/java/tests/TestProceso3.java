@@ -2,16 +2,23 @@ package tests;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import configuracionTerminales.Administrador;
 import configuracionTerminales.FuncionesExtra;
 import pois.Comuna;
 import pois.Coordenadas;
+import procesos.ControlProcesos;
+import procesos.ManejoDeResultadosProcesos;
 import procesos.ProcesoAgregarAccionesParaUsuarios;
 import terminales.ControlTerminales;
 import terminales.Terminal;
 
 
 public class TestProceso3 {
+	private Administrador admin;
+	private ControlProcesos controlProcesos;
+	private ManejoDeResultadosProcesos manejoMock;
 	private ControlTerminales controlMaestro;
 	private Terminal terminal1, terminal2, terminal3, terminal4;
 	private Comuna comuna;
@@ -20,6 +27,12 @@ public class TestProceso3 {
 
 	@Before
 	public void intialize() {
+		admin = new Administrador("ASDASD@gmail.com");
+		
+		manejoMock=Mockito.mock(ManejoDeResultadosProcesos.class);
+		
+		controlProcesos = new ControlProcesos();
+		controlProcesos.setManejoResultados(manejoMock);
 
 		comuna = new Comuna();
 		coordenada1 = new Coordenadas();
@@ -60,17 +73,20 @@ public class TestProceso3 {
 		terminal3.setExtra(opciones);
 		terminal4.setExtra(opciones);
 		
+		terminal1.setAdministrador(admin);
+		
 		controlMaestro.agregarTerminal(terminal1);
 		controlMaestro.agregarTerminal(terminal2);
 		controlMaestro.agregarTerminal(terminal3);
 		controlMaestro.agregarTerminal(terminal4);			
+		
 	}
 
 	
 	@Test
 	public void testActivarMailEnUnaTerminal() {
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), false);
-		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlMaestro,terminal1, "MAIL");
+		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlProcesos,controlMaestro, "MAIL");
 		proceso.agregarAccionTerminal(terminal1);
 		proceso.run();
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), true);
@@ -80,7 +96,7 @@ public class TestProceso3 {
 	@Test
 	public void testActivarBusquedasEnUnaComuna() {
 		Assert.assertEquals(terminal1.estaActivado("HISTORIAL"), false);
-		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlMaestro, terminal1, "HISTORIAL");
+		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlProcesos,controlMaestro,"HISTORIAL");
 		proceso.AgregarAccionComuna(comuna);
 		proceso.run();
 		Assert.assertEquals(terminal1.estaActivado("HISTORIAL"), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial
@@ -93,12 +109,22 @@ public class TestProceso3 {
 	public void testActivarMailEnTodasLasTerminales() {
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), false);
 		Assert.assertEquals(terminal2.estaActivado("MAIL"), false);
-		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlMaestro, terminal1, "MAIL");
+		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlProcesos,controlMaestro, "MAIL");
 		proceso.agregarAccionTodasTerminales();
 		proceso.run();
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial
 		Assert.assertEquals(terminal2.estaActivado("MAIL"), true);
 		Assert.assertEquals(proceso.getCantidadAfectados(),4);					//Se modificaron todas las terminales (4)
+	}
+	
+	@Test
+	public void testFallaProceso() {
+		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios(controlProcesos,controlMaestro, "ASD");	
+		proceso.setControladorProcesos(controlProcesos);
+		proceso.agregarAccionTerminal(terminal1);
+		proceso.run();						//Falla porque la opcion "ASD" es incorrecta => llama al metodo del mock para el manejo del error.
+		Mockito.verify(manejoMock,Mockito.times(1)).tratarResultado(Mockito.any(),Mockito.any());
+		
 	}
 
 }

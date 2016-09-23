@@ -5,12 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import terminales.Terminal;
+import terminales.ControlTerminales;
+
 
 public class ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra extends Proceso {
 	
-	public ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(Terminal terminal) {
-		super(terminal);
+	public ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(ControlProcesos control, ControlTerminales terminales) {
+		super(control,terminales);
 	}
 	
 	public void run() {

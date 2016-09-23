@@ -47,11 +47,9 @@ public class Mapa {
 		return map.get(tipo);
 	}
 		
-	public void eliminarPOI (POI poiEntrante) throws Exception{
-		int posPOI=pois.indexOf(poiEntrante);
-		if(posPOI!=-1){
-			pois.remove(posPOI);
-		}else{
+	public void eliminarPOI (int id) throws Exception{
+		boolean existia=getListaPOIS().removeIf(poi->poi.getId()==id);
+		if (!existia){
 		     throw new Exception("No existe el POI ingresado");
 		}
 	}
@@ -76,10 +74,12 @@ public class Mapa {
 	}
 	
 	public POI getPOI(int id){
-		return pois.stream()
-				.filter(poi->poi.getId() == id)
-				.findFirst()
-				.get();
+		POI poiBuscado = pois.stream()
+					.filter(poi->poi.getId() == id)
+					.findFirst()
+					.orElse(null);
+		return poiBuscado;
+		
 	}
 	
 }

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.Transient;
 
+
 @Entity
 public class FuncionesExtra {
 	@Id @GeneratedValue
@@ -66,8 +67,9 @@ public class FuncionesExtra {
 			return opciones;
 	}	
 	
-	public void activarOpcion(String opcion){
-		opciones.put(opcion.toUpperCase(), new adapterBooleano(true));
+	public void activarOpcion(String opcion) throws Exception{
+		if(opciones.get(opcion)!=null){opciones.put(opcion.toUpperCase(), new adapterBooleano(true));}
+		else{throw new Exception("Opcion incorrecta");}
 	}
 	
 	public void desactivarOpcion(String opcion){

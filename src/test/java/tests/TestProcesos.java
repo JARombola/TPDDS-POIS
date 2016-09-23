@@ -12,32 +12,51 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import configuracionTerminales.Administrador;
 import procesos.ControlProcesos;
+import procesos.ManejoDeResultadosProcesos;
 import procesos.ProcesoActualizacionLocalesComerciales;
+import procesos.ProcesoAgregarAccionesParaUsuarios;
 import procesos.ProcesoBajaPOIs;
 import procesos.ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra;
+import terminales.ControlTerminales;
 import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.Local;
 
 public class TestProcesos {
+	private Administrador admin;
 	private Local poi;
 	private Mapa mapa;
 	private ProcesoActualizacionLocalesComerciales proceso, localesMock;
-	private ProcesoBajaPOIs bajaMock;
+	private ProcesoBajaPOIs bajaMock, procesoBaja;
 	private ControlProcesos controlProcesos;
 	private ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra procesoNegro1, procesoNegro2;
+	private ManejoDeResultadosProcesos mockManejo;
 	private Terminal terminal;
+	private ControlTerminales controlTerminales;
+	private ProcesoAgregarAccionesParaUsuarios procesoAccionesMock;
+	private ManejoDeResultadosProcesos manejoMock;
 	
 	@Before
 	public void initialize() {
+		
+		manejoMock=Mockito.mock(ManejoDeResultadosProcesos.class);
+		
+		controlProcesos = new ControlProcesos();
+		controlProcesos.setManejoResultados(manejoMock);
+		controlProcesos=new ControlProcesos();
+	
+		controlTerminales = new ControlTerminales();
+		
 		terminal = new Terminal();
-		procesoNegro1 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(terminal);
-		procesoNegro2 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(terminal);
+		
+		procesoNegro1 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(controlProcesos,controlTerminales);
+		procesoNegro2 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(controlProcesos,controlTerminales);
 		
 		localesMock=Mockito.mock(ProcesoActualizacionLocalesComerciales.class);
 		bajaMock=Mockito.mock(ProcesoBajaPOIs.class);
-
+		
 		Mockito.doAnswer(new Answer<Void>() {
 		    public Void answer(InvocationOnMock invocation) {
 		    	try {
@@ -66,14 +85,13 @@ public class TestProcesos {
 		    }
 		}).when(bajaMock).run();
 		
+		admin=new Administrador("asdasd@gmail.com");
 
 		mapa = new Mapa();
 		terminal.setMapa(mapa);
-		controlProcesos = new ControlProcesos();
-		controlProcesos.setTerminal(terminal);
-
-		proceso=new ProcesoActualizacionLocalesComerciales("test.txt", terminal);
-		proceso.setMapa(mapa);
+		terminal.setAdministrador(admin);
+		proceso=new ProcesoActualizacionLocalesComerciales("test.txt",controlProcesos,controlTerminales);
+		controlTerminales.agregarTerminal(terminal);
 		
 		poi = new Local();
 		poi.agregarTag("a");
@@ -81,18 +99,21 @@ public class TestProcesos {
 		poi.agregarTag("c");
 		poi.setNombre("kosiuko");
 		mapa.setPOI(poi);
-
 	}
 	
+
 	//@Test
 	public void testEjecucionDeProcesos(){
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
 		System.out.println(dateFormat.format(date) + ": hora actual");
-
-		controlProcesos.agregarProceso(procesoNegro1,date,0);
-		controlProcesos.agregarProceso(procesoNegro2, date,1);
+		procesoNegro1.setFecha(date);
+		procesoNegro1.setReintentos(0);
+		controlProcesos.agregarProceso(procesoNegro1);
+		procesoNegro2.setFecha(date);
+		procesoNegro2.setReintentos(1);
+		controlProcesos.agregarProceso(procesoNegro2);
 		
 		try {
 		TimeUnit.SECONDS.sleep(5);
@@ -107,6 +128,15 @@ public class TestProcesos {
 		proceso.run();
 		Assert.assertEquals(poi.getTags().size(),4);
 	}
+	
+	@Test
+	public void testFallaBajaPOI(){					//el POI 543 no existe => Excepcion
+		procesoBaja= new ProcesoBajaPOIs(543, controlProcesos, controlTerminales);
+		controlProcesos.setManejoResultados(manejoMock);
+		procesoBaja.run();
+		Mockito.verify(manejoMock,Mockito.times(1)).tratarResultado(Mockito.any(), Mockito.any());
+	}
 
+	
 	
 }

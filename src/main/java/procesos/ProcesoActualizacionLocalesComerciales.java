@@ -3,21 +3,19 @@ package procesos;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import pois.POI;
-import terminales.Mapa;
+import terminales.ControlTerminales;
 import terminales.Terminal;
 
 public class ProcesoActualizacionLocalesComerciales extends Proceso{
-	BufferedReader  archivo;
-	Mapa mapa;
+	private BufferedReader archivo;
 	
-	public void setMapa(Mapa mapa) {
-		this.mapa=mapa;
-	}
 	
-	public ProcesoActualizacionLocalesComerciales(String  ruta, Terminal terminal){
-		super(terminal);
+	public ProcesoActualizacionLocalesComerciales(String  ruta, ControlProcesos control, ControlTerminales terminales){
+		super(control,terminales);
 		try{
 			this.archivo=new BufferedReader(new FileReader(ruta));
 		} catch (IOException e) {
@@ -27,31 +25,45 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	}
 	
 
-	public int ejecutarProceso() throws Exception  {
+	public int ejecutarProceso(){
 		
 		String sCurrentLine;
 		int resultado=0;
-		while ((sCurrentLine = archivo.readLine()) != null) {
-			String[] parts = sCurrentLine.split(";");
-			String nombre = parts[0]; 
-			POI poi=mapa.getPOI(nombre);
-			if(poi!=null){
-				boolean primero=true;
-				poi.eliminarTags();
-				for (String tag : parts){ 
-					if(!primero){//salteo el primero porque es el nombre
-						poi.agregarTag(tag);
-						resultado ++;
-					}else{
-						primero=false;
+		try {
+			while ((sCurrentLine = archivo.readLine()) != null) {
+				String[] parts = sCurrentLine.split(";");
+				String nombre = parts[0]; 
+				
+				
+				List<Terminal> terminalesActualizar= getCentralTerminales().getTerminales()
+				.stream()
+				.filter(unaTerminal->unaTerminal.getMapa().getPOI(nombre)!=null)
+				.collect(Collectors.toList());
+				
+				resultado+=terminalesActualizar.size();
+				
+				terminalesActualizar.forEach(unaTerminal->{
+					try {
+						POI poi=unaTerminal.getMapa().getPOI(nombre);
+						boolean primero=true;
+							poi.eliminarTags();
+							for (String tag : parts){ 
+								if(!primero){//salteo el primero porque es el nombre
+									poi.agregarTag(tag);
+								}else{
+									primero=false;
+								}
+							}
+					} catch (Exception e) {
+						throw new ExcepcionFallo(unaTerminal);
 					}
-				}
+				}	
+			);
 			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
 		return resultado;
 	}
-
-
-
 }

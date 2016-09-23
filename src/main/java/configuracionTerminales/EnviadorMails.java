@@ -34,13 +34,13 @@ public class EnviadorMails {
 		this.mail.setTo(adminInterno.getEmail());
 	}
 	
-	public void mailFallaProceso(Proceso proceso) {
+	public void mailFallaProceso(Proceso proceso, Administrador admin) {
 	    String nombre = proceso.getClass().getName();
 		mail=new SimpleMailMessage();
 		mail.setFrom("Manejo de Resultados de los Procesos");			
 		mail.setSubject("Error en el proceso "+nombre);
-		mail.setText("el proceso "+nombre+" ejecutado el dia "+ proceso.getFecha()+ " Fallo su ejecucion.");
-		mail.setTo(proceso.getTerminal().getAdministrador().getEmail()); 
+		mail.setText("El proceso "+nombre+" ejecutado el dia "+ proceso.getFecha()+ " Fallo su ejecucion.");
+		mail.setTo(admin.getEmail()); 
 	}	
 	
 	

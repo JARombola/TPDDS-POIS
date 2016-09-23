@@ -87,7 +87,7 @@ public class TestReportes {
 	}
 	
 	@Test
-	public void testOpcionBusqueda(){
+	public void testOpcionBusqueda() throws Exception{
 		terminal.realizarBusqueda("Hola", "Chau");
 		terminal.realizarBusqueda("114", "");
 		terminal.realizarBusqueda("Julian", "Crack");
@@ -106,7 +106,7 @@ public class TestReportes {
 	}
 	
 	@Test
-	public void testReportesParcialesTerminal1(){
+	public void testReportesParcialesTerminal1() throws Exception{
 		terminal.activarOpcion("HISTORIAL");
 		terminal.realizarBusqueda("Diseño", "");
 		int cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal).getDatos().size();

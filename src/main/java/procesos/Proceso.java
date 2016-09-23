@@ -3,48 +3,49 @@ package procesos;
 import java.util.Date;
 import java.util.TimerTask;
 
-import terminales.Terminal;
+
+import terminales.ControlTerminales;
 
 public abstract class Proceso extends TimerTask  {
 	
-	protected Terminal terminal;
-	protected ControlProcesos controladorProcesos;
+	protected ControlTerminales centralTerminales;
+	protected ControlProcesos controladorProcesos;	//lo conoce para poder enviarle los Resultados
 	protected ResultadoDeProceso resultado;
 	protected Date fechaEjecucion;
 	protected int reintentos, cantidadAfectados=0;
 	
-	public Proceso(Terminal terminal){
-		controladorProcesos = new ControlProcesos();
+	public Proceso(ControlProcesos control, ControlTerminales terminales){
 		resultado = new ResultadoDeProceso();
-		this.terminal = terminal;
+		controladorProcesos=control;
+		centralTerminales=terminales;
 	}
-	
-	
+		
 	public void run() {
-		int i=1;
+		int i=0;
 		resultado.setFecha(fechaEjecucion);
 		resultado.setTipoProceso(this);
 		do{
 			try{
 				this.ejecutar();
 				resultado.setEstadoEjecucion(true);
-				controladorProcesos.getManejoResultados().agregarResultado(resultado);
+				controladorProcesos.guardarResultado(resultado);
 				break;
 			}
-			catch( Exception e) {
+			catch(ExcepcionFallo e) {
 				resultado.setEstadoEjecucion(false);
-				controladorProcesos.getManejoResultados().agregarResultado(resultado);
+				controladorProcesos.guardarResultado(resultado);
+				controladorProcesos.tratarResultado(resultado, e.getTerminal().getAdministrador());
 				i++;
 			}
 		}while(i<=reintentos);
 	}
 
-	private void ejecutar() throws Exception {
+	private void ejecutar() {
 		cantidadAfectados = this.ejecutarProceso();        //TODO crear nueva clase que guarde los resultados?
 		resultado.setElementosAfectados(cantidadAfectados);
 	}
 
-	int ejecutarProceso() throws Exception{
+	int ejecutarProceso(){
 		// se overridea
 		return 0;
 	}
@@ -70,17 +71,6 @@ public abstract class Proceso extends TimerTask  {
 		this.resultado = resultado;
 	}
 
-
-	public ControlProcesos getControladorProcesos() {
-		return controladorProcesos;
-	}
-
-
-	public void setControladorProcesos(ControlProcesos controladorProcesos) {
-		this.controladorProcesos = controladorProcesos;
-	}
-
-
 	public int getCantidadAfectados() {
 		return cantidadAfectados;
 	}
@@ -91,13 +81,20 @@ public abstract class Proceso extends TimerTask  {
 	}
 
 
-	public Terminal getTerminal() {
-		return terminal;
+	public ControlProcesos getControladorProcesos() {
+		return controladorProcesos;
 	}
 
 
-	public void setTerminal(Terminal terminal) {
-		this.terminal = terminal;
+	public void setControladorProcesos(ControlProcesos controladorProcesos) {
+		this.controladorProcesos = controladorProcesos;
 	}
 
+	public ControlTerminales getCentralTerminales() {
+		return centralTerminales;
+	}
+
+	public void setCentralTerminales(ControlTerminales centralTerminales) {
+		this.centralTerminales = centralTerminales;
+	}
 }

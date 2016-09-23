@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import pois.Comuna;
+import procesos.ExcepcionFallo;
 
 
 public class ControlTerminales {
@@ -35,23 +36,46 @@ public class ControlTerminales {
 	}
 
 	public int setearOpcion(String opcionActivar) {
-		getTerminales().stream().forEach(terminal->terminal.activarOpcion(opcionActivar));
-		return getTerminales().size();
+			getTerminales().stream()
+			.forEach(terminal->{
+			try {
+				terminal.activarOpcion(opcionActivar);
+			} catch (Exception e) {
+					throw new ExcepcionFallo(terminal);
+			}
+			});
+	return getTerminales().size();
 	}
 
-	public int setearOpcion(Comuna comuna, String opcionActivar) {
+	public int setearOpcion(Comuna comuna, String opcionActivar){
 		List<Terminal>terminales=getTerminales().stream()
 						.filter(unaTerminal->unaTerminal.estaEnLaComuna(comuna))
 						.collect(Collectors.toList());
-		terminales.forEach(unaTerminal->unaTerminal.activarOpcion(opcionActivar));
+		terminales.forEach(unaTerminal->{
+			
+			try {
+				unaTerminal.activarOpcion(opcionActivar);
+			} catch (Exception e) {
+				throw new ExcepcionFallo(unaTerminal);
+			}
+		}
+		);
+			
 		return terminales.size();
 	}
 
-	public int setearOpcion(Terminal terminal, String opcionActivar) {
+	public int setearOpcion(Terminal terminal, String opcionActivar){
 		List<Terminal>terminales= getTerminales().stream()
 									.filter(unaTerminal->unaTerminal.equals(terminal))
 									.collect(Collectors.toList());
-		terminales.forEach(unaTerminal->unaTerminal.activarOpcion(opcionActivar));
+		terminales.forEach(unaTerminal->{
+			
+			try {
+				unaTerminal.activarOpcion(opcionActivar);
+			} catch (Exception e) {
+					throw new ExcepcionFallo(unaTerminal);
+			}}
+		);
 		return terminales.size();
 	}
 }

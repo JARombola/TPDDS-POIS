@@ -1,31 +1,23 @@
 package procesos;
 
-import java.util.Date;
 import java.util.Timer;
 
-import terminales.Terminal;
-
+import configuracionTerminales.Administrador;
 
 public class ControlProcesos {
-	private Terminal terminal;
 	private ManejoDeResultadosProcesos manejoResultados;
-	Timer timer = new Timer();
+	private Timer timer;
 	
 	public ControlProcesos() {
 		manejoResultados = new ManejoDeResultadosProcesos();
+		timer = new Timer();
 	}
 	
-	public void agregarProceso(Proceso procesoNuevo, Date date, int cantidadReintentos){
-		procesoNuevo.setTerminal(terminal);
-		procesoNuevo.setReintentos(cantidadReintentos);
-		procesoNuevo.setFecha(date);
-		timer.schedule(procesoNuevo, date);
+	public void agregarProceso(Proceso procesoNuevo){
+		timer.schedule(procesoNuevo, procesoNuevo.getFecha());
 	}
 
 	
-	public void setTimer(Timer timer){
-		this.timer = timer;
-	}
 	public ManejoDeResultadosProcesos getManejoResultados() {
 		return manejoResultados;
 	}
@@ -33,13 +25,14 @@ public class ControlProcesos {
 		this.manejoResultados = manejoResultados;
 	}
 
-	public Terminal getTerminal() {
-		return terminal;
+	public void guardarResultado(ResultadoDeProceso resultado) {
+		manejoResultados.agregarResultado(resultado);
+		
 	}
 
-	public void setTerminal(Terminal terminal) {
-		this.terminal = terminal;
+	public void tratarResultado(ResultadoDeProceso resultado, Administrador admin) {
+		getManejoResultados().tratarResultado(resultado, admin);
+		
 	}
-
 
 }

@@ -6,16 +6,14 @@ import terminales.Terminal;
 
 public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 
-	private ControlTerminales centralTerminales;
 	private Comuna comuna;
 	private Terminal terminal;
 	private String accion;					//las terminales usan strings para activar/desactivar acciones
 	private boolean todos;
 	
 	
-	public ProcesoAgregarAccionesParaUsuarios(ControlTerminales central, Terminal terminal, String accion) {
-		super(terminal);
-		setCentralTerminales(central);
+	public ProcesoAgregarAccionesParaUsuarios(ControlProcesos control, ControlTerminales terminales,String accion) {
+		super(control,terminales);
 		setAccion(accion);		
 	}
 
