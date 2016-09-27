@@ -84,11 +84,19 @@
 		</dependency>
 		
 	<!-- https://mvnrepository.com/artifact/org.jadira.usertype/usertype.core -->
-<dependency>
-    <groupId>org.jadira.usertype</groupId>
-    <artifactId>usertype.core</artifactId>
-    <version>3.2.0.GA</version>
-</dependency>
+		<dependency>
+		    <groupId>org.jadira.usertype</groupId>
+		    <artifactId>usertype.core</artifactId>
+		    <version>3.2.0.GA</version>
+         </dependency>
+
+          <dependency>
+              <groupId>org.mongodb.morphia</groupId>
+              <artifactId>morphia</artifactId>
+              <version>1.2.1</version>
+          </dependency>
+		
+
 
 		
 		

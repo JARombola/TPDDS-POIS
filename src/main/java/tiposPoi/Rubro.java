@@ -4,14 +4,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@org.mongodb.morphia.annotations.Embedded
 @Entity
 public class Rubro {
 	@Id @GeneratedValue
+	@org.mongodb.morphia.annotations.Transient
 	private int id;
 	private double radioCercania;
 	public String nombre;
 
 	public Rubro(){
+		
 	}
 	
 	public Rubro(String rubroNombre){

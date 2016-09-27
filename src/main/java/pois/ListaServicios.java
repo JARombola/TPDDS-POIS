@@ -13,13 +13,14 @@ import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 
 import tiposPoi.Servicio;
-
+@org.mongodb.morphia.annotations.Embedded
 @Entity
 public class ListaServicios {
-	
+	@org.mongodb.morphia.annotations.Transient
 	@Id @GeneratedValue
 	private int id;
 	
+	@org.mongodb.morphia.annotations.Embedded
 	@OneToMany @Cascade(value = CascadeType.ALL)
 	private List<Servicio> servicios;
 	

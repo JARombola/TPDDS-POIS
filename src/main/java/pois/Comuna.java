@@ -8,20 +8,16 @@ import javax.persistence.Transient;
 import org.uqbar.geodds.Point;
 import org.uqbar.geodds.Polygon;
 
+@org.mongodb.morphia.annotations.Embedded
 @Entity
 public class Comuna {
 	
+	@org.mongodb.morphia.annotations.Transient
 	@Id @GeneratedValue
 	private int id;
 	
 	private String nombre;
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+	
 
 	@Transient
 	Polygon polygonoActual;
@@ -40,4 +36,11 @@ public class Comuna {
 		return polygonoActual.isInside(punto);
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 }

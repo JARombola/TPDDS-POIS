@@ -16,16 +16,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+@org.mongodb.morphia.annotations.Embedded
 @Entity
 public class Servicio{
 	
+	@org.mongodb.morphia.annotations.Transient
 	@Id @GeneratedValue
 	private int id;
 	
+	@org.mongodb.morphia.annotations.Transient
 	@OneToOne @Cascade(value = CascadeType.ALL)
 	private ListaHorarios horarios;
+	
 	private String nombre;
 	private String descripcion;
+	@org.mongodb.morphia.annotations.Embedded
 	@ElementCollection
 	private List<String> tags;
 	

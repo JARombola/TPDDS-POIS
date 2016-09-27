@@ -6,25 +6,35 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 
+@org.mongodb.morphia.annotations.Embedded
+
 @Entity
 public class Direccion {
-
+	@org.mongodb.morphia.annotations.Transient
 	@Id @GeneratedValue
 	private int id;
 	
 	private String calle;
-
+	@org.mongodb.morphia.annotations.Transient
 	private String[] callesEntreLasQueSeEncuentra = new String[2];;
 	private int numero;
+	@org.mongodb.morphia.annotations.Transient
 	private int piso;
+	@org.mongodb.morphia.annotations.Transient
 	private int dpto;
+	@org.mongodb.morphia.annotations.Transient
 	private String unidad;
+	@org.mongodb.morphia.annotations.Transient
 	private int codigoPostal;
+	@org.mongodb.morphia.annotations.Transient
 	private String localidad;
 	private String barrio;
+	@org.mongodb.morphia.annotations.Transient
 	private String provincia;
+	@org.mongodb.morphia.annotations.Transient
 	private String pais;
 	
+	@org.mongodb.morphia.annotations.Embedded
 	@Embedded
 	private Coordenadas coordenadas;
 

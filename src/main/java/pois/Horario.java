@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalTime;
 
-
 @Entity
 public class Horario {
 	

@@ -3,6 +3,7 @@ package tiposPoi;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
+
 import pois.ListaServicios;
 import pois.POI;
 
@@ -10,18 +11,22 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
+@org.mongodb.morphia.annotations.Entity
 @Entity
 public class Banco extends POI{
 	
 	private String sucursal;
 	private String gerente;
-	@Transient
+	@org.mongodb.morphia.annotations.Transient
+	@Transient 
 	int LUNES=1,VIERNES=5;
 	
+	@org.mongodb.morphia.annotations.Embedded
 	@OneToOne @Cascade(value = CascadeType.ALL)
 	private ListaServicios servicios;
 	
-	@Transient
+	@org.mongodb.morphia.annotations.Transient
+	@Transient 
 	LocalTime INICIO=new LocalTime(10,00), FIN= new LocalTime(15,00);
 	
 	public Banco(){

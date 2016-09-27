@@ -7,14 +7,19 @@ import pois.POI;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
 
+@org.mongodb.morphia.annotations.Entity
 @Entity
 public class ParadaColectivo extends POI{
-	
+	@org.mongodb.morphia.annotations.Transient
 	@Transient
 	private double radioCercania=0.1;
 	
 	public ParadaColectivo() {
 		super();
+	}
+	public ParadaColectivo(String nombre) {
+		super();
+		setNombre(nombre);
 	}
 	
 	//------------------------DISPONIBILIDAD------------------

@@ -19,23 +19,29 @@ import org.joda.time.LocalTime;
 
 import terminales.Maquina;
 
+@org.mongodb.morphia.annotations.Entity
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class POI{
 	
+	@org.mongodb.morphia.annotations.Id
 	@Id @GeneratedValue
 	private int id;
 	
+	@org.mongodb.morphia.annotations.Transient
 	@OneToOne @Cascade(value=CascadeType.ALL)
 	private ListaHorarios horarios;
 	private String nombre;
 
+	@org.mongodb.morphia.annotations.Embedded
 	@ElementCollection
 	private List<String> tags;
 	
+	@org.mongodb.morphia.annotations.Embedded
 	@OneToOne @JoinColumn @Cascade(value=CascadeType.ALL)			//CASCADE => Cuando persiste el POI persiste la direccion (en vez de tener que persistirla por separado)
 	private Direccion direccion; 
 	
+	@org.mongodb.morphia.annotations.Transient
 	@Transient
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 		

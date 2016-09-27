@@ -12,10 +12,14 @@ import terminales.Maquina;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+@org.mongodb.morphia.annotations.Entity
 @Entity
 public class CGP extends POI {
+	@org.mongodb.morphia.annotations.Embedded
 	@OneToOne @Cascade(value=CascadeType.ALL)
 	private Comuna comuna;
+	
+	@org.mongodb.morphia.annotations.Embedded
 	@OneToOne @Cascade(value = CascadeType.ALL)
 	private ListaServicios servicios;
 
@@ -53,7 +57,7 @@ public class CGP extends POI {
 
 	}
 
-	public boolean tienePalabraEnServicio(String texto) {
+	private boolean tienePalabraEnServicio(String texto) {
 		return getServicios().tienePalabra(texto);
 	}
 

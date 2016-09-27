@@ -7,9 +7,11 @@ import pois.POI;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
+@org.mongodb.morphia.annotations.Entity
 @Entity
 public class Local extends POI{
 	
+	@org.mongodb.morphia.annotations.Embedded
 	@OneToOne @Cascade(value=CascadeType.ALL)
 	private Rubro rubro;
 	

@@ -2,6 +2,8 @@ package pois;
 
 import javax.persistence.Embeddable;
 
+
+@org.mongodb.morphia.annotations.Embedded
 @Embeddable
 public class Coordenadas {
 	
