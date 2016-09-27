@@ -9,7 +9,7 @@ import terminales.ControlTerminales;
 
 
 public class ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra extends Proceso {
-	
+//	TODO: Lo acepto pero muévanlo a la carpeta de tests, no al código de la aplicación. - Aldana
 	public ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(ControlProcesos control, ControlTerminales terminales) {
 		super(control,terminales);
 	}

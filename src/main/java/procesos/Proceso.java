@@ -41,12 +41,17 @@ public abstract class Proceso extends TimerTask  {
 	}
 
 	private void ejecutar() {
+//		TODO: Este método podrían sacarlo, porque tienen muchos métodos que se llaman parecido y confunde un poco. 
+//		Y ya que lo sacan, 'ejecutarProceso' (el método de abajo) lo pueden renombrar para que se llame simplemente
+//		'ejecutar', ya que 'proceso.ejecutarProceso()' suena redundante -Aldana
+		
 		cantidadAfectados = this.ejecutarProceso();        //TODO crear nueva clase que guarde los resultados?
 		resultado.setElementosAfectados(cantidadAfectados);
 	}
 
 	int ejecutarProceso(){
 		// se overridea
+		//TODO: Si se overridea entonces que sea abstracto. - Aldana
 		return 0;
 	}
 	

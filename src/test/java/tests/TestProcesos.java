@@ -119,7 +119,10 @@ public class TestProcesos {
 		TimeUnit.SECONDS.sleep(5);
 		} catch (InterruptedException e) {
 		} 
-		
+//		TODO: Bueno ni hablar de que este "test" no es automatizable. 
+//		Había una forma más fácil de hacerlo (que usando time como usaron ustedes) y hubiese
+//		sido más fácil de testear. Pero bueno... Habría que investigar cómo se puede testear esto, tiene que haber una manera.
+//		Pero se las dejo pasar porque hay muchas cosas para hacer. Simplemente borren todo esto por favor - Aldana.
 		System.out.println("Entre cada una de estas horas tiene que haber 2 segundos de diferencia. Si no, es porque rompieron algo, y lo arreglan c:");
 	}
 	

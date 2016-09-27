@@ -181,6 +181,7 @@ public class Terminal{
 		this.historialBusquedas = historialBusquedas;
 	}
 	public FuncionesExtra getExtra() {
+//		TODO: El nombre de este getter no deja claro lo que devuelve - Aldana
 		return extra;
 	}
 	public void setExtra(FuncionesExtra extra) {

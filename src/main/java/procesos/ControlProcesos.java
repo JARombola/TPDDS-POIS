@@ -5,6 +5,10 @@ import java.util.Timer;
 import configuracionTerminales.Administrador;
 
 public class ControlProcesos {
+//	TODO: No me gusta esta clase. La veo innecesaria. 
+//	No sería lógico que el proceso mismo sepa qué hay que hacer ante una falla o ante una ejecución exitosa? 
+//	Y que el mismo conozca el "manejo de resultados" que tiene que utilizar? - Aldana
+
 	private ManejoDeResultadosProcesos manejoResultados;
 	private Timer timer;
 	

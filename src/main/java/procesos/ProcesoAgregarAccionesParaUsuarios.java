@@ -31,6 +31,8 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 
 	public int ejecutarProceso() {		
 		int resultados = 0;
+//		TODO: Estos ifs anidados son un poco molestos y difíciles de leer.
+//		Hay varias opciones para refactorizar esto. - Aldana
 		
 		if(isTodos()){
 			resultados=getCentralTerminales().setearOpcion(getAccion());}

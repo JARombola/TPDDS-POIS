@@ -36,11 +36,18 @@ public class ControlTerminales {
 	}
 
 	public int setearOpcion(String opcionActivar) {
+//		TODO: Al tener los tres métodos que se llaman 'setearOpcion' en esta clase, 
+//		hacen que el control de terminales crezca en cantidad de métodos y responsablidades. 
+//		No sería más lógico que simplemente sepa devolver terminales y que el proceso sea el que
+//		active la opción en ellas? - Aldana
 			getTerminales().stream()
 			.forEach(terminal->{
 			try {
 				terminal.activarOpcion(opcionActivar);
 			} catch (Exception e) {
+//				TODO: Este código (el try/catch) está repetido y además no debería ir acá.
+//				Si hay alguna excepción dejen que se propague y que el que sepa qué hacer con ella 
+//				haga algo (en el caso de los procesos, el proceso) - Aldana.
 					throw new ExcepcionFallo(terminal);
 			}
 			});
