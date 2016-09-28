@@ -1,7 +1,10 @@
 package tests;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,6 +16,8 @@ import com.mongodb.MongoClient;
 
 import pois.Comuna;
 import pois.Direccion;
+import pois.POI;
+import terminales.Busqueda;
 import tiposPoi.Banco;
 import tiposPoi.CGP;
 import tiposPoi.Local;
@@ -34,6 +39,7 @@ public class testMongo {
 		mongo = new MongoClient();
 		morphia.mapPackage("pois");
 		morphia.mapPackage("tiposPoi");
+		morphia.mapPackage("terminales");
 		store = morphia.createDatastore(mongo, "BasePOIS");
 	}
 	
@@ -149,5 +155,36 @@ public class testMongo {
 		Assert.assertTrue(cgpBD.tienePalabra("Harry Potter"));
 		Assert.assertEquals(cgpBD.getServicios().getServicios().get(0).getTags().size(),3);		//el servicio tiene 3 tags
 		Assert.assertEquals(cgpBD.getComuna().getNombre(), cgp.getComuna().getNombre());
+	}
+	
+	@Test
+	public void TestBusquedaMongo(){
+		
+		List<POI> resultados = new ArrayList();
+		CGP cgp = new CGP();
+			cgp.setNombre("cgp magico");
+			resultados.add(cgp);
+		Local kiosco = new Local();
+			kiosco.setNombre("kiosco");
+			resultados.add(kiosco);
+			
+		LocalDate fecha = LocalDate.now();
+		
+		Busqueda unaBusqueda=new Busqueda();
+		unaBusqueda.setTiempoBusqueda(5);
+		unaBusqueda.setFraseBuscada("parada");
+		unaBusqueda.setResultados(resultados);
+		unaBusqueda.setFecha(fecha);
+		
+		store.save(unaBusqueda);
+		
+		Busqueda busquedaDB = store.createQuery(Busqueda.class)
+				.filter("fraseBuscada", "parada")
+				.get();
+		
+		Assert.assertEquals(busquedaDB.getTiempoBusqueda(),5,0);	
+		Assert.assertEquals(busquedaDB.getResultados().get(0).getNombre(), cgp.getNombre());
+		Assert.assertEquals(busquedaDB.getResultados().get(1).getNombre(), kiosco.getNombre());
+		
 	}
 }

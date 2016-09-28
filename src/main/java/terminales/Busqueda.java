@@ -17,20 +17,27 @@ import org.joda.time.LocalDate;
 
 import pois.POI;
 
+@org.mongodb.morphia.annotations.Entity
 @Entity
 @Table(name="Busquedas")
 
 public class Busqueda {
+	
+	@org.mongodb.morphia.annotations.Id
 	@Id @GeneratedValue
 	private int id;
-	@Column(name="frase_buscada")
 	
+	@Column(name="frase_buscada")
 	private String fraseBuscada;
+	
+	@org.mongodb.morphia.annotations.Embedded
 	@ManyToMany 
 	@JoinColumn @Cascade(value=CascadeType.ALL)
 	public List<POI> resultados;
+	
 	private double tiempoBusqueda;
 
+	@org.mongodb.morphia.annotations.Transient
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate fecha; 
 
