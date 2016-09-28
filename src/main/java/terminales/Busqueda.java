@@ -37,7 +37,6 @@ public class Busqueda {
 	
 	private double tiempoBusqueda;
 
-	@org.mongodb.morphia.annotations.Transient
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate fecha; 
 
