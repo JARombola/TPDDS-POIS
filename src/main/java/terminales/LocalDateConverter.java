@@ -14,6 +14,7 @@ public class LocalDateConverter extends TypeConverter implements SimpleValueConv
         super(LocalDate.class);
     }
 
+    
     @Override
     public Object decode(Class<?> targetClass, Object fromDBObject, MappedField optionalExtraInfo) {
     	DateTime dt = new DateTime((Date)fromDBObject);
