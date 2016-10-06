@@ -26,7 +26,7 @@ public class Direccion {
 	private String unidad;
 	@org.mongodb.morphia.annotations.Transient
 	private int codigoPostal;
-	@org.mongodb.morphia.annotations.Transient
+	//@org.mongodb.morphia.annotations.Transient
 	private String localidad;
 	private String barrio;
 	@org.mongodb.morphia.annotations.Transient

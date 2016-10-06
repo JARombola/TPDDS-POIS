@@ -17,6 +17,7 @@ import com.mongodb.MongoClient;
 import pois.Comuna;
 import pois.Direccion;
 import pois.POI;
+import terminales.BufferBusquedas;
 import terminales.Busqueda;
 import terminales.LocalDateConverter;
 import tiposPoi.Banco;
@@ -163,7 +164,7 @@ public class testMongo {
 	@Test
 	public void TestBusquedaMongo(){
 		
-		List<POI> resultados = new ArrayList<POI>();
+		List<POI> resultados = new ArrayList();
 		CGP cgp = new CGP();
 			cgp.setNombre("cgp magico");
 			resultados.add(cgp);
@@ -191,4 +192,30 @@ public class testMongo {
 		Assert.assertEquals(busquedaDB.getFecha(), unaBusqueda.getFecha());
 		
 	}
+	
+	@Test
+	public void TestBusquedaCache(){
+		CGP cgp1 = new CGP();
+		cgp1.setNombre("bla1");
+		Direccion dire1 = new Direccion();
+		dire1.setCalle("bla");
+		cgp1.setDireccion(dire1);
+		
+		CGP cgp2 = new CGP();
+		cgp2.setNombre("bla2");
+		Direccion dire2 = new Direccion();
+		dire2.setCalle("bla");
+		cgp2.setDireccion(dire1);
+		
+		store.save(cgp1);
+		store.save(cgp2);
+		
+		BufferBusquedas externos = new BufferBusquedas();
+		List<POI> resultados = externos.buscar("bla", "");
+		
+		Assert.assertEquals(resultados.get(0).getNombre(), cgp1.getNombre());
+		Assert.assertEquals(resultados.get(1).getNombre(), cgp2.getNombre());
+
+	}
+	
 }
