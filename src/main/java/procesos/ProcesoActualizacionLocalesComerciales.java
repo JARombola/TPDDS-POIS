@@ -18,7 +18,7 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 	}
 	
 
-	public int ejecutarProceso() throws IOException{
+	public int ejecutar() throws IOException{
 		BufferedReader archivo = null;
 			try {
 				archivo = new BufferedReader(new FileReader(ruta));

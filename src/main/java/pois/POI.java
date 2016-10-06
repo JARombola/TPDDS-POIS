@@ -46,9 +46,9 @@ public abstract class POI{
 	protected double radioCercania = 0.5; //Una cuadra = 0.1 Kms
 		
 	public POI (){
-		this.direccion = new Direccion();
-		this.horarios= new ListaHorarios();
-		this.tags=new ArrayList<String>();
+		direccion = new Direccion();
+		horarios= new ListaHorarios();
+		tags=new ArrayList<String>();
 	}
 	
 	public abstract boolean estaDisponible(int dia, LocalTime hora, String palabra);
@@ -105,7 +105,7 @@ public abstract class POI{
 		this.tags.add(tag);
 	}
 	public void eliminarTags() {
-		tags.clear();
+		this.tags.clear();
 	}
 	
 	public String getNombre() {

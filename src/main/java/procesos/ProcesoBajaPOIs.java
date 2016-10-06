@@ -13,7 +13,7 @@ public class ProcesoBajaPOIs extends Proceso{
 		this.setIDPoiEliminar(ids);
 	}
 	
-	public int ejecutarProceso() {
+	public int ejecutar() {
 		Mapa mapa=Mapa.getInstance();
 			IDPoisEliminar.forEach(poi-> mapa.eliminarPOI(poi));
 		return IDPoisEliminar.size();

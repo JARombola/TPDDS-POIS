@@ -6,11 +6,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import configuracionTerminales.Administrador;
+import configuracionTerminales.EnviadorMails;
 import configuracionTerminales.FuncionesExtra;
 import pois.Comuna;
 import pois.Coordenadas;
-import procesos.ControlProcesos;
-import procesos.ManejoDeResultadosProcesos;
 import procesos.ProcesoAgregarAccionesParaUsuarios;
 import terminales.ControlTerminales;
 import terminales.Terminal;
@@ -18,22 +17,19 @@ import terminales.Terminal;
 
 public class TestProceso3 {
 	private Administrador admin;
-	private ControlProcesos controlProcesos;
-	private ManejoDeResultadosProcesos manejoMock;
 	private ControlTerminales controlMaestro;
 	private Terminal terminal1, terminal2, terminal3, terminal4;
 	private Comuna comuna;
 	private Coordenadas coordenada1, coordenada2, coordenada3, coordenada4;
 	private FuncionesExtra opciones;
+	private EnviadorMails mailMock;
 
 	@Before
 	public void intialize() {
-		admin = new Administrador("ASDASD@gmail.com");
+		mailMock = Mockito.mock(EnviadorMails.class);
+		EnviadorMails.setInstancia(mailMock);
 		
-		manejoMock=Mockito.mock(ManejoDeResultadosProcesos.class);
 		
-		controlProcesos = new ControlProcesos();
-		controlProcesos.setManejoResultados(manejoMock);
 
 		comuna = new Comuna();
 		coordenada1 = new Coordenadas();
@@ -127,11 +123,12 @@ public class TestProceso3 {
 	@Test
 	public void testFallaProceso() {
 		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios("ASD");	
-		ControlProcesos singletonControlProcesos = ControlProcesos.getInstancia(); //Para que cree la instancia, asi le puedo setear el mock
-		singletonControlProcesos.setManejoResultados(manejoMock);
 		proceso.agregarAccionTerminal(terminal1);
 		proceso.run();						//Falla porque la opcion "ASD" es incorrecta => llama al metodo del mock para el manejo del error.
-		Mockito.verify(manejoMock,Mockito.times(1)).tratarResultado(Mockito.any(),Mockito.any());
+		Mockito.verify(mailMock,Mockito.times(0)).mailFallaProceso(Mockito.any());	//mail desactivado => no llama al mock
+		proceso.setOpcionMail(true);
+		proceso.run();
+		Mockito.verify(mailMock,Mockito.times(1)).mailFallaProceso(Mockito.any());
 		
 	}
 

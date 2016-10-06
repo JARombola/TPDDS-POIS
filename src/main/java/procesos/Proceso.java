@@ -4,56 +4,62 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.TimerTask;
 
-
-import terminales.ControlTerminales;
+import configuracionTerminales.EnviadorMails;
 
 public abstract class Proceso extends TimerTask  {
 	
-	protected ControlTerminales centralTerminales;
-	protected ControlProcesos controladorProcesos;
-	protected ResultadoDeProceso resultado;
+	protected DatosProceso resultado;
 	protected Date fechaEjecucion;
-	protected int reintentos, cantidadAfectados=0;
+	protected int cantidadReintentos, cantidadAfectados=-1;
+	protected boolean opcionMail;
 	
 	public Proceso(){
-		resultado = new ResultadoDeProceso();
+		cantidadReintentos=0;
+		resultado = new DatosProceso();
 	}
 		
 	public void run() {
-		controladorProcesos = ControlProcesos.getInstancia();
-		centralTerminales = ControlTerminales.getInstancia();
 		int i=0;
+		boolean ejecucionOk;
+		ControlProcesos controladorProcesos = ControlProcesos.getInstancia();
 		resultado.setFecha(fechaEjecucion);
 		resultado.setTipoProceso(this);
 		do{
 			try{
-				this.ejecutar();
-				resultado.setEstadoEjecucion(true);
-				controladorProcesos.guardarResultado(resultado);
+				cantidadAfectados=ejecutar();
+				ejecucionOk=true;
 				break;
 			}
-			catch(ExcepcionFalloConfiguracion e) {
-				resultado.setEstadoEjecucion(false);
-				controladorProcesos.guardarResultado(resultado);
-				controladorProcesos.tratarResultado(resultado, e.getTerminal().getAdministrador());
+			catch(ExcepcionFalloConfiguracion | IOException a) {
+				ejecucionOk=false;
 				i++;
-			} catch (IOException e) {
-				// TODO Fall� al leer archivo para actualizar comerciales
-				e.printStackTrace();
 			}
-		}while(i<=reintentos);
-	}
-
-	private void ejecutar() throws IOException{
-//		TODO: Este método podrían sacarlo, porque tienen muchos métodos que se llaman parecido y confunde un poco. 
-//		Y ya que lo sacan, 'ejecutarProceso' (el método de abajo) lo pueden renombrar para que se llame simplemente
-//		'ejecutar', ya que 'proceso.ejecutarProceso()' suena redundante -Aldana
+		}while(i<cantidadReintentos);
 		
-		cantidadAfectados = ejecutarProceso();        //TODO crear nueva clase que guarde los resultados?
+		resultado.setEstadoEjecucion(ejecucionOk);
 		resultado.setElementosAfectados(cantidadAfectados);
+		controladorProcesos.guardarResultado(resultado);
+		
+		if(!ejecucionOk) tratarFalla();
 	}
 
-	abstract int ejecutarProceso() throws IOException;
+//	private void ejecutar() throws IOException{
+////		TODO: Este método podrían sacarlo, porque tienen muchos métodos que se llaman parecido y confunde un poco. 
+////		Y ya que lo sacan, 'ejecutarProceso' (el método de abajo) lo pueden renombrar para que se llame simplemente
+////		'ejecutar', ya que 'proceso.ejecutarProceso()' suena redundante -Aldana
+//		
+//		cantidadAfectados = ejecutarProceso();        //TODO crear nueva clase que guarde los resultados?
+//		resultado.setElementosAfectados(cantidadAfectados);
+//	}
+
+	abstract int ejecutar() throws IOException;			//devuelve la cantidad de afectados
+	
+	
+	private void tratarFalla(){
+		if (isOpcionMail()){
+			EnviadorMails.getInstancia().mailFallaProceso(this);
+		}
+	}
 	
 	
 	public void setFecha(Date fecha) {
@@ -63,16 +69,16 @@ public abstract class Proceso extends TimerTask  {
 		return this.fechaEjecucion;
 	}
 	public void setReintentos(int reintentos) {
-		this.reintentos=reintentos;
+		this.cantidadReintentos=reintentos;
 	}
 
 
-	public ResultadoDeProceso getResultado() {
+	public DatosProceso getResultado() {
 		return resultado;
 	}
 
 
-	public void setResultado(ResultadoDeProceso resultado) {
+	public void setResultado(DatosProceso resultado) {
 		this.resultado = resultado;
 	}
 
@@ -85,21 +91,12 @@ public abstract class Proceso extends TimerTask  {
 		this.cantidadAfectados = cantidadAfectados;
 	}
 
-
-	public ControlProcesos getControladorProcesos() {
-		return controladorProcesos;
+	public boolean isOpcionMail() {
+		return opcionMail;
 	}
 
-
-	public void setControladorProcesos(ControlProcesos controladorProcesos) {
-		this.controladorProcesos = controladorProcesos;
+	public void setOpcionMail(boolean opcionMail) {
+		this.opcionMail = opcionMail;
 	}
 
-	public ControlTerminales getCentralTerminales() {
-		return centralTerminales;
-	}
-
-	public void setCentralTerminales(ControlTerminales centralTerminales) {
-		this.centralTerminales = centralTerminales;
-	}
 }

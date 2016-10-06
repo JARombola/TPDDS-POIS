@@ -163,7 +163,7 @@ public class testMongo {
 	@Test
 	public void TestBusquedaMongo(){
 		
-		List<POI> resultados = new ArrayList();
+		List<POI> resultados = new ArrayList<POI>();
 		CGP cgp = new CGP();
 			cgp.setNombre("cgp magico");
 			resultados.add(cgp);

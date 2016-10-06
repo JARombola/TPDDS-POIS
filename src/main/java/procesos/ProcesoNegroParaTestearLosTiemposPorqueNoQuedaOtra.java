@@ -26,7 +26,7 @@ public class ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra extends Proceso 
 	}
 
 	@Override
-	int ejecutarProceso() {
+	int ejecutar() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

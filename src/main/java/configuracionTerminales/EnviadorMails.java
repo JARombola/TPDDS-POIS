@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import procesos.Proceso;
 
 public class EnviadorMails {
+	private static EnviadorMails instancia;
 	private JavaMailSender mailSender;
 	public SimpleMailMessage mail;
 	private Administrador adminInterno;
@@ -18,6 +19,12 @@ public class EnviadorMails {
 	public EnviadorMails(){
 		mailSender=new JavaMailSenderImpl();
 	}
+	
+	public static EnviadorMails getInstancia(){
+		if (instancia==null) instancia=new EnviadorMails();
+		return instancia;
+	}
+	
 	
 	public EnviadorMails(Administrador admin){
 		adminInterno=admin;
@@ -34,13 +41,13 @@ public class EnviadorMails {
 		this.mail.setTo(adminInterno.getEmail());
 	}
 	
-	public void mailFallaProceso(Proceso proceso, Administrador admin) {
+	public void mailFallaProceso(Proceso proceso) {
 	    String nombre = proceso.getClass().getName();
 		mail=new SimpleMailMessage();
 		mail.setFrom("Manejo de Resultados de los Procesos");			
 		mail.setSubject("Error en el proceso "+nombre);
 		mail.setText("El proceso "+nombre+" ejecutado el dia "+ proceso.getFecha()+ " Fallo su ejecucion.");
-		mail.setTo(admin.getEmail()); 
+		mail.setTo(adminInterno.getEmail()); 
 	}	
 	
 	
@@ -68,5 +75,9 @@ public class EnviadorMails {
 	
 	public void setMailSender(JavaMailSenderImpl mailSender) {
 		this.mailSender = mailSender;
+	}
+
+	public static void setInstancia(EnviadorMails instancia) {
+		EnviadorMails.instancia = instancia;
 	}
 }

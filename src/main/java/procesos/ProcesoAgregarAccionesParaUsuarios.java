@@ -32,7 +32,7 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 		setTodos(true);
 	}
 
-	public int ejecutarProceso(){		
+	public int ejecutar(){		
 		
 		if(terminal!=null){
 			terminal.activarOpcion(getAccion()); 
@@ -41,28 +41,26 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 		
 		ControlTerminales centralTerminales = ControlTerminales.getInstancia();
 		
-		if (isTodos()){
-			centralTerminales.getTerminales()
-							.stream()
-							.forEach(terminal->terminal.activarOpcion(getAccion()));
-			return centralTerminales.getTerminales().size();			
-		}
+		if (isTodos()) return activarOpcionTodasTerminales(centralTerminales);
 		
+		if (getComuna()!=null) return activarOpcionComuna(centralTerminales);
+		
+		return 0;
+	}
+	
+	private int activarOpcionTodasTerminales(ControlTerminales centralTerminales){
+		centralTerminales.getTerminales()
+			.stream()
+			.forEach(terminal->terminal.activarOpcion(getAccion()));
+		return centralTerminales.getTerminales().size();	
+	}
+	
+	private int activarOpcionComuna(ControlTerminales centralTerminales){
 		List<Terminal> terminales = centralTerminales.getTerminales().stream()
 					.filter(unaTerminal->unaTerminal.estaEnLaComuna(comuna))
 					.collect(Collectors.toList());
 		terminales.stream().forEach(terminal->terminal.activarOpcion(getAccion()));
 		return terminales.size();
-		
-	}
-
-	
-	public ControlTerminales getCentralTerminales() {
-		return centralTerminales;
-	}
-
-	public void setCentralTerminales(ControlTerminales centralTerminales) {
-		this.centralTerminales = centralTerminales;
 	}
 
 	public Comuna getComuna() {

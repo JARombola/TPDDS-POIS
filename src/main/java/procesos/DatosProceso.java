@@ -2,7 +2,7 @@ package procesos;
 
 import java.util.Date;
 
-public class ResultadoDeProceso {
+public class DatosProceso {
 	
 	private int elementosAfectados;
 	private boolean estadoEjecucion;
