@@ -5,13 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import terminales.ControlTerminales;
 
 
 public class ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra extends Proceso {
 //	TODO: Lo acepto pero muévanlo a la carpeta de tests, no al código de la aplicación. - Aldana
-	public ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(ControlProcesos control, ControlTerminales terminales) {
-		super(control,terminales);
+	public ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra() {
 	}
 	
 	public void run() {
@@ -25,6 +23,12 @@ public class ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra extends Proceso 
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	int ejecutarProceso() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

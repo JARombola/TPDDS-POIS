@@ -16,7 +16,6 @@ import configuracionTerminales.Administrador;
 import procesos.ControlProcesos;
 import procesos.ManejoDeResultadosProcesos;
 import procesos.ProcesoActualizacionLocalesComerciales;
-import procesos.ProcesoAgregarAccionesParaUsuarios;
 import procesos.ProcesoBajaPOIs;
 import procesos.ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra;
 import terminales.ControlTerminales;
@@ -29,13 +28,11 @@ public class TestProcesos {
 	private Local poi;
 	private Mapa mapa;
 	private ProcesoActualizacionLocalesComerciales proceso, localesMock;
-	private ProcesoBajaPOIs bajaMock, procesoBaja;
+	private ProcesoBajaPOIs bajaMock;
 	private ControlProcesos controlProcesos;
 	private ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra procesoNegro1, procesoNegro2;
-	private ManejoDeResultadosProcesos mockManejo;
 	private Terminal terminal;
 	private ControlTerminales controlTerminales;
-	private ProcesoAgregarAccionesParaUsuarios procesoAccionesMock;
 	private ManejoDeResultadosProcesos manejoMock;
 	
 	@Before
@@ -51,8 +48,8 @@ public class TestProcesos {
 		
 		terminal = new Terminal();
 		
-		procesoNegro1 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(controlProcesos,controlTerminales);
-		procesoNegro2 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra(controlProcesos,controlTerminales);
+		procesoNegro1 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra();
+		procesoNegro2 = new ProcesoNegroParaTestearLosTiemposPorqueNoQuedaOtra();
 		
 		localesMock=Mockito.mock(ProcesoActualizacionLocalesComerciales.class);
 		bajaMock=Mockito.mock(ProcesoBajaPOIs.class);
@@ -87,10 +84,10 @@ public class TestProcesos {
 		
 		admin=new Administrador("asdasd@gmail.com");
 
-		mapa = new Mapa();
+		mapa = Mapa.getInstance();
 		terminal.setMapa(mapa);
 		terminal.setAdministrador(admin);
-		proceso=new ProcesoActualizacionLocalesComerciales("test.txt",controlProcesos,controlTerminales);
+		proceso=new ProcesoActualizacionLocalesComerciales("test.txt");
 		controlTerminales.agregarTerminal(terminal);
 		
 		poi = new Local();
@@ -130,16 +127,6 @@ public class TestProcesos {
 	public void testProcesoActualizacionLocalesComerciales(){
 		proceso.run();
 		Assert.assertEquals(poi.getTags().size(),4);
-	}
-	
-	@Test
-	public void testFallaBajaPOI(){					//el POI 543 no existe => Excepcion
-		procesoBaja= new ProcesoBajaPOIs(543, controlProcesos, controlTerminales);
-		controlProcesos.setManejoResultados(manejoMock);
-		procesoBaja.run();
-		Mockito.verify(manejoMock,Mockito.times(1)).tratarResultado(Mockito.any(), Mockito.any());
-	}
-
-	
+	}	
 	
 }

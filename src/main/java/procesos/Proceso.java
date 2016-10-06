@@ -1,5 +1,6 @@
 package procesos;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.TimerTask;
 
@@ -9,18 +10,18 @@ import terminales.ControlTerminales;
 public abstract class Proceso extends TimerTask  {
 	
 	protected ControlTerminales centralTerminales;
-	protected ControlProcesos controladorProcesos;	//lo conoce para poder enviarle los Resultados
+	protected ControlProcesos controladorProcesos;
 	protected ResultadoDeProceso resultado;
 	protected Date fechaEjecucion;
 	protected int reintentos, cantidadAfectados=0;
 	
-	public Proceso(ControlProcesos control, ControlTerminales terminales){
+	public Proceso(){
 		resultado = new ResultadoDeProceso();
-		controladorProcesos=control;
-		centralTerminales=terminales;
 	}
 		
 	public void run() {
+		controladorProcesos = ControlProcesos.getInstancia();
+		centralTerminales = ControlTerminales.getInstancia();
 		int i=0;
 		resultado.setFecha(fechaEjecucion);
 		resultado.setTipoProceso(this);
@@ -31,29 +32,28 @@ public abstract class Proceso extends TimerTask  {
 				controladorProcesos.guardarResultado(resultado);
 				break;
 			}
-			catch(ExcepcionFallo e) {
+			catch(ExcepcionFalloConfiguracion e) {
 				resultado.setEstadoEjecucion(false);
 				controladorProcesos.guardarResultado(resultado);
 				controladorProcesos.tratarResultado(resultado, e.getTerminal().getAdministrador());
 				i++;
+			} catch (IOException e) {
+				// TODO Fall� al leer archivo para actualizar comerciales
+				e.printStackTrace();
 			}
 		}while(i<=reintentos);
 	}
 
-	private void ejecutar() {
+	private void ejecutar() throws IOException{
 //		TODO: Este método podrían sacarlo, porque tienen muchos métodos que se llaman parecido y confunde un poco. 
 //		Y ya que lo sacan, 'ejecutarProceso' (el método de abajo) lo pueden renombrar para que se llame simplemente
 //		'ejecutar', ya que 'proceso.ejecutarProceso()' suena redundante -Aldana
 		
-		cantidadAfectados = this.ejecutarProceso();        //TODO crear nueva clase que guarde los resultados?
+		cantidadAfectados = ejecutarProceso();        //TODO crear nueva clase que guarde los resultados?
 		resultado.setElementosAfectados(cantidadAfectados);
 	}
 
-	int ejecutarProceso(){
-		// se overridea
-		//TODO: Si se overridea entonces que sea abstracto. - Aldana
-		return 0;
-	}
+	abstract int ejecutarProceso() throws IOException;
 	
 	
 	public void setFecha(Date fecha) {

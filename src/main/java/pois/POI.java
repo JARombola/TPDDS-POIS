@@ -105,7 +105,7 @@ public abstract class POI{
 		this.tags.add(tag);
 	}
 	public void eliminarTags() {
-		this.tags.clear();
+		tags.clear();
 	}
 	
 	public String getNombre() {

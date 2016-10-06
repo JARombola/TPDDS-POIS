@@ -15,7 +15,8 @@ import tiposPoi.ParadaColectivo;
 
 public class Mapa {
 
-	static List<POI> pois;
+	private List<POI> pois;
+	private static Mapa instancia;
 	
 	
 	// -------------------GETTERS,SETTERS-----------------
@@ -23,8 +24,14 @@ public class Mapa {
 	public Mapa() {
 		pois = new ArrayList<POI>();
 	}
-
-	public List<POI> getListaPOIS() {
+	
+	public static Mapa getInstance(){
+		if (instancia==null) 
+			instancia = new Mapa();
+		return instancia;
+	}
+	
+	public List<POI> getListaPOIS(){
 		return pois;
 	}
 
@@ -47,11 +54,8 @@ public class Mapa {
 		return map.get(tipo);
 	}
 		
-	public void eliminarPOI (int id) throws Exception{
-		boolean existia=getListaPOIS().removeIf(poi->poi.getId()==id);
-		if (!existia){
-		     throw new Exception("No existe el POI ingresado");
-		}
+	public void eliminarPOI (int id){
+		getListaPOIS().removeIf(poi->poi.getId()==id);
 	}
 	
 	public void agregarOmodificar (POI poiEntrante){
@@ -70,7 +74,7 @@ public class Mapa {
 		return pois.stream()
 				.filter(poi->poi.getNombre().equals(nombre))
 				.findFirst()
-				.get();
+				.orElse(null);
 	}
 	
 	public POI getPOI(int id){

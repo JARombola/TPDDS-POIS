@@ -1,5 +1,6 @@
 package tests;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,14 +11,15 @@ import tiposPoi.CGP;
 import tiposPoi.Local;
 
 public class TestABM {
-	Banco poi1;
-	CGP poi2;
-	Banco poi3;
-	Local poi4;
-	Mapa mapa;
+	private Banco poi1;
+	private CGP poi2;
+	private Banco poi3;
+	private Local poi4;
+	private Mapa mapa;
 	
 	@Before
 	public void initialize() {
+		mapa= Mapa.getInstance();
 		poi1 = new Banco();
 			poi1.setId(12);
 			poi1.setNombre("La Nacion");
@@ -33,10 +35,13 @@ public class TestABM {
 		poi4 = new Local();
 			poi4.setId(8);
 			
-		mapa = new Mapa();
 			mapa.setPOI(poi1);
 			mapa.setPOI(poi2);
 		
+	}
+	@After
+	public void cleanMapa(){
+		mapa.getListaPOIS().clear();
 	}
 	
 	@Test
@@ -57,11 +62,5 @@ public class TestABM {
 		mapa.eliminarPOI(poi1.getId());
 		Assert.assertEquals(mapa.getListaPOIS().size(), 1);
 	}
-	
-	@Test(expected=Exception.class)		
-	public void testEliminarPOIinexistente() throws Exception{
-		mapa.eliminarPOI(poi3.getId());		//lo elimina bien
-		mapa.eliminarPOI(poi3.getId());		//falla!
-	}
-	
+		
 }

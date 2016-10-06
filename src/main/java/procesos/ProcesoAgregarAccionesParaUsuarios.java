@@ -1,5 +1,9 @@
 package procesos;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+
 import pois.Comuna;
 import terminales.ControlTerminales;
 import terminales.Terminal;
@@ -7,13 +11,12 @@ import terminales.Terminal;
 public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 
 	private Comuna comuna;
-	private Terminal terminal;
+	private Terminal terminal=null;
 	private String accion;					//las terminales usan strings para activar/desactivar acciones
 	private boolean todos;
 	
 	
-	public ProcesoAgregarAccionesParaUsuarios(ControlProcesos control, ControlTerminales terminales,String accion) {
-		super(control,terminales);
+	public ProcesoAgregarAccionesParaUsuarios(String accion) {
 		setAccion(accion);		
 	}
 
@@ -29,22 +32,28 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 		setTodos(true);
 	}
 
-	public int ejecutarProceso() {		
-		int resultados = 0;
-//		TODO: Estos ifs anidados son un poco molestos y difíciles de leer.
-//		Hay varias opciones para refactorizar esto. - Aldana
+	public int ejecutarProceso(){		
 		
-		if(isTodos()){
-			resultados=getCentralTerminales().setearOpcion(getAccion());}
-		
-		else {if(getComuna()!=null){
-			resultados=getCentralTerminales().setearOpcion(getComuna(),getAccion());}
-		
-			else {if(getTerminal()!=null){
-			resultados=getCentralTerminales().setearOpcion(getTerminal(),getAccion());}
-			}
+		if(terminal!=null){
+			terminal.activarOpcion(getAccion()); 
+			return 1;
 		}
-		return resultados;
+		
+		ControlTerminales centralTerminales = ControlTerminales.getInstancia();
+		
+		if (isTodos()){
+			centralTerminales.getTerminales()
+							.stream()
+							.forEach(terminal->terminal.activarOpcion(getAccion()));
+			return centralTerminales.getTerminales().size();			
+		}
+		
+		List<Terminal> terminales = centralTerminales.getTerminales().stream()
+					.filter(unaTerminal->unaTerminal.estaEnLaComuna(comuna))
+					.collect(Collectors.toList());
+		terminales.stream().forEach(terminal->terminal.activarOpcion(getAccion()));
+		return terminales.size();
+		
 	}
 
 	

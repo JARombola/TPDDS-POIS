@@ -11,10 +11,17 @@ public class ControlProcesos {
 
 	private ManejoDeResultadosProcesos manejoResultados;
 	private Timer timer;
+	private static ControlProcesos control;
 	
 	public ControlProcesos() {
 		manejoResultados = new ManejoDeResultadosProcesos();
 		timer = new Timer();
+	}
+	
+	public static ControlProcesos getInstancia(){
+		if(control==null) 
+			control = new ControlProcesos();
+		return control;
 	}
 	
 	public void agregarProceso(Proceso procesoNuevo){

@@ -142,12 +142,14 @@ public class Terminal{
 	
 	
 		
-	public void activarOpcion(String opcion) throws Exception {
-		getExtra().activarOpcion(opcion);
+	public void activarOpcion(String opcion){
+		getOpciones().activarOpcion(opcion);
 	}
+	
 	public void desactivarOpcion(String opcion){
-		getExtra().desactivarOpcion(opcion);
+		getOpciones().desactivarOpcion(opcion);
 	}
+	
 	public void guardarBusquedas(Busqueda unaBusqueda){
 		if (this.historialBusquedas==null) historialBusquedas= new ArrayList<Busqueda>();
 		getHistorialBusquedas().add(unaBusqueda);
@@ -159,7 +161,7 @@ public class Terminal{
 	}
 	
 	public boolean estaActivado(String opcion){
-		return getExtra().estaActivado(opcion);
+		return getOpciones().estaActivado(opcion);
 	}
 	
 	public Mapa getMapa() {
@@ -180,8 +182,7 @@ public class Terminal{
 	public void setHistorialBusquedas(List<Busqueda> historialBusquedas) {
 		this.historialBusquedas = historialBusquedas;
 	}
-	public FuncionesExtra getExtra() {
-//		TODO: El nombre de este getter no deja claro lo que devuelve - Aldana
+	public FuncionesExtra getOpciones() {
 		return extra;
 	}
 	public void setExtra(FuncionesExtra extra) {

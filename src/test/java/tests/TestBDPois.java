@@ -4,14 +4,11 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.uqbarproject.jpa.java8.extras.PerThreadEntityManagers;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
@@ -37,8 +34,6 @@ import tiposPoi.Rubro;
 import tiposPoi.Servicio;
 
 public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEntityManager {
-
-	private EntityManager em;
 	
 	ParadaColectivo parada1, parada2, parada3;
 	Mapa mapa;
@@ -48,11 +43,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	OrigenDatos origenBanco,origenCGP;
 	Terminal terminal;
 	Administrador admin;
-	
-	@Before
-	public void init(){
-		em = PerThreadEntityManagers.getEntityManager();
-	}
 	
 	@Test
 	public void contextUp() {
@@ -75,9 +65,9 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			dire.setLongitud(2);
 			persist(dire);
 			commitTransaction();
-		em.clear();
+		entityManager().clear();
 		
-		Direccion direccionBuscada = (Direccion) em.createQuery("from Direccion where Barrio = :barrio")
+		Direccion direccionBuscada = (Direccion) entityManager().createQuery("from Direccion where Barrio = :barrio")
 				.setParameter("barrio", "Devoto").getSingleResult();
 		assertEquals(direccionBuscada.getBarrio(),"Devoto");
 		assertEquals(direccionBuscada.getCalle(),"Beiro");
@@ -101,9 +91,9 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			parada1.setDireccion(dire);
 		persist(parada1);
 		commitTransaction();
-		em.clear();		
+		entityManager().clear();		
 		
-		ParadaColectivo paradaBuscada = (ParadaColectivo) em.createQuery("from ParadaColectivo where Nombre = :nombre")
+		ParadaColectivo paradaBuscada = (ParadaColectivo) entityManager().createQuery("from ParadaColectivo where Nombre = :nombre")
 				.setParameter("nombre", "PARADA COLECTIVO")
 				.getSingleResult();
 		assertEquals(paradaBuscada.getTags().get(2),"aburrido");
@@ -133,9 +123,9 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			
 		persist(banco);
 		commitTransaction();
-		em.clear();		
+		entityManager().clear();		
 		
-		Banco bancoBuscado = (Banco) em.createQuery("from Banco where Gerente = :gerente")
+		Banco bancoBuscado = (Banco) entityManager().createQuery("from Banco where Gerente = :gerente")
 				.setParameter("gerente", "Julian")
 				.getSingleResult();
 		assertEquals(bancoBuscado.getGerente(),"Julian");
@@ -168,9 +158,9 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			
 		persist(cgp);
 		commitTransaction();
-		em.clear();		
+		entityManager().clear();		
 		
-		CGP cgpBuscado = (CGP) em.createQuery("from CGP where Nombre = :nombre")
+		CGP cgpBuscado = (CGP) entityManager().createQuery("from CGP where Nombre = :nombre")
 				.setParameter("nombre", "CGPlal")
 				.getSingleResult();
 		assertEquals(cgpBuscado.getNombre(),"CGPlal");
@@ -205,9 +195,9 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 
 		persist(local);
 		commitTransaction();
-		em.clear();		
+		entityManager().clear();		
 		
-		Local localBuscado = (Local) em.createQuery("from Local where Nombre = :nombre")
+		Local localBuscado = (Local) entityManager().createQuery("from Local where Nombre = :nombre")
 				.setParameter("nombre", "Nicolo")
 				.getSingleResult();
 		assertEquals(localBuscado.getRubro().getNombre(),"libros");
@@ -262,9 +252,9 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			inicializarBusquedas();			
 			terminal.getHistorialBusquedas().stream().forEach(busqueda->persist(busqueda)); //persisto todas las busquedas
 			commitTransaction();
-		em.clear();
+		entityManager().clear();
 		
-		Busqueda busquedaBD = (Busqueda) em.createQuery("from Busqueda where frase_buscada = :frase")
+		Busqueda busquedaBD = (Busqueda) entityManager().createQuery("from Busqueda where frase_buscada = :frase")
 							.setParameter("frase", "114").getSingleResult();
 		
 		assertEquals(busquedaBD.getCantidadResultados(),3,0);	//3 paradas del 114
@@ -272,9 +262,9 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(busquedaBD.getResultados().get(0).getNombre(),parada1.getNombre());	
 		assertEquals(busquedaBD.getResultados().get(1).getNombre(),parada2.getNombre());	
 		
-		em.clear();
+		entityManager().clear();
 		@SuppressWarnings("unchecked")
-		List<Busqueda> busquedas = (List<Busqueda>) em.createQuery("from Busqueda").getResultList();
+		List<Busqueda> busquedas = (List<Busqueda>) entityManager().createQuery("from Busqueda").getResultList();
 		assertEquals(busquedas.size(),2);			//"parada" y "114"
 		assertEquals(busquedas.get(0).getFraseBuscada(),"114 ");
 		assertEquals(busquedas.get(1).getFraseBuscada(),"parada ");
@@ -299,14 +289,14 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		terminal.desactivarOpcion("HISTORIAL");
 		persist(terminal);
 		commitTransaction();
-		em.clear();
+		entityManager().clear();
 		
-		Terminal terminalBuscada = (Terminal) em.createQuery("from Terminal where Nombre = :nombre")
+		Terminal terminalBuscada = (Terminal) entityManager().createQuery("from Terminal where Nombre = :nombre")
 				.setParameter("nombre", "prueba").getSingleResult();
 		assertEquals(terminalBuscada.getNombre(),"prueba");
 		assertEquals(terminalBuscada.getCoordenadas().getLatitud(),99,0);
 		assertEquals(terminalBuscada.getCoordenadas().getLongitud(),2,0);
-		assertEquals(terminalBuscada.getExtra().getTiempoMax(),20,0);
+		assertEquals(terminalBuscada.getOpciones().getTiempoMax(),20,0);
 		assertTrue(terminal.estaActivado("MAIL"));
 		assertFalse(terminal.estaActivado("HISTORIAL"));
 		
@@ -324,24 +314,24 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		int repFechasAntes = repFechas.getDatos().size();
 		int totalResultadosAntes = repTotalResultados.getDatos().size();
 		int parcialesAntes= repParciales.getDatos().size();
-		em.persist(repFechas);
-		em.persist(repTotalResultados);
-		em.persist(repParciales);
+		entityManager().persist(repFechas);
+		entityManager().persist(repTotalResultados);
+		entityManager().persist(repParciales);
 		commitTransaction();
-		em.clear();
-		Reporte reporteFechasBD = (Reporte) em.createQuery("from Reporte where tipoReporte = :tipo")
+		entityManager().clear();
+		Reporte reporteFechasBD = (Reporte) entityManager().createQuery("from Reporte where tipoReporte = :tipo")
 							.setParameter("tipo", "Reporte Fechas")
 							.getSingleResult();
 		assertEquals(reporteFechasBD.getDatos().size(), repFechasAntes);
-		em.clear();
-		Reporte reporteTotalResultadosBD = (Reporte) em.createQuery("from Reporte where tipoReporte = :tipo")
+		entityManager().clear();
+		Reporte reporteTotalResultadosBD = (Reporte) entityManager().createQuery("from Reporte where tipoReporte = :tipo")
 				.setParameter("tipo", "Total Resultados")
 				.getSingleResult();
 		
 		assertNotEquals(reporteTotalResultadosBD.getDatos().size(), totalResultadosAntes+1);
 		assertEquals(reporteTotalResultadosBD.getDatos().size(), totalResultadosAntes);
-		em.clear();
-		Reporte reporteParcialesBD = (Reporte) em.createQuery("from Reporte where tipoReporte = :tipo")
+		entityManager().clear();
+		Reporte reporteParcialesBD = (Reporte) entityManager().createQuery("from Reporte where tipoReporte = :tipo")
 									.setParameter("tipo", "Resultados Parciales")
 									.getSingleResult();
 		assertEquals(reporteParcialesBD.getDatos().size(), parcialesAntes);

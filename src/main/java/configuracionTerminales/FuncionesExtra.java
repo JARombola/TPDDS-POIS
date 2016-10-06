@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.Transient;
 
+import procesos.ExcepcionFalloConfiguracion;
+
 
 @Entity
 public class FuncionesExtra {
@@ -67,13 +69,14 @@ public class FuncionesExtra {
 			return opciones;
 	}	
 	
-	public void activarOpcion(String opcion) throws Exception{
+	public void activarOpcion(String opcion){
 		if(opciones.get(opcion)!=null){opciones.put(opcion.toUpperCase(), new adapterBooleano(true));}
-		else{throw new Exception("Opcion incorrecta");}
+			else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 	
 	public void desactivarOpcion(String opcion){
-		opciones.put(opcion.toUpperCase(), new adapterBooleano(false));
+		if(opciones.get(opcion)!=null){opciones.put(opcion.toUpperCase(), new adapterBooleano(false));}
+		else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 
 	public Terminal getTerminal() {
