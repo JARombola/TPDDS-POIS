@@ -27,7 +27,7 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 			}
 		String sCurrentLine;
 		int afectados=0;
-			Mapa mapa=Mapa.getInstance();
+			Mapa mapa=Mapa.getInstancia();
 			while ((sCurrentLine = archivo.readLine()) != null) {
 				String[] parts = sCurrentLine.split(";");
 				String nombre = parts[0];

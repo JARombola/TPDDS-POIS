@@ -6,8 +6,9 @@ import javax.persistence.Embeddable;
 @org.mongodb.morphia.annotations.Embedded
 @Embeddable
 public class Coordenadas {
-	
+	//@Column(nullable = true)
 	private double latitud;
+	//@Column(nullable = true)
 	private double longitud;
 	
 	public Coordenadas(){

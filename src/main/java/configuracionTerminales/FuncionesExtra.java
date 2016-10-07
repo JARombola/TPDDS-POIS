@@ -16,26 +16,25 @@ import javax.persistence.Transient;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
-import com.mongodb.MongoClient;
-
 import procesos.ExcepcionFalloConfiguracion;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
+import com.mongodb.MongoClient;
+
 
 @Entity
 public class FuncionesExtra extends AbstractPersistenceTest implements WithGlobalEntityManager {
+	
 	@Id @GeneratedValue
 	private int id;
 	private int tiempoMax;
-	
 	@ElementCollection
 	@MapKeyJoinColumn
 	private Map<String,adapterBooleano> opciones;		//Usa el map para activar/desactivar las opciones... :)
 	@Transient
 	private Terminal terminal;
-	private Datastore store;
 
 	public FuncionesExtra(){
 	
@@ -46,11 +45,6 @@ public class FuncionesExtra extends AbstractPersistenceTest implements WithGloba
 		opciones=new HashMap<String,adapterBooleano>();
 		opciones.put("HISTORIAL", new adapterBooleano(false));
 		opciones.put("MAIL", new adapterBooleano(false));
-
-		Morphia morphia = new Morphia();
-		morphia.mapPackage("terminales");
-		MongoClient mongo = new MongoClient();
-		store = morphia.createDatastore(mongo, "Busquedas");
 	}
 	
 	public void inicioBusqueda(){
@@ -68,18 +62,29 @@ public class FuncionesExtra extends AbstractPersistenceTest implements WithGloba
 	private void guardarBusqueda(Busqueda datosBusqueda) {  
 		if (getOpciones().get("HISTORIAL").isActivado()){
 			terminal.guardarBusquedas(datosBusqueda);
-			store.save(datosBusqueda);
-			
-			beginTransaction();
-			persist(datosBusqueda);
-			commitTransaction();
+			persistirRelacional();
+			persistirMongo(datosBusqueda);
 			
 		}
-		
+	}
+	
+	private void persistirRelacional(){
+		beginTransaction();
+		persist(getTerminal());
+	//	commitTransaction();
+	//	entityManager().clear();
+	}
+	private void persistirMongo(Busqueda datosBusqueda){
+		Datastore store;
+		Morphia morphia = new Morphia();
+		morphia.mapPackage("terminales");
+		MongoClient mongo = new MongoClient();
+		store = morphia.createDatastore(mongo, "Busquedas");
+		store.save(datosBusqueda);
 	}
 
 	private void enviarMail(double tiempoBusqueda){
-		if (getOpciones().get("MAIL").isActivado() && tiempoBusqueda>tiempoMax){		//activado el mail, y el tiempo se excedi�
+		if (getOpciones().get("MAIL").isActivado() && (tiempoBusqueda>tiempoMax)){		//activado el mail, y el tiempo se excedi�
 			EnviadorMails mail=new EnviadorMails(terminal.getAdministrador());
 			mail.mailBusquedaLenta();
 		}

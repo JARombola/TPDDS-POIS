@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalDate;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import configuracionTerminales.Administrador;
 import configuracionTerminales.FuncionesExtra;
@@ -26,7 +28,7 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 @Entity
-public class Terminal{
+public class Terminal {
 	@Id @GeneratedValue
 	private int id;
 	
@@ -53,6 +55,7 @@ public class Terminal{
 	public Terminal(){
 		extra = new FuncionesExtra(0);
 		extra.setTerminal(this);
+		coordenadas = new Coordenadas();
 	}
 	
 	public List<POI> realizarBusqueda(String texto1, String texto2){
@@ -153,7 +156,7 @@ public class Terminal{
 	}
 	
 	public void guardarBusquedas(Busqueda unaBusqueda){
-		if (this.historialBusquedas==null) historialBusquedas= new ArrayList<Busqueda>();
+		if (this.historialBusquedas==null) historialBusquedas = new ArrayList<Busqueda>();
 		getHistorialBusquedas().add(unaBusqueda);
 	}
 

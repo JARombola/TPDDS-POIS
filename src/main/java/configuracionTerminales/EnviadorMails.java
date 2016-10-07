@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import procesos.Proceso;
 
 public class EnviadorMails {
+	
 	private static EnviadorMails instancia;
 	private JavaMailSender mailSender;
 	public SimpleMailMessage mail;

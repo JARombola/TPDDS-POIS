@@ -34,7 +34,7 @@ import tiposPoi.Rubro;
 import tiposPoi.Servicio;
 
 public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEntityManager {
-	
+
 	ParadaColectivo parada1, parada2, parada3;
 	Mapa mapa;
 	BufferBusquedas buffer;
@@ -43,16 +43,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	OrigenDatos origenBanco,origenCGP;
 	Terminal terminal;
 	Administrador admin;
-	
-	@Test
-	public void contextUp() {
-		assertNotNull(entityManager());
-	}
-
-	@Test
-	public void contextUpWithTransaction() throws Exception {
-		withTransaction(() -> {});
-	}
 	
 	@Test
 	public void testPersistirDireccion(){		
@@ -247,11 +237,10 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			terminal.realizarBusqueda("parada","");
 	}
 	
+	
 	@Test
 	public void testPersistenciaBusquedas() throws Exception{
-		beginTransaction();
 			inicializarBusquedas();			
-			terminal.getHistorialBusquedas().stream().forEach(busqueda->persist(busqueda)); //persisto todas las busquedas
 			//commitTransaction();
 	//	entityManager().clear();
 		
@@ -326,6 +315,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		Reporte reporteFechasBD = (Reporte) entityManager().createQuery("from Reporte where tipoReporte = :tipo")
 							.setParameter("tipo", "Reporte Fechas")
 							.getSingleResult();
+		
 		assertEquals(reporteFechasBD.getDatos().size(), repFechasAntes);
 		
 	// entityManager().clear();
