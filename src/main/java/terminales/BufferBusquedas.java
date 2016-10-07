@@ -1,46 +1,41 @@
 package terminales;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 
 import externos.InterfazBuscadores;
 import pois.POI;
-import tiposPoi.ParadaColectivo;
 
 public class BufferBusquedas {
-	Set<POI> resultados;
-	List<InterfazBuscadores> buscadoresComponentes;
-	Morphia morphia;
-	MongoClient mongo;
-	Datastore store;
+	
+	private List<POI> resultados;
+	private List<InterfazBuscadores> buscadoresComponentes;
+	private Datastore store;
 
 	public BufferBusquedas(){
-		resultados=new HashSet<POI>();
-		buscadoresComponentes= new ArrayList<InterfazBuscadores>();
-		morphia = new Morphia();
-		mongo = new MongoClient();
+		Morphia morphia = new Morphia();
 		morphia.mapPackage("terminales");
-		store = morphia.createDatastore(mongo, "BasePOIS");
+		morphia.mapPackage("externos");
+		morphia.mapPackage("pois");
+		MongoClient mongo = new MongoClient();
+		store = morphia.createDatastore(mongo, "CACHE");
+		resultados=new ArrayList<POI>();
+		buscadoresComponentes= new ArrayList<InterfazBuscadores>();
 	}
 	
 	public List<POI> buscar(String texto1, String texto2){		//Asincronico, entonces...
-		Query<POI> query = store.find(POI.class); 
-		query.or(query.criteria("direccion.calle").equal(texto1), query.criteria("direccion.localidad").equal(texto1)); 
+		
+		Query<POI> query = store.createQuery(POI.class); 
+			query.or(query.criteria("direccion.calle").equal(texto1),
+					 query.criteria("direccion.localidad").equal(texto1)); 
+			
 		List<POI> resultadosEnBuffer = query.asList();
-		
-		System.out.println(query.toString());
-		
 			
 		if(resultadosEnBuffer.isEmpty()){			//Si ninguno sirvió => consulta a los externos
 			buscadoresComponentes.forEach(componente -> componente.buscar(texto1, texto2));
@@ -61,6 +56,15 @@ public class BufferBusquedas {
 		return buscadoresComponentes;
 	}
 
-	
-	
+	public List<POI> getResultados() {
+		return resultados;
+	}
+
+	public void setResultados(List<POI> resultados) {
+		this.resultados = resultados;
+	}
+
+	public void setBuscadoresComponentes(List<InterfazBuscadores> buscadoresComponentes) {
+		this.buscadoresComponentes = buscadoresComponentes;
+	}
 }

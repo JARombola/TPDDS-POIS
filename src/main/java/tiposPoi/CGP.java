@@ -12,7 +12,7 @@ import terminales.Maquina;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
-@org.mongodb.morphia.annotations.Entity
+@org.mongodb.morphia.annotations.Entity(value="POI")
 @Entity
 public class CGP extends POI {
 	@org.mongodb.morphia.annotations.Embedded

@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +46,7 @@ public class testMongo {
 
 	}
 	
-	@After
+	//@After
 	public void terminar(){				// Elimina la base :)
 		mongo.dropDatabase("BasePOIS");
 	}
@@ -164,7 +163,7 @@ public class testMongo {
 	@Test
 	public void TestBusquedaMongo(){
 		
-		List<POI> resultados = new ArrayList();
+		List<POI> resultados = new ArrayList<POI>();
 		CGP cgp = new CGP();
 			cgp.setNombre("cgp magico");
 			resultados.add(cgp);
@@ -195,24 +194,40 @@ public class testMongo {
 	
 	@Test
 	public void TestBusquedaCache(){
+		store = morphia.createDatastore(mongo, "CACHE");
 		CGP cgp1 = new CGP();
-		cgp1.setNombre("bla1");
+			cgp1.setNombre("cgp1");
+			cgp1.setId(1);
 		Direccion dire1 = new Direccion();
-		dire1.setCalle("bla");
+			dire1.setCalle("calle");
 		cgp1.setDireccion(dire1);
 		
 		CGP cgp2 = new CGP();
-		cgp2.setNombre("bla2");
+			cgp2.setNombre("cgp2");
+			cgp2.setId(2);
 		Direccion dire2 = new Direccion();
-		dire2.setCalle("bla");
-		cgp2.setDireccion(dire1);
+			dire2.setCalle("calle");
+		cgp2.setDireccion(dire2);
 		
-		store.save(cgp1);
-		store.save(cgp2);
+		List<POI> set = new ArrayList<POI>();
+		set.add(cgp1);
+		set.add(cgp2);
 		
-		BufferBusquedas externos = new BufferBusquedas();
-		List<POI> resultados = externos.buscar("bla", "");
+		BufferBusquedas buffer = new BufferBusquedas();
 		
+		store.save(set);
+		
+		CGP cgp3 = new CGP();
+			cgp3.setNombre("cgp3");
+			Direccion dire3 = new Direccion();
+			dire3.setCalle("ASD");
+			cgp3.setDireccion(dire3);
+			List<POI> set2=new ArrayList<POI>();
+			set2.add(cgp3);
+		store.save(set2);
+		
+		List<POI> resultados = buffer.buscar("calle", "");
+		Assert.assertEquals(resultados.size(),2);
 		Assert.assertEquals(resultados.get(0).getNombre(), cgp1.getNombre());
 		Assert.assertEquals(resultados.get(1).getNombre(), cgp2.getNombre());
 

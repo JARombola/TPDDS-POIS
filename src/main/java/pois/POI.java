@@ -19,9 +19,9 @@ import org.joda.time.LocalTime;
 
 import terminales.Maquina;
 
-@org.mongodb.morphia.annotations.Entity
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@org.mongodb.morphia.annotations.Entity
 public abstract class POI{
 	
 	@org.mongodb.morphia.annotations.Id
