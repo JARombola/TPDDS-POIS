@@ -10,12 +10,10 @@ import tiposPoi.Banco;
 import tiposPoi.Servicio;
 
 public class BuscadorBancoExterno implements InterfazBuscadores {
-	OrigenDatos componente;
-	
-	List<POI> resultado= new ArrayList<POI>();
-	
-
+	private OrigenDatos componente;
+	private List<POI> resultado= new ArrayList<POI>();
 	private JsonFactory jsonFactory = new JsonFactory();
+	
 	
 	public void buscar(String texto1, String texto2){
 		if (texto2 != ""){

@@ -1,66 +1,87 @@
-package tests;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import terminales.Mapa;
-import tiposPoi.Banco;
-import tiposPoi.CGP;
-import tiposPoi.Local;
-
-public class TestABM {
-	private Banco poi1;
-	private CGP poi2;
-	private Banco poi3;
-	private Local poi4;
-	private Mapa mapa;
-	
-	@Before
-	public void initialize() {
-		mapa= Mapa.getInstance();
-		poi1 = new Banco();
-			poi1.setId(12);
-			poi1.setNombre("La Nacion");
-		
-		poi2 = new CGP();
-			poi2.setId(4);
-			poi2.setNombre("CGP Quien Sabe");
-			
-		poi3 = new Banco();
-			poi3.setId(12);
-			poi3.setNombre("Ciudad");
-		
-		poi4 = new Local();
-			poi4.setId(8);
-			
-			mapa.setPOI(poi1);
-			mapa.setPOI(poi2);
-		
-	}
-	@After
-	public void cleanMapa(){
-		mapa.getListaPOIS().clear();
-	}
-	
-	@Test
-	public void testModificarPoi(){
-		mapa.agregarOmodificar(poi3);
-		Assert.assertEquals(poi1.getNombre(),"Ciudad");
-	}
-	
-	@Test
-	public void testCrearPoi(){
-		mapa.agregarOmodificar(poi4);
-		Assert.assertEquals(3,mapa.getListaPOIS().size());
-		
-	}
-	
-	@Test		
-	public void testEliminarUnPOI() throws Exception{
-		mapa.eliminarPOI(poi1.getId());
-		Assert.assertEquals(mapa.getListaPOIS().size(), 1);
-	}
-		
-}
+//package tests;
+//
+//import static org.junit.Assert.assertEquals;
+//
+//import java.util.List;
+//
+//import org.junit.After;
+//import org.junit.Before;
+//import org.junit.Test;
+//import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+//import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
+//
+//import terminales.Mapa;
+//import tiposPoi.Banco;
+//import tiposPoi.CGP;
+//import tiposPoi.Local;
+//import tiposPoi.ParadaColectivo;
+//
+//public class TestABM extends AbstractPersistenceTest implements WithGlobalEntityManager {
+//	private Mapa mapa;
+//		
+//		@Before
+//		public void guardarPois(){
+//			beginTransaction();							
+//			CGP cgp = new CGP();
+//				cgp.setNombre("CGP");
+//				cgp.agregarTag("TAG1");
+//				cgp.agregarTag("TAG2");
+//			Banco banco = new Banco();
+//				banco.setGerente("Julian");
+//				banco.setNombre("Banquito");
+//			ParadaColectivo parada = new ParadaColectivo();
+//				parada.setNombre("Parada Colectivo");
+//				parada.setLatitud(666);
+//			persist(parada);
+//			persist(banco);
+//			persist(cgp);
+//			commitTransaction();
+//			entityManager().clear();				//Se crean 3 pois, y se guardan....
+//		}
+//		
+//		@After
+//		public void clean(){
+//			Mapa.removeInstancia();
+//		}
+//
+//			
+//		@Test
+//		public void testGuardarPoi(){				//Guarda poi en el mapa, y tiene que persistirlo
+//			Local local=new Local();
+//					local.setNombre("LocalComercial");
+//					local.agregarTag("Kiosco");
+//					local.agregarTag("Local");
+//			mapa = Mapa.getInstancia();
+//			mapa.agregarOmodificar(local);
+//			
+//			Local buscado=(Local) entityManager()
+//									.createQuery("from POI where Nombre = :nombre")
+//									.setParameter("nombre", "LocalComercial")
+//									.getSingleResult();
+//			assertEquals(buscado.getTags().size(), 2);
+//			buscado.agregarTag("TagNuevo3");
+//			mapa.agregarOmodificar(buscado);
+//			
+//			@SuppressWarnings("unchecked")
+//			List<Local> localModificado = (List<Local>) entityManager().createQuery("from POI where Nombre = :nombre")
+//								.setParameter("nombre", "LocalComercial")
+//								.getResultList();
+//			assertEquals(localModificado.size(), 1);			//Para verificar que lo haya modificado (en vez de crear y persistir uno nuevo)
+//			assertEquals(buscado.getTags().size(), 3);			//le agregamos un tag
+//		}
+//		
+//		@Test
+//		public void testEliminarPoi(){
+//			mapa = Mapa.getInstancia();
+//			CGP cgp2 = new CGP();
+//				cgp2.setNombre("CGP2");
+//				cgp2.agregarTag("cgpTag1");
+//				cgp2.agregarTag("cgpTag2");
+//				
+//			assertEquals(mapa.getListaPOIS().size(), 3);		//se guardó un poi más
+//			mapa.agregarOmodificar(cgp2);
+//			assertEquals(mapa.getListaPOIS().size(), 4);		//se guardó un poi más
+//			mapa.eliminarPOI(cgp2.getId());						
+//			assertEquals(mapa.getListaPOIS().size(), 3);		//se eliminó el ultimo
+//		}
+//}

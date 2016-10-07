@@ -25,7 +25,7 @@ public class TestProcesos {
 
 		terminal = new Terminal();
 		
-		mapa = Mapa.getInstance();
+		mapa = Mapa.getInstancia();
 		terminal.setMapa(mapa);
 		terminal.setAdministrador(admin);
 		proceso=new ProcesoActualizacionLocalesComerciales("test.txt");

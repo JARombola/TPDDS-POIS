@@ -4,10 +4,12 @@ package tests;
 import static org.junit.Assert.*;
 import java.util.List;
 
-
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import json.JsonFactory;
 import pois.Direccion;
@@ -20,7 +22,7 @@ import externos.BuscadorBancoExterno;
 import externos.OrigenDatos;
 
 
-public class TestJackson {
+public class TestJackson extends AbstractPersistenceTest implements WithGlobalEntityManager {
 	
 		private JsonFactory jsonFactory = new JsonFactory();
 		private BuscadorBancoExterno buscadorExterno;
@@ -57,7 +59,7 @@ public class TestJackson {
 				buscadorExterno.setComponente(banco);
 			
 			buffer = new BufferBusquedas();
-			mapa= new Mapa();
+			mapa = new Mapa();
 			terminal = new Terminal();
 				terminal.setBuffer(buffer);
 				buffer.agregarExterno(buscadorExterno);
@@ -80,6 +82,11 @@ public class TestJackson {
 			assertEquals(bancoExt.getNombre(), "Banco de Madera");
 			Mockito.verify(banco,Mockito.times(1)).buscar("Banco de la Plaza", "cobro cheques");
 			assertEquals(mapa.getListaPOIS().size(),1);				//Estaba vacio y agrega el banco
+		}
+		
+		@After
+		public void limpiarTransacciones(){
+			rollbackTransaction();
 		}
 }
 		

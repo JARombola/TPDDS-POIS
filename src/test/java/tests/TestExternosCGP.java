@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import externos.BuscadorCGPExterno;
 import externos.CentroDTO;
@@ -21,7 +23,7 @@ import terminales.Terminal;
 import tiposPoi.CGP;
 import tiposPoi.Servicio;
 
-public class TestExternosCGP {
+public class TestExternosCGP extends AbstractPersistenceTest implements WithGlobalEntityManager {
 	RangosServiciosDTO rangoServicio, rangoServicio2, rangoServicio3;
 	ServiciosDTO servicioDTOTramite, servicioDTOCobro;
 	CentroDTO cgp;
@@ -88,6 +90,7 @@ public class TestExternosCGP {
 		buscadorExterno.setComponente(cgpMock);
 		
 		buffer.agregarExterno(buscadorExterno);
+		rollbackTransaction();
 	}
 	
 	@Test
@@ -98,13 +101,16 @@ public class TestExternosCGP {
 	}
 	@Test
 	public void testBusquedaExternaCGP() {
+		mapa.getListaPOIS().stream().forEach(a->System.out.println(a.getNombre()));
 		Assert.assertEquals(mapa.getListaPOIS().size(), 0);
 		terminal.buscar("9 de julio","");
 		Assert.assertEquals(mapa.getListaPOIS().size(), 1);			//La lista esta vacia, y agrega el nuevo encontrado en el externo
 		terminal.buscar("9 de julio","");
-		Assert.assertEquals(mapa.getListaPOIS().size(), 1);			//Esto estaba en 2, que creo que estaba mal porque si busca lo mismo, tendria que modificarlo, no agregar un nuevo POI
 		cgpMock.buscar("9 de julio");
-		Mockito.verify(cgpMock,Mockito.times(2)).buscar("9 de julio");				
+		
+		Mockito.verify(cgpMock,Mockito.times(3)).buscar("9 de julio");	
+		rollbackTransaction();
+		
 	}
 	
 	@Test

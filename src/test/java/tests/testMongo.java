@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +47,7 @@ public class testMongo {
 
 	}
 	
-	//@After
+	@After
 	public void terminar(){				// Elimina la base :)
 		mongo.dropDatabase("BasePOIS");
 	}
@@ -230,7 +231,6 @@ public class testMongo {
 		Assert.assertEquals(resultados.size(),2);
 		Assert.assertEquals(resultados.get(0).getNombre(), cgp1.getNombre());
 		Assert.assertEquals(resultados.get(1).getNombre(), cgp2.getNombre());
-
 	}
 	
 }

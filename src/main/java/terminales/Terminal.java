@@ -39,7 +39,6 @@ public class Terminal{
 	@OneToOne @Cascade(value=CascadeType.ALL)
 	private FuncionesExtra extra;
 
-	private String nombre;
 	@OneToMany @Cascade(value=CascadeType.ALL)
 	private List<Busqueda> historialBusquedas;
 
@@ -48,6 +47,8 @@ public class Terminal{
 	
 	@Transient
 	private BufferBusquedas buffer;
+
+	private String nombre;
 
 	public Terminal(){
 		extra = new FuncionesExtra(0);
@@ -68,7 +69,9 @@ public class Terminal{
 	}
 
 	public List<POI> buscar(String texto1, String texto2) {
-		buffer.buscar(texto1, texto2).forEach(poi->mapa.agregarOmodificar(poi));	//Primero busqueda externa				
+		if(buffer!=null){
+			buffer.buscar(texto1, texto2).forEach(poi->mapa.agregarOmodificar(poi));	//Primero busqueda externa				
+		}
 		List<POI> resultadosBusqueda= mapa.getListaPOIS().stream()
 									.filter(poi->poi.tienePalabra(texto1))
 									.collect(Collectors.toList());
@@ -139,7 +142,6 @@ public class Terminal{
 					 .sum());
 		return reporte;
 	}
-	
 	
 		
 	public void activarOpcion(String opcion){
