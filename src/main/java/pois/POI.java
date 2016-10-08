@@ -71,6 +71,7 @@ public abstract class POI{
 					direccion.setNumero(poiEntrante.getDireccion().getNumero());
 				}
 		}
+		tags = poiEntrante.getTags();
 	}
 
 	//---------------BUSQUEDA-----------------------------------

@@ -36,6 +36,7 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 					for (int i=1; i<parts.length;i++){
 						poi.agregarTag(parts[i]);
 					}
+					mapa.agregarOmodificar(poi);
 			afectados++;
 			}
 			archivo.close();
