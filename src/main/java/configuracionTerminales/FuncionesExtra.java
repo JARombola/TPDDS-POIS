@@ -8,6 +8,7 @@ import terminales.Terminal;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MapKeyJoinColumn;
@@ -19,13 +20,12 @@ import org.mongodb.morphia.Morphia;
 import procesos.ExcepcionFalloConfiguracion;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import com.mongodb.MongoClient;
 
 
 @Entity
-public class FuncionesExtra extends AbstractPersistenceTest implements WithGlobalEntityManager {
+public class FuncionesExtra implements WithGlobalEntityManager {
 	
 	@Id @GeneratedValue
 	private int id;
@@ -69,11 +69,14 @@ public class FuncionesExtra extends AbstractPersistenceTest implements WithGloba
 	}
 	
 	private void persistirRelacional(){
-		beginTransaction();
-		persist(getTerminal());
-	//	commitTransaction();
+		EntityTransaction tx = entityManager().getTransaction(); //TODO 
+		if (!entityManager().getTransaction().isActive()) 
+		tx.begin();
+		entityManager().persist(getTerminal());
+	//	tx.commit();	TODO
 	//	entityManager().clear();
 	}
+	
 	private void persistirMongo(Busqueda datosBusqueda){
 		Datastore store;
 		Morphia morphia = new Morphia();

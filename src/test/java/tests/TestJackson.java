@@ -44,6 +44,7 @@ public class TestJackson extends AbstractPersistenceTest implements WithGlobalEn
 			
 		@Before
 		public void setUp() {
+			//if(entityManager().getTransaction().isActive()) rollbackTransaction();
 			bancoExt= new BancoExterno();
 				dire = new Direccion();
 				dire.setNumero(150);
@@ -86,7 +87,7 @@ public class TestJackson extends AbstractPersistenceTest implements WithGlobalEn
 		
 		@After
 		public void limpiarTransacciones(){
-			rollbackTransaction();
+			//if(entityManager().getTransaction().isActive()) rollbackTransaction();
 		}
 }
 		

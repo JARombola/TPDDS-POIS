@@ -31,8 +31,8 @@ public class Reporte {
 	}
 	
 	public Reporte(String tipo){
-		tipoReporte = tipo;
 		datos = new ArrayList<DatosReporte>();
+		tipoReporte = tipo;
 		fecha = LocalDate.now();
 	}
 	

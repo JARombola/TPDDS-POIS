@@ -1,6 +1,5 @@
 package terminales;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,8 +13,6 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalDate;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import configuracionTerminales.Administrador;
 import configuracionTerminales.FuncionesExtra;

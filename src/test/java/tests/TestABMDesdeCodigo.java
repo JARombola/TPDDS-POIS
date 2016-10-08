@@ -4,9 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
@@ -18,34 +15,34 @@ import tiposPoi.Local;
 import tiposPoi.ParadaColectivo;
 
 public class TestABMDesdeCodigo extends AbstractPersistenceTest implements WithGlobalEntityManager {
-	private Mapa mapa;
 	
-	@Before
+	private Mapa mapa;
+
 	public void guardarPois(){
+		beginTransaction();
+			CGP cgp = new CGP();
+				cgp.setNombre("CGP");
+				cgp.agregarTag("TAG1");
+				cgp.agregarTag("TAG2");
+				
+			Banco banco = new Banco();
+				banco.setGerente("Julian");
+				banco.setNombre("Banquito");
+				
+			ParadaColectivo parada = new ParadaColectivo();
+				parada.setNombre("Parada Colectivo");
+				parada.setLatitud(666);
+			persist(parada);
+			persist(banco);
+			persist(cgp);
+		commitTransaction();
 		mapa=Mapa.getInstancia();
-		beginTransaction();							
-		CGP cgp = new CGP();
-			cgp.setNombre("CGP");
-			cgp.agregarTag("TAG1");
-			cgp.agregarTag("TAG2");
-			
-		Banco banco = new Banco();
-			banco.setGerente("Julian");
-			banco.setNombre("Banquito");
-			
-		ParadaColectivo parada = new ParadaColectivo();
-			parada.setNombre("Parada Colectivo");
-			parada.setLatitud(666);
-		persist(parada);
-		persist(banco);
-		persist(cgp);
-	//	commitTransaction();
+		
 	}
 	
-	@After
-	public void clean(){
-		entityManager().clear();
-		Mapa.removeInstancia();
+//	@After @Before
+	public void cleanEntity(){
+		if(entityManager().getTransaction().isActive()) rollbackTransaction();
 	}
 
 		
@@ -55,8 +52,8 @@ public class TestABMDesdeCodigo extends AbstractPersistenceTest implements WithG
 				local.setNombre("LocalComercial");
 				local.agregarTag("Kiosco");
 				local.agregarTag("Local");
+		mapa=new Mapa();
 		mapa.agregarOmodificar(local);
-		
 		Local buscado=(Local) entityManager()
 								.createQuery("from POI where Nombre = :nombre")
 								.setParameter("nombre", "LocalComercial")
@@ -76,12 +73,12 @@ public class TestABMDesdeCodigo extends AbstractPersistenceTest implements WithG
 	
 	@Test
 	public void testEliminarPoi(){
+		guardarPois();
 		CGP cgp2 = new CGP();
 			cgp2.setNombre("CGP2");
 			cgp2.agregarTag("cgpTag1");
 			cgp2.agregarTag("cgpTag2");
-			
-		mapa.cargarPOIS();
+		
 		assertEquals(mapa.getListaPOIS().size(), 3);		//se guardó un poi más
 		mapa.agregarOmodificar(cgp2);
 		assertEquals(mapa.getListaPOIS().size(), 4);		

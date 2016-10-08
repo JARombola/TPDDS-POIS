@@ -2,11 +2,9 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
-
-
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
@@ -43,7 +41,10 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	OrigenDatos origenBanco,origenCGP;
 	Terminal terminal;
 	Administrador admin;
-	
+	@Before
+	public void cleanEntity(){
+		if(entityManager().getTransaction().isActive()) rollbackTransaction();
+	}
 	@Test
 	public void testPersistirDireccion(){		
 		beginTransaction();
@@ -63,6 +64,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(direccionBuscada.getCalle(),"Beiro");
 		assertEquals(direccionBuscada.getLongitud(),2,0);
 		assertEquals(direccionBuscada.getLatitud(),99,0);
+		entityManager().clear();
 		}
 	
 	
@@ -90,6 +92,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(paradaBuscada.getTags().size(), 3);
 		assertEquals(paradaBuscada.getDireccion().getLatitud(),10,0);
 		assertEquals(paradaBuscada.getDireccion().getBarrio(),"Palermo");
+		entityManager().clear();
 		}		
 	
 	@Test
@@ -108,22 +111,22 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 				horaJubilacion.setFin(horaCierre);
 			jubilacion.agregarHorario(horaJubilacion);
 			banco.agregarServicio(jubilacion);
-			banco.setGerente("Julian");
+			banco.setGerente("SpiderMan");
 			banco.setLatitud(222);
 			
 		persist(banco);
 		//commitTransaction();
-		//entityManager().clear();		
+	//	entityManager().clear();		
 		
 		Banco bancoBuscado= (Banco) entityManager().createQuery("from Banco where Gerente = :gerente")
-				.setParameter("gerente", "Julian")
+				.setParameter("gerente", "SpiderMan")
 				.getSingleResult();
 		
-		assertEquals(bancoBuscado.getGerente(),"Julian");
+		assertEquals(bancoBuscado.getGerente(),banco.getGerente());
 		assertEquals(bancoBuscado.getDireccion().getLatitud(),222,0);	// => Persistio la Direccion => Persistio Coordenadas :)
 		assertEquals(bancoBuscado.getServicios().getServicios().size(),1,0);	// Persistió los servicios
 		assertTrue(bancoBuscado.estaDisponible(1,new LocalTime(11,00),"JUBILACION"));	//Persistió tambien sus horarios :)
-		
+		entityManager().clear();
 	}	
 	
 	@Test
@@ -159,7 +162,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(cgpBuscado.getServicios().getServicios().size(),1,0);
 		assertEquals(cgpBuscado.getComuna().getNombre(),"Comuna 8");
 		assertTrue(cgpBuscado.estaDisponible(1,new LocalTime(11,00),"JUBILACION"));	
-		
+		entityManager().clear();
 	}
 	
 	@Test
@@ -196,7 +199,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(localBuscado.getDireccion().getLongitud(),-122,0);
 		assertEquals(localBuscado.getRubro().getRadioCercania(),0.3,0);
 		assertTrue(localBuscado.estaDisponible(3,new LocalTime(19,00),""));	
-		
+		entityManager().clear();
 		
 	}
 	
@@ -233,8 +236,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			terminal.setAdministrador(admin);
 			
 			terminal.activarOpcion("HISTORIAL");
-			terminal.realizarBusqueda("114","");
-			terminal.realizarBusqueda("parada","");
 	}
 	
 	
@@ -243,7 +244,8 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			inicializarBusquedas();			
 			//commitTransaction();
 	//	entityManager().clear();
-		
+			terminal.realizarBusqueda("114","");
+			terminal.realizarBusqueda("parada","");
 		
 		Busqueda busquedaBD = (Busqueda) entityManager().createQuery("from Busqueda where frase_buscada = :frase")
 							.setParameter("frase", "114").getSingleResult();
@@ -252,13 +254,14 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertFalse(busquedaBD.getFecha()==new LocalDate(2012,2,10));	//la busqueda fue hoy, no puede ser del 2012 (?
 		assertEquals(busquedaBD.getResultados().get(0).getNombre(),parada1.getNombre());	
 		assertEquals(busquedaBD.getResultados().get(1).getNombre(),parada2.getNombre());	
-		
-	//	entityManager().clear();
-		@SuppressWarnings("unchecked")
-		List<Busqueda> busquedas = (List<Busqueda>) entityManager().createQuery("from Busqueda").getResultList();
-		assertEquals(busquedas.size(),2);			//"parada" y "114"
-		assertEquals(busquedas.get(0).getFraseBuscada(),"114 ");
-		assertEquals(busquedas.get(1).getFraseBuscada(),"parada ");
+//		
+//		entityManager().clear();
+//		@SuppressWarnings("unchecked")
+//		List<Busqueda> busquedas = (List<Busqueda>) entityManager().createQuery("from Busqueda").getResultList();
+//		assertEquals(busquedas.size(),2);			//"parada" y "114"
+//		assertEquals(busquedas.get(0).getFraseBuscada(),"114 ");
+//		assertEquals(busquedas.get(1).getFraseBuscada(),"parada ");
+		entityManager().clear();
 	}
 	
 	@Test
@@ -290,48 +293,51 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(terminalBuscada.getOpciones().getTiempoMax(),20,0);
 		assertTrue(terminal.estaActivado("MAIL"));
 		assertFalse(terminal.estaActivado("HISTORIAL"));
+		entityManager().clear();
 		
 	}
 	
 	@Test
 	public void TestPersistenciaReportes() throws Exception{
+		inicializarBusquedas();
 		beginTransaction();
-			inicializarBusquedas();
-			terminal.setBuffer(null);
-			terminal.realizarBusqueda("parada", "");		
-			terminal.getHistorialBusquedas().get(2).setFecha(new LocalDate(1995,10,25));
-			Reporte repFechas = terminal.reporteFechas();
-			Reporte repTotalResultados=terminal.reporteTotalResultados();
-			Reporte repParciales=terminal.reporteResultadosParciales();
-			int repFechasAntes = repFechas.getDatos().size();
-			int totalResultadosAntes = repTotalResultados.getDatos().size();
-			int parcialesAntes= repParciales.getDatos().size();
-			entityManager().persist(repFechas);
-			entityManager().persist(repTotalResultados);
-			entityManager().persist(repParciales);
-	//	commitTransaction();
-	//	entityManager().clear();
-		
-		Reporte reporteFechasBD = (Reporte) entityManager().createQuery("from Reporte where tipoReporte = :tipo")
-							.setParameter("tipo", "Reporte Fechas")
-							.getSingleResult();
-		
-		assertEquals(reporteFechasBD.getDatos().size(), repFechasAntes);
-		
-	// entityManager().clear();
-		Reporte reporteTotalResultadosBD = (Reporte) entityManager().createQuery("from Reporte where tipoReporte = :tipo")
-				.setParameter("tipo", "Total Resultados")
-				.getSingleResult();
-		
-		assertNotEquals(reporteTotalResultadosBD.getDatos().size(), totalResultadosAntes+1);
-		assertEquals(reporteTotalResultadosBD.getDatos().size(), totalResultadosAntes);
+		terminal.setBuffer(null);
+		terminal.realizarBusqueda("parada", "");		
+		terminal.realizarBusqueda("115", "");		
+		terminal.realizarBusqueda("ASD", "");		
+		terminal.getHistorialBusquedas().get(2).setFecha(new LocalDate(1995,10,25));
+		Reporte repFechas = terminal.reporteFechas();
+		Reporte repTotalResultados=terminal.reporteTotalResultados();
+		Reporte repParciales=terminal.reporteResultadosParciales();
+		int repFechasAntes = repFechas.getDatos().size();
+		int totalResultadosAntes = repTotalResultados.getDatos().size();
+		int parcialesAntes= repParciales.getDatos().size();
+		entityManager().persist(repFechas);
+		entityManager().persist(repTotalResultados);
+		entityManager().persist(repParciales);
+//	commitTransaction();
+//	entityManager().clear();
 	
-	//	entityManager().clear();
-		
-		Reporte reporteParcialesBD = (Reporte) entityManager().createQuery("from Reporte where tipoReporte = :tipo")
-									.setParameter("tipo", "Resultados Parciales")
-									.getSingleResult();
-		assertEquals(reporteParcialesBD.getDatos().size(), parcialesAntes);
-	}
+	Reporte reporteFechasBD = (Reporte) entityManager().createQuery("from Reporte where tipoReporte = :tipo")
+						.setParameter("tipo", "Reporte Fechas")
+						.getSingleResult();
+	
+	assertEquals(reporteFechasBD.getDatos().size(), repFechasAntes);
+	
+// entityManager().clear();
+	Reporte reporteTotalResultadosBD = (Reporte) entityManager().createQuery("from Reporte where tipoReporte = :tipo")
+			.setParameter("tipo", "Total Resultados")
+			.getSingleResult();
+	
+	assertNotEquals(reporteTotalResultadosBD.getDatos().size(), totalResultadosAntes+1);
+	assertEquals(reporteTotalResultadosBD.getDatos().size(), totalResultadosAntes);
+
+//	entityManager().clear();
+	
+	Reporte reporteParcialesBD = (Reporte) entityManager().createQuery("from Reporte where tipoReporte = :tipo")
+								.setParameter("tipo", "Resultados Parciales")
+								.getSingleResult();
+	assertEquals(reporteParcialesBD.getDatos().size(), parcialesAntes);
+}
 
 }

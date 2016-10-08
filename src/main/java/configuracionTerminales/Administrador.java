@@ -6,7 +6,7 @@ import javax.persistence.Id;
 @Entity
 public class Administrador {
 	
-	@Id
+	@Id 
 	private String email;
 	private String nombre;
 	

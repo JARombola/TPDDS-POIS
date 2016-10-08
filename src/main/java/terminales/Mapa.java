@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityTransaction;
+
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import pois.POI;
 import tiposPoi.Banco;
@@ -14,15 +15,16 @@ import tiposPoi.Local;
 import tiposPoi.ParadaColectivo;
 
 
-public class Mapa extends AbstractPersistenceTest implements WithGlobalEntityManager {
-	
+public class Mapa  implements WithGlobalEntityManager {
 	private List<POI> pois;
 	private static Mapa instancia;
 
 	public Mapa() {
 		pois = new ArrayList<POI>();
+		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void cargarPOIS(){
 		pois = entityManager().createQuery("from POI").getResultList();
 	}
@@ -60,7 +62,7 @@ public class Mapa extends AbstractPersistenceTest implements WithGlobalEntityMan
 	public void eliminarPOI (int id){
 		boolean existia = getListaPOIS().removeIf(poi->poi.getId()==id);	//lo borra de la lista del mapa
 		if (existia){
-			remove(find(POI.class, id));					//lo borra de la base
+			entityManager().remove(entityManager().find(POI.class, id));					//lo borra de la base
 		}
 	}
 	
@@ -68,15 +70,17 @@ public class Mapa extends AbstractPersistenceTest implements WithGlobalEntityMan
 		List<POI> mismoPoiEnSistema = pois.stream()
 									.filter(poi->poi.equals(poiEntrante))
 									.collect(Collectors.toList());
-		beginTransaction();
+		
+		EntityTransaction tx = entityManager().getTransaction();
+		if(!entityManager().getTransaction().isActive()) tx.begin();	//TODO
  		if(mismoPoiEnSistema.size()>=1){
  			mismoPoiEnSistema.get(0).modificar(poiEntrante);
- 			persist(mismoPoiEnSistema.get(0));
+ 			entityManager().persist(mismoPoiEnSistema.get(0));
  		} else {
  			pois.add(poiEntrante);
- 			persist(poiEntrante);
+ 			entityManager().persist(poiEntrante);
 		}
- 		//commitTransaction();
+ 		tx.commit();
 	}
 	
 	public POI getPOI(String nombre){		
