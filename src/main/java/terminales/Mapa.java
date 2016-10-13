@@ -110,13 +110,13 @@ public class Mapa  implements WithGlobalEntityManager {
 		return store.find(POI.class).filter("nombre", nombre).get();
 
 	}
-	fds int; 
 	public POI getPOI(int id){
 //		TODO: Acá deberían buscar en la base - Aldana
 		
 	 	return store.find(POI.class).filter("id", id).get();
 		
 	}	
+	
 	
 	public List<POI> getListaPOIS(){
 		return pois;
