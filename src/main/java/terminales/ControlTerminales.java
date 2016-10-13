@@ -21,6 +21,7 @@ public class ControlTerminales {
 	}
 
 	public Reporte busquedasParcialesPorTerminal(Terminal unaTerminal){
+//		TODO: Este método y el de abajo tienen el code smell de middle man. - Aldana
 		Reporte busquedasParciales=unaTerminal.reporteResultadosParciales();
 		return busquedasParciales;
 	}
@@ -36,6 +37,7 @@ public class ControlTerminales {
 	}
 	
 	public void agregarTerminal(Terminal terminal) {
+//		TODO: Dónde persisten las terminales? - Aldana.
 		this.terminales.add(terminal);
 	}
 

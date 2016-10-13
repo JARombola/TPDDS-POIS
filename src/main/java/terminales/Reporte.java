@@ -70,8 +70,4 @@ public class Reporte {
 	public void setTipoReporte(String tipoReporte) {
 		this.tipoReporte = tipoReporte;
 	}
-	public void mostrarInformacion(){
-		System.out.println(getFecha() + " ----" + getTerminal() + "("+getTipoReporte()+")\nBUSQUEDAS:");
-		getDatos().stream().forEach(d -> System.out.println(d.getFecha() + " --- Cantidad Resultados: " + d.getResultados()));
-	}
 }
