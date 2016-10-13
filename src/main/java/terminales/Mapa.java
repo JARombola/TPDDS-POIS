@@ -13,13 +13,24 @@ import tiposPoi.Banco;
 import tiposPoi.CGP;
 import tiposPoi.Local;
 import tiposPoi.ParadaColectivo;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+
+import com.mongodb.MongoClient;
 
 
 public class Mapa  implements WithGlobalEntityManager {
 	private List<POI> pois;
 	private static Mapa instancia;
+	private Datastore store;
 
 	public Mapa() {
+		Morphia morphia = new Morphia();
+		morphia.mapPackage("terminales");
+		morphia.mapPackage("externos");
+		morphia.mapPackage("pois");
+		MongoClient mongo = new MongoClient();
+		store= morphia.createDatastore(mongo, "MAPA");
 		pois = new ArrayList<POI>();
 		
 	}
@@ -32,7 +43,6 @@ public class Mapa  implements WithGlobalEntityManager {
 //		implementación, pero no sería una implementación correcta. - Aldana.
 		pois = entityManager().createQuery("from POI").getResultList();
 	}
-	
 	public static Mapa getInstancia(){
 		if (instancia==null){
 			instancia = new Mapa();
@@ -97,19 +107,14 @@ public class Mapa  implements WithGlobalEntityManager {
 	
 	public POI getPOI(String nombre){		
 //		TODO: Acá deberían buscar en la base. -Aldana
-		return pois.stream()
-				.filter(poi->poi.getNombre().equals(nombre))
-				.findFirst()
-				.orElse(null);
+		return store.find(POI.class).filter("nombre", nombre).get();
+
 	}
-	
+	fds int; 
 	public POI getPOI(int id){
 //		TODO: Acá deberían buscar en la base - Aldana
-		POI poiBuscado = pois.stream()
-					.filter(poi->poi.getId() == id)
-					.findFirst()
-					.orElse(null);
-		return poiBuscado;
+		
+	 	return store.find(POI.class).filter("id", id).get();
 		
 	}	
 	
