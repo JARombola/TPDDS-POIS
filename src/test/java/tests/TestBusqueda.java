@@ -39,14 +39,15 @@ public class TestBusqueda extends AbstractPersistenceTest implements WithGlobalE
 	private BufferBusquedas buffer;
 	private BuscadorBancoExterno buscadorBanco;
 	private BuscadorCGPExterno buscadorCgp;
-	private OrigenDatos origenBanco,origenCGP, origen3;
+	private OrigenDatos origenBanco,origenCGP;
 	private Terminal terminal;
 
 	@After
 	public void eliminarPois(){
 		List<POI> p = createQuery("from POI").getResultList();
-		p.forEach(e->remove(e));
+		p.stream().forEach(e->mapa.eliminarPOI(e.getId()));
 		p = createQuery("from POI").getResultList();
+	//	System.out.println(p.size());
 	}
 	
 	@Before
@@ -142,7 +143,7 @@ public class TestBusqueda extends AbstractPersistenceTest implements WithGlobalE
 		Assert.assertEquals(encontrados,1,0);
 	}
 	
-	//@Test
+	@Test
 	public void busquedaExternosCGP(){
 		terminal.buscar("asesoramiento","");
 		Mockito.verify(origenCGP,Mockito.times(1)).buscar("asesoramiento");

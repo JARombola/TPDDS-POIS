@@ -94,9 +94,7 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 		mongo = new MongoClient();
 		store = morphia.createDatastore(mongo, "Busquedas");
 		int a = (int)store.getCount(Busqueda.class);
-		datosBusqueda.setId(a+2);
-		System.out.println(a);
-		if(!datosBusqueda.resultados.isEmpty())System.out.println(datosBusqueda.resultados.get(0));
+		datosBusqueda.setId(a);
 		store.save(datosBusqueda);
 	}
 

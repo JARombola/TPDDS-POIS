@@ -35,7 +35,7 @@ public class Mapa  implements WithGlobalEntityManager {
 			if(!entityManager().getTransaction().isActive())entityManager().getTransaction().begin();
 			entityManager().remove(poiEliminar);
 			entityManager().getTransaction().commit();
-			System.out.println("POI ELIMINADO");			//TODO Borrar!
+		//	System.out.println("POI ELIMINADO");			//TODO Borrar!
 		}
 	}
 	
@@ -45,11 +45,11 @@ public class Mapa  implements WithGlobalEntityManager {
 		if(!entityManager().getTransaction().isActive()) tx.begin();	//TODO
 
 		if(mismoPoiEnSistema!=null){
-			System.out.println("___________POI MODIFICADO!");
+		//	System.out.println("___________POI MODIFICADO!");
  			mismoPoiEnSistema.modificar(poiEntrante);
  			entityManager().merge(mismoPoiEnSistema);
  		} else {
- 			System.out.println(">>>>>POI REGISTRADO!");
+ 		//	System.out.println(">>>>>POI REGISTRADO!");
  			entityManager().persist(poiEntrante);
 		}
 		entityManager().flush();

@@ -44,6 +44,10 @@ public class TestExternosCGP extends AbstractPersistenceTest implements WithGlob
 		p.stream().forEach(e->remove(e));
 		List<Busqueda> b = createQuery("from Busqueda").getResultList();
 		b.stream().forEach(c->remove(c));
+		p = createQuery("from POI").getResultList();
+//		System.out.println(p.size());
+		b = createQuery("from Busqueda").getResultList();
+	//	System.out.println(b.size());
 	}
 	
 	@Before

@@ -28,7 +28,8 @@ public class TestProcesos extends AbstractPersistenceTest implements WithGlobalE
 	@After
 	public void eliminarPois(){
 		List<POI> p = createQuery("from POI").getResultList();
-		p.stream().forEach(e->remove(e));
+		p.stream().forEach(e->mapa.eliminarPOI(e.getId()));
+		p = createQuery("from POI").getResultList();
 	}
 	
 	@Before
