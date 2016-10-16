@@ -13,6 +13,7 @@ import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import json.JsonFactory;
 import pois.Direccion;
+import pois.POI;
 import terminales.BufferBusquedas;
 import terminales.Mapa;
 import terminales.Terminal;
@@ -37,14 +38,19 @@ public class TestJackson extends AbstractPersistenceTest implements WithGlobalEn
 				+ "\"servicios\":[\"cobro cheques\", \"depósitos\", \"extracciones\", \"transferencias\", \"créditos\", \"\", \"\", \"\" ]"
 				+ "}]";
 		OrigenDatos banco;
-		BancoExterno bancoExt;
-		Direccion dire;
-		Terminal terminal;
-		BufferBusquedas buffer;
+		private BancoExterno bancoExt;
+		private Direccion dire;
+		private Terminal terminal;
+		private BufferBusquedas buffer;
 			
+		@After
+		public void eliminarPois(){
+			List<POI> p = createQuery("from POI").getResultList();
+			p.stream().forEach(e->remove(e));
+		}
+		
 		@Before
 		public void setUp() {
-			//if(entityManager().getTransaction().isActive()) rollbackTransaction();
 			bancoExt= new BancoExterno();
 				dire = new Direccion();
 				dire.setNumero(150);
@@ -77,17 +83,15 @@ public class TestJackson extends AbstractPersistenceTest implements WithGlobalEn
 			assertEquals(listaBancosExt.get(0).getServicios().get(0),"cobro cheques");
 			assertEquals(listaBancosExt.get(0).getServicios().get(5),"");
 		}
+		
 		@Test
 		public void bancoATravesDelMapa() {
 			terminal.buscar("Banco de la Plaza", "cobro cheques");
 			assertEquals(bancoExt.getNombre(), "Banco de Madera");
 			Mockito.verify(banco,Mockito.times(1)).buscar("Banco de la Plaza", "cobro cheques");
-			assertEquals(mapa.getListaPOIS().size(),1);				//Estaba vacio y agrega el banco
-		}
-		
-		@After
-		public void limpiarTransacciones(){
-			//if(entityManager().getTransaction().isActive()) rollbackTransaction();
+			List<POI> p = createQuery("from POI").getResultList();
+			assertEquals(p.size(),1);				//Estaba vacio y agrega el banco		
+			
 		}
 }
 		

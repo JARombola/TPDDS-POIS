@@ -10,7 +10,7 @@ import configuracionTerminales.EnviadorMails;
 import configuracionTerminales.FuncionesExtra;
 import pois.Comuna;
 import pois.Coordenadas;
-import procesos.ProcesoAgregarAccionesParaUsuarios;
+import procesos.AgregarAcciones;
 import terminales.ControlTerminales;
 import terminales.Terminal;
 
@@ -29,8 +29,6 @@ public class TestProceso3 {
 		mailMock = Mockito.mock(EnviadorMails.class);
 		EnviadorMails.setInstancia(mailMock);
 		
-		
-
 		comuna = new Comuna();
 		coordenada1 = new Coordenadas();
 		coordenada1.setLatitud(47);
@@ -89,7 +87,7 @@ public class TestProceso3 {
 	@Test
 	public void testActivarMailEnUnaTerminal() {
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), false);
-		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios( "MAIL");
+		AgregarAcciones proceso = new AgregarAcciones( "MAIL");
 		proceso.agregarAccionTerminal(terminal1);
 		proceso.run();
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), true);
@@ -99,7 +97,7 @@ public class TestProceso3 {
 	@Test
 	public void testActivarBusquedasEnUnaComuna() {
 		Assert.assertEquals(terminal1.estaActivado("HISTORIAL"), false);
-		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios("HISTORIAL");
+		AgregarAcciones proceso = new AgregarAcciones("HISTORIAL");
 		proceso.AgregarAccionComuna(comuna);
 		proceso.run();
 		Assert.assertEquals(terminal1.estaActivado("HISTORIAL"), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial
@@ -112,7 +110,7 @@ public class TestProceso3 {
 	public void testActivarMailEnTodasLasTerminales() {
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), false);
 		Assert.assertEquals(terminal2.estaActivado("MAIL"), false);
-		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios("MAIL");
+		AgregarAcciones proceso = new AgregarAcciones("MAIL");
 		proceso.agregarAccionTodasTerminales();
 		proceso.run();
 		Assert.assertEquals(terminal1.estaActivado("MAIL"), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial
@@ -122,7 +120,7 @@ public class TestProceso3 {
 	
 	@Test
 	public void testFallaProceso() {
-		ProcesoAgregarAccionesParaUsuarios proceso = new ProcesoAgregarAccionesParaUsuarios("ASD");	
+		AgregarAcciones proceso = new AgregarAcciones("ASD");	
 		proceso.agregarAccionTerminal(terminal1);
 		proceso.run();						//Falla porque la opcion "ASD" es incorrecta => llama al metodo del mock para el manejo del error.
 		Mockito.verify(mailMock,Mockito.times(0)).mailFallaProceso(Mockito.any());	//mail desactivado => no llama al mock

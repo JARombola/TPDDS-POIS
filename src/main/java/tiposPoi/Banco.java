@@ -23,30 +23,28 @@ public class Banco extends POI{
 	
 	@org.mongodb.morphia.annotations.Embedded
 	@OneToOne @Cascade(value = CascadeType.ALL)
-	private ListaServicios servicios;
+	private ListaServicios listaServicios;
 	
 	@org.mongodb.morphia.annotations.Transient
 	@Transient 
 	LocalTime INICIO=new LocalTime(10,00), FIN= new LocalTime(15,00);
 	
 	public Banco(){
-		servicios=new ListaServicios();
+		super();
+		listaServicios=new ListaServicios();
 	}
 	
 	public void modificar(Banco poiEntrante){
-		if(poiEntrante.getServicios().getServicios().size()>0){
-			servicios = poiEntrante.getServicios();
+		if(poiEntrante.getListaServicios().getServicios().size()>0){
+			listaServicios = poiEntrante.getListaServicios();
 		}
 		super.modificar(poiEntrante);
 	}
 	
 	//------------------------DISPONIBILIDAD------------------
 	
-
-	
-	
 	public void agregarServicio(Servicio unServicio){
-		this.servicios.agregarServicio(unServicio);
+		this.listaServicios.agregarServicio(unServicio);
 	}
 
 	
@@ -58,7 +56,7 @@ public class Banco extends POI{
 		if(servicioBuscado=="")
 			return estaDisponibleSinServicio(dia, hora);
 		else
-			return getServicios().estaDisponible(dia, hora, servicioBuscado);
+			return getListaServicios().estaDisponible(dia, hora, servicioBuscado);
 	}
 	
 	//---------------BUSQUEDA-----------------------------------
@@ -69,17 +67,17 @@ public class Banco extends POI{
 	}
 	
 	public boolean tienePalabraEnServicio(String texto){
-		return getServicios().tienePalabra(texto);
+		return getListaServicios().tienePalabra(texto);
 	}
 	
 		
 	// -------------------GETTERS,SETTERS-----------------
-	public ListaServicios getServicios() {
-		return servicios;
+	public ListaServicios getListaServicios() {
+		return listaServicios;
 	}
 	
 	public void setServicios(ListaServicios servicios) {
-		this.servicios = servicios;
+		this.listaServicios = servicios;
 	}
 	
 	
@@ -100,6 +98,10 @@ public class Banco extends POI{
 
 	public void setGerente(String gerente) {
 		this.gerente = gerente;
+	}
+
+	public void setListaServicios(ListaServicios listaServicios) {
+		this.listaServicios = listaServicios;
 	}
 
 }

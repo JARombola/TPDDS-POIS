@@ -29,9 +29,9 @@ public class BufferBusquedas {
 		buscadoresComponentes= new ArrayList<InterfazBuscadores>();
 	}
 	
-	public List<POI> buscar(String texto1, String texto2){		//Asincronico, entonces...
+	public List<POI> buscar(String texto1, String texto2){		
 		
-		Query<POI> query = store.createQuery(POI.class); 
+		Query<POI> query = store.createQuery(POI.class); 		//TODO:CONSULTA CACHE
 			query.or(query.criteria("direccion.calle").equal(texto1),
 					 query.criteria("direccion.localidad").equal(texto1)); 
 			

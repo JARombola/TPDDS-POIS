@@ -36,13 +36,14 @@ public class Servicio{
 	
 
 	public Servicio() {
-
+		tags = new ArrayList<String>();
 	}
 	
 	public Servicio(String nombre) {
 		horarios = new ListaHorarios();
 		tags = new ArrayList<String>();
 		this.setNombre(nombre);
+		agregarTag(nombre);
 	}
 
 	// -------------------GETTERS,SETTERS-----------------

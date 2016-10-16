@@ -21,15 +21,16 @@ public class CGP extends POI {
 	
 	@org.mongodb.morphia.annotations.Embedded
 	@OneToOne @Cascade(value = CascadeType.ALL)
-	private ListaServicios servicios;
+	private ListaServicios listaServicios;
 
 	public CGP() {
-		servicios = new ListaServicios();
+		super();
+		listaServicios = new ListaServicios();
 	}
 
-	public void modificar(Banco poiEntrante) {
-		if (poiEntrante.getServicios().getServicios().size() > 0) {
-			servicios = poiEntrante.getServicios();
+	public void modificar(CGP poiEntrante) {
+		if (poiEntrante.getListaServicios().getServicios().size() > 0) {
+			listaServicios = poiEntrante.getListaServicios();
 		}
 		super.modificar(poiEntrante);
 	}
@@ -37,11 +38,11 @@ public class CGP extends POI {
 	// ------------------------DISPONIBILIDAD------------------
 
 	public void agregarServicio(Servicio unServicio) {
-		this.servicios.agregarServicio(unServicio);
+		this.listaServicios.agregarServicio(unServicio);
 	}
 
 	public boolean estaDisponible(int dia, LocalTime hora, String servicioBuscado) {
-		return getServicios().estaDisponible(dia, hora, servicioBuscado);
+		return getListaServicios().estaDisponible(dia, hora, servicioBuscado);
 	}
 	// ---------------CERCANIA-----------------------------------
 
@@ -58,7 +59,7 @@ public class CGP extends POI {
 	}
 
 	private boolean tienePalabraEnServicio(String texto) {
-		return getServicios().tienePalabra(texto);
+		return getListaServicios().tienePalabra(texto);
 	}
 
 	// -------------------GETTERS,SETTERS-----------------
@@ -70,12 +71,12 @@ public class CGP extends POI {
 		this.comuna = comuna;
 	}
 
-	public ListaServicios getServicios() {
-		return servicios;
+	public ListaServicios getListaServicios() {
+		return listaServicios;
 	}
 
-	public void setServicios(ListaServicios servicios) {
-		this.servicios = servicios;
+	public void setListaServicios(ListaServicios servicios) {
+		this.listaServicios = servicios;
 	}
 
 }

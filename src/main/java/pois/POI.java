@@ -21,10 +21,10 @@ import terminales.Maquina;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@org.mongodb.morphia.annotations.Entity
+@org.mongodb.morphia.annotations.Embedded
 public abstract class POI{
 	
-	@org.mongodb.morphia.annotations.Id
+	//@org.mongodb.morphia.annotations.Id
 	@Id @GeneratedValue
 	private int id;
 	
@@ -48,7 +48,7 @@ public abstract class POI{
 	public POI (){
 		direccion = new Direccion();
 		horarios= new ListaHorarios();
-		tags=new ArrayList<String>();
+		tags = new ArrayList<String>();
 	}
 	
 	public abstract boolean estaDisponible(int dia, LocalTime hora, String palabra);
@@ -136,10 +136,6 @@ public abstract class POI{
 		return horarios;
 	}
 
-	public void mostrarDatos(){
-		System.out.println("POI: "+this.getNombre());
-	}
-	
 	public int getId() {
 		return id;
 	}

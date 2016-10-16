@@ -8,7 +8,7 @@ import pois.Comuna;
 import terminales.ControlTerminales;
 import terminales.Terminal;
 
-public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
+public class AgregarAcciones extends Proceso{
 
 	private Comuna comuna;
 	private Terminal terminal=null;
@@ -16,7 +16,7 @@ public class ProcesoAgregarAccionesParaUsuarios extends Proceso{
 	private boolean todos;
 	
 	
-	public ProcesoAgregarAccionesParaUsuarios(String accion) {
+	public AgregarAcciones(String accion) {
 		setAccion(accion);		
 	}
 

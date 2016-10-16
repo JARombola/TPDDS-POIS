@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import configuracionTerminales.FuncionesExtra;
 import externos.BuscadorCGPExterno;
+import pois.POI;
 import terminales.BufferBusquedas;
 import terminales.Busqueda;
 import terminales.ControlTerminales;
@@ -17,7 +21,7 @@ import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.ParadaColectivo;
 
-public class TestReportes {
+public class TestReportes extends AbstractPersistenceTest implements WithGlobalEntityManager {
 	Terminal terminal,terminal2;
 	Busqueda busqueda1,busqueda2,busqueda3,busqueda4;
 	LocalDate fecha1, fecha2, fecha3, fecha4;
@@ -29,6 +33,13 @@ public class TestReportes {
 	BuscadorCGPExterno buscadorCgp;
 	FuncionesExtra extra;
 	
+	@After
+	public void eliminarPois(){
+		List<POI> p = createQuery("from POI").getResultList();
+		p.stream().forEach(e->remove(e));
+		List<Busqueda> b = createQuery("from Busqueda").getResultList();
+		b.stream().forEach(c->remove(c));
+	}
 	
 	@Before
 	public void initialize(){
@@ -39,6 +50,8 @@ public class TestReportes {
 		parada2 = new ParadaColectivo();
 		parada1.setNombre("primer parada de la linea 114");
 		parada2.setNombre("segunda parada de la linea 114");
+		parada1.agregarTag("ASD");
+		parada2.agregarTag("PERRO");
 		fecha1 = new LocalDate(2016,02,01);
 		fecha2 = new LocalDate(2016,02,02);
 		fecha3 = new LocalDate(2016,02,02);
@@ -57,11 +70,11 @@ public class TestReportes {
 		busqueda4.setFraseBuscada("Dejar_la_facultad");
 		almacenamientoBusquedas = new ArrayList<Busqueda>();
 		
-		mapa.setPOI(parada1);
-		mapa.setPOI(parada2);
+		mapa.agregarOmodificar(parada1);
+		mapa.agregarOmodificar(parada2);
 		
 		terminal = new Terminal();
-		terminal2=new Terminal();
+		terminal2 = new Terminal();
 
 		terminal.setHistorialBusquedas(almacenamientoBusquedas);
 		terminal.setMapa(mapa);
@@ -94,7 +107,7 @@ public class TestReportes {
 		assertTrue(terminal.reporteTotalResultados().getDatos().isEmpty());			//No se registraron, estaba desactivado
 		terminal.activarOpcion("HISTORIAL");
 		terminal.realizarBusqueda("Hola", "Chau");
-		terminal.realizarBusqueda("114", "");
+		terminal.realizarBusqueda("114", " ");
 		terminal.realizarBusqueda("Julian", "Crack");
 		assertEquals(terminal.getHistorialBusquedas().size(),3);
 		assertEquals(terminal.reporteTotalResultados().getDatos().get(0).getResultados(),2,0);			//Registrados, hubieron 2 aciertos (114)

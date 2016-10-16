@@ -27,7 +27,7 @@ import tiposPoi.ParadaColectivo;
 import tiposPoi.Rubro;
 import tiposPoi.Servicio;
 
-public class testMongo {			
+public class TestMongo {			
 			
 			//NO FUNCIONA SI NO ESTÁ MONGO EJECUTANDO, SORRY!!
 	
@@ -110,7 +110,7 @@ public class testMongo {
 		
 		Assert.assertEquals(bancoLevantado.getDireccion().getBarrio(),"Gotham");
 		Assert.assertEquals(bancoLevantado.getTags().size(),4);
-		Assert.assertEquals(bancoLevantado.getServicios().getServicios().size(),1);
+		Assert.assertEquals(bancoLevantado.getListaServicios().getServicios().size(),1);
 	}
 	
 	@Test
@@ -157,7 +157,7 @@ public class testMongo {
 		
 		Assert.assertEquals(cgpBD.getNombre(), cgp.getNombre());
 		Assert.assertTrue(cgpBD.tienePalabra("Harry Potter"));
-		Assert.assertEquals(cgpBD.getServicios().getServicios().get(0).getTags().size(),3);		//el servicio tiene 3 tags
+		Assert.assertEquals(cgpBD.getListaServicios().getServicios().get(0).getTags().size(),3);		//el servicio tiene 3 tags
 		Assert.assertEquals(cgpBD.getComuna().getNombre(), cgp.getComuna().getNombre());
 	}
 	
@@ -171,16 +171,23 @@ public class testMongo {
 		Local kiosco = new Local();
 			kiosco.setNombre("kiosco");
 			resultados.add(kiosco);
-			
-		LocalDate fecha = LocalDate.now();
 		
 		Busqueda unaBusqueda=new Busqueda();
-		unaBusqueda.setTiempoBusqueda(5);
-		unaBusqueda.setFraseBuscada("parada");
-		unaBusqueda.setResultados(resultados);
-		unaBusqueda.setFecha(fecha);
-		
+			unaBusqueda.setTiempoBusqueda(5);
+			unaBusqueda.setFraseBuscada("parada");
+			unaBusqueda.setResultados(resultados);
+			unaBusqueda.setFecha(LocalDate.now());
+			unaBusqueda.setId(1);
+			
+		Busqueda unaBusqueda2=new Busqueda();
+			unaBusqueda2.setTiempoBusqueda(5);
+			unaBusqueda2.setFraseBuscada("pato");
+			unaBusqueda2.setResultados(resultados);
+			unaBusqueda2.setFecha(LocalDate.now());
+			unaBusqueda2.setId(2);
+			
 		store.save(unaBusqueda);
+		store.save(unaBusqueda2);
 		
 		Busqueda busquedaDB = store.createQuery(Busqueda.class)
 				.filter("fraseBuscada", "parada")
@@ -225,12 +232,15 @@ public class testMongo {
 			cgp3.setDireccion(dire3);
 			List<POI> set2=new ArrayList<POI>();
 			set2.add(cgp3);
+		
 		store.save(set2);
+		
 		
 		List<POI> resultados = buffer.buscar("calle", "");
 		Assert.assertEquals(resultados.size(),2);
 		Assert.assertEquals(resultados.get(0).getNombre(), cgp1.getNombre());
 		Assert.assertEquals(resultados.get(1).getNombre(), cgp2.getNombre());
+		mongo.dropDatabase("CACHE");
 	}
 	
 }

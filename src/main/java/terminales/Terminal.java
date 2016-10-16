@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalDate;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import configuracionTerminales.Administrador;
 import configuracionTerminales.FuncionesExtra;
@@ -25,7 +26,7 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 @Entity
-public class Terminal {
+public class Terminal implements WithGlobalEntityManager {
 	@Id @GeneratedValue
 	private int id;
 	
@@ -50,6 +51,7 @@ public class Terminal {
 	private String nombre;
 
 	public Terminal(){
+		historialBusquedas=new ArrayList<Busqueda>();
 		extra = new FuncionesExtra(0);
 		extra.setTerminal(this);
 		coordenadas = new Coordenadas();
@@ -72,9 +74,7 @@ public class Terminal {
 		if(buffer!=null){
 			buffer.buscar(texto1, texto2).forEach(poi->mapa.agregarOmodificar(poi));	//Primero busqueda externa				
 		}
-		List<POI> resultadosBusqueda= mapa.getListaPOIS().stream()
-									.filter(poi->poi.tienePalabra(texto1))
-									.collect(Collectors.toList());
+		List<POI> resultadosBusqueda= mapa.buscarPoi(texto1);
 			
 		return resultadosBusqueda;
 	}

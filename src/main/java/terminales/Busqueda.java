@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -20,7 +19,6 @@ import pois.POI;
 @org.mongodb.morphia.annotations.Entity
 @Entity
 @Table(name="Busquedas")
-
 public class Busqueda {
 	
 	@org.mongodb.morphia.annotations.Id
@@ -32,7 +30,7 @@ public class Busqueda {
 	
 	@org.mongodb.morphia.annotations.Embedded
 	@ManyToMany 
-	@JoinColumn @Cascade(value=CascadeType.ALL)
+	@Cascade(value=CascadeType.ALL)
 	public List<POI> resultados;
 	
 	private double tiempoBusqueda;

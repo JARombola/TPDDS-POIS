@@ -9,11 +9,11 @@ import java.io.IOException;
 import pois.POI;
 import terminales.Mapa;
 
-public class ProcesoActualizacionLocalesComerciales extends Proceso{
+public class ActualizacionLocales extends Proceso{
 	private String ruta;
 	
 	
-	public ProcesoActualizacionLocalesComerciales(String  ruta){
+	public ActualizacionLocales(String  ruta){
 		this.ruta = ruta;	
 	}
 	
@@ -49,3 +49,4 @@ public class ProcesoActualizacionLocalesComerciales extends Proceso{
 //					Luego, podrían eliminar el if dentro del for 
 //					una idea es reemplazándolo por un for que vaya de i = 1
 //					hasta el length de 'parts' - Aldana
+

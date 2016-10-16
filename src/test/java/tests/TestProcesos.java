@@ -1,23 +1,35 @@
 package tests;
 
+import java.util.List;
+
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import configuracionTerminales.Administrador;
-import procesos.ProcesoActualizacionLocalesComerciales;
+import pois.POI;
+import procesos.ActualizacionLocales;
 import terminales.ControlTerminales;
 import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.Local;
 
-public class TestProcesos {
+public class TestProcesos extends AbstractPersistenceTest implements WithGlobalEntityManager{
 	private Administrador admin;
 	private Local poiLocal1, libreria;
 	private Mapa mapa;
 	private Terminal terminal;
 	private ControlTerminales controlTerminales;
-	private ProcesoActualizacionLocalesComerciales proceso;
+	private ActualizacionLocales proceso;
+	
+	@After
+	public void eliminarPois(){
+		List<POI> p = createQuery("from POI").getResultList();
+		p.stream().forEach(e->remove(e));
+	}
 	
 	@Before
 	public void initialize() {
@@ -28,7 +40,7 @@ public class TestProcesos {
 		mapa = Mapa.getInstancia();
 		terminal.setMapa(mapa);
 		terminal.setAdministrador(admin);
-		proceso=new ProcesoActualizacionLocalesComerciales("test.txt");
+
 		controlTerminales.agregarTerminal(terminal);
 		
 		poiLocal1 = new Local();
@@ -45,16 +57,16 @@ public class TestProcesos {
 			libreria.agregarTag("Colegio");
 			libreria.agregarTag("Cuaderno");
 						
-		mapa.setPOI(poiLocal1);
-		mapa.setPOI(libreria);
+		mapa.agregarOmodificar(poiLocal1);
+		mapa.agregarOmodificar(libreria);
 	}
 	
 	
 	@Test
 	public void testProcesoActualizacionLocalesComerciales(){
-		
 		Assert.assertEquals(poiLocal1.getTags().size(),3);
 		Assert.assertEquals(libreria.getTags().size(),5);
+		proceso=new ActualizacionLocales("test.txt");
 		proceso.run();
 		Assert.assertEquals(poiLocal1.getTags().size(),4);
 		Assert.assertEquals(libreria.getTags().size(),10);

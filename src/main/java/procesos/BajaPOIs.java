@@ -5,11 +5,11 @@ import java.util.List;
 
 import terminales.Mapa;
 
-public class ProcesoBajaPOIs extends Proceso{
+public class BajaPOIs extends Proceso{
 	private List<Integer> IDPoisEliminar;
 	
 
-	public ProcesoBajaPOIs(List<Integer> ids){
+	public BajaPOIs(List<Integer> ids){
 		this.setIDPoiEliminar(ids);
 	}
 	
@@ -28,4 +28,5 @@ public class ProcesoBajaPOIs extends Proceso{
 	}
 	
 }
+
 

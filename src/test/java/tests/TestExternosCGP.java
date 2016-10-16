@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalTime;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,9 @@ import externos.OrigenDatos;
 import externos.RangosServiciosDTO;
 import externos.ServiciosDTO;
 import pois.Horario;
+import pois.POI;
 import terminales.BufferBusquedas;
+import terminales.Busqueda;
 import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.CGP;
@@ -34,6 +37,14 @@ public class TestExternosCGP extends AbstractPersistenceTest implements WithGlob
 	Mapa mapa;
 	Terminal terminal;
 	BuscadorCGPExterno buscadorExterno;
+	
+	@After
+	public void eliminarPois(){
+		List<POI> p = createQuery("from POI").getResultList();
+		p.stream().forEach(e->remove(e));
+		List<Busqueda> b = createQuery("from Busqueda").getResultList();
+		b.stream().forEach(c->remove(c));
+	}
 	
 	@Before
 	public void initialize() {
@@ -90,7 +101,6 @@ public class TestExternosCGP extends AbstractPersistenceTest implements WithGlob
 		buscadorExterno.setComponente(cgpMock);
 		
 		buffer.agregarExterno(buscadorExterno);
-		rollbackTransaction();
 	}
 	
 	@Test
@@ -99,18 +109,20 @@ public class TestExternosCGP extends AbstractPersistenceTest implements WithGlob
 		Assert.assertEquals(cgp.getCalle(),"Av. 9 de Julio");
 		Mockito.verify(cgpMock,Mockito.times(1)).buscar("Av. 9 de Julio");
 	}
+	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testBusquedaExternaCGP() {
-		mapa.getListaPOIS().stream().forEach(a->System.out.println(a.getNombre()));
-		Assert.assertEquals(mapa.getListaPOIS().size(), 0);
+		List<POI>p = entityManager().createQuery("from POI").getResultList();
+		Assert.assertEquals(p.size(), 0);
 		terminal.buscar("9 de julio","");
-		Assert.assertEquals(mapa.getListaPOIS().size(), 1);			//La lista esta vacia, y agrega el nuevo encontrado en el externo
+		p = entityManager().createQuery("from POI").getResultList();
+		Assert.assertEquals(p.size(), 1);			//La lista esta vacia, y agrega el nuevo encontrado en el externo
 		terminal.buscar("9 de julio","");
+		p = entityManager().createQuery("from POI").getResultList();
 		cgpMock.buscar("9 de julio");
 		
 		Mockito.verify(cgpMock,Mockito.times(3)).buscar("9 de julio");	
-		rollbackTransaction();
-		
 	}
 	
 	@Test
@@ -139,6 +151,6 @@ public class TestExternosCGP extends AbstractPersistenceTest implements WithGlob
 		cgp.setServicios(servicios);
 		CGP poicgp= buscadorExterno.adaptarCGP(cgp);
 		Assert.assertEquals(poicgp.getNombre(),("Av. 9 de Julio 4322"));
-		Assert.assertEquals(poicgp.getServicios().getServicios().size(),cgp.getServicios().size());
+		Assert.assertEquals(poicgp.getListaServicios().getServicios().size(),cgp.getServicios().size());
 	}
 }

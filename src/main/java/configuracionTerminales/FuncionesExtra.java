@@ -35,6 +35,12 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	private Map<String,adapterBooleano> opciones;		//Usa el map para activar/desactivar las opciones... :)
 	@Transient
 	private Terminal terminal;
+	@Transient
+	Datastore store;
+	@Transient
+	Morphia morphia;
+	@Transient	
+	MongoClient mongo;
 
 	public FuncionesExtra(){
 	
@@ -62,27 +68,35 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	private void guardarBusqueda(Busqueda datosBusqueda) {  
 		if (getOpciones().get("HISTORIAL").isActivado()){
 			terminal.guardarBusquedas(datosBusqueda);
-			persistirRelacional();
+			persistirRelacional(datosBusqueda);
 			persistirMongo(datosBusqueda);
 			
 		}
 	}
 	
-	private void persistirRelacional(){
+	private void persistirRelacional(Busqueda datosBusqueda){
 		EntityTransaction tx = entityManager().getTransaction(); //TODO 
 		if (!entityManager().getTransaction().isActive()) 
-		tx.begin();
-		entityManager().persist(getTerminal());
-	//	tx.commit();	TODO
+			tx.begin();
+		entityManager().merge(datosBusqueda);
+		tx.commit();	//TODO
 	//	entityManager().clear();
 	}
 	
 	private void persistirMongo(Busqueda datosBusqueda){
-		Datastore store;
-		Morphia morphia = new Morphia();
+		morphia = new Morphia();
+		morphia.getMapper().getOptions().setStoreNulls(true);
+		morphia.mapPackage("pois");
+		morphia.mapPackage("tiposPoi");
 		morphia.mapPackage("terminales");
-		MongoClient mongo = new MongoClient();
+		morphia.mapPackage("configuracionTerminales");
+		morphia.mapPackage("terminales");
+		mongo = new MongoClient();
 		store = morphia.createDatastore(mongo, "Busquedas");
+		int a = (int)store.getCount(Busqueda.class);
+		datosBusqueda.setId(a+2);
+		System.out.println(a);
+		if(!datosBusqueda.resultados.isEmpty())System.out.println(datosBusqueda.resultados.get(0));
 		store.save(datosBusqueda);
 	}
 
@@ -98,12 +112,15 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	}	
 	
 	public void activarOpcion(String opcion){
-		if(opciones.get(opcion)!=null){opciones.put(opcion.toUpperCase(), new adapterBooleano(true));}
+		if(opciones.get(opcion)!=null){
+			opciones.replace(opcion.toUpperCase(), new adapterBooleano(true));
+		}
 			else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 	
 	public void desactivarOpcion(String opcion){
-		if(opciones.get(opcion)!=null){opciones.put(opcion.toUpperCase(), new adapterBooleano(false));}
+		if(opciones.get(opcion)!=null){
+			opciones.replace(opcion.toUpperCase(), new adapterBooleano(false));}
 		else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 
