@@ -92,7 +92,7 @@ public class TestJackson extends AbstractPersistenceTest implements WithGlobalEn
 			Mockito.verify(banco,Mockito.times(1)).buscar("Banco de la Plaza", "cobro cheques");
 			List<POI> p = createQuery("from POI").getResultList();
 			assertEquals(p.size(),1);				//Estaba vacio y agrega el banco		
-			
+			buffer.borrarBusquedaCache("Banco de la Plaza");
 		}
 }
 		

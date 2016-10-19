@@ -112,6 +112,7 @@ public class TestBusqueda extends AbstractPersistenceTest implements WithGlobalE
 		encontrados=terminal.buscar("114","").size();		//3 paradas
 		Assert.assertEquals(encontrados, 3,0);
 		Mockito.verify(origenCGP,Mockito.times(1)).buscar("114");		//a origen1 no lo llama xq corresponde a un banco
+		buffer.borrarBusquedaCache("114");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -135,6 +136,7 @@ public class TestBusqueda extends AbstractPersistenceTest implements WithGlobalE
 		encontrados=terminal.buscar("jubilacion","").size();		//banco
 		Assert.assertEquals(encontrados,1,0);
 		Mockito.verify(origenCGP,Mockito.times(1)).buscar("jubilacion");	
+		buffer.borrarBusquedaCache("jubilacion");
 	}
 	
 	@Test	
@@ -147,6 +149,7 @@ public class TestBusqueda extends AbstractPersistenceTest implements WithGlobalE
 	public void busquedaExternosCGP(){
 		terminal.buscar("asesoramiento","");
 		Mockito.verify(origenCGP,Mockito.times(1)).buscar("asesoramiento");
+		buffer.borrarBusquedaCache("asesoramiento");
 	}
 	
 	

@@ -108,9 +108,35 @@
               <version>1.2.1</version>
           </dependency>
 		
-
-
+		<!-- JDK 1.8+ compatible -->
+		<dependency>
+  			 <groupId>org.redisson</groupId>
+  			 <artifactId>redisson</artifactId>
+  			 <version>3.0.0</version>
+		</dependency>
 		
+				<!-- JDK 1.6+ compatible -->
+		<dependency>
+ 		  <groupId>org.redisson</groupId>
+ 		  <artifactId>redisson</artifactId>
+  		 <version>2.5.0</version>
+		</dependency>
+
+		<dependency>
+	<groupId>joda-time</groupId>
+	<artifactId>joda-time-hibernate</artifactId>
+	<version>1.4</version>
+</dependency> 
+
+
+
+<dependency>
+	<groupId>joda-time</groupId>
+	<artifactId>joda-time</artifactId>
+	<version>2.9.4</version>
+</dependency>
+
+<dependency> <groupId>org.joda</groupId> <artifactId>joda-convert</artifactId> <version>1.8</version> </dependency>
 		
 	</dependencies>
 </project>
