@@ -1,5 +1,6 @@
 package terminales;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,10 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.eclipse.xtend2.lib.StringConcatenation;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
+import org.joda.convert.StringConvert;
 import org.joda.time.LocalDate;
+import org.mongodb.morphia.annotations.PostPersist;
+import org.mongodb.morphia.annotations.PrePersist;
 
 import pois.POI;
 
@@ -35,10 +40,11 @@ public class Busqueda {
 	
 	private double tiempoBusqueda;
 
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate fecha; 
 
+	
 	public Busqueda(){
+		resultados=new ArrayList<POI>();
 	}
 	
 	public String getFraseBuscada() {

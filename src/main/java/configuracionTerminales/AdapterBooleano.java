@@ -5,16 +5,16 @@ import javax.persistence.Embeddable;
 import org.hibernate.annotations.Type;
 
 @Embeddable
-public class adapterBooleano {
+public class AdapterBooleano {
 	
 	@Type(type="yes_no")
 	private boolean activado;
 
-	public adapterBooleano(){
+	public AdapterBooleano(){
 		
 	};
 	
-	public adapterBooleano(boolean activado){
+	public AdapterBooleano(boolean activado){
 		this.activado=activado;
 	}
 	

@@ -13,7 +13,10 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalDate;
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+
+import com.mongodb.MongoClient;
 
 import configuracionTerminales.Administrador;
 import configuracionTerminales.FuncionesExtra;
@@ -26,7 +29,7 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 @Entity
-public class Terminal implements WithGlobalEntityManager {
+public class Terminal {
 	@Id @GeneratedValue
 	private int id;
 	
@@ -40,7 +43,7 @@ public class Terminal implements WithGlobalEntityManager {
 	private FuncionesExtra extra;
 
 	@OneToMany @Cascade(value=CascadeType.ALL)
-	private List<Busqueda> historialBusquedas;
+	//private List<Busqueda> historialBusquedas;
 
 	@Transient
 	private Mapa mapa;
@@ -50,8 +53,15 @@ public class Terminal implements WithGlobalEntityManager {
 
 	private String nombre;
 
+	@Transient
+	Morphia morphia;
+	@Transient
+	MongoClient mongo;
+	@Transient
+	Datastore store;
+
 	public Terminal(){
-		historialBusquedas=new ArrayList<Busqueda>();
+//		historialBusquedas=new ArrayList<Busqueda>();
 		extra = new FuncionesExtra(0);
 		extra.setTerminal(this);
 		coordenadas = new Coordenadas();
@@ -85,15 +95,17 @@ public class Terminal implements WithGlobalEntityManager {
 
 	//----------------------REPORTES---------------------------------------
 	public Reporte reporteFechas(){ 		//Calcula cantidad de busquedas de todas las fechas
-		int i, cantBusquedas = getHistorialBusquedas().size();
+		iniciarMorphia();
+		int i, cantBusquedas = cantidadBusquedas();
 		List<Busqueda> busquedas;
 		Reporte reporteBusquedasPorFechas = new Reporte("Reporte Fechas");
 		reporteBusquedasPorFechas.setTerminal(getNombre());
 		LocalDate fecha;
+
 		for (i = 0; i < cantBusquedas; i+=busquedas.size()) {
-			fecha = getHistorialBusquedas().get(i).getFecha();
-			busquedas = this.busquedasDeFecha(fecha);
-			DatosReporte busquedasFecha = this.crearReporteFechas(busquedas);
+			fecha = fechaBusqueda(i);
+			busquedas = busquedasDeFecha(fecha);
+			DatosReporte busquedasFecha = crearReporteFechas(busquedas);
 			reporteBusquedasPorFechas.agregarDatos(busquedasFecha);
 		}
 		return reporteBusquedasPorFechas;
@@ -101,9 +113,9 @@ public class Terminal implements WithGlobalEntityManager {
 	
 	public List<Busqueda> busquedasDeFecha(LocalDate fecha) {
 		List<Busqueda> busquedas;
-		busquedas = getHistorialBusquedas().stream()
-				.filter(busqueda -> busqueda.getFecha().isEqual(fecha))
-				.collect(Collectors.toList());
+		busquedas = store.createQuery(Busqueda.class)
+				.filter("fecha =", fecha)
+				.asList();
 		return busquedas;
 	}
 	
@@ -115,7 +127,8 @@ public class Terminal implements WithGlobalEntityManager {
 	}
 	
 	public Reporte reporteResultadosParciales() {
-		List<Busqueda> datosBusquedas = getHistorialBusquedas();
+		iniciarMorphia();
+		List<Busqueda> datosBusquedas = store.find(Busqueda.class).asList();
 		
 		Reporte reporte = new Reporte("Resultados Parciales");
 		reporte.setTerminal(getNombre());
@@ -126,8 +139,9 @@ public class Terminal implements WithGlobalEntityManager {
 	}
 	
 	public Reporte reporteTotalResultados() {
-		List<Busqueda> datosBusquedas = getHistorialBusquedas();
-		if (getHistorialBusquedas().isEmpty()) return new Reporte();
+		iniciarMorphia();
+		List<Busqueda> datosBusquedas = store.find(Busqueda.class).asList();
+		if (datosBusquedas.isEmpty()) return new Reporte();
 		
 		Reporte reporteBusquedasTotales = crearReporte(datosBusquedas);
 		return reporteBusquedasTotales;
@@ -142,7 +156,6 @@ public class Terminal implements WithGlobalEntityManager {
 					 .sum());
 		return reporte;
 	}
-	
 		
 	public void activarOpcion(String opcion){
 		getOpciones().activarOpcion(opcion);
@@ -151,11 +164,11 @@ public class Terminal implements WithGlobalEntityManager {
 	public void desactivarOpcion(String opcion){
 		getOpciones().desactivarOpcion(opcion);
 	}
-	
-	public void guardarBusquedas(Busqueda unaBusqueda){
-		if (this.historialBusquedas==null) historialBusquedas = new ArrayList<Busqueda>();
-		getHistorialBusquedas().add(unaBusqueda);
-	}
+//	
+//	public void guardarBusquedas(Busqueda unaBusqueda){
+//		if (this.historialBusquedas==null) historialBusquedas = new ArrayList<Busqueda>();
+//		getHistorialBusquedas().add(unaBusqueda);
+//	}
 
 	// -------------------GETTERS,SETTERS-----------------
 	public boolean estaEnLaComuna(Comuna unaComuna){
@@ -179,11 +192,9 @@ public class Terminal implements WithGlobalEntityManager {
 		return nombre;
 	}
 	public List<Busqueda> getHistorialBusquedas() {
-		return historialBusquedas;
+		return store.find(Busqueda.class).asList();
 	}
-	public void setHistorialBusquedas(List<Busqueda> historialBusquedas) {
-		this.historialBusquedas = historialBusquedas;
-	}
+
 	public FuncionesExtra getOpciones() {
 		return extra;
 	}
@@ -223,5 +234,30 @@ public class Terminal implements WithGlobalEntityManager {
 	public void setAdministrador(Administrador administrador) {
 		this.administrador = administrador;
 	}
-
+//---------------------------------------BD Busquedas-----------------------------------	
+	private int cantidadBusquedas(){
+		return (int)store.getCount(Busqueda.class);
+	}
+	
+	private void iniciarMorphia(){
+		String pathMongoBusquedas = "Busquedas_"+nombre;
+		morphia = new Morphia();
+		morphia.getMapper().getOptions().setStoreNulls(true);
+		morphia.mapPackage("pois");
+		morphia.mapPackage("tiposPoi");
+		morphia.mapPackage("terminales");
+		morphia.getMapper().getConverters().addConverter( new LocalDateConverter() );
+		mongo = new MongoClient();
+		store = morphia.createDatastore(mongo, pathMongoBusquedas);
+	}
+	
+	public void eliminarBusquedas(){
+		iniciarMorphia();
+		String pathMongoBusquedas = "Busquedas_"+nombre;
+		mongo.dropDatabase(pathMongoBusquedas);
+	}
+	
+	private LocalDate fechaBusqueda(int posicion){
+		return store.find(Busqueda.class).asList().get(posicion).getFecha();
+	}
 }

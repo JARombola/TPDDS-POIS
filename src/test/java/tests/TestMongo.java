@@ -44,7 +44,6 @@ public class TestMongo {
 		morphia.mapPackage("terminales");
 		morphia.getMapper().getConverters().addConverter( new LocalDateConverter() );
 		store = morphia.createDatastore(mongo, "BasePOIS");
-
 	}
 	
 	@After
@@ -192,6 +191,7 @@ public class TestMongo {
 		Busqueda busquedaDB = store.createQuery(Busqueda.class)
 				.filter("fraseBuscada", "parada")
 				.get();
+		
 		
 		Assert.assertEquals(busquedaDB.getTiempoBusqueda(),5,0);	
 		Assert.assertEquals(busquedaDB.getResultados().get(0).getNombre(), cgp.getNombre());

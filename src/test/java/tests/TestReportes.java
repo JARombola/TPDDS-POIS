@@ -4,12 +4,19 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.Store;
+
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
+
+import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 
 import configuracionTerminales.FuncionesExtra;
 import externos.BuscadorCGPExterno;
@@ -77,12 +84,14 @@ public class TestReportes extends AbstractPersistenceTest implements WithGlobalE
 		terminal = new Terminal();
 		terminal2 = new Terminal();
 
-		terminal.setHistorialBusquedas(almacenamientoBusquedas);
+		terminal.activarOpcion("historial");
+		terminal2.activarOpcion("historial");
+		
+		
 		terminal.setMapa(mapa);
-		terminal.setNombre("Terminal 1");
-		terminal2.setHistorialBusquedas(almacenamientoBusquedas);
+		terminal.setNombre("Terminal_1");
 		terminal2.setMapa(mapa);
-		terminal2.setNombre("Terminal 2");
+		terminal2.setNombre("Terminal_2");
 		
 
 		terminal.setBuffer(buffer);
@@ -93,15 +102,17 @@ public class TestReportes extends AbstractPersistenceTest implements WithGlobalE
 	
 	@Test
 	public void testReportePorFecha (){
-		almacenamientoBusquedas.add(busqueda1);
-		almacenamientoBusquedas.add(busqueda2);
-		almacenamientoBusquedas.add(busqueda3);
-		almacenamientoBusquedas.add(busqueda4);
+		terminal.getOpciones().persistirBusquedasMongo(busqueda1);
+		terminal.getOpciones().persistirBusquedasMongo(busqueda2);
+		terminal.getOpciones().persistirBusquedasMongo(busqueda3);
+		terminal.getOpciones().persistirBusquedasMongo(busqueda4);
 		assertEquals(terminal.reporteFechas().getDatos().size(),3,0);			//4 busquedas, pero 2 son del mismo dia => cuentan como una
+		terminal.eliminarBusquedas();
 	}
 	
 	@Test
 	public void testOpcionBusqueda() throws Exception{
+		terminal.desactivarOpcion("historial");
 		terminal.realizarBusqueda("Hola", "Chau");
 		terminal.realizarBusqueda("114", "");
 		terminal.realizarBusqueda("Julian", "Crack");
@@ -117,22 +128,23 @@ public class TestReportes extends AbstractPersistenceTest implements WithGlobalE
 		terminal.desactivarOpcion("HISTORIAL");
 		terminal.realizarBusqueda("114", "");
 		assertEquals(terminal.reporteTotalResultados().getDatos().get(0).getResultados(),4,0);
+		terminal.eliminarBusquedas();
 	}
 	
 	@Test
 	public void testReportesParcialesTerminal1() throws Exception{
-		terminal.activarOpcion("HISTORIAL");
 		terminal.realizarBusqueda("Diseño", "");
-		int cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal).getDatos().size();
+		int cantidadBusquedas=terminal.reporteResultadosParciales().getDatos().size();
 		assertEquals(cantidadBusquedas, 1);
 
 		terminal.realizarBusqueda("ASD", "");
-		cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal).getDatos().size();
+		cantidadBusquedas=terminal.reporteResultadosParciales().getDatos().size();
 		assertEquals(cantidadBusquedas, 2);
 		
 		terminal.realizarBusqueda("ASD", "Ejemplo");
-		cantidadBusquedas=controlMaestro.busquedasParcialesPorTerminal(terminal).getDatos().size();
+		cantidadBusquedas=terminal.reporteResultadosParciales().getDatos().size();
 		assertEquals(cantidadBusquedas, 3);
+		terminal.eliminarBusquedas();
 	}
 	
 	

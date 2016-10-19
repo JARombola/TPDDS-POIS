@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import terminales.Busqueda;
+import terminales.LocalDateConverter;
 import terminales.Terminal;
 
 import javax.persistence.ElementCollection;
@@ -32,7 +33,7 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	private int tiempoMax;
 	@ElementCollection
 	@MapKeyJoinColumn
-	private Map<String,adapterBooleano> opciones;		//Usa el map para activar/desactivar las opciones... :)
+	private Map<String,AdapterBooleano> opciones;		//Usa el map para activar/desactivar las opciones... :)
 	@Transient
 	private Terminal terminal;
 	@Transient
@@ -41,6 +42,8 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	Morphia morphia;
 	@Transient	
 	MongoClient mongo;
+	@Transient	
+	private String pathMongoBusquedas;
 
 	public FuncionesExtra(){
 	
@@ -48,9 +51,9 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	
 	public FuncionesExtra(int tiempoMax){
 		this.tiempoMax=tiempoMax;
-		opciones=new HashMap<String,adapterBooleano>();
-		opciones.put("HISTORIAL", new adapterBooleano(false));
-		opciones.put("MAIL", new adapterBooleano(false));
+		opciones=new HashMap<String,AdapterBooleano>();
+		opciones.put("HISTORIAL", new AdapterBooleano(false));
+		opciones.put("MAIL", new AdapterBooleano(false));
 	}
 	
 	public void inicioBusqueda(){
@@ -61,15 +64,14 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 		TiempoEjecucion.Stop();
 		double tiempoBusqueda= TiempoEjecucion.getTiempoEjecucion();
 		datosBusqueda.setTiempoBusqueda(tiempoBusqueda);
-		this.enviarMail(tiempoBusqueda);
-		this.guardarBusqueda(datosBusqueda);
+		enviarMail(tiempoBusqueda);
+		guardarBusqueda(datosBusqueda);
 	}
 	
-	private void guardarBusqueda(Busqueda datosBusqueda) {  
+	public void guardarBusqueda(Busqueda datosBusqueda) {  
 		if (getOpciones().get("HISTORIAL").isActivado()){
-			terminal.guardarBusquedas(datosBusqueda);
 			persistirRelacional(datosBusqueda);
-			persistirMongo(datosBusqueda);
+			persistirBusquedasMongo(datosBusqueda);
 			
 		}
 	}
@@ -83,16 +85,15 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	//	entityManager().clear();
 	}
 	
-	private void persistirMongo(Busqueda datosBusqueda){
+	public void persistirBusquedasMongo(Busqueda datosBusqueda){
 		morphia = new Morphia();
-		morphia.getMapper().getOptions().setStoreNulls(true);
 		morphia.mapPackage("pois");
 		morphia.mapPackage("tiposPoi");
 		morphia.mapPackage("terminales");
-		morphia.mapPackage("configuracionTerminales");
-		morphia.mapPackage("terminales");
+		morphia.getMapper().getConverters().addConverter( new LocalDateConverter() );
 		mongo = new MongoClient();
-		store = morphia.createDatastore(mongo, "Busquedas");
+		String base = "Busquedas_"+terminal.getNombre();
+		store = morphia.createDatastore(mongo, base);
 		int a = (int)store.getCount(Busqueda.class);
 		datosBusqueda.setId(a);
 		store.save(datosBusqueda);
@@ -105,20 +106,20 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 		}
 	}
 
-	public Map<String, adapterBooleano> getOpciones() {
+	public Map<String, AdapterBooleano> getOpciones() {
 			return opciones;
 	}	
 	
 	public void activarOpcion(String opcion){
-		if(opciones.get(opcion)!=null){
-			opciones.replace(opcion.toUpperCase(), new adapterBooleano(true));
+		if(opciones.get(opcion.toUpperCase())!=null){
+			opciones.replace(opcion.toUpperCase(), new AdapterBooleano(true));
 		}
 			else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 	
 	public void desactivarOpcion(String opcion){
-		if(opciones.get(opcion)!=null){
-			opciones.replace(opcion.toUpperCase(), new adapterBooleano(false));}
+		if(opciones.get(opcion.toUpperCase())!=null){
+			opciones.replace(opcion.toUpperCase(), new AdapterBooleano(false));}
 		else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 

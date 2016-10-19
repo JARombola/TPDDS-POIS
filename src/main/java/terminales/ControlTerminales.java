@@ -20,12 +20,6 @@ public class ControlTerminales {
 		return instancia;
 	}
 
-	public Reporte busquedasParcialesPorTerminal(Terminal unaTerminal){
-//		TODO: Este método y el de abajo tienen el code smell de middle man. - Aldana
-		Reporte busquedasParciales=unaTerminal.reporteResultadosParciales();
-		return busquedasParciales;
-	}
-	
 	public Reporte totalDeResultadosPorTerminal(Terminal unaTerminal){
 		Reporte reporteTotalResultados=unaTerminal.reporteTotalResultados();
 		return reporteTotalResultados;

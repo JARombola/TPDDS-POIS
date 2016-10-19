@@ -302,7 +302,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		terminal.realizarBusqueda("parada", "");		
 		terminal.realizarBusqueda("115", "");		
 		terminal.realizarBusqueda("ASD", "");		
-		terminal.getHistorialBusquedas().get(2).setFecha(new LocalDate(1995,10,25));
+	//	terminal.getHistorialBusquedas().get(2).setFecha(new LocalDate(1995,10,25));
 		Reporte repFechas = terminal.reporteFechas();
 		Reporte repTotalResultados=terminal.reporteTotalResultados();
 		Reporte repParciales=terminal.reporteResultadosParciales();
