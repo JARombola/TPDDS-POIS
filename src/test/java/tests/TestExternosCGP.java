@@ -112,6 +112,7 @@ public class TestExternosCGP extends AbstractPersistenceTest implements WithGlob
 		terminal.buscar("Av. 9 de Julio","");
 		Assert.assertEquals(cgp.getCalle(),"Av. 9 de Julio");
 		Mockito.verify(cgpMock,Mockito.times(1)).buscar("Av. 9 de Julio");
+		buffer.borrarBusquedaCache("Av. 9 de Julio");
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -127,6 +128,7 @@ public class TestExternosCGP extends AbstractPersistenceTest implements WithGlob
 		cgpMock.buscar("9 de julio");
 		
 		Mockito.verify(cgpMock,Mockito.times(3)).buscar("9 de julio");	
+		buffer.borrarBusquedaCache("9 de julio");
 	}
 	
 	@Test

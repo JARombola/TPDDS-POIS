@@ -2,13 +2,11 @@ package terminales;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
-import org.mongodb.morphia.query.Query;
 import org.redisson.Redisson;
-import org.redisson.api.RBucket;
+import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 
@@ -24,7 +22,7 @@ public class BufferBusquedas {
 	private List<InterfazBuscadores> buscadoresComponentes;
 	private Datastore store;
 	private Config config;
-	private RedissonClient reddison;
+	private RedissonClient redisson;
 
 	public BufferBusquedas(){
 		Morphia morphia = new Morphia();
@@ -38,13 +36,13 @@ public class BufferBusquedas {
 		config = new Config(); 
 		config.setUseLinuxNativeEpoll(false);
 		config.useSingleServer().setAddress("127.0.0.1:6379"); 
-		reddison = Redisson.create(config);
+		redisson = Redisson.create(config);
 	}
 	
-	public List<POI> buscar(String texto1, String texto2){		
+	public List<POI> buscar(String texto1, String texto2){	
 		
-		RBucket<List<POI>> bucket = reddison.getBucket("texto1");
-		List<POI> resultadosCache = bucket.get();
+		RMap<String, List<POI>> map = redisson.getMap("cache");
+		List<POI> resultadosCache = map.get(texto1);
 		
 		if(resultadosCache == null){			//Si ninguno sirvió => consulta a los externos
 			List<POI> resultadosEnBuffer = new ArrayList<POI>();
@@ -54,13 +52,18 @@ public class BufferBusquedas {
 				resultados.addAll(componente.getResultado());			//Guardo los del externo
 				}
 			);
-			bucket.set(resultadosEnBuffer);
+			map.put(texto1, resultadosEnBuffer);
 			return resultadosEnBuffer;
 		} else {
 			return resultadosCache;
 		}
 	}
 
+	public void borrarBusquedaCache(String frase){
+		RMap<String, List<POI>> map = redisson.getMap("cache");
+		map.delete();
+		
+	}
 	public void agregarExterno(InterfazBuscadores componente) {
 		this.buscadoresComponentes.add(componente);
 	}
