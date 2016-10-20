@@ -16,7 +16,7 @@ public class Mapa  implements WithGlobalEntityManager {
 	public Mapa() {
 	}
 	
-	public static Mapa getInstancia(){
+	public static Mapa getInstancia(){				//Creo que no es necesario ....
 		if (instancia==null){
 			instancia = new Mapa();
 		}
@@ -35,7 +35,6 @@ public class Mapa  implements WithGlobalEntityManager {
 			if(!entityManager().getTransaction().isActive())entityManager().getTransaction().begin();
 			entityManager().remove(poiEliminar);
 			entityManager().getTransaction().commit();
-		//	System.out.println("POI ELIMINADO");			//TODO Borrar!
 		}
 	}
 	
@@ -45,11 +44,9 @@ public class Mapa  implements WithGlobalEntityManager {
 		if(!entityManager().getTransaction().isActive()) tx.begin();	//TODO
 
 		if(mismoPoiEnSistema!=null){
-		//	System.out.println("___________POI MODIFICADO!");
  			mismoPoiEnSistema.modificar(poiEntrante);
  			entityManager().merge(mismoPoiEnSistema);
  		} else {
- 		//	System.out.println(">>>>>POI REGISTRADO!");
  			entityManager().persist(poiEntrante);
 		}
 		entityManager().flush();
@@ -61,12 +58,12 @@ public class Mapa  implements WithGlobalEntityManager {
 		List<POI> resultadosPorNombre = (List<POI>) entityManager().createQuery("from POI a WHERE (a.nombre like :palabra)")
 				.setParameter("palabra", "%"+palabra+"%")
 				.getResultList();
+		
 		List<POI> resultadosPorTags = (List<POI>) entityManager()
 				.createQuery("from POI p where (:palabra MEMBER OF p.listaServicios.servicios.tags) OR (:palabra MEMBER OF p.tags)")
 				.setParameter("palabra", palabra)
 				.getResultList();
 		resultadosPorNombre.addAll(resultadosPorTags);
-		//entityManager().clear();
 		return resultadosPorNombre;
 	}
 	

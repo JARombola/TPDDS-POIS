@@ -25,12 +25,12 @@ public class TestABMDesdeCodigo extends AbstractPersistenceTest implements WithG
 	private Banco banco;
 	private ParadaColectivo parada;
 
+	@SuppressWarnings("unchecked")
 	@After
 	public void eliminarPois(){
 		List<POI> p = createQuery("from POI").getResultList();
 		p.stream().forEach(e->remove(e));
 		p = createQuery("from POI").getResultList();
-	//	System.out.println(p.size());
 	}
 	
 	public void guardarPois(){

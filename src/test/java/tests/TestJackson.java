@@ -43,6 +43,7 @@ public class TestJackson extends AbstractPersistenceTest implements WithGlobalEn
 		private Terminal terminal;
 		private BufferBusquedas buffer;
 			
+		@SuppressWarnings("unchecked")
 		@After
 		public void eliminarPois(){
 			List<POI> p = createQuery("from POI").getResultList();
@@ -87,11 +88,10 @@ public class TestJackson extends AbstractPersistenceTest implements WithGlobalEn
 		
 		@Test
 		public void bancoATravesDelMapa() {
-			terminal.buscar("Banco de la Plaza", "cobro cheques");
+			List<POI> pois = terminal.buscar("Banco de la Plaza", "cobro cheques");
 			assertEquals(bancoExt.getNombre(), "Banco de Madera");
 			Mockito.verify(banco,Mockito.times(1)).buscar("Banco de la Plaza", "cobro cheques");
-			List<POI> p = createQuery("from POI").getResultList();
-			assertEquals(p.size(),1);				//Estaba vacio y agrega el banco		
+			assertEquals(pois.size(),1);				//Estaba vacio y agrega el banco		
 			buffer.borrarBusquedaCache("Banco de la Plaza");
 		}
 }

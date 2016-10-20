@@ -17,7 +17,6 @@ import com.mongodb.MongoClient;
 import pois.Comuna;
 import pois.Direccion;
 import pois.POI;
-import terminales.BufferBusquedas;
 import terminales.Busqueda;
 import terminales.LocalDateConverter;
 import tiposPoi.Banco;

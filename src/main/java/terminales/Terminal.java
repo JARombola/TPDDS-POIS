@@ -1,13 +1,10 @@
 package terminales;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.Cascade;
@@ -42,9 +39,6 @@ public class Terminal {
 	@OneToOne @Cascade(value=CascadeType.ALL)
 	private FuncionesExtra extra;
 
-	@OneToMany @Cascade(value=CascadeType.ALL)
-	//private List<Busqueda> historialBusquedas;
-
 	@Transient
 	private Mapa mapa;
 	
@@ -61,7 +55,6 @@ public class Terminal {
 	Datastore store;
 
 	public Terminal(){
-//		historialBusquedas=new ArrayList<Busqueda>();
 		extra = new FuncionesExtra(0);
 		extra.setTerminal(this);
 		coordenadas = new Coordenadas();
@@ -81,11 +74,11 @@ public class Terminal {
 	}
 
 	public List<POI> buscar(String texto1, String texto2) {
+		List<POI> resultadosBusqueda = null;
 		if(buffer!=null){
-			buffer.buscar(texto1, texto2).forEach(poi->mapa.agregarOmodificar(poi));	//Primero busqueda externa				
+			resultadosBusqueda = buffer.buscar(texto1, texto2);
 		}
-		List<POI> resultadosBusqueda= mapa.buscarPoi(texto1);
-			
+		resultadosBusqueda.addAll(mapa.buscarPoi(texto1));
 		return resultadosBusqueda;
 	}
 	
@@ -101,7 +94,6 @@ public class Terminal {
 		Reporte reporteBusquedasPorFechas = new Reporte("Reporte Fechas");
 		reporteBusquedasPorFechas.setTerminal(getNombre());
 		LocalDate fecha;
-
 		for (i = 0; i < cantBusquedas; i+=busquedas.size()) {
 			fecha = fechaBusqueda(i);
 			busquedas = busquedasDeFecha(fecha);
@@ -133,7 +125,8 @@ public class Terminal {
 		Reporte reporte = new Reporte("Resultados Parciales");
 		reporte.setTerminal(getNombre());
 		datosBusquedas.stream()
-					.forEach(busqueda -> reporte.agregarDatos(busqueda.getFecha(), busqueda.getCantidadResultados()));
+					.forEach(busqueda -> 
+					reporte.agregarDatos(busqueda.getFecha(), busqueda.getCantidadResultados()));
 		
 		return reporte;
 	}
@@ -164,11 +157,6 @@ public class Terminal {
 	public void desactivarOpcion(String opcion){
 		getOpciones().desactivarOpcion(opcion);
 	}
-//	
-//	public void guardarBusquedas(Busqueda unaBusqueda){
-//		if (this.historialBusquedas==null) historialBusquedas = new ArrayList<Busqueda>();
-//		getHistorialBusquedas().add(unaBusqueda);
-//	}
 
 	// -------------------GETTERS,SETTERS-----------------
 	public boolean estaEnLaComuna(Comuna unaComuna){

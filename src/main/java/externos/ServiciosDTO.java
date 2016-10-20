@@ -8,7 +8,7 @@ public class ServiciosDTO {
 	private List<RangosServiciosDTO> rangos;
 	
 	public ServiciosDTO() {
-		rangos = new ArrayList();
+		rangos = new ArrayList<RangosServiciosDTO>();
 	}
 	
 	public String getNombre() {

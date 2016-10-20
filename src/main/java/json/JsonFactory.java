@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import externos.BancoExterno;
-import tiposPoi.Banco;
 
 public class JsonFactory {
 
@@ -27,9 +26,8 @@ public class JsonFactory {
 	public List<BancoExterno> fromJson(String json) {
 		try {
 			return this.objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, BancoExterno.class));
-					}catch (IOException e) {
-
-						throw new RuntimeException("Error reading a json", e);
+		}catch (IOException e) {
+			throw new RuntimeException("Error reading a json", e);
 		}
 		
 	}

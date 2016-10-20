@@ -3,7 +3,6 @@ package externos;
 import java.util.ArrayList;
 import java.util.List;
 
-import pois.Horario;
 
 public class CentroDTO {
 	private int comuna;
@@ -59,6 +58,38 @@ public class CentroDTO {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getComuna() {
+		return comuna;
+	}
+
+	public void setComuna(int comuna) {
+		this.comuna = comuna;
+	}
+
+	public String getZona() {
+		return zona;
+	}
+
+	public void setZona(String zona) {
+		this.zona = zona;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public String getNombreDirector() {
+		return nombreDirector;
+	}
+
+	public void setNombreDirector(String nombreDirector) {
+		this.nombreDirector = nombreDirector;
 	}
 	
 }

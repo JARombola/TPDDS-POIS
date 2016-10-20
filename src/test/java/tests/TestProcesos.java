@@ -12,7 +12,7 @@ import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 import configuracionTerminales.Administrador;
 import pois.POI;
 import procesos.ActualizacionLocales;
-import terminales.ControlTerminales;
+import terminales.RepositorioTerminales;
 import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.Local;
@@ -22,9 +22,10 @@ public class TestProcesos extends AbstractPersistenceTest implements WithGlobalE
 	private Local poiLocal1, libreria;
 	private Mapa mapa;
 	private Terminal terminal;
-	private ControlTerminales controlTerminales;
+	private RepositorioTerminales RepositorioTerminales;
 	private ActualizacionLocales proceso;
 	
+	@SuppressWarnings("unchecked")
 	@After
 	public void eliminarPois(){
 		List<POI> p = createQuery("from POI").getResultList();
@@ -34,7 +35,7 @@ public class TestProcesos extends AbstractPersistenceTest implements WithGlobalE
 	
 	@Before
 	public void initialize() {
-		controlTerminales = new ControlTerminales();
+		RepositorioTerminales = new RepositorioTerminales();
 
 		terminal = new Terminal();
 		
@@ -42,7 +43,7 @@ public class TestProcesos extends AbstractPersistenceTest implements WithGlobalE
 		terminal.setMapa(mapa);
 		terminal.setAdministrador(admin);
 
-		controlTerminales.agregarTerminal(terminal);
+		RepositorioTerminales.agregarTerminal(terminal);
 		
 		poiLocal1 = new Local();
 			poiLocal1.agregarTag("ASD");

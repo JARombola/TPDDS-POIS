@@ -3,7 +3,6 @@ package tests;
 
 import java.util.List;
 
-import org.hibernate.event.spi.ClearEvent;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,7 +16,6 @@ import externos.BuscadorCGPExterno;
 import externos.OrigenDatos;
 import pois.POI;
 import terminales.BufferBusquedas;
-import terminales.Busqueda;
 import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.Banco;
@@ -42,12 +40,12 @@ public class TestBusqueda extends AbstractPersistenceTest implements WithGlobalE
 	private OrigenDatos origenBanco,origenCGP;
 	private Terminal terminal;
 
+	@SuppressWarnings("unchecked")
 	@After
 	public void eliminarPois(){
 		List<POI> p = createQuery("from POI").getResultList();
 		p.stream().forEach(e->mapa.eliminarPOI(e.getId()));
 		p = createQuery("from POI").getResultList();
-	//	System.out.println(p.size());
 	}
 	
 	@Before
@@ -115,20 +113,13 @@ public class TestBusqueda extends AbstractPersistenceTest implements WithGlobalE
 		buffer.borrarBusquedaCache("114");
 	}
 	
-	@SuppressWarnings("unchecked")
-	//@Test	
+	@Test	
 	public void busquedaAsesoramiento(){
-		
-		List<CGP> b = (List<CGP>) createQuery("from POI p where nombre='CGP nro 1'").getResultList();
-		System.out.println(b.get(0).getListaServicios().getServicios().get(0).getTags().get(0));
-	
-		List<POI> a = (List<POI>) createQuery("from POI p where 'asesoramiento' MEMBER OF p.listaServicios.servicios.tags").getResultList();
-		a.stream().forEach(p->System.out.println("<<<"+p.getNombre()));
-		System.out.println(
-		
-		terminal.buscar("asesoramiento","").get(0).getNombre());
+		terminal.buscar("asesoramiento","").get(0).getNombre();
 		encontrados=terminal.buscar("asesoramiento","").size();
-		Assert.assertEquals(encontrados,2,0);					//banco y CGP	
+		Assert.assertEquals(encontrados,1,0);					//banco y CGP	
+		BufferBusquedas b1 = new BufferBusquedas();
+		b1.borrarBusquedaCache("asesoramiento");
 	}
 	
 	@Test	

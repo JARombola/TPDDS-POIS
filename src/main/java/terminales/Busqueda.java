@@ -10,14 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.eclipse.xtend2.lib.StringConcatenation;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Type;
-import org.joda.convert.StringConvert;
 import org.joda.time.LocalDate;
-import org.mongodb.morphia.annotations.PostPersist;
-import org.mongodb.morphia.annotations.PrePersist;
 
 import pois.POI;
 

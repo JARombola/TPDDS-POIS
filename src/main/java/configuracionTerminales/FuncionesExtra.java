@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import terminales.Busqueda;
+import terminales.RepositorioTerminales;
 import terminales.LocalDateConverter;
 import terminales.Terminal;
 
@@ -82,7 +83,6 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 			tx.begin();
 		entityManager().merge(datosBusqueda);
 		tx.commit();	//TODO
-	//	entityManager().clear();
 	}
 	
 	public void persistirBusquedasMongo(Busqueda datosBusqueda){
@@ -113,13 +113,16 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	public void activarOpcion(String opcion){
 		if(opciones.get(opcion.toUpperCase())!=null){
 			opciones.replace(opcion.toUpperCase(), new AdapterBooleano(true));
+			RepositorioTerminales.getInstancia().actualizarTerminal(getTerminal());
 		}
 			else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 	
 	public void desactivarOpcion(String opcion){
 		if(opciones.get(opcion.toUpperCase())!=null){
-			opciones.replace(opcion.toUpperCase(), new AdapterBooleano(false));}
+			opciones.replace(opcion.toUpperCase(), new AdapterBooleano(false));
+			RepositorioTerminales.getInstancia().actualizarTerminal(getTerminal());
+		}
 		else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 
@@ -134,6 +137,6 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 		return tiempoMax;
 	}
 	public boolean estaActivado(String opcion) {
-		return (opciones.get(opcion).isActivado());
+		return (opciones.get(opcion.toUpperCase()).isActivado());
 	}
 }

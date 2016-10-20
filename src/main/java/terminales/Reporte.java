@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 @Entity
@@ -21,7 +20,6 @@ public class Reporte {
 	@ElementCollection @Embedded 
 	private List<DatosReporte> datos;
 	
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate fecha;
 	private String terminal;
 	private String tipoReporte;

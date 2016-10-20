@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 
 import pois.Comuna;
-import terminales.ControlTerminales;
+import terminales.RepositorioTerminales;
 import terminales.Terminal;
 
 public class AgregarAcciones extends Proceso{
@@ -39,7 +39,7 @@ public class AgregarAcciones extends Proceso{
 			return 1;
 		}
 		
-		ControlTerminales centralTerminales = ControlTerminales.getInstancia();
+		RepositorioTerminales centralTerminales = RepositorioTerminales.getInstancia();
 		
 		if (isTodos()) return activarOpcionTodasTerminales(centralTerminales);
 		
@@ -48,14 +48,14 @@ public class AgregarAcciones extends Proceso{
 		return 0;
 	}
 	
-	private int activarOpcionTodasTerminales(ControlTerminales centralTerminales){
+	private int activarOpcionTodasTerminales(RepositorioTerminales centralTerminales){
 		centralTerminales.getTerminales()
 			.stream()
 			.forEach(terminal->terminal.activarOpcion(getAccion()));
 		return centralTerminales.getTerminales().size();	
 	}
 	
-	private int activarOpcionComuna(ControlTerminales centralTerminales){
+	private int activarOpcionComuna(RepositorioTerminales centralTerminales){
 		List<Terminal> terminales = centralTerminales.getTerminales().stream()
 					.filter(unaTerminal->unaTerminal.estaEnLaComuna(comuna))
 					.collect(Collectors.toList());

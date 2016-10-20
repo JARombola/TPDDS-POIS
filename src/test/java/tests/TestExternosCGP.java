@@ -38,6 +38,7 @@ public class TestExternosCGP extends AbstractPersistenceTest implements WithGlob
 	Terminal terminal;
 	BuscadorCGPExterno buscadorExterno;
 	
+	@SuppressWarnings("unchecked")
 	@After
 	public void eliminarPois(){
 		List<POI> p = createQuery("from POI").getResultList();
@@ -45,9 +46,7 @@ public class TestExternosCGP extends AbstractPersistenceTest implements WithGlob
 		List<Busqueda> b = createQuery("from Busqueda").getResultList();
 		b.stream().forEach(c->remove(c));
 		p = createQuery("from POI").getResultList();
-//		System.out.println(p.size());
 		b = createQuery("from Busqueda").getResultList();
-	//	System.out.println(b.size());
 	}
 	
 	@Before
@@ -118,16 +117,15 @@ public class TestExternosCGP extends AbstractPersistenceTest implements WithGlob
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testBusquedaExternaCGP() {
-		List<POI>p = entityManager().createQuery("from POI").getResultList();
+		List<POI>p = createQuery("from POI").getResultList();
 		Assert.assertEquals(p.size(), 0);
-		terminal.buscar("9 de julio","");
-		p = entityManager().createQuery("from POI").getResultList();
-		Assert.assertEquals(p.size(), 1);			//La lista esta vacia, y agrega el nuevo encontrado en el externo
-		terminal.buscar("9 de julio","");
-		p = entityManager().createQuery("from POI").getResultList();
+		p = terminal.buscar("9 de julio","");				//Consulta al externo y guarda el POI en la cache
+		Assert.assertEquals(p.size(), 1);			
+		terminal.buscar("9 de julio","");						//estaba en la cache => NO consulta al externo
+		Mockito.verify(cgpMock,Mockito.times(1)).buscar("9 de julio");	
 		cgpMock.buscar("9 de julio");
 		
-		Mockito.verify(cgpMock,Mockito.times(3)).buscar("9 de julio");	
+		Mockito.verify(cgpMock,Mockito.times(2)).buscar("9 de julio");	
 		buffer.borrarBusquedaCache("9 de julio");
 	}
 	

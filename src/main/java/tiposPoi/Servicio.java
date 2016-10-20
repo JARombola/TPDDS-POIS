@@ -37,6 +37,7 @@ public class Servicio{
 
 	public Servicio() {
 		tags = new ArrayList<String>();
+		horarios = new ListaHorarios();
 	}
 	
 	public Servicio(String nombre) {

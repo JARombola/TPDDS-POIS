@@ -11,13 +11,13 @@ import configuracionTerminales.FuncionesExtra;
 import pois.Comuna;
 import pois.Coordenadas;
 import procesos.AgregarAcciones;
-import terminales.ControlTerminales;
+import terminales.RepositorioTerminales;
 import terminales.Terminal;
 
 
 public class TestProceso3 {
 	private Administrador admin;
-	private ControlTerminales controlMaestro;
+	private RepositorioTerminales controlMaestro;
 	private Terminal terminal1, terminal2, terminal3, terminal4;
 	private Comuna comuna;
 	private Coordenadas coordenada1, coordenada2, coordenada3, coordenada4;
@@ -49,7 +49,7 @@ public class TestProceso3 {
 		coordenada4.setLatitud(50);
 		coordenada4.setLongitud(-130);
 		
-		controlMaestro = ControlTerminales.getInstancia();
+		controlMaestro = RepositorioTerminales.getInstancia();
 		
 		opciones = new FuncionesExtra(100);
 		

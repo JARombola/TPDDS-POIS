@@ -2,13 +2,11 @@ package terminales;
 
 import javax.persistence.Embeddable;
 
-import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 @Embeddable
 public class DatosReporte {
 	
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	private LocalDate fecha;
 	private int resultados;
 

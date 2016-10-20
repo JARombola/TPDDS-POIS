@@ -43,10 +43,4 @@ public class ActualizacionLocales extends Proceso{
 		return afectados;
 	}
 }
-//					TODO: Este código está un poco complejo y difícil de leer.
-//					Para empezar podrían mejorarlo sacando el try/catch a la lógica del proceso
-//					ya que la lógica está repetida.
-//					Luego, podrían eliminar el if dentro del for 
-//					una idea es reemplazándolo por un for que vaya de i = 1
-//					hasta el length de 'parts' - Aldana
 

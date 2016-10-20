@@ -17,6 +17,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalTime;
 
+
 import terminales.Maquina;
 
 @Entity
@@ -24,7 +25,6 @@ import terminales.Maquina;
 @org.mongodb.morphia.annotations.Embedded
 public abstract class POI{
 	
-	//@org.mongodb.morphia.annotations.Id
 	@Id @GeneratedValue
 	private int id;
 	

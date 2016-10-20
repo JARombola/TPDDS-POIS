@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.junit.After;
 import org.junit.Test;
@@ -23,9 +22,7 @@ import pois.Direccion;
 import pois.Horario;
 import pois.POI;
 import terminales.BufferBusquedas;
-import terminales.Busqueda;
 import terminales.Mapa;
-import terminales.Reporte;
 import terminales.Terminal;
 import tiposPoi.Banco;
 import tiposPoi.CGP;
@@ -45,12 +42,12 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	Terminal terminal;
 	Administrador admin;
 
+	@SuppressWarnings("unchecked")
 	@After
 	public void removerPois(){
 		List<POI> p = createQuery("from POI").getResultList();
 		p.forEach(e->remove(e));
 		p = createQuery("from POI").getResultList();
-//		System.out.println(p.size());
 	}
 	@Test
 	public void testPersistirDireccion(){		
@@ -61,7 +58,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			dire.setLatitud(99);
 			dire.setLongitud(2);
 			persist(dire);
-			//commitTransaction();
 		
 		Direccion direccionBuscada = (Direccion) createQuery("from Direccion where Barrio = :barrio")
 				.setParameter("barrio", "Devoto").getSingleResult();
@@ -85,7 +81,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			dire.setBarrio("Palermo");
 			parada1.setDireccion(dire);
 		persist(parada1);
-		//commitTransaction();		
 		
 		ParadaColectivo paradaBuscada = (ParadaColectivo) createQuery("from ParadaColectivo where Nombre = :nombre")
 				.setParameter("nombre", "PARADA COLECTIVO")
@@ -114,7 +109,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			banco.setGerente("SpiderMan");
 			banco.setLatitud(222);
 		persist(banco);
-	//	commitTransaction();
 		
 		Banco bancoBuscado= (Banco) createQuery("from Banco where Gerente = :gerente")
 				.setParameter("gerente", "SpiderMan")
@@ -124,7 +118,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(bancoBuscado.getDireccion().getLatitud(),222,0);	// => Persistio la Direccion => Persistio Coordenadas :)
 		assertEquals(bancoBuscado.getListaServicios().getServicios().size(),1,0);	// Persistió los servicios
 		assertTrue(bancoBuscado.estaDisponible(1,new LocalTime(11,00),"JUBILACION"));	//Persistió tambien sus horarios :)
-	//	remove(banco);
 	}	
 	
 	@Test
@@ -147,7 +140,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			comuna.setNombre("Comuna 8");
 			cgp.setComuna(comuna);
 		persist(cgp);
-	//	commitTransaction();
 		
 		CGP cgpBuscado = (CGP) createQuery("from CGP where Nombre = :nombre")
 				.setParameter("nombre", "CGPlal")
@@ -181,7 +173,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		}
 
 		persist(local);
-	//	commitTransaction();
 		
 		Local localBuscado = (Local) createQuery("from Local where Nombre = :nombre")
 				.setParameter("nombre", "Nicolo")
@@ -230,42 +221,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	}
 	
 	
-	//@Test						TODO: LAS BUSQUEDAS AHORA SE PERSISTEN EN MONGO; ESTE TEST NO VA MAS
-	public void testPersistenciaBusquedas() throws Exception{
-			inicializarBusquedas();			
-				persist(parada1);
-				persist(parada2);
-				persist(parada3);
-			commitTransaction();
-			entityManager().clear();
-			List<POI>resultadoss=terminal.realizarBusqueda("114","");
-			System.out.println("RESULTADOS: "+resultadoss.size());
-			resultadoss.forEach(a->System.out.println(a.getNombre()));
-			
-			terminal.realizarBusqueda("parada","");
-			List<Busqueda> a = (List<Busqueda>) entityManager().createQuery("from Busqueda").getResultList();
-			System.out.println("***********************");
-			a.stream().forEach(s->System.out.println(s.getFraseBuscada()+s.getCantidadResultados()));
-			
-		
-		entityManager().clear();
-		
-		Busqueda busquedaBD = (Busqueda) createQuery("from Busqueda where frase_buscada = :frase")
-							.setParameter("frase", "114")
-							.getSingleResult();
-		
-		assertEquals(busquedaBD.getCantidadResultados(),3,0);	//3 paradas del 114
-		assertFalse(busquedaBD.getFecha()==new LocalDate(2012,2,10));	//la busqueda fue hoy, no puede ser del 2012 (?
-		assertEquals(busquedaBD.getResultados().get(0).getNombre(),parada1.getNombre());	
-		assertEquals(busquedaBD.getResultados().get(1).getNombre(),parada2.getNombre());	
-
-		@SuppressWarnings("unchecked")
-		List<Busqueda> busquedas = (List<Busqueda>) createQuery("from Busqueda").getResultList();
-		assertEquals(busquedas.size(),2);			//"parada" y "114"
-		assertEquals(busquedas.get(0).getFraseBuscada(),"114 ");
-		assertEquals(busquedas.get(1).getFraseBuscada(),"parada ");
-	}
-	
 	@Test
 	public void testPersistirTerminal() throws Exception{		
 		Administrador admin = new Administrador();
@@ -283,56 +238,24 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			terminal.activarOpcion("MAIL");
 			terminal.desactivarOpcion("HISTORIAL");
 		persist(terminal);
-	//	commitTransaction();
+		commitTransaction();
 		
 		Terminal terminalBuscada = (Terminal) createQuery("from Terminal where Nombre = :nombre")
-				.setParameter("nombre", "prueba").getSingleResult();
+				.setParameter("nombre", "prueba")
+				.getSingleResult();
+		
 		assertEquals(terminalBuscada.getNombre(),"prueba");
 		assertEquals(terminalBuscada.getCoordenadas().getLatitud(),99,0);
 		assertEquals(terminalBuscada.getCoordenadas().getLongitud(),2,0);
 		assertEquals(terminalBuscada.getOpciones().getTiempoMax(),20,0);
 		assertTrue(terminal.estaActivado("MAIL"));
 		assertFalse(terminal.estaActivado("HISTORIAL"));
-	}
-	
-//	@Test
-	public void TestPersistenciaReportes() throws Exception{
-		inicializarBusquedas();
-		terminal.setBuffer(null);
-		terminal.realizarBusqueda("parada", "");		
-		terminal.realizarBusqueda("115", "");		
-		terminal.realizarBusqueda("ASD", "");		
-	//	terminal.getHistorialBusquedas().get(2).setFecha(new LocalDate(1995,10,25));
-		Reporte repFechas = terminal.reporteFechas();
-		Reporte repTotalResultados=terminal.reporteTotalResultados();
-		Reporte repParciales=terminal.reporteResultadosParciales();
-		int repFechasAntes = repFechas.getDatos().size();
-		int totalResultadosAntes = repTotalResultados.getDatos().size();
-		int parcialesAntes= repParciales.getDatos().size();
-		beginTransaction();
-		persist(repFechas);
-		persist(repTotalResultados);
-		persist(repParciales);
-//	commitTransaction();
-	
-	Reporte reporteFechasBD = (Reporte) createQuery("from Reporte where tipoReporte = :tipo")
-						.setParameter("tipo", "Reporte Fechas")
-						.getSingleResult();
-	
-	assertEquals(reporteFechasBD.getDatos().size(), repFechasAntes);
-	
-	Reporte reporteTotalResultadosBD = (Reporte) createQuery("from Reporte where tipoReporte = :tipo")
-			.setParameter("tipo", "Total Resultados")
-			.getSingleResult();
-	
-	assertNotEquals(reporteTotalResultadosBD.getDatos().size(), totalResultadosAntes+1);
-	assertEquals(reporteTotalResultadosBD.getDatos().size(), totalResultadosAntes);
-
-	
-	Reporte reporteParcialesBD = (Reporte) createQuery("from Reporte where tipoReporte = :tipo")
-								.setParameter("tipo", "Resultados Parciales")
-								.getSingleResult();
-	assertEquals(reporteParcialesBD.getDatos().size(), parcialesAntes);
+		terminal.desactivarOpcion("MAIL");
+		
+		Terminal sinMail = (Terminal) createQuery("from Terminal where Nombre = :nombre")
+				.setParameter("nombre", "prueba").getSingleResult();
+		assertFalse(sinMail.getOpciones().estaActivado("Mail"));
+		
 	}
 
 }

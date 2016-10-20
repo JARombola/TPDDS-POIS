@@ -4,26 +4,20 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.mail.Store;
 
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
-
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
 
 import configuracionTerminales.FuncionesExtra;
 import externos.BuscadorCGPExterno;
 import pois.POI;
 import terminales.BufferBusquedas;
 import terminales.Busqueda;
-import terminales.ControlTerminales;
+import terminales.RepositorioTerminales;
 import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.ParadaColectivo;
@@ -35,11 +29,12 @@ public class TestReportes extends AbstractPersistenceTest implements WithGlobalE
 	List<Busqueda> almacenamientoBusquedas;
 	Mapa mapa;
 	ParadaColectivo parada1, parada2;
-	ControlTerminales controlMaestro;
+	RepositorioTerminales controlMaestro;
 	BufferBusquedas buffer;
 	BuscadorCGPExterno buscadorCgp;
 	FuncionesExtra extra;
 	
+	@SuppressWarnings("unchecked")
 	@After
 	public void eliminarPois(){
 		List<POI> p = createQuery("from POI").getResultList();
@@ -53,7 +48,7 @@ public class TestReportes extends AbstractPersistenceTest implements WithGlobalE
 	public void initialize(){
 		mapa=new Mapa();
 		buffer=new BufferBusquedas();
-		controlMaestro=new ControlTerminales();
+		controlMaestro=new RepositorioTerminales();
 		parada1 = new ParadaColectivo();
 		parada2 = new ParadaColectivo();
 		parada1.setNombre("primer parada de la linea 114");
