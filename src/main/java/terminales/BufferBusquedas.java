@@ -3,6 +3,7 @@ package terminales;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.redisson.Redisson;
 import org.redisson.api.RMap;
@@ -40,7 +41,9 @@ public class BufferBusquedas {
 	}
 	
 	public List<POI> buscar(String texto1, String texto2){	
-		List<String> resultadosCacheJson = map.get(texto1);
+		List<String> resultadosCacheJson = map.get(texto1);		
+		map.expire(60,TimeUnit.SECONDS);
+
 		if (resultadosCacheJson!=null){
 			List<POI> resultadosCache = poisFromJson(resultadosCacheJson);
 			return resultadosCache;
@@ -53,7 +56,6 @@ public class BufferBusquedas {
 				resultados.addAll(componente.getResultado());			//Guardo los del externo
 				}
 			);
-			
 			map.put(texto1, poisToJson(resultadosEnBuffer));
 			return resultadosEnBuffer;
 		}
