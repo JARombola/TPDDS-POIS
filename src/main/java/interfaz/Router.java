@@ -23,7 +23,7 @@ public class Router {
 		
 		Spark.get("/", HomeController::home, engine); //user y pass
 		Spark.get("/terminal", terminalesController::home,engine);
-		Spark.get("/administrador", adminController::home, engine);
+		Spark.get("/admin", adminController::home, engine);
 		/*
 		Spark.get("/terminal/:id", terminalesController::mostrar, engine);
 		Spark.get("/administrador/pois", adminController::mostrarPois, engine);

@@ -89,6 +89,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(paradaBuscada.getTags().size(), 3);
 		assertEquals(paradaBuscada.getDireccion().getLatitud(),10,0);
 		assertEquals(paradaBuscada.getDireccion().getBarrio(),"Palermo");
+		remove(parada1);
 	}		
 	
 	@Test
@@ -118,6 +119,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(bancoBuscado.getDireccion().getLatitud(),222,0);	// => Persistio la Direccion => Persistio Coordenadas :)
 		assertEquals(bancoBuscado.getListaServicios().getServicios().size(),1,0);	// Persistió los servicios
 		assertTrue(bancoBuscado.estaDisponible(1,new LocalTime(11,00),"JUBILACION"));	//Persistió tambien sus horarios :)
+		remove(banco);
 	}	
 	
 	@Test
@@ -150,6 +152,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(cgpBuscado.getListaServicios().getServicios().size(),1,0);
 		assertEquals(cgpBuscado.getComuna().getNombre(),"Comuna 8");
 		assertTrue(cgpBuscado.estaDisponible(1,new LocalTime(11,00),"JUBILACION"));
+		remove(cgp);
 	}
 	
 	@Test
@@ -182,6 +185,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(localBuscado.getDireccion().getLongitud(),-122,0);
 		assertEquals(localBuscado.getRubro().getRadioCercania(),0.3,0);
 		assertTrue(localBuscado.estaDisponible(3,new LocalTime(19,00),""));	
+		remove(local);
 	}
 	
 	public void inicializarBusquedas() throws Exception{
@@ -255,7 +259,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		Terminal sinMail = (Terminal) createQuery("from Terminal where Nombre = :nombre")
 				.setParameter("nombre", "prueba").getSingleResult();
 		assertFalse(sinMail.getOpciones().estaActivado("Mail"));
-		
+		remove(terminal);
 	}
-
 }

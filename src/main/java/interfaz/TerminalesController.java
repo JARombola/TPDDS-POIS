@@ -11,7 +11,7 @@ import spark.Response;
 public class TerminalesController  implements WithGlobalEntityManager, TransactionalOps{
 
 	public ModelAndView home(Request req, Response res){
-		return new ModelAndView(null, "home/home.hbs");
+		return new ModelAndView(null, "home/homeTerminal.hbs");
 	}
 	
 	

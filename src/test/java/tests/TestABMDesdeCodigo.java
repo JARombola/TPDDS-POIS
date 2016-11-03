@@ -61,8 +61,7 @@ public class TestABMDesdeCodigo extends AbstractPersistenceTest implements WithG
 				local.agregarTag("Local");
 		mapa = new Mapa();
 		mapa.agregarOmodificar(local);
-		Local buscado=(Local) entityManager()
-								.createQuery("from POI where Nombre = :nombre")
+		Local buscado=(Local) createQuery("from POI where Nombre = :nombre")
 								.setParameter("nombre", "LocalComercial")
 								.getSingleResult();
 		
@@ -71,7 +70,7 @@ public class TestABMDesdeCodigo extends AbstractPersistenceTest implements WithG
 		mapa.agregarOmodificar(buscado);
 		
 		@SuppressWarnings("unchecked")
-		List<Local> localModificado = (List<Local>) entityManager().createQuery("from POI where Nombre = :nombre")
+		List<Local> localModificado = (List<Local>)createQuery("from POI where Nombre = :nombre")
 							.setParameter("nombre", "LocalComercial")
 							.getResultList();
 		assertEquals(localModificado.size(), 1);			//Para verificar que lo haya modificado (en vez de crear y persistir uno nuevo)
@@ -88,7 +87,7 @@ public class TestABMDesdeCodigo extends AbstractPersistenceTest implements WithG
 			cgp2.agregarTag("cgpTag1");
 			cgp2.agregarTag("cgpTag2");
 		
-		Query buscarTodos = entityManager().createQuery("from POI");
+		Query buscarTodos = createQuery("from POI");
 		List<POI> poisGuardados =buscarTodos.getResultList();
 			
 		assertEquals(poisGuardados.size(), 3);		
