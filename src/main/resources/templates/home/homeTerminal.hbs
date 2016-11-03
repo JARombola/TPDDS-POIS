@@ -1,11 +1,29 @@
 {{#partial "contenido"}}
 
-<div class="jumbotron">
-  <h1>Buscar: </h1>
-  <input type="text" placeholder="Texto 1" name="texto1">
-  <input type="text" placeholder="Texto 2" name="texto2">
-  <button class="btn btn-outline-success" type="submit">Search</button>
-</div>	
+<form action="/terminal/" method="GET">
+	<div class="jumbotron">
+	  <h1>Buscar: </h1>
+	  <input type="text" placeholder="Texto 1" name="texto1">
+	  <input type="text" placeholder="Texto 2" name="texto2">
+	  <button class="btn btn-outline-success" type="submit">Search</button>
+	</div>	
+</form>
+
+<table class="table table-stripped">
+	<tr>
+		<th>Nombre</th>
+		<th>Direccion</th>
+		<th></th>
+	</tr>
+	
+	 {{#with pois}}
+		<tr>
+			<td> {{nombre}} </td>
+			<td> {{direccion.calle}} </td>
+			<td><a href="/detallesPoi"> Detalles </a></td>
+		</tr>
+		{{/with}}
+</table>
 
 {{/partial}}
 

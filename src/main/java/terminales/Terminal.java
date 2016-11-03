@@ -46,6 +46,8 @@ public class Terminal {
 	private BufferBusquedas buffer;
 
 	private String nombre;
+	
+	private String pass;
 
 	@Transient
 	Morphia morphia;
@@ -247,5 +249,17 @@ public class Terminal {
 	
 	private LocalDate fechaBusqueda(int posicion){
 		return store.find(Busqueda.class).asList().get(posicion).getFecha();
+	}
+
+	public boolean autentificar(String pass) {
+		return pass.equals(this.pass);
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 }

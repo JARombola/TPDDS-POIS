@@ -55,6 +55,8 @@ public class Mapa  implements WithGlobalEntityManager {
 	
 	@SuppressWarnings("unchecked")
 	public List<POI> buscarPoi(String palabra){								//NO encontre forma mas linda de hacerlo sin las 2 querys, perdon (?
+		List<POI> r = (List<POI>) entityManager().createQuery("from POI").getResultList();
+		System.out.println(r.size());
 		List<POI> resultadosPorNombre = (List<POI>) entityManager().createQuery("from POI a WHERE (a.nombre like :palabra)")
 				.setParameter("palabra", "%"+palabra+"%")
 				.getResultList();
@@ -64,6 +66,7 @@ public class Mapa  implements WithGlobalEntityManager {
 				.setParameter("palabra", palabra)
 				.getResultList();
 		resultadosPorNombre.addAll(resultadosPorTags);
+		System.out.println("CANTIDAD: "+resultadosPorNombre.size());
 		return resultadosPorNombre;
 	}
 	
