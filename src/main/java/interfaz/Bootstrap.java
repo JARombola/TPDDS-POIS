@@ -23,6 +23,17 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 			banco.setDireccion(dire);
 			persist(banco);
 			
+			POI banco2= new Banco();
+				banco2.setNombre("b");
+			Direccion dire2 = new Direccion();
+				dire2.setBarrio("Almagro");
+				dire2.setCalle("Medrano");
+				dire2.setCodigoPostal(1111);
+				banco2.setDireccion(dire2);
+			persist(banco2);
+		
+			
+			
 			Administrador admin = new Administrador();
 				admin.setEmail("admin");
 				admin.setPass("admin");
@@ -32,7 +43,6 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 				terminal.setNombre("TerminalPrueba");
 				terminal.setPass("1234");
 			persist(terminal);
-			System.out.println(terminal.getId());
 		});
 	}
 }

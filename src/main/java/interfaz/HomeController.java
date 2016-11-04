@@ -16,7 +16,7 @@ public class HomeController implements WithGlobalEntityManager, TransactionalOps
 		return new ModelAndView(null, "home/home.hbs");
 	}
 	
-	public ModelAndView logueo(Request req, Response res){
+	public ModelAndView logueo(Request req, Response res){			//TODO: agregar mensaje de error de logueo
 		String user = req.queryParams("user");
 		String pass = req.queryParams("pass");
 		verificarAdmin(user,pass);
@@ -37,16 +37,17 @@ public class HomeController implements WithGlobalEntityManager, TransactionalOps
 		});
 	}
 	
-	private void verificarTerminal(String user, String pass) {
+	private Void verificarTerminal(String user, String pass) {
 		try {
 			int id = Integer.parseInt(user);
 		} catch (NumberFormatException e) {
-			//ID de la terminal es un numero, si falla es porque metio algo distinto de numeros
+			return null;//ID de la terminal es un numero, si falla es porque metio algo distinto de numeros
 		}
 		withTransaction(() ->{
 			Terminal terminal= entityManager().find(Terminal.class, Integer.parseInt(user));
 			if (terminal!= null) logueado=terminal.autentificar(pass);
 		});
+		return null;
 	}
 	
 }
