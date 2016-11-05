@@ -4,8 +4,8 @@ import interfaz.TerminalesController;
 import interfaz.AdminController;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
-import spark.utils.BooleanHelper;
 import spark.utils.HandlebarsTemplateEngineBuilder;
+import spark.utils.ListHelper;
 
 public class Router {
 
@@ -13,7 +13,7 @@ public class Router {
 		HandlebarsTemplateEngine engine = HandlebarsTemplateEngineBuilder
 				.create()
 				.withDefaultHelpers()
-				.withHelper("isTrue", BooleanHelper.isTrue)
+				.withHelper("size", ListHelper.size)
 				.build();
 
 		Spark.staticFiles.location("/public");
@@ -32,6 +32,7 @@ public class Router {
 		Spark.get("/admin", adminController::home, engine);
 		Spark.get("/adminPOIS", adminController::POIS, engine);
 		Spark.get("/adminPOIS/", adminController::filtrar, engine);
+		Spark.post("/adminPOIS/modif", adminController::actualizarPoi);
 		
 /*		Spark.get("/administrador/pois", adminController::mostrarPois, engine);
 		Spark.get("/administrador/pois/editar", adminController::editarPoi, engine);

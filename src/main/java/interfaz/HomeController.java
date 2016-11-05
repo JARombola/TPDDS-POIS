@@ -15,7 +15,7 @@ import spark.Response;
 import terminales.Terminal;
 
 public class HomeController implements WithGlobalEntityManager, TransactionalOps{
-	private boolean logueado = true;
+	private boolean logueado = false;
 	
 	public static ModelAndView home(Request req, Response res){
 		return new ModelAndView(null, "home/home.hbs");
@@ -31,10 +31,10 @@ public class HomeController implements WithGlobalEntityManager, TransactionalOps
 				verificarTerminal(user,pass);
 				if(logueado) res.redirect("/terminal");
 			}
-			if(logueado) model.put("logueado", true);
-			else model.put("logueado", false);
+			if(logueado) model.put("denegar", !logueado);
+			else model.put("denegar", !logueado);
 		logueado=false;
-		return new ModelAndView(null, "home/home.hbs");
+		return new ModelAndView(model, "home/home.hbs");
 	}
 	
 

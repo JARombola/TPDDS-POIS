@@ -12,7 +12,8 @@ public class Coordenadas {
 	private double longitud;
 	
 	public Coordenadas(){
-		
+		latitud=10;
+		longitud=0;
 	}
 	
 	public double getLatitud() {

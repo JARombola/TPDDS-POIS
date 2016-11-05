@@ -47,6 +47,29 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		return new ArrayList<POI>();
 	}
 	
+	public Void actualizarPoi(Request req, Response res){
+		POI viejo = Mapa.getInstancia().getPOI(Integer.parseInt(req.queryParams("id")));
+		String nombreNuevo= req.queryParams("nombre");
+			if(!nombreNuevo.isEmpty()) viejo.setNombre(nombreNuevo);
+		String calleNueva=req.queryParams("direccion");
+			if(!calleNueva.isEmpty()) viejo.getDireccion().setCalle(calleNueva);
+		String altura=req.queryParams("altura");
+		Long alt = Long.parseLong(altura);
+			if(!altura.isEmpty()) viejo.getDireccion().setNumero(alt.intValue());
+			
+		String longNueva=req.queryParams("long");
+		Double longNuevaDouble=Double.parseDouble(longNueva);
+		if(!longNueva.isEmpty()) viejo.setLongitud(longNuevaDouble.intValue());
+		
+		String latNueva=req.queryParams("lat");
+		Double latNuevaLong=Double.parseDouble(longNueva);
+			if(!latNueva.isEmpty()) viejo.setLatitud(latNuevaLong.intValue());
+			
+		Mapa.getInstancia().agregarOmodificar(viejo);
+		res.redirect("/adminPOIS");
+		return null;
+	}
+	
 	
 	
 	
