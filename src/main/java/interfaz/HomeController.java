@@ -1,22 +1,28 @@
 package interfaz;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import configuracionTerminales.Administrador;
+import pois.POI;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import terminales.Terminal;
 
 public class HomeController implements WithGlobalEntityManager, TransactionalOps{
-	private boolean logueado;
+	private boolean logueado = true;
 	
 	public static ModelAndView home(Request req, Response res){
 		return new ModelAndView(null, "home/home.hbs");
 	}
 	
 	public ModelAndView logueo(Request req, Response res){			//TODO: agregar mensaje de error de logueo
+		Map<String, Boolean> model = new HashMap<>();
 		String user = req.queryParams("user");
 		String pass = req.queryParams("pass");
 		verificarAdmin(user,pass);
@@ -25,6 +31,8 @@ public class HomeController implements WithGlobalEntityManager, TransactionalOps
 				verificarTerminal(user,pass);
 				if(logueado) res.redirect("/terminal");
 			}
+			if(logueado) model.put("logueado", true);
+			else model.put("logueado", false);
 		logueado=false;
 		return new ModelAndView(null, "home/home.hbs");
 	}

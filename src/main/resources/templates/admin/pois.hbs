@@ -1,0 +1,70 @@
+{{#partial "contenido"}}
+<h1>Buscar: </h1>
+	
+<div class="jumbotron">
+	<form action="/adminPOIS/" method="GET">
+		<div class="row">
+		<div class="form-group col-xs-4">
+			<label> Nombre </label>
+			<input type="text" class="form-control" placeholder="Nombre" name="nombre">
+		</div>
+		
+		<div class="form-group col-xs-4">
+			<label> Tipo </label>
+			<select class="form-control " name="tipo">
+				<option value=>Ninguno</option>
+				<option value=Banco>Banco</option>
+				<option value=CGP>CGP</option>
+				<option value=Local>Local</option>
+				<option value=ParadaColectivo>Parada Colectivo</option>
+			</select> 
+		</div>
+
+		</div>
+		<button class="btn btn-outline-success" type="submit"><span class="glyphicon glyphicon-search"></span>  Buscar</button>
+	
+	</form>
+</div>	
+
+<table class="table table-stripped">
+		<thead>
+			<tr>
+        		<th>Nombre</th>
+        		<th>Direccion</th>
+        		<th>Detalles</th>
+      		</tr>
+		</thead>
+	 		{{#each filtrados}}
+		<tbody>
+		<tr>
+			<td> {{nombre}} </td>
+			<td> {{direccion.calle}} </td>
+			<td>
+			
+			<a href="/terminal/detalles?id={{id}}" data-target="#detallesPOI" data-toggle="modal">Detalles</a>
+			<!-- <button type="button" class="btn btn-info btn-m" data-toggle="modal" data-target="#detallesPOI">Detalles</button> -->
+			<!-- Modal -->
+			  <div class="modal fade" id="detallesPOI" role="dialog">
+			    <div class="modal-dialog">
+			    	<div class="modal-content" >
+				    </div>
+			      
+			    </div>
+			  </div>
+			
+		</td>
+		
+		</tr>
+		{{/each}}
+		</tbody>
+</table>
+{{/partial}}
+
+{{>layout.hbs}}
+
+
+<script>
+$('#detallesPOI').on('hidden.bs.modal', function () {
+  $(this).removeData('bs.modal');
+});
+</script>

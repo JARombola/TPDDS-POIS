@@ -1,6 +1,8 @@
 package interfaz;
 
 
+import java.util.List;
+
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
@@ -8,6 +10,7 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import configuracionTerminales.Administrador;
 import pois.Direccion;
 import pois.POI;
+import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.Banco;
 
@@ -32,8 +35,6 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 				banco2.setDireccion(dire2);
 			persist(banco2);
 		
-			
-			
 			Administrador admin = new Administrador();
 				admin.setEmail("admin");
 				admin.setPass("admin");

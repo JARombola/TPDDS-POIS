@@ -78,4 +78,20 @@ public class Mapa  implements WithGlobalEntityManager {
 				.getSingleResult();		
 	}	
 	
+	@SuppressWarnings("unchecked")
+	public List<POI> filtrarTipo(String tipo){
+		String consulta = "from " + tipo;
+		List<POI> resultados= (List<POI>) entityManager().createQuery(consulta)
+				.getResultList();
+		return resultados;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<POI> filtrarNombre(String nombreBuscado){
+		List<POI> resultados= (List<POI>) entityManager().createQuery("from POI p WHERE p.nombre=:nombreBuscado")
+				.setParameter("nombreBuscado", nombreBuscado)
+				.getResultList();
+		return resultados;
+	}
+	
 }
