@@ -29,6 +29,7 @@ public class RepositorioTerminales implements WithGlobalEntityManager, Transacti
 			entityManager().persist(terminal);
 //		entityManager().getTransaction().commit();
 		});
+		//commitTransaction();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -36,6 +37,14 @@ public class RepositorioTerminales implements WithGlobalEntityManager, Transacti
 		List<Terminal> terminales = entityManager().createQuery("from Terminal").getResultList();
 		return terminales;
 	}
+
+	@SuppressWarnings("unchecked")
+	public Terminal getTerminal(int id){
+		Terminal terminal = entityManager().find(Terminal.class,id);
+		return terminal;
+	}
+	
+	
 	
 	public void eliminarTerminal(int id){
 		Terminal eliminar = entityManager().find(Terminal.class, id);
