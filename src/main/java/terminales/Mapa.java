@@ -49,8 +49,8 @@ public class Mapa  implements WithGlobalEntityManager {
  		} else {
  			entityManager().persist(poiEntrante);
 		}
-		entityManager().flush();
  		tx.commit();
+ 		entityManager().clear();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -64,6 +64,7 @@ public class Mapa  implements WithGlobalEntityManager {
 				.setParameter("palabra", palabra)
 				.getResultList();
 		resultadosPorNombre.addAll(resultadosPorTags);
+		entityManager().clear();
 		return resultadosPorNombre;
 	}
 	
@@ -83,6 +84,7 @@ public class Mapa  implements WithGlobalEntityManager {
 		String consulta = "from " + tipo;
 		List<POI> resultados= (List<POI>) entityManager().createQuery(consulta)
 				.getResultList();
+		entityManager().clear();
 		return resultados;
 	}
 	
@@ -91,6 +93,7 @@ public class Mapa  implements WithGlobalEntityManager {
 		List<POI> resultados= (List<POI>) entityManager().createQuery("from POI p WHERE p.nombre=:nombreBuscado")
 				.setParameter("nombreBuscado", nombreBuscado)
 				.getResultList();
+		entityManager().clear();
 		return resultados;
 	}
 	
