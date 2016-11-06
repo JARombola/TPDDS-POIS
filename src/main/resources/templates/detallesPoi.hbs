@@ -5,11 +5,12 @@
 	</div>
   
 	<div class="panel-body">
-		[
-		
-		----- DATOS DEL POI ------
-		
-		]
+		<b>Nombre:</b> {{nombre}}<hr>
+		<form><b>Direccion:</b> {{direccion.calle}} {{direccion.numero}} - {{direccion.piso}} {{direccion.dpto}} <p>
+		{{direccion.barrio}} <hr></form>
+
+		<b>Coordenadas:</b> ( {{direccion.latitud}}, {{direccion.longitud}}) <hr>
+				
 	</div>
 	
 	<div class="panel-footer text-right">
