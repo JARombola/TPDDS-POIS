@@ -15,9 +15,11 @@ public class ParadaColectivo extends POI{
 	private double radioCercania=0.1;
 	
 	public ParadaColectivo() {
+		super();
 	}
 	
 	public ParadaColectivo(String nombre) {
+		super();
 		setNombre(nombre);
 	}
 	

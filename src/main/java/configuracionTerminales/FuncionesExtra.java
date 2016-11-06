@@ -25,7 +25,6 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import com.mongodb.MongoClient;
 
-
 @Entity
 public class FuncionesExtra implements WithGlobalEntityManager {
 	
@@ -71,18 +70,10 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	
 	public void guardarBusqueda(Busqueda datosBusqueda) {  
 		if (getOpciones().get("HISTORIAL").isActivado()){
-			persistirRelacional(datosBusqueda);
+			//persistirRelacional(datosBusqueda);
 			persistirBusquedasMongo(datosBusqueda);
 			
 		}
-	}
-	
-	private void persistirRelacional(Busqueda datosBusqueda){
-		EntityTransaction tx = entityManager().getTransaction(); //TODO 
-		if (!entityManager().getTransaction().isActive()) 
-			tx.begin();
-		entityManager().merge(datosBusqueda);
-		tx.commit();	//TODO
 	}
 	
 	public void persistirBusquedasMongo(Busqueda datosBusqueda){
@@ -92,7 +83,7 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 		morphia.mapPackage("terminales");
 		morphia.getMapper().getConverters().addConverter( new LocalDateConverter() );
 		mongo = new MongoClient();
-		String base = "Busquedas_"+terminal.getNombre();
+		String base = "B_"+terminal.getNombre();
 		store = morphia.createDatastore(mongo, base);
 		int a = (int)store.getCount(Busqueda.class);
 		datosBusqueda.setId(a);
@@ -113,7 +104,7 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	public void activarOpcion(String opcion){
 		if(opciones.get(opcion.toUpperCase())!=null){
 			opciones.replace(opcion.toUpperCase(), new AdapterBooleano(true));
-			RepositorioTerminales.getInstancia().actualizarTerminal(getTerminal());
+			RepositorioTerminales.getInstancia().actualizar(getTerminal());
 		}
 			else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
@@ -121,7 +112,7 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	public void desactivarOpcion(String opcion){
 		if(opciones.get(opcion.toUpperCase())!=null){
 			opciones.replace(opcion.toUpperCase(), new AdapterBooleano(false));
-			RepositorioTerminales.getInstancia().actualizarTerminal(getTerminal());
+			RepositorioTerminales.getInstancia().actualizar(getTerminal());
 		}
 		else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}

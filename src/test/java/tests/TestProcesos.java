@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
-import configuracionTerminales.Administrador;
 import pois.POI;
 import procesos.ActualizacionLocales;
 import terminales.RepositorioTerminales;
@@ -18,7 +17,6 @@ import terminales.Terminal;
 import tiposPoi.Local;
 
 public class TestProcesos extends AbstractPersistenceTest implements WithGlobalEntityManager{
-	private Administrador admin;
 	private Local poiLocal1, libreria;
 	private Mapa mapa;
 	private Terminal terminal;
@@ -30,7 +28,6 @@ public class TestProcesos extends AbstractPersistenceTest implements WithGlobalE
 	public void eliminarPois(){
 		List<POI> p = createQuery("from POI").getResultList();
 		p.stream().forEach(e->mapa.eliminarPOI(e.getId()));
-		p = createQuery("from POI").getResultList();
 	}
 	
 	@Before
@@ -41,9 +38,8 @@ public class TestProcesos extends AbstractPersistenceTest implements WithGlobalE
 		
 		mapa = Mapa.getInstancia();
 		terminal.setMapa(mapa);
-		terminal.setAdministrador(admin);
 
-		RepositorioTerminales.agregarTerminal(terminal);
+		RepositorioTerminales.actualizar(terminal);
 		
 		poiLocal1 = new Local();
 			poiLocal1.agregarTag("ASD");

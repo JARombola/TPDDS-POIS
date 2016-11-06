@@ -1,4 +1,5 @@
 package tests;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,6 +30,9 @@ public class TestProceso3 {
 		mailMock = Mockito.mock(EnviadorMails.class);
 		EnviadorMails.setInstancia(mailMock);
 		
+		admin=new Administrador("mail");
+			admin.setNombre("pepe");
+		
 		comuna = new Comuna();
 		coordenada1 = new Coordenadas();
 		coordenada1.setLatitud(47);
@@ -46,8 +50,8 @@ public class TestProceso3 {
 		comuna.addPunto(coordenada3);
 		
 		coordenada4 = new Coordenadas();
-		coordenada4.setLatitud(50);
-		coordenada4.setLongitud(-130);
+		coordenada4.setLatitud(3);
+		coordenada4.setLongitud(8);
 		
 		controlMaestro = RepositorioTerminales.getInstancia();
 		
@@ -68,18 +72,16 @@ public class TestProceso3 {
 		terminal3.setExtra(opciones);
 		terminal4.setExtra(opciones);
 		
-		terminal1.setAdministrador(admin);
 		
-		controlMaestro.agregarTerminal(terminal1);
-		controlMaestro.agregarTerminal(terminal2);
-		controlMaestro.agregarTerminal(terminal3);
-		controlMaestro.agregarTerminal(terminal4);			
-		
+		controlMaestro.actualizar(terminal1);
+		controlMaestro.actualizar(terminal2);
+		controlMaestro.actualizar(terminal3);
+		controlMaestro.actualizar(terminal4);			
 	}
 	
 	@After
 	public void limpiarCentralTerminales(){
-		controlMaestro.getTerminales().clear();
+		controlMaestro.eliminarTerminales();
 	}
 	
 
@@ -97,13 +99,15 @@ public class TestProceso3 {
 	@Test
 	public void testActivarBusquedasEnUnaComuna() {
 		Assert.assertEquals(terminal1.estaActivado("HISTORIAL"), false);
+		Assert.assertEquals(terminal4.estaActivado("HISTORIAL"), false);
 		AgregarAcciones proceso = new AgregarAcciones("HISTORIAL");
 		proceso.AgregarAccionComuna(comuna);
 		proceso.run();
 		Assert.assertEquals(terminal1.estaActivado("HISTORIAL"), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial
 		Assert.assertEquals(terminal2.estaActivado("HISTORIAL"), true);
 		Assert.assertEquals(terminal3.estaActivado("HISTORIAL"), true);
-		Assert.assertEquals(proceso.getCantidadAfectados(),3);					//Se modificaron las 3 terminales
+		Assert.assertEquals(terminal4.estaActivado("HISTORIAL"), true);
+		Assert.assertEquals(proceso.getCantidadAfectados(),4);					//Se modificaron las 3 terminales
 	}
 	
 	@Test

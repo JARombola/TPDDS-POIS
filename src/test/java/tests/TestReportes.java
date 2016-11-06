@@ -39,9 +39,6 @@ public class TestReportes extends AbstractPersistenceTest implements WithGlobalE
 	public void eliminarPois(){
 		List<POI> p = createQuery("from POI").getResultList();
 		p.stream().forEach(e->mapa.eliminarPOI(e.getId()));
-		List<Busqueda> b = createQuery("from Busqueda").getResultList();
-		b.stream().forEach(c->remove(c));
-		b = createQuery("from Busqueda").getResultList();
 	}
 	
 	@Before
@@ -91,8 +88,8 @@ public class TestReportes extends AbstractPersistenceTest implements WithGlobalE
 
 		terminal.setBuffer(buffer);
 		terminal2.setBuffer(buffer);
-		controlMaestro.agregarTerminal(terminal);
-		controlMaestro.agregarTerminal(terminal2);
+		controlMaestro.actualizar(terminal);
+		controlMaestro.actualizar(terminal2);
 	}
 	
 	@Test
@@ -114,7 +111,7 @@ public class TestReportes extends AbstractPersistenceTest implements WithGlobalE
 		assertTrue(terminal.reporteTotalResultados().getDatos().isEmpty());			//No se registraron, estaba desactivado
 		terminal.activarOpcion("HISTORIAL");
 		terminal.realizarBusqueda("Hola", "Chau");
-		terminal.realizarBusqueda("114", " ");
+		terminal.realizarBusqueda("114", "");
 		terminal.realizarBusqueda("Julian", "Crack");
 		assertEquals(terminal.getHistorialBusquedas().size(),3);
 		assertEquals(terminal.reporteTotalResultados().getDatos().get(0).getResultados(),2,0);			//Registrados, hubieron 2 aciertos (114)

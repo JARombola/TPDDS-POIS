@@ -3,14 +3,13 @@ package terminales;
 
 import java.util.List;
 
-import javax.persistence.EntityTransaction;
-
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import pois.POI;
 
 
-public class Mapa  implements WithGlobalEntityManager {
+public class Mapa implements WithGlobalEntityManager,TransactionalOps {
 	private static Mapa instancia;
 
 	public Mapa() {
@@ -30,27 +29,28 @@ public class Mapa  implements WithGlobalEntityManager {
 	// -------------------ABM POIS-----------------------
 		
 	public void eliminarPOI (int id){
-		POI poiEliminar = entityManager().find(POI.class, id);
-		if(poiEliminar!=null){
-			if(!entityManager().getTransaction().isActive())entityManager().getTransaction().begin();
-			entityManager().remove(poiEliminar);
-			entityManager().getTransaction().commit();
-		}
+		withTransaction(()->{
+			POI poiEliminar = entityManager().find(POI.class, id);
+			if(poiEliminar!=null){
+				entityManager().remove(poiEliminar);
+//				entityManager().getTransaction().commit();
+			}
+		});
 	}
 	
 	public void agregarOmodificar (POI poiEntrante){
-		POI mismoPoiEnSistema = (POI)entityManager().find(POI.class,poiEntrante.getId());
-		EntityTransaction tx = entityManager().getTransaction();
-		if(!entityManager().getTransaction().isActive()) tx.begin();	//TODO
-
-		if(mismoPoiEnSistema!=null){
- 			mismoPoiEnSistema.modificar(poiEntrante);
- 			entityManager().merge(mismoPoiEnSistema);
- 		} else {
- 			entityManager().persist(poiEntrante);
-		}
- 		tx.commit();
- 		entityManager().clear();
+		withTransaction(()->{
+			POI mismoPoiEnSistema = (POI)entityManager().find(POI.class,poiEntrante.getId());
+	
+			if(mismoPoiEnSistema!=null){
+	 			mismoPoiEnSistema.modificar(poiEntrante);
+	 			entityManager().merge(mismoPoiEnSistema);
+	 		} else {
+	 			entityManager().persist(poiEntrante);
+			}
+		});
+//	 		tx.commit();
+	 	//	entityManager().clear();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -64,7 +64,7 @@ public class Mapa  implements WithGlobalEntityManager {
 				.setParameter("palabra", palabra)
 				.getResultList();
 		resultadosPorNombre.addAll(resultadosPorTags);
-		entityManager().clear();
+	//	entityManager().clear();
 		return resultadosPorNombre;
 	}
 	

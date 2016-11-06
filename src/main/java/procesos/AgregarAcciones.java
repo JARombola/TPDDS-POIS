@@ -39,24 +39,24 @@ public class AgregarAcciones extends Proceso{
 			return 1;
 		}
 		
-		RepositorioTerminales centralTerminales = RepositorioTerminales.getInstancia();
+		if (isTodos()) return activarOpcionTodasTerminales();
 		
-		if (isTodos()) return activarOpcionTodasTerminales(centralTerminales);
-		
-		if (getComuna()!=null) return activarOpcionComuna(centralTerminales);
+		if (getComuna()!=null) return activarOpcionComuna();
 		
 		return 0;
 	}
 	
-	private int activarOpcionTodasTerminales(RepositorioTerminales centralTerminales){
-		centralTerminales.getTerminales()
-			.stream()
+	private int activarOpcionTodasTerminales(){
+		List<Terminal> terminales = RepositorioTerminales.getInstancia().getTerminales();
+		terminales.stream()
 			.forEach(terminal->terminal.activarOpcion(getAccion()));
-		return centralTerminales.getTerminales().size();	
+		
+		return terminales.size();	
 	}
 	
-	private int activarOpcionComuna(RepositorioTerminales centralTerminales){
-		List<Terminal> terminales = centralTerminales.getTerminales().stream()
+	private int activarOpcionComuna(){
+		List<Terminal> terminales = RepositorioTerminales.getInstancia().getTerminales();
+		terminales.stream()
 					.filter(unaTerminal->unaTerminal.estaEnLaComuna(comuna))
 					.collect(Collectors.toList());
 		terminales.stream().forEach(terminal->terminal.activarOpcion(getAccion()));

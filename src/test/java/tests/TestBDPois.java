@@ -23,6 +23,7 @@ import pois.Horario;
 import pois.POI;
 import terminales.BufferBusquedas;
 import terminales.Mapa;
+import terminales.RepositorioTerminales;
 import terminales.Terminal;
 import tiposPoi.Banco;
 import tiposPoi.CGP;
@@ -47,7 +48,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	public void removerPois(){
 		List<POI> p = createQuery("from POI").getResultList();
 		p.forEach(e->remove(e));
-		p = createQuery("from POI").getResultList();
 	}
 	@Test
 	public void testPersistirDireccion(){		
@@ -85,6 +85,7 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		ParadaColectivo paradaBuscada = (ParadaColectivo) createQuery("from ParadaColectivo where Nombre = :nombre")
 				.setParameter("nombre", "PARADA COLECTIVO")
 				.getSingleResult();
+		
 		assertEquals(paradaBuscada.getTags().get(2),"aburrido");
 		assertEquals(paradaBuscada.getTags().size(), 3);
 		assertEquals(paradaBuscada.getDireccion().getLatitud(),10,0);
@@ -219,7 +220,6 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		terminal.setNombre("Terminal 1");
 			terminal.setBuffer(null);
 			terminal.setMapa(mapa);
-			terminal.setAdministrador(admin);
 			
 			terminal.activarOpcion("HISTORIAL");
 	}
@@ -228,11 +228,9 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 	@Test
 	public void testPersistirTerminal() throws Exception{		
 		Administrador admin = new Administrador();
-			admin.setEmail("ASD");
+			admin.setEmail("AAA");
 		Terminal terminal= new Terminal();
-			terminal.setAdministrador(admin);
 			terminal.setNombre("prueba");
-			terminal.setAdministrador(admin);
 		Coordenadas coordenada=new Coordenadas();
 			coordenada.setLatitud(99);
 			coordenada.setLongitud(2);
@@ -241,8 +239,8 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 			terminal.setExtra(fe);
 			terminal.activarOpcion("MAIL");
 			terminal.desactivarOpcion("HISTORIAL");
-		persist(terminal);
-		commitTransaction();
+
+		RepositorioTerminales.getInstancia().actualizar(terminal);
 		
 		Terminal terminalBuscada = (Terminal) createQuery("from Terminal where Nombre = :nombre")
 				.setParameter("nombre", "prueba")

@@ -1,19 +1,14 @@
 package terminales;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
-
-
-public class RepositorioTerminales implements WithGlobalEntityManager{
+public class RepositorioTerminales implements WithGlobalEntityManager, TransactionalOps{
 	private static RepositorioTerminales instancia;
-	private List<Terminal> terminales;
-	
 
 	public RepositorioTerminales(){
-		terminales=new ArrayList<Terminal>();
 	}
 	
 	public static RepositorioTerminales getInstancia(){
@@ -28,21 +23,32 @@ public class RepositorioTerminales implements WithGlobalEntityManager{
 	}
 	
 	
-	public List<Terminal> getTerminales() {
+	
+	public void actualizar(Terminal terminal){
+		withTransaction(() ->{
+			entityManager().persist(terminal);
+//		entityManager().getTransaction().commit();
+		});
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Terminal> getTerminales(){
+		List<Terminal> terminales = entityManager().createQuery("from Terminal").getResultList();
 		return terminales;
 	}
 	
-	public void actualizarTerminal(Terminal terminal){
-			
+	public void eliminarTerminal(int id){
+		Terminal eliminar = entityManager().find(Terminal.class, id);
+		withTransaction(() ->{
+			entityManager().remove(eliminar);
+		});
 	}
 	
-	public void agregarTerminal(Terminal terminal) {
-//		TODO: Dónde persisten las terminales? - Aldana.
-		if(!entityManager().getTransaction().isActive()) entityManager().getTransaction().begin();
-		entityManager().persist(terminal);
-		entityManager().getTransaction().commit();
-		this.terminales.add(terminal);
-		
+	@SuppressWarnings("unchecked")
+	public void eliminarTerminales(){
+		List<Terminal> terminales =(List<Terminal>) entityManager().createQuery("from Terminal").getResultList();
+		terminales.stream().forEach(t->eliminarTerminal(t.getId()));
 	}
+	
 
 }

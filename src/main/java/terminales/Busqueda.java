@@ -4,40 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.joda.time.LocalDate;
 
 import pois.POI;
 
 @org.mongodb.morphia.annotations.Entity
-@Entity
-@Table(name="Busquedas")
+
 public class Busqueda {
 	
 	@org.mongodb.morphia.annotations.Id
-	@Id @GeneratedValue
 	private int id;
 	
 	@Column(name="frase_buscada")
 	private String fraseBuscada;
 	
 	@org.mongodb.morphia.annotations.Embedded
-	@ManyToMany 
-	@Cascade(value=CascadeType.ALL)
 	public List<POI> resultados;
 	
 	private double tiempoBusqueda;
 
 	private LocalDate fecha; 
 
-	
 	public Busqueda(){
 		resultados=new ArrayList<POI>();
 	}

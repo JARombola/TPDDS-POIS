@@ -43,15 +43,6 @@ public abstract class Proceso extends TimerTask  {
 		if(!ejecucionOk) tratarFalla();
 	}
 
-//	private void ejecutar() throws IOException{
-////		TODO: Este método podrían sacarlo, porque tienen muchos métodos que se llaman parecido y confunde un poco. 
-////		Y ya que lo sacan, 'ejecutarProceso' (el método de abajo) lo pueden renombrar para que se llame simplemente
-////		'ejecutar', ya que 'proceso.ejecutarProceso()' suena redundante -Aldana
-//		
-//		cantidadAfectados = ejecutarProceso();        //TODO crear nueva clase que guarde los resultados?
-//		resultado.setElementosAfectados(cantidadAfectados);
-//	}
-
 	abstract int ejecutar() throws IOException;			//devuelve la cantidad de afectados
 	
 	

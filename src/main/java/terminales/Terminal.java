@@ -230,7 +230,7 @@ public class Terminal {
 	}
 	
 	private void iniciarMorphia(){
-		String pathMongoBusquedas = "Busquedas_"+nombre;
+		String pathMongoBusquedas = "B_"+nombre;
 		morphia = new Morphia();
 		morphia.getMapper().getOptions().setStoreNulls(true);
 		morphia.mapPackage("pois");
@@ -243,7 +243,7 @@ public class Terminal {
 	
 	public void eliminarBusquedas(){
 		iniciarMorphia();
-		String pathMongoBusquedas = "Busquedas_"+nombre;
+		String pathMongoBusquedas = "B_"+nombre;
 		mongo.dropDatabase(pathMongoBusquedas);
 	}
 	
