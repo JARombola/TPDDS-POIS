@@ -46,6 +46,8 @@ public class Router {
 		Spark.get("/admin/terminales/registrar", adminController::prepararRegistroTerminal,engine);
 		Spark.post("/admin/terminales/registrar", adminController::registrarTerminal);
 		
+		Spark.get("/admin/consultas", adminController::consultas,engine);
+		Spark.get("/admin/consultas/", adminController::filtrarConsultas,engine);
 		
 /*		Spark.get("/administrador/pois", adminController::mostrarPois, engine);
 		Spark.get("/administrador/pois/editar", adminController::editarPoi, engine);

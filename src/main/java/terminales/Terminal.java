@@ -1,5 +1,6 @@
 package terminales;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
@@ -76,16 +77,16 @@ public class Terminal {
 	}
 
 	public List<POI> buscar(String texto1, String texto2) {
-		List<POI> resultadosBusqueda = null;
+		List<POI> resultadosBusqueda = new ArrayList<POI>();
 		if(buffer!=null){
 			resultadosBusqueda = buffer.buscar(texto1, texto2);
 		}
-		resultadosBusqueda.addAll(mapa.buscarPoi(texto1));
+		resultadosBusqueda.addAll(Mapa.getInstancia().buscarPoi(texto1));
 		return resultadosBusqueda;
 	}
 	
 	public POI getPOI(int id){
-		return mapa.getPOI(id);
+		return Mapa.getInstancia().getPOI(id);
 	}
 
 	//----------------------REPORTES---------------------------------------
@@ -109,6 +110,16 @@ public class Terminal {
 		List<Busqueda> busquedas;
 		busquedas = store.createQuery(Busqueda.class)
 				.filter("fecha =", fecha)
+				.asList();
+		return busquedas;
+	}
+	
+	public List<Busqueda> busquedasIntervalo(LocalDate desde, LocalDate hasta) {
+		List<Busqueda> busquedas;
+		iniciarMorphia();
+		busquedas = store.createQuery(Busqueda.class)
+				.filter("fecha >=", desde)
+				.filter("fecha <=", hasta)
 				.asList();
 		return busquedas;
 	}
@@ -165,13 +176,6 @@ public class Terminal {
 		return (unaComuna.dentroDeLaZona(getCoordenadas()));
 	}
 	
-	
-	public Mapa getMapa() {
-		return mapa;
-	}
-	public void setMapa(Mapa mapa) {
-		this.mapa = mapa;
-	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -179,6 +183,7 @@ public class Terminal {
 		return nombre;
 	}
 	public List<Busqueda> getHistorialBusquedas() {
+		iniciarMorphia();
 		return store.find(Busqueda.class).asList();
 	}
 
@@ -258,5 +263,13 @@ public class Terminal {
 
 	public void setPass(String pass) {
 		this.pass = pass;
+	}
+
+	public Mapa getMapa() {
+		return mapa;
+	}
+
+	public void setMapa(Mapa mapa) {
+		this.mapa = mapa;
 	}
 }

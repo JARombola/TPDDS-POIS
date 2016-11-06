@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.joda.time.LocalDate;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
@@ -14,6 +16,7 @@ import pois.POI;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
+import terminales.Busqueda;
 import terminales.Mapa;
 import terminales.RepositorioTerminales;
 import terminales.Terminal;
@@ -192,18 +195,59 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 				persistida=true;
 			}
 		if(!persistida) RepositorioTerminales.getInstancia().actualizar(terminalNueva);
-			
-//		Terminal a = RepositorioTerminales.getInstancia().getTerminal(3);
-//		System.out.println(a.getOpciones().isHistorial());
-//		System.out.println(a.getOpciones().isMail());
 		res.redirect("/admin/terminales/");
 		return null;
-		
+	}
+	//---------------------->>> CONSULTAS <<<------------------------
+	
+	public ModelAndView consultas(Request req, Response res){
+		Map<String, List<Terminal>> model = new HashMap<>();
+		List<Terminal> terminales = RepositorioTerminales.getInstancia().getTerminales();
+		model.put("terminales", terminales);
+		return new ModelAndView(model, "/admin/consultas/consultas.hbs");
 	}
 	
-	
-	
-	
-	
-
+	public ModelAndView filtrarConsultas(Request req, Response res){
+		Map<String, List<Busqueda>> model = new HashMap<>();
+		String terminalID = req.queryParams("id");
+		String fechaDesde= req.queryParams("desde");
+		String fechaHasta= req.queryParams("hasta");
+		String cantResultados = req.queryParams("cantidad");
+		int id;
+		LocalDate desde = null,hasta = null;
+		Terminal terminal = null;
+		if (!terminalID.isEmpty()) {
+			id = Integer.parseInt(terminalID);
+			terminal=RepositorioTerminales.getInstancia().getTerminal(id);
+		}
+		if(!fechaDesde.isEmpty() && !fechaHasta.isEmpty()){
+			desde=new LocalDate(fechaDesde);
+			hasta=new LocalDate(fechaHasta);
+		}
+		List<Busqueda> busquedas;
+		if(terminal!=null){
+			if(desde!=null){
+				busquedas = terminal.busquedasIntervalo(desde, hasta);
+				}
+			else{
+				busquedas = terminal.getHistorialBusquedas();
+			}
+		}
+		else{
+			if(desde!=null){
+				busquedas = RepositorioTerminales.getInstancia().getBusquedasIntervalo(desde, hasta);}
+			else{
+				busquedas=RepositorioTerminales.getInstancia().getBusquedas();
+			}
+		}
+		if(!cantResultados.isEmpty()){
+			int cantidadResultados=Integer.parseInt(cantResultados);
+			busquedas = busquedas.stream()
+				.filter(b->(b.getCantidadResultados()==cantidadResultados))
+				.collect(Collectors.toList());
+		}
+		model.put("busquedas", busquedas);
+		return new ModelAndView(model, "admin/consultas/consultas.hbs");
+	}
+		
 }
