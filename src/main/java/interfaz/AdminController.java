@@ -26,7 +26,7 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 	}
 	
 	public ModelAndView POIS(Request req, Response res){
-		return new ModelAndView(null, "admin/pois.hbs");
+		return new ModelAndView(null, "admin/pois/pois.hbs");
 	}
 	
 	public ModelAndView filtrar(Request req, Response res){
@@ -39,7 +39,7 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 			filtradosNombre.addAll(filtradosTipo);
 			
 		model.put("filtrados", filtradosNombre);
-		return new ModelAndView(model, "admin/pois.hbs");
+		return new ModelAndView(model, "admin/pois/pois.hbs");
 	}
 
 	private List<POI> buscarTipo(String tipo) {
@@ -56,7 +56,7 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		Map<String, POI> model = new HashMap<>();
 		POI viejo = Mapa.getInstancia().getPOI(Integer.parseInt(req.queryParams("id")));
 		model.put("detalles", viejo);
-		return new ModelAndView(model, "/admin/modificarPoi.hbs");
+		return new ModelAndView(model, "/admin/pois/modificarPoi.hbs");
 	}
 	
 	public Void actualizarPoi(Request req, Response res){
@@ -77,14 +77,13 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		Double latNuevaLong=Double.parseDouble(longNueva);
 			if(!latNueva.isEmpty()) viejo.setLatitud(latNuevaLong.intValue());
 		
-			System.out.println("MODIFICADO");
 		Mapa.getInstancia().agregarOmodificar(viejo);
 			res.redirect("/admin/POIS");
 		return null;
 	}
 	
 	public ModelAndView prepararRegistro(Request req, Response res){
-		return new ModelAndView(null, "/admin/poiNuevo.hbs");
+		return new ModelAndView(null, "/admin/pois/poiNuevo.hbs");
 	}
 	
 	public Void registrarPOI(Request req, Response res) throws Exception{
@@ -111,7 +110,6 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		poiNuevo.setNombre(nombre);
 		Mapa.getInstancia().agregarOmodificar(poiNuevo);
 		res.redirect("/admin/POIS");				//TODO: cambiar direccion cuando se cree el menu
-		System.out.println("POI Registrado");
 		return null;
 	}
 	

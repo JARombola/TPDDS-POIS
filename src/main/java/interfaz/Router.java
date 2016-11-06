@@ -32,7 +32,7 @@ public class Router {
 		Spark.get("/admin", adminController::home, engine);
 		Spark.get("/admin/POIS", adminController::POIS, engine);
 		Spark.get("/admin/POIS/", adminController::filtrar, engine);
-		Spark.get("/admin/POIS/m", adminController::prepararModif,engine);
+		Spark.get("/admin/POIS/modificar", adminController::prepararModif,engine);
 		Spark.post("/admin/POIS/modif", adminController::actualizarPoi);
 		Spark.get("/admin/POIS/registrar", adminController::prepararRegistro,engine);
 		Spark.post("/admin/POIS/registrar", adminController::registrarPOI);
