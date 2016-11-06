@@ -97,4 +97,12 @@ public class Mapa implements WithGlobalEntityManager,TransactionalOps {
 		return resultados;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<POI> todos(){
+		List<POI> pois = entityManager().createQuery("from POI").getResultList();
+		return pois;
+	}
+	
+
+	
 }

@@ -15,6 +15,8 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import terminales.Mapa;
+import terminales.RepositorioTerminales;
+import terminales.Terminal;
 import tiposPoi.Banco;
 import tiposPoi.CGP;
 import tiposPoi.ParadaColectivo;
@@ -119,6 +121,67 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		Mapa.getInstancia().eliminarPOI(idInt);
 			res.redirect("/admin/POIS");
 		return null;
+	}
+	//--------------------->> TERMINALES <<------------------------
+	
+	public ModelAndView filtrarTerminales(Request req, Response res){
+		Map<String, List<Terminal>> model = new HashMap<>();
+		String comuna = req.queryParams("comuna");
+		List<Terminal> terminales=RepositorioTerminales.getInstancia().getTerminales();
+		model.put("terminales", terminales);
+		return new ModelAndView(model, "/admin/terminales/terminales.hbs");
+	}
+	
+	public ModelAndView detallesTerminal(Request req, Response res){
+		Map<String, Terminal> model = new HashMap<>();
+		int idTerminal=Integer.parseInt(req.queryParams("id"));
+		Terminal buscado=RepositorioTerminales.getInstancia().getTerminal(idTerminal);
+		model.put("detalles", buscado);
+		return new ModelAndView(model, "/admin/terminales/detalles.hbs");
+	}
+	
+	public ModelAndView prepararModifTerminal(Request req, Response res){
+		Map<String, Terminal> model = new HashMap<>();
+		Terminal terminal = RepositorioTerminales.getInstancia().getTerminal(Integer.parseInt(req.queryParams("id")));
+		model.put("datos", terminal);
+		return new ModelAndView(model, "/admin/terminales/modificar.hbs");
+	}
+	
+	public Void actualizarTerminal(Request req, Response res){
+		Terminal terminal = RepositorioTerminales.getInstancia().getTerminal(Integer.parseInt(req.queryParams("id")));
+		String nombre = req.queryParams("nombre");
+		String comuna = req.queryParams("comuna");
+		String pass = req.queryParams("pass");
+			terminal.setNombre(nombre);
+			terminal.setPass(pass);
+		RepositorioTerminales.getInstancia().actualizar(terminal);
+		res.redirect("/admin/terminales/");
+		return null;
+	}
+	
+	public Void eliminarTerminal(Request req, Response res){
+		int id = Integer.parseInt(req.queryParams("id"));
+		RepositorioTerminales.getInstancia().eliminarTerminal(id);
+		res.redirect("/admin/terminales/");
+		return null;
+	}
+	
+	public ModelAndView prepararRegistroTerminal(Request req, Response res){
+		return new ModelAndView(null, "/admin/terminales/nueva.hbs");
+	}
+	
+	
+	public Void registrarTerminal(Request req, Response res){
+		String nombre= req.queryParams("nombre");
+		String comuna=req.queryParams("comuna");			//TODO:
+		String pass = req.queryParams("pass");
+		Terminal terminalNueva = new Terminal();
+			terminalNueva.setNombre(nombre);
+			terminalNueva.setPass(pass);
+		RepositorioTerminales.getInstancia().actualizar(terminalNueva);
+		res.redirect("/admin/terminales/");
+		return null;
+		
 	}
 	
 	

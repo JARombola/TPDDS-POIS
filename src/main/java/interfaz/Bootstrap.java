@@ -44,6 +44,12 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 				terminal.setNombre("TerminalPrueba");
 				terminal.setPass("1234");
 			persist(terminal);
+
+			Terminal terminal2 = new Terminal();
+				terminal2.setNombre("Terminal2");
+				terminal2.setPass("1111");
+			persist(terminal2);
+			
 		});
 	}
 }
