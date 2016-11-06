@@ -1,0 +1,71 @@
+{{#partial "contenido"}}
+
+{{#with datos}}
+
+<form action="/admin/terminales/modif?id={{id}}" method="POST" class="form-horizontal">
+	<div class="panel panel-default">
+		<div class="panel-heading" alin>
+			<span class="glyphicon glyphicon-globe">
+			</span>   {{nombre}} ({{direccion.calle}} - {{direccion.numero}})</div>
+
+		<div class="panel-body">
+
+				<div class="form-group">
+					<label for="nombre" class="control-label col-sm-2"> Nombre: </label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" value={{nombre}} name="nombre">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="direccion" class="control-label col-sm-2"> Comuna: </label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" value="JA" name="comuna">
+							<!--QUE HACEMOS CON LA COMUNA!?!?!?-->
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="contraseña" class="control-label col-sm-2"> Contrase&ntilde;a: </label>
+					<div class="col-sm-4">
+						<input type="text" class="form-control" value={{pass}} name="pass">
+					</div>
+				</div>
+
+						<!--
+			<div class="form-group">
+				<label for="longitud" class="control-label col-sm-2"> Longitud: </label>
+				<div class="col-sm-2"> 
+					<input type="number" class="form-control" value={{direccion.coordenadas.longitud}} name="long">
+				</div>
+				 <div class="form-group">
+					<label for="longitud" class="control-label col-sm-2"> Latitud: </label>
+					<div class="col-sm-2"> 
+						<input type="number" class="form-control" value={{direccion.coordenadas.latitud}} name="lat">
+					</div>
+				</div>
+			</div> -->
+				<div class="form-group">
+					<label for="acciones" class="control-label col-sm-2"> Acciones </label>
+					<div class="checkbox-inline ">
+					  <label class="control-label col-sm-10"><input type="checkbox" value="historial">Historial</label>
+					</div>
+					<div class="checkbox-inline">
+					  <label class="control-label col-sm-4"><input type="checkbox" value="mail">Mail</label>
+					</div>
+				</div>
+		
+		</div>
+				<div class="panel-footer text-right">
+									<button class="btn btn-default" type="submit">Modificar</button>
+									<button class="btn btn-default">Cancelar</button>
+								</div>
+
+							</div>
+							</div>
+						</form>
+{{/with}}
+
+{{/partial}}
+
+{{>layout.hbs}}
