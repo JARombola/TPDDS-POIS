@@ -24,14 +24,13 @@ public class RepositorioTerminales implements WithGlobalEntityManager, Transacti
 		return reporteTotalResultados;
 	}
 	
-	
-	
 	public void actualizar(Terminal terminal){
 		withTransaction(() ->{
 			entityManager().persist(terminal);
-//		entityManager().getTransaction().commit();
+			//commitTransaction();
 		});
-		//commitTransaction();
+		entityManager().clear();
+//		commitTransaction();
 	}
 	
 	@SuppressWarnings("unchecked")

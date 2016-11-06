@@ -159,8 +159,13 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 			terminal.setPass(pass);
 		String mail = req.queryParams("mail");
 		String historial = req.queryParams("historial");
-				if(mail!=null) terminal.activarOpcion("mail");
-				if(historial!=null) terminal.activarOpcion("historial");
+			if(mail!=null) {
+				terminal.activarOpcion("mail");
+			}
+			else{terminal.desactivarOpcion("mail");}
+			if(historial!=null) terminal.activarOpcion("historial");
+			else terminal.desactivarOpcion("historial");
+		RepositorioTerminales.getInstancia().actualizar(terminal);
 		res.redirect("/admin/terminales/");
 		return null;
 	}

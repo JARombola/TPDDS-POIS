@@ -96,16 +96,13 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 			mail.mailBusquedaLenta();
 		}
 	}
-
 	
 	public void activarOpcion(String opcion){
 		opcion=opcion.toUpperCase();
 		if(opcion.equals("MAIL")){
 			mail=true;
-			RepositorioTerminales.getInstancia().actualizar(getTerminal());
 		}else if(opcion.equals("HISTORIAL")){
 			historial=true;
-		RepositorioTerminales.getInstancia().actualizar(getTerminal());
 		} else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 	
@@ -113,10 +110,8 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 		opcion=opcion.toUpperCase();
 		if(opcion.equals("MAIL")){
 			mail=false;
-			RepositorioTerminales.getInstancia().actualizar(getTerminal());
 		}else if(opcion.equals("HISTORIAL")){
 			historial=false;
-		RepositorioTerminales.getInstancia().actualizar(getTerminal());
 		} else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 
