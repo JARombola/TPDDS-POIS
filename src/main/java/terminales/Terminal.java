@@ -165,9 +165,6 @@ public class Terminal {
 		return (unaComuna.dentroDeLaZona(getCoordenadas()));
 	}
 	
-	public boolean estaActivado(String opcion){
-		return getOpciones().estaActivado(opcion);
-	}
 	
 	public Mapa getMapa() {
 		return mapa;

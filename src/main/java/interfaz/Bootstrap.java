@@ -1,8 +1,5 @@
 package interfaz;
 
-
-import java.util.List;
-
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
@@ -10,7 +7,6 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import configuracionTerminales.Administrador;
 import pois.Direccion;
 import pois.POI;
-import terminales.Mapa;
 import terminales.Terminal;
 import tiposPoi.Banco;
 
@@ -48,6 +44,7 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 			Terminal terminal2 = new Terminal();
 				terminal2.setNombre("Terminal2");
 				terminal2.setPass("1111");
+				terminal2.activarOpcion("mail");
 			persist(terminal2);
 			
 		});

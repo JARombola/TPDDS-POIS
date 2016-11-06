@@ -154,7 +154,10 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		String pass = req.queryParams("pass");
 			terminal.setNombre(nombre);
 			terminal.setPass(pass);
-		RepositorioTerminales.getInstancia().actualizar(terminal);
+		String mail = req.queryParams("mail");
+		String historial = req.queryParams("historial");
+				if(mail!=null) terminal.activarOpcion("mail");
+				if(historial!=null) terminal.activarOpcion("historial");
 		res.redirect("/admin/terminales/");
 		return null;
 	}
@@ -170,15 +173,29 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		return new ModelAndView(null, "/admin/terminales/nueva.hbs");
 	}
 	
-	
 	public Void registrarTerminal(Request req, Response res){
 		String nombre= req.queryParams("nombre");
 		String comuna=req.queryParams("comuna");			//TODO:
 		String pass = req.queryParams("pass");
+		String mail = req.queryParams("mail");
+		String historial = req.queryParams("historial");
+		Boolean persistida=false;
 		Terminal terminalNueva = new Terminal();
 			terminalNueva.setNombre(nombre);
 			terminalNueva.setPass(pass);
-		RepositorioTerminales.getInstancia().actualizar(terminalNueva);
+			if(mail!=null) {
+				terminalNueva.activarOpcion("mail");
+				persistida=true;
+			}
+			if(historial!=null){
+				terminalNueva.activarOpcion("historial");
+				persistida=true;
+			}
+		if(!persistida) RepositorioTerminales.getInstancia().actualizar(terminalNueva);
+			
+//		Terminal a = RepositorioTerminales.getInstancia().getTerminal(3);
+//		System.out.println(a.getOpciones().isHistorial());
+//		System.out.println(a.getOpciones().isMail());
 		res.redirect("/admin/terminales/");
 		return null;
 		

@@ -13,7 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.mongodb.morphia.Datastore;
@@ -31,10 +33,7 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	@Id @GeneratedValue
 	private int id;
 	private int tiempoMax;
-	@ElementCollection
-	@MapKeyJoinColumn
-	private Map<String,AdapterBooleano> opciones;		//Usa el map para activar/desactivar las opciones... :)
-	@Transient
+	@OneToOne @JoinColumn
 	private Terminal terminal;
 	@Transient
 	Datastore store;
@@ -44,16 +43,17 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	MongoClient mongo;
 	@Transient	
 	private String pathMongoBusquedas;
+	
+	private boolean mail;
+	private boolean historial;
 
 	public FuncionesExtra(){
-	
 	}
 	
 	public FuncionesExtra(int tiempoMax){
 		this.tiempoMax=tiempoMax;
-		opciones=new HashMap<String,AdapterBooleano>();
-		opciones.put("HISTORIAL", new AdapterBooleano(false));
-		opciones.put("MAIL", new AdapterBooleano(false));
+		mail=false;
+		historial=false;
 	}
 	
 	public void inicioBusqueda(){
@@ -69,7 +69,7 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	}
 	
 	public void guardarBusqueda(Busqueda datosBusqueda) {  
-		if (getOpciones().get("HISTORIAL").isActivado()){
+		if (isHistorial()){
 			//persistirRelacional(datosBusqueda);
 			persistirBusquedasMongo(datosBusqueda);
 			
@@ -91,30 +91,33 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	}
 
 	private void enviarMail(double tiempoBusqueda){
-		if (getOpciones().get("MAIL").isActivado() && (tiempoBusqueda>tiempoMax)){		//activado el mail, y el tiempo se excedi�
+		if (isMail() && (tiempoBusqueda>tiempoMax)){		//activado el mail, y el tiempo se excedi�
 			EnviadorMails mail=new EnviadorMails(terminal.getAdministrador());
 			mail.mailBusquedaLenta();
 		}
 	}
 
-	public Map<String, AdapterBooleano> getOpciones() {
-			return opciones;
-	}	
 	
 	public void activarOpcion(String opcion){
-		if(opciones.get(opcion.toUpperCase())!=null){
-			opciones.replace(opcion.toUpperCase(), new AdapterBooleano(true));
+		opcion=opcion.toUpperCase();
+		if(opcion.equals("MAIL")){
+			mail=true;
 			RepositorioTerminales.getInstancia().actualizar(getTerminal());
-		}
-			else{throw new ExcepcionFalloConfiguracion(getTerminal());}
+		}else if(opcion.equals("HISTORIAL")){
+			historial=true;
+		RepositorioTerminales.getInstancia().actualizar(getTerminal());
+		} else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 	
 	public void desactivarOpcion(String opcion){
-		if(opciones.get(opcion.toUpperCase())!=null){
-			opciones.replace(opcion.toUpperCase(), new AdapterBooleano(false));
+		opcion=opcion.toUpperCase();
+		if(opcion.equals("MAIL")){
+			mail=false;
 			RepositorioTerminales.getInstancia().actualizar(getTerminal());
-		}
-		else{throw new ExcepcionFalloConfiguracion(getTerminal());}
+		}else if(opcion.equals("HISTORIAL")){
+			historial=false;
+		RepositorioTerminales.getInstancia().actualizar(getTerminal());
+		} else{throw new ExcepcionFalloConfiguracion(getTerminal());}
 	}
 
 	public Terminal getTerminal() {
@@ -127,7 +130,20 @@ public class FuncionesExtra implements WithGlobalEntityManager {
 	public int getTiempoMax() {
 		return tiempoMax;
 	}
-	public boolean estaActivado(String opcion) {
-		return (opciones.get(opcion.toUpperCase()).isActivado());
+
+	public boolean isMail() {
+		return mail;
+	}
+
+	public void setMail(boolean mail) {
+		this.mail = mail;
+	}
+
+	public boolean isHistorial() {
+		return historial;
+	}
+
+	public void setHistorial(boolean historial) {
+		this.historial = historial;
 	}
 }

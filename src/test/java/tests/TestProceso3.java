@@ -88,37 +88,37 @@ public class TestProceso3 {
 	
 	@Test
 	public void testActivarMailEnUnaTerminal() {
-		Assert.assertEquals(terminal1.estaActivado("MAIL"), false);
+		Assert.assertEquals(terminal1.getOpciones().isMail(), false);
 		AgregarAcciones proceso = new AgregarAcciones( "MAIL");
 		proceso.agregarAccionTerminal(terminal1);
 		proceso.run();
-		Assert.assertEquals(terminal1.estaActivado("MAIL"), true);
+		Assert.assertEquals(terminal1.getOpciones().isMail(), true);
 		Assert.assertEquals(proceso.getCantidadAfectados(),1);						//Se modifico UNA terminal
 	}
 	
 	@Test
 	public void testActivarBusquedasEnUnaComuna() {
-		Assert.assertEquals(terminal1.estaActivado("HISTORIAL"), false);
-		Assert.assertEquals(terminal4.estaActivado("HISTORIAL"), false);
+		Assert.assertEquals(terminal1.getOpciones().isHistorial(), false);
+		Assert.assertEquals(terminal4.getOpciones().isHistorial(), false);
 		AgregarAcciones proceso = new AgregarAcciones("HISTORIAL");
 		proceso.AgregarAccionComuna(comuna);
 		proceso.run();
-		Assert.assertEquals(terminal1.estaActivado("HISTORIAL"), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial
-		Assert.assertEquals(terminal2.estaActivado("HISTORIAL"), true);
-		Assert.assertEquals(terminal3.estaActivado("HISTORIAL"), true);
-		Assert.assertEquals(terminal4.estaActivado("HISTORIAL"), true);
+		Assert.assertEquals(terminal1.getOpciones().isHistorial(), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial
+		Assert.assertEquals(terminal2.getOpciones().isHistorial(), true);
+		Assert.assertEquals(terminal3.getOpciones().isHistorial(), true);
+		Assert.assertEquals(terminal4.getOpciones().isHistorial(), true);
 		Assert.assertEquals(proceso.getCantidadAfectados(),4);					//Se modificaron las 3 terminales
 	}
 	
 	@Test
 	public void testActivarMailEnTodasLasTerminales() {
-		Assert.assertEquals(terminal1.estaActivado("MAIL"), false);
-		Assert.assertEquals(terminal2.estaActivado("MAIL"), false);
+		Assert.assertEquals(terminal1.getOpciones().isMail(), false);
+		Assert.assertEquals(terminal2.getOpciones().isMail(), false);
 		AgregarAcciones proceso = new AgregarAcciones("MAIL");
 		proceso.agregarAccionTodasTerminales();
 		proceso.run();
-		Assert.assertEquals(terminal1.estaActivado("MAIL"), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial
-		Assert.assertEquals(terminal2.estaActivado("MAIL"), true);
+		Assert.assertEquals(terminal1.getOpciones().isMail(), true);			//las 2 terminales estan en esa comuna, y se les activa el Historial
+		Assert.assertEquals(terminal2.getOpciones().isMail(), true);
 		Assert.assertEquals(proceso.getCantidadAfectados(),4);					//Se modificaron todas las terminales (4)
 	}
 	

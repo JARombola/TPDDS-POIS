@@ -250,13 +250,13 @@ public class TestBDPois extends AbstractPersistenceTest implements WithGlobalEnt
 		assertEquals(terminalBuscada.getCoordenadas().getLatitud(),99,0);
 		assertEquals(terminalBuscada.getCoordenadas().getLongitud(),2,0);
 		assertEquals(terminalBuscada.getOpciones().getTiempoMax(),20,0);
-		assertTrue(terminal.estaActivado("MAIL"));
-		assertFalse(terminal.estaActivado("HISTORIAL"));
+		assertTrue(terminal.getOpciones().isMail());
+		assertFalse(terminal.getOpciones().isHistorial());
 		terminal.desactivarOpcion("MAIL");
 		
 		Terminal sinMail = (Terminal) createQuery("from Terminal where Nombre = :nombre")
 				.setParameter("nombre", "prueba").getSingleResult();
-		assertFalse(sinMail.getOpciones().estaActivado("Mail"));
+		assertFalse(sinMail.getOpciones().isMail());
 		remove(terminal);
 	}
 }

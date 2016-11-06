@@ -48,10 +48,18 @@
 				<div class="form-group">
 					<label for="acciones" class="control-label col-sm-2"> Acciones </label>
 					<div class="checkbox-inline ">
-					  <label class="control-label col-sm-10"><input type="checkbox" value="historial">Historial</label>
+					{{#if datos.opciones.historial}}
+					  <label class="control-label col-sm-10"><input type="checkbox" name="historial" value="true" checked>Historial</label>
+					{{else}}
+					<label class="control-label col-sm-10"><input type="checkbox" name="historial" value="true">Historial</label>
+					{{/if}}
 					</div>
 					<div class="checkbox-inline">
-					  <label class="control-label col-sm-4"><input type="checkbox" value="mail">Mail</label>
+					{{#if datos.opciones.mail}}
+					  <label class="control-label col-sm-4"><input type="checkbox" value="true" name="mail" checked>Mail</label>
+					{{else}}
+					  <label class="control-label col-sm-4"><input type="checkbox" value="true" name="mail">Mail</label>
+					{{/if}}
 					</div>
 				</div>
 		
