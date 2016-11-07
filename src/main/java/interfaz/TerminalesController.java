@@ -14,8 +14,10 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import terminales.Mapa;
+import terminales.Terminal;
 
 public class TerminalesController  implements WithGlobalEntityManager, TransactionalOps{
+	Terminal terminal;
 
 	public ModelAndView home(Request req, Response res){
 		return new ModelAndView(null, "home/homeTerminal.hbs");
@@ -25,16 +27,13 @@ public class TerminalesController  implements WithGlobalEntityManager, Transacti
 		Map<String, List<POI>> model = new HashMap<>();
 		String txt1 = req.queryParams("texto1");
 		String txt2 = req.queryParams("texto2");
-		List<POI>resultados=buscarPalabra(txt1);
-		List<POI>resultados2 = buscarPalabra(txt2);
-		resultados.removeAll(resultados2);
-		resultados.addAll(resultados2);
+		List<POI>resultados=buscarPalabra(txt1,txt2);
 		model.put("pois", resultados);
 		return new ModelAndView(model, "home/homeTerminal.hbs");
 	}
 		
-		private List<POI> buscarPalabra(String texto){
-			if(!texto.isEmpty()) return Mapa.getInstancia().buscarPoi(texto);
+		private List<POI> buscarPalabra(String texto1, String texto2){
+			if(!(texto1.isEmpty() || texto2.isEmpty())) return terminal.realizarBusqueda(texto1, texto2);
 			return new ArrayList<POI>();
 		}
 	
@@ -44,6 +43,14 @@ public class TerminalesController  implements WithGlobalEntityManager, Transacti
 		POI buscado=Mapa.getInstancia().getPOI(idPoi);
 		model.put("detalles", buscado);
 		return new ModelAndView(model, "/detallesPoi.hbs");
+	}
+	
+	public Terminal getTerminal() {
+		return terminal;
+	}
+
+	public void setTerminal(Terminal terminal) {
+		this.terminal = terminal;
 	}
 	
 }

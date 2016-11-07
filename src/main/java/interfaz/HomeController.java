@@ -16,7 +16,12 @@ import terminales.Terminal;
 
 public class HomeController implements WithGlobalEntityManager, TransactionalOps{
 	private boolean logueado = false;
+	TerminalesController terminalesController;
 	
+	public void setTerminalesController(TerminalesController terminalesController) {
+		this.terminalesController = terminalesController;
+	}
+
 	public static ModelAndView home(Request req, Response res){
 		return new ModelAndView(null, "home/home.hbs");
 	}
@@ -53,7 +58,10 @@ public class HomeController implements WithGlobalEntityManager, TransactionalOps
 		}
 		withTransaction(() ->{
 			Terminal terminal= entityManager().find(Terminal.class, Integer.parseInt(user));
-			if (terminal!= null) logueado=terminal.autentificar(pass);
+			if (terminal!= null) {
+				logueado=terminal.autentificar(pass);
+				terminalesController.setTerminal(terminal);
+			}
 		});
 		return null;
 	}
