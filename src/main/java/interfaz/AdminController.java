@@ -82,6 +82,10 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		String paisNuevo=req.queryParams("pais");
 			if(!paisNuevo.isEmpty()) viejo.getDireccion().setPais(paisNuevo);
 			
+		String codPostalNuevo=req.queryParams("codPostal");
+		int codPostalNuevoInt=Integer.parseInt(codPostalNuevo);
+			if(!codPostalNuevo.isEmpty()) viejo.getDireccion().setCodigoPostal(codPostalNuevoInt);
+			
 		String pisoNuevo=req.queryParams("piso");
 		int pisoNuevoInt=Integer.parseInt(pisoNuevo);
 			if(!pisoNuevo.isEmpty()) viejo.getDireccion().setPiso(pisoNuevoInt);
@@ -119,12 +123,26 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		}
 		String calle=req.queryParams("calle");
 		int altura=Integer.parseInt(req.queryParams("altura"));
+		int piso = Integer.parseInt(req.queryParams("piso"));
+		int dpto = Integer.parseInt(req.queryParams("dpto"));
+		String barrio = req.queryParams("barrio");
+		String localidad = req.queryParams("localidad");
+		String provincia = req.queryParams("provincia");
+		String pais = req.queryParams("pais");
+		int codPostal = Integer.parseInt(req.queryParams("codPostal"));
 		double latitud=Double.parseDouble(req.queryParams("lat"));
 		double longitud=Double.parseDouble(req.queryParams("long"));
 		String nombre=req.queryParams("nombre");
 		Direccion dire=new Direccion();
 			dire.setCalle(calle);
 			dire.setNumero(altura);
+			dire.setPiso(piso);
+			dire.setDpto(dpto);
+			dire.setBarrio(barrio);
+			dire.setLocalidad(localidad);
+			dire.setProvincia(provincia);
+			dire.setPais(pais);
+			dire.setCodigoPostal(codPostal);
 			dire.setLongitud(longitud);
 			dire.setLatitud(latitud);
 		poiNuevo.setDireccion(dire);
