@@ -73,14 +73,30 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		String altura=req.queryParams("altura");
 		Long alt = Long.parseLong(altura);
 			if(!altura.isEmpty()) viejo.getDireccion().setNumero(alt.intValue());
+		String barrioNuevo=req.queryParams("barrio");
+			if(!barrioNuevo.isEmpty()) viejo.getDireccion().setBarrio(barrioNuevo);	
+		String localidadNueva=req.queryParams("localidad");
+			if(!localidadNueva.isEmpty()) viejo.getDireccion().setLocalidad(localidadNueva);	
+		String provinciaNueva=req.queryParams("provincia");
+			if(!provinciaNueva.isEmpty()) viejo.getDireccion().setProvincia(provinciaNueva);	
+		String paisNuevo=req.queryParams("pais");
+			if(!paisNuevo.isEmpty()) viejo.getDireccion().setPais(paisNuevo);
 			
-		String longNueva=req.queryParams("long");
-		Double longNuevaDouble=Double.parseDouble(longNueva);
-		if(!longNueva.isEmpty()) viejo.setLongitud(longNuevaDouble.intValue());
+		String pisoNuevo=req.queryParams("piso");
+		int pisoNuevoInt=Integer.parseInt(pisoNuevo);
+			if(!pisoNuevo.isEmpty()) viejo.getDireccion().setPiso(pisoNuevoInt);
+				
+		String dptoNuevo=req.queryParams("dpto");
+		int dptoNuevoInt=Integer.parseInt(dptoNuevo);
+			if(!dptoNuevo.isEmpty()) viejo.getDireccion().setDpto(dptoNuevoInt);
 		
 		String latNueva=req.queryParams("lat");
-		Double latNuevaLong=Double.parseDouble(longNueva);
+		Double latNuevaLong=Double.parseDouble(latNueva);
 			if(!latNueva.isEmpty()) viejo.setLatitud(latNuevaLong.intValue());
+			
+		String longNueva=req.queryParams("long");
+			Double longNuevaDouble=Double.parseDouble(longNueva);
+			if(!longNueva.isEmpty()) viejo.setLongitud(longNuevaDouble.intValue());
 		
 		Mapa.getInstancia().agregarOmodificar(viejo);
 			res.redirect("/admin/POIS");
