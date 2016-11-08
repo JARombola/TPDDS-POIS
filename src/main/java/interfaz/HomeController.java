@@ -17,12 +17,19 @@ import terminales.Terminal;
 public class HomeController implements WithGlobalEntityManager, TransactionalOps{
 	private boolean logueado = false;
 	TerminalesController terminalesController;
+	AdminController adminController;
 	
+	public void serAdminController(AdminController adminC){
+		this.adminController = adminC;
+	}
 	public void setTerminalesController(TerminalesController terminalesController) {
 		this.terminalesController = terminalesController;
 	}
 
-	public static ModelAndView home(Request req, Response res){
+	public ModelAndView home(Request req, Response res){
+		logueado=false;
+		adminController.setLogueo(false);
+		terminalesController.setLogueo(false);
 		return new ModelAndView(null, "home/home.hbs");
 	}
 	
@@ -31,10 +38,16 @@ public class HomeController implements WithGlobalEntityManager, TransactionalOps
 		String user = req.queryParams("user");
 		String pass = req.queryParams("pass");
 		verificarAdmin(user,pass);
-			if(logueado) res.redirect("/admin");
+			if(logueado) {
+				adminController.setLogueo(true);
+				res.redirect("/admin");
+			}
 			else {
 				verificarTerminal(user,pass);
-				if(logueado) res.redirect("/terminal");
+				if(logueado) {
+					terminalesController.setLogueo(true);
+					res.redirect("/terminal");
+				}
 			}
 			if(logueado) model.put("denegar", !logueado);
 			else model.put("denegar", !logueado);

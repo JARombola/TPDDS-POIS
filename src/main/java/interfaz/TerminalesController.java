@@ -18,8 +18,10 @@ import terminales.Terminal;
 
 public class TerminalesController  implements WithGlobalEntityManager, TransactionalOps{
 	Terminal terminal;
+	private boolean estadoSesion=false;
 
 	public ModelAndView home(Request req, Response res){
+		//verificarSesion(req,res); //TODO
 		return new ModelAndView(null, "home/homeTerminal.hbs");
 	}
 	
@@ -51,6 +53,16 @@ public class TerminalesController  implements WithGlobalEntityManager, Transacti
 
 	public void setTerminal(Terminal terminal) {
 		this.terminal = terminal;
+	}
+	
+	public void setLogueo(boolean estadoSesion){
+		this.estadoSesion = estadoSesion;
+	}
+	
+	public void verificarSesion(Request req, Response res){
+		if(!estadoSesion){
+			res.redirect("/");
+		}
 	}
 	
 }

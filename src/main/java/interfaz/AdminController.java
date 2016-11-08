@@ -25,8 +25,10 @@ import tiposPoi.CGP;
 import tiposPoi.ParadaColectivo;
 
 public class AdminController  implements WithGlobalEntityManager, TransactionalOps{
+	private boolean estadoSesion = false;
 	
 	public ModelAndView home(Request req, Response res){
+		//verificarSesion(req,res); //TODO
 		return new ModelAndView(null, "home/homeAdmin.hbs");
 	}
 	
@@ -320,6 +322,16 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		RepositorioTerminales.getInstancia().getTerminal(idTerminal).eliminarBusqueda(idConsulta);
 		res.redirect("/admin/consultas");
 		return null;
+	}
+	
+	public void setLogueo(boolean estadoSesion){
+		this.estadoSesion = estadoSesion;
+	}
+	
+	public void verificarSesion(Request req, Response res){
+		if(!estadoSesion){
+			res.redirect("/");
+		}
 	}
 		
 }

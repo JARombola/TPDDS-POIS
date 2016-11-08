@@ -22,8 +22,9 @@ public class Router {
 		AdminController adminController = new AdminController();
 		HomeController homeController = new HomeController();
 		homeController.setTerminalesController(terminalesController);
+		homeController.serAdminController(adminController);
 		
-		Spark.get("/", HomeController::home, engine); //user y pass
+		Spark.get("/", homeController::home, engine); //user y pass
 		
 		Spark.post("/login", homeController::logueo, engine); //user y pass
 		Spark.get("/terminal", terminalesController::home,engine);
