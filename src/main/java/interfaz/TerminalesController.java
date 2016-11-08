@@ -32,10 +32,10 @@ public class TerminalesController  implements WithGlobalEntityManager, Transacti
 		return new ModelAndView(model, "home/homeTerminal.hbs");
 	}
 		
-		private List<POI> buscarPalabra(String texto1, String texto2){
-			if(!(texto1.isEmpty() || texto2.isEmpty())) return terminal.realizarBusqueda(texto1, texto2);
-			return new ArrayList<POI>();
-		}
+	private List<POI> buscarPalabra(String texto1, String texto2){
+		if(!(texto1.isEmpty() && texto2.isEmpty())) return terminal.realizarBusqueda(texto1, texto2);
+		else return new ArrayList<POI>();
+	}
 	
 	public ModelAndView mostrarDetalles(Request req, Response res){
 		Map<String, POI> model = new HashMap<>();

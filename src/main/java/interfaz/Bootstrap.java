@@ -22,8 +22,13 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 				dire.setBarrio("Devoto");
 				dire.setCalle("Beiro");
 				dire.setCodigoPostal(1111);
-			banco.setDireccion(dire);
+				dire.setLocalidad("CABA");
+				dire.setProvincia("BS AS");
+				dire.setPais("Arg");
+				banco.setDireccion(dire);
+			
 			persist(banco);
+			
 			
 			POI banco2= new Banco();
 				banco2.setNombre("b");
@@ -43,14 +48,18 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 			terminal.eliminarBusquedas();
 				terminal.setNombre("TerminalPrueba");
 				terminal.setPass("1234");
+				terminal.setComuna("a");
 			persist(terminal);
+			terminal.eliminarBusquedas();
 
 			Terminal terminal2 = new Terminal();
 			terminal2.eliminarBusquedas();
 				terminal2.setNombre("Terminal2");
 				terminal2.setPass("1111");
 				terminal2.activarOpcion("mail");
+				terminal2.setComuna("b");
 			persist(terminal2);
+			terminal2.eliminarBusquedas();
 		});
 			
 			Terminal terminal=RepositorioTerminales.getInstancia().getTerminal(1);

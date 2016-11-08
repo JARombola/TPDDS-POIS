@@ -3,19 +3,32 @@
 	
 	<h1><u>Consulta</u></h1>
 	
-	<div class="jumbotron">
-		<form action="/admin/consultas/resultados" method="GET">
-			<div class="row">
-			<b>ID Consulta:</b> {{id}}</p>
-			<b>Terminal:</b> {{nombreTerminal}} (id. {{idTerminal}})<hr>
-		
-			<b>Frase Buscada:</b> {{fraseBuscada}}</p>
-			<b>Fecha:</b> {{fecha}} </p>
-			<b>Tiempo de Busqueda:</b> {{tiempoBusqueda}}</p>
-			<b>Cantidad de Resultados:</b> {{cantidadResultados}}
-			</div>
-		</form>
+	<button data-toggle="collapse" data-target="#datos">Informacion</button>
+	<div id="datos" class="row collapse">
+				<form action="/admin/consultas/resultados" method="GET">
+					<div class="jumbotron">
+							<div class="form-group">
+								<label> Terminal: </label> {{nombreTerminal}} (id. {{idTerminal}})
+							</div>
+							<div class="form-group">
+								<label> ID Consulta: </label> {{id}}
+							</div>
+							<div class="form-group">
+								<label> Frase Buscada: </label> {{fraseBuscada}}
+							</div>
+							<div class="form-group">
+								<label> Fecha: </label> {{fecha}}
+							</div>
+							<div class="form-group">
+								<label> Tiempo Busqueda: </label> {{tiempoBusqueda}}
+							</div>
+							<div class="form-group">
+								<label> Cantidad Resultados: </label> {{cantidadResultados}}
+							</div>
+					</div>
+				</form>
 	</div>	
+
 	<h3><u>Resultados</u></h3>
 	<table class="table table-stripped">
 		<thead>

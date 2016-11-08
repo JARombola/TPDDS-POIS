@@ -33,7 +33,6 @@ public class Mapa implements WithGlobalEntityManager,TransactionalOps {
 			POI poiEliminar = entityManager().find(POI.class, id);
 			if(poiEliminar!=null){
 				entityManager().remove(poiEliminar);
-//				entityManager().getTransaction().commit();
 			}
 		});
 	}
@@ -49,12 +48,11 @@ public class Mapa implements WithGlobalEntityManager,TransactionalOps {
 	 			entityManager().persist(poiEntrante);
 			}
 		});
-//	 		tx.commit();
-	 	//	entityManager().clear();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<POI> buscarPoi(String palabra){								//NO encontre forma mas linda de hacerlo sin las 2 querys, perdon (?
+		entityManager().clear();
 		List<POI> resultadosPorNombre = (List<POI>) entityManager().createQuery("from POI a WHERE (a.nombre like :palabra)")
 				.setParameter("palabra", "%"+palabra+"%")
 				.getResultList();
@@ -64,16 +62,17 @@ public class Mapa implements WithGlobalEntityManager,TransactionalOps {
 				.setParameter("palabra", palabra)
 				.getResultList();
 		resultadosPorNombre.addAll(resultadosPorTags);
-	//	entityManager().clear();
 		return resultadosPorNombre;
 	}
 	
-	public POI getPOI(String nombre){		
+	public POI getPOI(String nombre){	
+		entityManager().clear();
 		return (POI)entityManager().createQuery("from POI where nombre = :nombre")
 				.setParameter("nombre", nombre)
 				.getSingleResult();
 	}
 	public POI getPOI(int id){
+		entityManager().clear();
 		return (POI)entityManager().createQuery("from POI where id = :id")
 				.setParameter("id", id)
 				.getSingleResult();		
@@ -81,6 +80,7 @@ public class Mapa implements WithGlobalEntityManager,TransactionalOps {
 	
 	@SuppressWarnings("unchecked")
 	public List<POI> filtrarTipo(String tipo){
+		entityManager().clear();
 		String consulta = "from " + tipo;
 		List<POI> resultados= (List<POI>) entityManager().createQuery(consulta)
 				.getResultList();
@@ -90,6 +90,7 @@ public class Mapa implements WithGlobalEntityManager,TransactionalOps {
 	
 	@SuppressWarnings("unchecked")
 	public List<POI> filtrarNombre(String nombreBuscado){
+		entityManager().clear();
 		List<POI> resultados= (List<POI>) entityManager().createQuery("from POI p WHERE p.nombre=:nombreBuscado")
 				.setParameter("nombreBuscado", nombreBuscado)
 				.getResultList();
@@ -99,6 +100,7 @@ public class Mapa implements WithGlobalEntityManager,TransactionalOps {
 	
 	@SuppressWarnings("unchecked")
 	public List<POI> todos(){
+		entityManager().clear();
 		List<POI> pois = entityManager().createQuery("from POI").getResultList();
 		return pois;
 	}

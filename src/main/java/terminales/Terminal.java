@@ -37,6 +37,8 @@ public class Terminal {
 	@Embedded
 	private Coordenadas coordenadas;
 	
+	private String comuna;
+	
 	@OneToOne @Cascade(value=CascadeType.ALL)
 	private FuncionesExtra extra;
 
@@ -82,7 +84,13 @@ public class Terminal {
 		if(buffer!=null){
 			resultadosBusqueda = buffer.buscar(texto1, texto2);
 		}
-		resultadosBusqueda.addAll(Mapa.getInstancia().buscarPoi(texto1));
+		if(!texto1.equals("")) resultadosBusqueda.addAll(Mapa.getInstancia().buscarPoi(texto1));
+		if(!texto2.equals("")) {
+			List <POI>resultadosTexto2=Mapa.getInstancia().buscarPoi(texto2);
+			resultadosBusqueda.removeAll(resultadosTexto2);
+			resultadosBusqueda.addAll(resultadosTexto2);
+		}
+			
 		return resultadosBusqueda;
 	}
 	
@@ -285,5 +293,13 @@ public class Terminal {
 
 	public void setMapa(Mapa mapa) {
 		this.mapa = mapa;
+	}
+
+	public String getComuna() {
+		return comuna;
+	}
+
+	public void setComuna(String comuna) {
+		this.comuna = comuna;
 	}
 }

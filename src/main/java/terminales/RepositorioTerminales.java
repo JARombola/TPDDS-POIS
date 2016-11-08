@@ -24,25 +24,39 @@ public class RepositorioTerminales implements WithGlobalEntityManager, Transacti
 		return reporteTotalResultados;
 	}
 	
+	public void registrar(Terminal terminal){
+		withTransaction(() ->{
+			entityManager().persist(terminal);
+		});
+	}
+	
 	public void actualizar(Terminal terminal){
 		withTransaction(() ->{
 			entityManager().persist(terminal);
-			//commitTransaction();
 		});
-		entityManager().clear();
-//		commitTransaction();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Terminal> getTerminales(){
+		entityManager().clear();
 		List<Terminal> terminales = entityManager().createQuery("from Terminal").getResultList();
 		return terminales;
 	}
 
-	@SuppressWarnings("unchecked")
 	public Terminal getTerminal(int id){
+		entityManager().clear();
 		Terminal terminal = entityManager().find(Terminal.class,id);
 		return terminal;
+	}
+	
+	public List<Terminal> getTerminalesComuna(String comuna){ 
+		entityManager().clear();
+		@SuppressWarnings("unchecked")
+		List<Terminal> terminales = (List<Terminal>) entityManager()
+				.createQuery("from Terminal where comuna=:comuna")
+				.setParameter("comuna", comuna)
+				.getResultList();
+		return terminales;
 	}
 	
 	public void eliminarTerminal(int id){

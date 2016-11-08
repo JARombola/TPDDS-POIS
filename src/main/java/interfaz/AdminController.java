@@ -160,11 +160,19 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		return null;
 	}
 	//--------------------->> TERMINALES <<------------------------
+	public ModelAndView terminales(Request req, Response res){
+		return new ModelAndView(null, "admin/terminales/terminales.hbs");
+	}
 	
 	public ModelAndView filtrarTerminales(Request req, Response res){
 		Map<String, List<Terminal>> model = new HashMap<>();
 		String comuna = req.queryParams("comuna");
-		List<Terminal> terminales=RepositorioTerminales.getInstancia().getTerminales();
+		System.out.println(comuna);
+		List<Terminal> terminales;
+		if(comuna!=null && !comuna.isEmpty())
+			terminales=RepositorioTerminales.getInstancia().getTerminalesComuna(comuna);
+		else terminales=RepositorioTerminales.getInstancia().getTerminales();
+			
 		model.put("terminales", terminales);
 		return new ModelAndView(model, "/admin/terminales/terminales.hbs");
 	}
@@ -191,6 +199,7 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		String pass = req.queryParams("pass");
 			terminal.setNombre(nombre);
 			terminal.setPass(pass);
+			terminal.setComuna(comuna);
 		String mail = req.queryParams("mail");
 		String historial = req.queryParams("historial");
 			if(mail!=null) {
@@ -199,6 +208,7 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 			else{terminal.desactivarOpcion("mail");}
 			if(historial!=null) terminal.activarOpcion("historial");
 			else terminal.desactivarOpcion("historial");
+			
 		RepositorioTerminales.getInstancia().actualizar(terminal);
 		res.redirect("/admin/terminales/");
 		return null;
@@ -221,20 +231,19 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		String pass = req.queryParams("pass");
 		String mail = req.queryParams("mail");
 		String historial = req.queryParams("historial");
-		Boolean persistida=false;
 		Terminal terminalNueva = new Terminal();
 			terminalNueva.setNombre(nombre);
 			terminalNueva.setPass(pass);
+			terminalNueva.setComuna(comuna);
 			if(mail!=null) {
 				terminalNueva.activarOpcion("mail");
-				persistida=true;
 			}
 			if(historial!=null){
 				terminalNueva.activarOpcion("historial");
-				persistida=true;
 			}
-		if(!persistida) RepositorioTerminales.getInstancia().actualizar(terminalNueva);
+		RepositorioTerminales.getInstancia().actualizar(terminalNueva);
 		res.redirect("/admin/terminales/");
+		System.out.println("REGISTRADA");
 		return null;
 	}
 	//---------------------->>> CONSULTAS <<<------------------------
