@@ -68,6 +68,7 @@ public class Terminal {
 
 		List<POI> resultadosBusqueda = buscar(texto1, texto2);
 		Busqueda nuevaBusqueda=new Busqueda();						//Registro la busqueda realizada
+			nuevaBusqueda.setIdTerminal(id);
 			nuevaBusqueda.setFecha(LocalDate.now());
 			nuevaBusqueda.setResultados(resultadosBusqueda);
 			nuevaBusqueda.setFraseBuscada(texto1+" "+texto2);
@@ -87,6 +88,14 @@ public class Terminal {
 	
 	public POI getPOI(int id){
 		return Mapa.getInstancia().getPOI(id);
+	}
+	
+	public Busqueda getBusqueda(int id){
+		iniciarMorphia();
+		Busqueda busqueda = store.createQuery(Busqueda.class)
+				.filter("id", String.valueOf(id))
+				.get();
+		return busqueda;
 	}
 
 	//----------------------REPORTES---------------------------------------
@@ -247,6 +256,11 @@ public class Terminal {
 		iniciarMorphia();
 		String pathMongoBusquedas = "B_"+nombre;
 		mongo.dropDatabase(pathMongoBusquedas);
+	}
+	
+	public void eliminarBusqueda(int id){
+		//TODO
+		
 	}
 	
 	private LocalDate fechaBusqueda(int posicion){

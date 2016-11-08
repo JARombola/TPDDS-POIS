@@ -40,11 +40,13 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 			persist(admin);
 			
 			Terminal terminal = new Terminal();
+			terminal.eliminarBusquedas();
 				terminal.setNombre("TerminalPrueba");
 				terminal.setPass("1234");
 			persist(terminal);
 
 			Terminal terminal2 = new Terminal();
+			terminal2.eliminarBusquedas();
 				terminal2.setNombre("Terminal2");
 				terminal2.setPass("1111");
 				terminal2.activarOpcion("mail");
@@ -66,6 +68,7 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 				busqueda.setFecha(new LocalDate("2016-11-04"));
 				terminal.getOpciones().guardarBusqueda(busqueda);
 			System.out.println(terminal.getHistorialBusquedas().size());
+			
 	}
 }
 

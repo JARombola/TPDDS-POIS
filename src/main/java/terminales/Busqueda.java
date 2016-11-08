@@ -16,6 +16,8 @@ public class Busqueda {
 	@org.mongodb.morphia.annotations.Id
 	private int id;
 	
+	private int idTerminal;
+
 	@Column(name="frase_buscada")
 	private String fraseBuscada;
 	
@@ -25,6 +27,7 @@ public class Busqueda {
 	private double tiempoBusqueda;
 
 	private LocalDate fecha; 
+	
 
 	public Busqueda(){
 		resultados=new ArrayList<POI>();
@@ -64,6 +67,20 @@ public class Busqueda {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	
+	public String getNombreTerminal() {
+		return RepositorioTerminales.getInstancia().getTerminal(idTerminal).getNombre();
+	
+	}
+	
+	public int getIdTerminal() {
+		return idTerminal;
+	}
+
+	public void setIdTerminal(int idTerminal) {
+		this.idTerminal = idTerminal;
 	}
 
 	

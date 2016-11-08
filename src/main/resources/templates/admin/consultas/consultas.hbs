@@ -37,26 +37,24 @@
 <table class="table table-stripped">
 		<thead>
 			<tr>
+        		<th>Terminal</th>
         		<th>Fecha</th>
-        		<th>Resultados</th>
+        		<th>Frase Buscada</th>
       		</tr>
 		</thead>
 	 	{{#each busquedas}}
 			<tbody>
 			<tr>
-				<td> {{nombre}} </td>
+				<td> {{nombreTerminal}} </td>
 				<td> {{fecha}} </td>
+				<td> {{fraseBuscada}} </td>
 				<td>
-					<a href="/terminal/detalles?id={{id}}" data-target="#detallesPOI" data-toggle="modal">Detalles<span class="glyphicon glyphicon-triangle-bottom"></span></a>
-				<div class="modal fade" id="detallesPOI" role="dialog">
- 				    <div class="modal-dialog">
- 			    	<div class="modal-content" >
- 			    </div>
+					<a href="/admin/consultas/resultados?id={{id}}&idTerminal={{idTerminal}}">Ver Resultados</a>
+				
 				</td>
-				<td> <a href="/admin/POIS/modificar?id={{id}}"><span class="glyphicon glyphicon-pencil"></span></a>
-				</td>
+				
 				<td> 
-					<a href="/admin/POIS/eliminar?id={{id}}"><span class="glyphicon glyphicon-trash"></span></a>
+					<a href="/admin/consultas/eliminar?id={{id}}&idTerminal={{idTerminal}}"><span class="glyphicon glyphicon-trash"></span></a>
 				</td>
 			
 			</tr>
@@ -68,7 +66,7 @@
 {{>layoutAdmin.hbs}}
 
  <script>
- $('#detallesPOI').on('hidden.bs.modal', function () {
+ $('#detallesConsulta').on('hidden.bs.modal', function () {
    $(this).removeData('bs.modal');
  });
  </script>

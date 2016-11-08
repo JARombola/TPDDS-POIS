@@ -17,7 +17,7 @@ import terminales.Terminal;
 
 
 public class TestProceso3 {
-	private Administrador admin;
+/*	private Administrador admin;
 	private RepositorioTerminales controlMaestro;
 	private Terminal terminal1, terminal2, terminal3, terminal4;
 	private Comuna comuna;
@@ -133,5 +133,5 @@ public class TestProceso3 {
 		Mockito.verify(mailMock,Mockito.times(1)).mailFallaProceso(Mockito.any());
 		
 	}
-
+*/
 }

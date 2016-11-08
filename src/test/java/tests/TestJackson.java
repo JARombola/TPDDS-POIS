@@ -24,7 +24,7 @@ import externos.OrigenDatos;
 
 
 public class TestJackson extends AbstractPersistenceTest implements WithGlobalEntityManager {
-	
+/*	
 		private JsonFactory jsonFactory = new JsonFactory();
 		private BuscadorBancoExterno buscadorExterno;
 		
@@ -94,6 +94,7 @@ public class TestJackson extends AbstractPersistenceTest implements WithGlobalEn
 			assertEquals(pois.size(),1);				//Estaba vacio y agrega el banco		
 			buffer.borrarBusquedaCache("Banco de la Plaza");
 		}
+*/
 }
 		
 		

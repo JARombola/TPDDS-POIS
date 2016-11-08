@@ -176,7 +176,7 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		model.put("detalles", buscado);
 		return new ModelAndView(model, "/admin/terminales/detalles.hbs");
 	}
-	
+
 	public ModelAndView prepararModifTerminal(Request req, Response res){
 		Map<String, Terminal> model = new HashMap<>();
 		Terminal terminal = RepositorioTerminales.getInstancia().getTerminal(Integer.parseInt(req.queryParams("id")));
@@ -287,6 +287,32 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 		}
 		model.put("busquedas", busquedas);
 		return new ModelAndView(model, "admin/consultas/consultas.hbs");
+	}
+	
+	/*public ModelAndView detallesConsulta(Request req, Response res){
+		Map<String, Busqueda> model = new HashMap<>();
+		int idConsulta=Integer.parseInt(req.queryParams("id"));
+		int idTerminal=Integer.parseInt(req.queryParams("idTerminal"));
+		Busqueda busqueda=RepositorioTerminales.getInstancia().getTerminal(idTerminal).getBusqueda(idConsulta);
+		model.put("detalles", busqueda);
+		return new ModelAndView(model, "/admin/consultas/detalles.hbs");
+	}*/
+	
+	public ModelAndView resultadosConsulta (Request req, Response res){
+		Map<String, Busqueda> model = new HashMap<>();
+		int idConsulta = Integer.parseInt(req.queryParams("id"));
+		int idTerminal=Integer.parseInt(req.queryParams("idTerminal"));
+		Busqueda busqueda = RepositorioTerminales.getInstancia().getTerminal(idTerminal).getBusqueda(idConsulta);
+		model.put("busqueda", busqueda);
+		return new ModelAndView(model, "/admin/consultas/resultados.hbs");
+	}
+	
+	public Void eliminarConsulta(Request req, Response res){
+		int idConsulta = Integer.parseInt(req.queryParams("id"));
+		int idTerminal=Integer.parseInt(req.queryParams("idTerminal"));
+		RepositorioTerminales.getInstancia().getTerminal(idTerminal).eliminarBusqueda(idConsulta);
+		res.redirect("/admin/consultas");
+		return null;
 	}
 		
 }
