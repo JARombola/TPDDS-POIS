@@ -1,35 +1,47 @@
 {{#partial "contenido"}}
-
+{{#with busqueda}}
 	
-<div class="jumbotron">
-	<form action="/admin/consultas/resultados" method="GET">
-		<div class="row">
-		
-		
-		lel
-
-		</div>
-		
+	<h1><u>Consulta</u></h1>
 	
-	
-	</form>
-</div>	
-<table class="table table-stripped">
+	<div class="jumbotron">
+		<form action="/admin/consultas/resultados" method="GET">
+			<div class="row">
+			<b>ID Consulta:</b> {{id}}</p>
+			<b>Terminal:</b> {{nombreTerminal}} (id. {{idTerminal}})<hr>
+		
+			<b>Frase Buscada:</b> {{fraseBuscada}}</p>
+			<b>Fecha:</b> {{fecha}} </p>
+			<b>Tiempo de Busqueda:</b> {{tiempoBusqueda}}</p>
+			<b>Cantidad de Resultados:</b> {{cantidadResultados}}
+			</div>
+		</form>
+	</div>	
+	<h3><u>Resultados</u></h3>
+	<table class="table table-stripped">
 		<thead>
 			<tr>
-        		<th>ID</th>
         		<th>Nombre</th>
+        		<th>Direccion</th>
       		</tr>
 		</thead>
-	 	acaaaaa
+	 	{{#each busqueda.resultados}}
+			<tbody>
+			<tr>
+				<td> {{nombre}} </td>
+				<td> {{direccion.calle}} {{direccion.numero}}</td>
+				<td>
+					<a href="/terminal/detalles?id={{id}}" data-target="#detallesPOI" data-toggle="modal">Detalles<span class="glyphicon glyphicon-triangle-bottom"></span></a>
+				<div class="modal fade" id="detallesPOI" role="dialog">
+ 				    <div class="modal-dialog">
+ 			    	<div class="modal-content" >
+ 			    </div>
+				</td>
+			
+			</tr>
+		{{/each}}
 		</tbody>
 </table>
+{{/with}}
 {{/partial}}
-
+	
 {{>layoutAdmin.hbs}}
-
- <script>
- $('#detallesConsulta').on('hidden.bs.modal', function () {
-   $(this).removeData('bs.modal');
- });
- </script>

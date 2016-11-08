@@ -93,7 +93,7 @@ public class Terminal {
 	public Busqueda getBusqueda(int id){
 		iniciarMorphia();
 		Busqueda busqueda = store.createQuery(Busqueda.class)
-				.filter("id", String.valueOf(id))
+				.filter("id", id)
 				.get();
 		return busqueda;
 	}
