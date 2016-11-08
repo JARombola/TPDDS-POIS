@@ -45,3 +45,8 @@
 {{/partial}}
 	
 {{>layoutAdmin.hbs}}
+ <script>
+ $('#detallesPOI').on('hidden.bs.modal', function () {
+   $(this).removeData('bs.modal');
+ });
+ </script>

@@ -6,7 +6,14 @@
   
 	<div class="panel-body">
 		<b>Nombre:</b> {{nombre}}<hr>
-		<b>Direccion:</b> {{direccion.calle}} {{direccion.numero}} - {{direccion.piso}} {{direccion.dpto}} <p>
+		<b>Direccion:</b> {{direccion.calle}} {{direccion.numero}}
+		{{#if direccion.piso}}
+		 - {{direccion.piso}}
+		 	{{#if direccion.dpto}}
+		 		{{direccion.dpto}}
+		 	{{/if}}
+		 {{/if}} <p>
+		 
 		{{direccion.barrio}} <p>
 		{{direccion.localidad}} <p>
 		{{direccion.provincia}} <p>
