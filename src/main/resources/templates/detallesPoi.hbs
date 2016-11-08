@@ -1,26 +1,45 @@
 {{#with detalles}}
-<div class="panel panel-default">
+<div class="panel panel-primary">
 	<div class="panel-heading" alin>
 		<span class="glyphicon glyphicon-globe"></span>   {{nombre}} ({{direccion.calle}} - {{direccion.numero}})
 	</div>
   
 	<div class="panel-body">
-		<b>Nombre:</b> {{nombre}}<hr>
-		<b>Direccion:</b> {{direccion.calle}} {{direccion.numero}}
-		{{#if direccion.piso}}
-		 - {{direccion.piso}}
-		 	{{#if direccion.dpto}}
-		 		{{direccion.dpto}}
-		 	{{/if}}
-		 {{/if}}
-		 
-		<p> > <u><i>Pais:</u></i> {{direccion.pais}} </p>
-		<p> > <u><i>Provincia:</u></i> {{direccion.provincia}} </p>
-		<p> > <u><i>Localidad:</u></i> {{direccion.localidad}} </p>
-		<p> > <u><i>Barrio:</u></i> {{direccion.barrio}} </p> <hr>
-		<b>Codigo Postal:</b> {{direccion.codigoPostal}}<hr>
-		<b>Coordenadas:</b> ( {{direccion.latitud}}, {{direccion.longitud}}) <hr>
-				
+		<div class="form-group">
+			<label> Nombre: </label> {{nombre}}
+		</div>
+		<div class="form-group">
+			<label> Direccion: </label> {{direccion.calle}} {{direccion.numero}}
+		</div>
+			{{#if direccion.piso}}
+			<div class="form-group">
+				 <label> Piso: </label> {{direccion.piso}}
+				 	{{#if direccion.dpto}}
+					 <label> Dpto: </label> {{direccion.dpto}}
+			 		{{/if}}
+			</div>
+			 {{/if}}
+		<div class="form-group">
+			<label> Pais: </label> {{direccion.pais}}
+		</div>
+		<div class="form-group">
+			<label> Provincia: </label> {{direccion.provincia}}
+		</div>
+		<div class="form-group">
+			<label> Localidad: </label> {{direccion.localidad}}
+		</div>
+		<div class="form-group">
+			<label> Barrio: </label> {{direccion.barrio}}
+		</div>
+		<div class="form-group">
+			<label> Cod. Postal: </label> {{direccion.codigoPostal}}
+		</div>
+		<div class="form-group">
+			<label> - Latitud: </label> {{direccion.latitud}}
+		</div>
+		<div class="form-group">
+			<label> - Longitud: </label> {{direccion.longitud}}
+		</div>
 	</div>
 	
 	<div class="panel-footer text-right">

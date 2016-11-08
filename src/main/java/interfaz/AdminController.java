@@ -167,7 +167,6 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 	public ModelAndView filtrarTerminales(Request req, Response res){
 		Map<String, List<Terminal>> model = new HashMap<>();
 		String comuna = req.queryParams("comuna");
-		System.out.println(comuna);
 		List<Terminal> terminales;
 		if(comuna!=null && !comuna.isEmpty())
 			terminales=RepositorioTerminales.getInstancia().getTerminalesComuna(comuna);
@@ -243,7 +242,6 @@ public class AdminController  implements WithGlobalEntityManager, TransactionalO
 			}
 		RepositorioTerminales.getInstancia().actualizar(terminalNueva);
 		res.redirect("/admin/terminales/");
-		System.out.println("REGISTRADA");
 		return null;
 	}
 	//---------------------->>> CONSULTAS <<<------------------------

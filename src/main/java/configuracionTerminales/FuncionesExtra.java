@@ -1,20 +1,13 @@
 package configuracionTerminales;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import terminales.Busqueda;
-import terminales.RepositorioTerminales;
 import terminales.LocalDateConverter;
 import terminales.Terminal;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 

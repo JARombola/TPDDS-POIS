@@ -68,7 +68,6 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 			Terminal terminal2=RepositorioTerminales.getInstancia().getTerminal(2);
 			terminal2.activarOpcion("historial");
 			terminal.realizarBusqueda("b","");
-			System.out.println(terminal.getHistorialBusquedas().size());
 			Busqueda busqueda = terminal.getHistorialBusquedas().get(0);
 				busqueda.setFecha(new LocalDate("2016-11-04"));
 				terminal.getOpciones().guardarBusqueda(busqueda);
@@ -76,8 +75,6 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 				terminal.getOpciones().guardarBusqueda(busqueda);
 				busqueda.setFecha(new LocalDate("2016-11-04"));
 				terminal.getOpciones().guardarBusqueda(busqueda);
-			System.out.println(terminal.getHistorialBusquedas().size());
-			
 	}
 }
 

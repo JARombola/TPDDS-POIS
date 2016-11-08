@@ -4,12 +4,31 @@
 		<span class="glyphicon glyphicon-globe"></span>{{nombre}} ({{id}}) </div>
   
 	<div class="panel-body">
-		[
-			{{detalles.opciones.mail}}
-			{{detalles.opciones.historial}}
-		----- DATOS DE LA TERMINAL ------
-		
-		]
+		<div class="form-group">
+			<label> Terminal: </label> {{nombre}}
+		</div>
+		<div class="form-group">
+			<label> ID: </label> {{id}}
+		</div>
+		<div class="form-group">
+			<label> Comuna: </label> {{comuna}}
+		</div>
+		<div class="form-group">
+			<label> Contase&ntilde;a: </label> {{pass}}
+		</div>
+		<div class="form-group">
+			<label>> Historial: </label> 
+				{{#if opciones.historial}} Activado
+				{{else}} Desactivado
+				{{/if}} 
+		</div>
+		<div class="form-group">
+			<label>> Mail: </label> 
+				{{#if opciones.mail}} Activado
+				{{else}} Desactivado
+				{{/if}} 
+		</div>
+
 	</div>
 	
 	<div class="panel-footer text-right">
