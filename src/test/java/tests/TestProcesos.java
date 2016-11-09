@@ -61,11 +61,13 @@ public class TestProcesos extends AbstractPersistenceTest implements WithGlobalE
 	
 	
 	@Test
-	public void testProcesoActualizacionLocalesComerciales(){
+	public void TestProcesoActualizacionLocalesComerciales(){
 		Assert.assertEquals(poiLocal1.getTags().size(),3);
 		Assert.assertEquals(libreria.getTags().size(),5);
 		proceso=new ActualizacionLocales("test.txt");
 		proceso.run();
+		poiLocal1 = (Local) Mapa.getInstancia().getPOI(poiLocal1.getId());
+		libreria = (Local) Mapa.getInstancia().getPOI(libreria.getId());
 		Assert.assertEquals(poiLocal1.getTags().size(),4);
 		Assert.assertEquals(libreria.getTags().size(),10);
 		Assert.assertEquals(poiLocal1.getTags().get(0),"a");		//cambiaron!! :)

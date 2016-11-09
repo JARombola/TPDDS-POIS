@@ -5,16 +5,19 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Proxy;
 import org.joda.time.LocalTime;
 
 
@@ -34,7 +37,7 @@ public abstract class POI{
 	private String nombre;
 
 	@org.mongodb.morphia.annotations.Embedded
-	@ElementCollection
+	@ElementCollection(fetch=FetchType.EAGER)
 	private List<String> tags;
 	
 	@org.mongodb.morphia.annotations.Embedded
